@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["node", "vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/renderer/*"],
+      "@main/*": ["src/main/*"],
+      "@brewwery/shared-types": ["../packages/shared-types/src"]
+    }
+  },
+  "include": ["src", "electron.vite.config.ts", "vite.config.ts"]
+}

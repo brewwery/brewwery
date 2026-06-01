@@ -1,0 +1,19 @@
+{
+  "name": "brewwery",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter @brewwery/desktop dev",
+    "build": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/desktop build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "typescript": "5.9.3"
+  },
+  "packageManager": "pnpm@10.12.4"
+}

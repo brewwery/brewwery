@@ -1,0 +1,19 @@
+appId: app.brewwery.desktop
+productName: Brewwery
+executableName: Brewwery
+artifactName: Brewwery-${version}-${arch}.${ext}
+directories:
+  output: dist-packages
+files:
+  - out/**/*
+  - package.json
+mac:
+  icon: assets/brewwery-icon.png
+  category: public.app-category.utilities
+  extendInfo:
+    CFBundleName: Brewwery
+    CFBundleDisplayName: Brewwery
+    CFBundleExecutable: Brewwery
+  target:
+    - dmg
+    - zip

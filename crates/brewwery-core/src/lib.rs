@@ -1,0 +1,21 @@
+#![allow(dead_code, non_snake_case)]
+
+mod brewfile;
+mod cleanup;
+mod doctor;
+mod errors;
+mod filesystem;
+mod packages;
+mod parser;
+mod permissions;
+mod runner;
+mod services;
+mod system;
+mod updates;
+
+pub use errors::{BrewweryError, BrewweryResult};
+pub use packages::{
+    list_casks, list_formulae, list_installed_casks, list_installed_formulae, parse_casks_json,
+    parse_formulae_json, Cask, Formula,
+};
+pub use system::{detect_homebrew, get_brew_info, BrewDetectionResult, BrewInfo, IpcError};

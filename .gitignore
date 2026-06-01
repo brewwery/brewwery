@@ -1,0 +1,43 @@
+.DS_Store
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+out/
+build/
+dist-packages/
+release/
+coverage/
+.turbo/
+.vite/
+.cache/
+
+# Rust / napi-rs output
+target/
+*.node
+*.dSYM/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local config / secrets
+*.local
+.env
+.env.*
+!.env.example
+
+# macOS signing / packaging secrets
+*.p12
+*.pem
+*.key
+*.mobileprovision
+
+# Packaged app artifacts
+*.dmg
+*.zip
+*.blockmap
