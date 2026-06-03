@@ -29,17 +29,27 @@ Status: complete.
 - Clear loading, empty, and error states
 - Read-only UX with install, uninstall, upgrade, cleanup, and service actions still disabled or unimplemented
 
-## v0.2 Read-only Expansion
+## v0.2 Updates & Services
+
+Status: complete.
 
 - Updates page with outdated package parsing
+- Upgrade one package and upgrade all flows with explicit confirmation
 - Services page with service status
+- Start, stop, and restart service flows with explicit confirmation
+- Dashboard update and service counts backed by real data
+- Typed IPC contracts for updates and services
+- Rust allowlisted operations for updates and services
+- Loading, empty, and error states for updates and services
+
+## v0.2.x Read-only Expansion
+
 - Doctor page with parsed findings
 - Brewfile parser and preview
-- Better loading, empty, and error states
 
 ## v0.3 Controlled Actions
 
-- Explicit install, uninstall, upgrade, and cleanup confirmation flows
+- Explicit install, uninstall, and cleanup confirmation flows
 - Operation history stored locally
 - Terminal handoff for advanced commands
 

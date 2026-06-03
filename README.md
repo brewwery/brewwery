@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.1.1 Package Detail & UX polish / early alpha.
+Current status: v0.2 Updates & Services / early alpha.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -15,16 +15,27 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - List installed formulae and casks with read-only commands normalized into Brewwery models.
 - Search, sort, refresh, and inspect installed formulae and casks.
 - Copy package names and brew install commands from a read-only detail drawer.
+- Show outdated formulae and casks from Homebrew.
+- Upgrade one package or all outdated packages after explicit confirmation.
+- Show Homebrew services and run start, stop, or restart after explicit confirmation.
 - Provide a dark macOS utility UI with sidebar navigation and status bar.
 - Define typed IPC contracts in a shared workspace package.
 - Scaffold a Rust `napi-rs` core for future command parsing and execution.
 
-## Supported v0.1 Commands
+## Supported Commands
 
 - `brew --version`
 - `brew config`
 - `brew list --formula --json=v2`
 - `brew list --cask --json=v2`
+- `brew outdated --json=v2`
+- `brew upgrade <formula>`
+- `brew upgrade --cask <cask>`
+- `brew upgrade`
+- `brew services list --json`
+- `brew services start <service>`
+- `brew services stop <service>`
+- `brew services restart <service>`
 
 Homebrew 5 may reject `--json=v2` for `brew list`; Brewwery then falls back to `brew list --formula --versions --json` or `brew list --cask --versions --json`.
 
@@ -75,15 +86,15 @@ pnpm --filter @brewwery/brewwery-core build
 
 ## Security Model
 
-Brewwery v0.1 uses read-only Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.2 are limited to package upgrades and Homebrew service start, stop, and restart, and require explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, or monetization logic is included.
 
 ## Known Limitations
 
-- Only Dashboard, Packages, and Casks use real data in v0.1.1.
-- Services, Cleanup, Doctor, Brewfile, History, and Settings are clean stubs.
-- No install, uninstall, upgrade, cleanup, sudo, or destructive commands are implemented.
+- Dashboard, Packages, Casks, Updates, and Services use real Homebrew data.
+- Cleanup, Doctor, Brewfile, History, and Settings are clean stubs.
+- No install, uninstall, cleanup, sudo, or arbitrary shell command is implemented.
 - Package path and Terminal shortcuts are placeholders.
 - Formula/cask descriptions depend on the JSON shape returned by the installed Homebrew version.
 

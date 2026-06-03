@@ -2,6 +2,28 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.2.0 - Updates & Services
+
+### Added
+
+- Rust updates module with `list_outdated`, `upgrade_package`, and `upgrade_all`.
+- Rust services module with `list_services`, `start_service`, `stop_service`, and `restart_service`.
+- Shared TypeScript contracts for outdated packages, upgrade requests/results, services, and service action results.
+- Typed IPC channels for updates and services.
+- Renderer API wrapper methods for updates and services.
+- Updates page with real outdated formulae/casks from `brew outdated --json=v2`.
+- Services page with real Homebrew service data from `brew services list --json`.
+- Confirmation modals for package upgrades and service actions.
+- Loading, empty, and error states for updates and services.
+- Dashboard cards backed by real updates and services counts.
+
+### Security
+
+- Kept command execution allowlisted through the Rust addon.
+- Added package and service name validation before running Homebrew commands.
+- Preserved the renderer boundary: no direct shell access and no generic command IPC.
+- No `sudo` usage.
+
 ## v0.1.1 - Package Detail & UX Polish
 
 Status: complete.

@@ -2,18 +2,22 @@ import { Activity, Archive, Download, Package } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { StatePanel } from "@/components/ui/state-panel";
 import { usePackages } from "@/hooks/use-packages";
+import { useServices } from "@/hooks/use-services";
 import { useSystem } from "@/hooks/use-system";
+import { useUpdates } from "@/hooks/use-updates";
 
 export function DashboardPage() {
   const { detection, system, loading } = useSystem();
   const { packages } = usePackages("formula");
   const { packages: casks } = usePackages("cask");
+  const { updates } = useUpdates();
+  const { services } = useServices();
 
   const stats = [
     { label: "Formulae", value: packages.length, icon: Package },
     { label: "Casks", value: casks.length, icon: Archive },
-    { label: "Updates", value: 0, icon: Download },
-    { label: "Services", value: 0, icon: Activity }
+    { label: "Updates", value: updates.length, icon: Download },
+    { label: "Services", value: services.length, icon: Activity }
   ];
 
   return (
@@ -69,6 +73,8 @@ export function DashboardPage() {
           <Info label="Architecture" value={system?.architecture ?? "unknown"} />
           <Info label="Formulae" value={String(packages.length)} />
           <Info label="Casks" value={String(casks.length)} />
+          <Info label="Updates" value={String(updates.length)} />
+          <Info label="Services" value={String(services.length)} />
         </CardContent>
       </Card>
     </section>

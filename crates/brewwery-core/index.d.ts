@@ -14,6 +14,14 @@ export interface BrewInfo {
   path: string
 }
 
+export interface BrewService {
+  name: string
+  status: string
+  user?: string
+  file?: string
+  command?: string
+}
+
 export interface Cask {
   token: string
   name?: Array<string>
@@ -50,6 +58,55 @@ export declare function listInstalledCasks(): Array<Cask>
 
 export declare function listInstalledFormulae(): Array<Formula>
 
+export declare function listOutdated(): Array<OutdatedPackage>
+
+export declare function listServices(): Array<BrewService>
+
+export interface OutdatedPackage {
+  name: string
+  kind: string
+  installedVersions: Array<string>
+  currentVersion?: string
+  latestVersion?: string
+  pinned?: boolean
+  pinnedVersion?: string
+}
+
 export declare function parseCasksJson(json: string): Array<Cask>
 
 export declare function parseFormulaeJson(json: string): Array<Formula>
+
+export declare function restartService(request: ServiceActionRequest): ServiceActionResult
+
+export interface ServiceActionRequest {
+  name: string
+}
+
+export interface ServiceActionResult {
+  name: string
+  action: string
+  success: boolean
+  stdout?: string
+  stderr?: string
+}
+
+export declare function startService(request: ServiceActionRequest): ServiceActionResult
+
+export declare function stopService(request: ServiceActionRequest): ServiceActionResult
+
+export declare function upgradeAll(): UpgradeResult
+
+export declare function upgradePackage(request: UpgradeRequest): UpgradeResult
+
+export interface UpgradeRequest {
+  name: string
+  kind: string
+}
+
+export interface UpgradeResult {
+  name?: string
+  kind?: string
+  success: boolean
+  stdout?: string
+  stderr?: string
+}

@@ -59,6 +59,22 @@ export function normalizeIpcError(error: unknown): IpcError {
     };
   }
 
+  if (error instanceof Error && error.message.toLowerCase().includes("invalid package name")) {
+    return {
+      code: "INVALID_PACKAGE_NAME",
+      message: "The package name is not valid.",
+      raw: error.message
+    };
+  }
+
+  if (error instanceof Error && error.message.toLowerCase().includes("invalid service name")) {
+    return {
+      code: "INVALID_SERVICE_NAME",
+      message: "The service name is not valid.",
+      raw: error.message
+    };
+  }
+
   if (error instanceof Error && error.message.toLowerCase().includes("homebrew was not found")) {
     return {
       code: "HOMEBREW_NOT_FOUND",

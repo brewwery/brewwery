@@ -18,4 +18,11 @@ pub use packages::{
     list_casks, list_formulae, list_installed_casks, list_installed_formulae, parse_casks_json,
     parse_formulae_json, Cask, Formula,
 };
+pub use services::{
+    list_services, restart_service, start_service, stop_service, BrewService, ServiceActionRequest,
+    ServiceActionResult,
+};
 pub use system::{detect_homebrew, get_brew_info, BrewDetectionResult, BrewInfo, IpcError};
+pub use updates::{
+    list_outdated, upgrade_all, upgrade_package, OutdatedPackage, UpgradeRequest, UpgradeResult,
+};

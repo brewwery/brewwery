@@ -10,4 +10,8 @@ pub enum BrewweryError {
     CommandFailed(String),
     #[error("unable to parse Homebrew output: {0}")]
     ParseFailed(String),
+    #[error("invalid package name: {0}")]
+    InvalidPackageName(String),
+    #[error("invalid service name: {0}")]
+    InvalidServiceName(String),
 }

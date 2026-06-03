@@ -20,6 +20,17 @@ const browserFallbackApi: BrewweryApi = {
   packages: {
     listFormulae: () => unsupported(),
     listCasks: () => unsupported()
+  },
+  updates: {
+    list: () => unsupported(),
+    upgradePackage: () => unsupported(),
+    upgradeAll: () => unsupported()
+  },
+  services: {
+    list: () => unsupported(),
+    start: () => unsupported(),
+    stop: () => unsupported(),
+    restart: () => unsupported()
   }
 };
 

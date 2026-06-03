@@ -1,4 +1,15 @@
-import type { BrewDetectionResult, BrewInfo, Cask, Formula } from "@brewwery/shared-types";
+import type {
+  BrewDetectionResult,
+  BrewInfo,
+  BrewService,
+  Cask,
+  Formula,
+  OutdatedPackage,
+  ServiceActionRequest,
+  ServiceActionResult,
+  UpgradeRequest,
+  UpgradeResult
+} from "@brewwery/shared-types";
 import { BrewweryIpcError } from "./errors";
 
 interface NativeBrewweryCore {
@@ -6,6 +17,13 @@ interface NativeBrewweryCore {
   getBrewInfo(): BrewInfo;
   listFormulae(): Formula[];
   listCasks(): Cask[];
+  listOutdated(): OutdatedPackage[];
+  upgradePackage(request: UpgradeRequest): UpgradeResult;
+  upgradeAll(): UpgradeResult;
+  listServices(): BrewService[];
+  startService(request: ServiceActionRequest): ServiceActionResult;
+  stopService(request: ServiceActionRequest): ServiceActionResult;
+  restartService(request: ServiceActionRequest): ServiceActionResult;
 }
 
 let nativeCorePromise: Promise<NativeBrewweryCore | undefined> | undefined;

@@ -2,14 +2,15 @@
 
 Brewwery is a local-first macOS app. It should be conservative because it sits between the user and a package manager.
 
-## v0.1 Rules
+## Current Rules
 
 - No telemetry.
 - No authentication.
 - No cloud sync.
 - No monetization logic.
 - No background mutation of Homebrew state.
-- Read-only Homebrew commands only.
+- No arbitrary shell command execution.
+- Mutating operations must be allowlisted and require explicit user confirmation.
 
 ## Electron Boundary
 
@@ -21,9 +22,20 @@ Brewwery is a local-first macOS app. It should be conservative because it sits b
 
 ## Command Execution
 
-Homebrew commands are requested through typed IPC and executed by the Rust native core through predefined Homebrew operations. The app currently queries version, prefix, config, installed formulae, and installed casks.
+Homebrew commands are requested through typed IPC and executed by the Rust native core through predefined Homebrew operations. The app currently queries version, prefix, config, installed formulae, installed casks, outdated packages, and Homebrew services.
 
-There is no generic shell command IPC, no renderer shell access, no sudo, and no destructive command in v0.1.
+There is no generic shell command IPC, no renderer shell access, no sudo, and no destructive command in v0.2.
+
+The only mutating v0.2 operations are:
+
+- `brew upgrade <formula>`
+- `brew upgrade --cask <cask>`
+- `brew upgrade`
+- `brew services start <service>`
+- `brew services stop <service>`
+- `brew services restart <service>`
+
+Package and service names are validated before being passed to Homebrew.
 
 The environment sets:
 
