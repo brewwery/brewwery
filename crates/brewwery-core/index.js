@@ -558,6 +558,7 @@ if (!nativeBinding) {
 
 module.exports = nativeBinding
 module.exports.detectHomebrew = nativeBinding.detectHomebrew
+module.exports.exportBrewfile = nativeBinding.exportBrewfile
 module.exports.getBrewInfo = nativeBinding.getBrewInfo
 module.exports.listCasks = nativeBinding.listCasks
 module.exports.listFormulae = nativeBinding.listFormulae
@@ -567,7 +568,11 @@ module.exports.listOutdated = nativeBinding.listOutdated
 module.exports.listServices = nativeBinding.listServices
 module.exports.parseCasksJson = nativeBinding.parseCasksJson
 module.exports.parseFormulaeJson = nativeBinding.parseFormulaeJson
+module.exports.previewCleanup = nativeBinding.previewCleanup
+module.exports.readBrewfile = nativeBinding.readBrewfile
 module.exports.restartService = nativeBinding.restartService
+module.exports.runCleanup = nativeBinding.runCleanup
+module.exports.runDoctor = nativeBinding.runDoctor
 module.exports.startService = nativeBinding.startService
 module.exports.stopService = nativeBinding.stopService
 module.exports.upgradeAll = nativeBinding.upgradeAll

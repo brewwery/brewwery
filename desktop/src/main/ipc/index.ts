@@ -1,3 +1,6 @@
+import { registerBrewfileHandlers } from "./brewfile";
+import { registerCleanupHandlers } from "./cleanup";
+import { registerDoctorHandlers } from "./doctor";
 import { registerPackageHandlers } from "./packages";
 import { registerServiceHandlers } from "./services";
 import { registerSystemHandlers } from "./system";
@@ -8,4 +11,7 @@ export function registerIpcHandlers(): void {
   registerPackageHandlers();
   registerUpdateHandlers();
   registerServiceHandlers();
+  registerCleanupHandlers();
+  registerDoctorHandlers();
+  registerBrewfileHandlers();
 }

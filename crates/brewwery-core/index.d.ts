@@ -7,6 +7,24 @@ export interface BrewDetectionResult {
   error?: IpcError
 }
 
+export interface BrewfileEntry {
+  kind: string
+  name: string
+  raw: string
+}
+
+export interface BrewfileExportResult {
+  path?: string
+  entries: Array<BrewfileEntry>
+  rawContent: string
+}
+
+export interface BrewfileReadResult {
+  path: string
+  entries: Array<BrewfileEntry>
+  rawContent: string
+}
+
 export interface BrewInfo {
   version: string
   prefix: string
@@ -30,7 +48,43 @@ export interface Cask {
   homepage?: string
 }
 
+export interface CleanupItem {
+  name?: string
+  path?: string
+  size?: string
+  kind?: string
+}
+
+export interface CleanupPreview {
+  items: Array<CleanupItem>
+  totalSize?: string
+  rawOutput?: string
+}
+
+export interface CleanupResult {
+  success: boolean
+  removedItems?: number
+  freedSpace?: string
+  stdout?: string
+  stderr?: string
+}
+
 export declare function detectHomebrew(): BrewDetectionResult
+
+export interface DoctorDiagnostic {
+  severity: string
+  title: string
+  message: string
+  raw?: string
+}
+
+export interface DoctorResult {
+  healthy: boolean
+  diagnostics: Array<DoctorDiagnostic>
+  rawOutput?: string
+}
+
+export declare function exportBrewfile(): BrewfileExportResult
 
 export interface Formula {
   name: string
@@ -76,7 +130,15 @@ export declare function parseCasksJson(json: string): Array<Cask>
 
 export declare function parseFormulaeJson(json: string): Array<Formula>
 
+export declare function previewCleanup(): CleanupPreview
+
+export declare function readBrewfile(path: string): BrewfileReadResult
+
 export declare function restartService(request: ServiceActionRequest): ServiceActionResult
+
+export declare function runCleanup(): CleanupResult
+
+export declare function runDoctor(): DoctorResult
 
 export interface ServiceActionRequest {
   name: string

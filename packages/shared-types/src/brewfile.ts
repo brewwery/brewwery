@@ -1,5 +1,19 @@
+export type BrewfileEntryKind = "brew" | "cask" | "tap" | "mas" | "service" | "unknown";
+
 export interface BrewfileEntry {
-  type: "brew" | "cask" | "tap" | "mas" | "unknown";
+  kind: BrewfileEntryKind;
   name: string;
   raw: string;
+}
+
+export interface BrewfileReadResult {
+  path: string;
+  entries: BrewfileEntry[];
+  rawContent: string;
+}
+
+export interface BrewfileExportResult {
+  path?: string;
+  entries: BrewfileEntry[];
+  rawContent: string;
 }

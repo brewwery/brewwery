@@ -14,6 +14,11 @@ mod system;
 mod updates;
 
 pub use errors::{BrewweryError, BrewweryResult};
+pub use brewfile::{
+    export_brewfile, read_brewfile, BrewfileEntry, BrewfileExportResult, BrewfileReadResult,
+};
+pub use cleanup::{preview_cleanup, run_cleanup, CleanupItem, CleanupPreview, CleanupResult};
+pub use doctor::{run_doctor, DoctorDiagnostic, DoctorResult};
 pub use packages::{
     list_casks, list_formulae, list_installed_casks, list_installed_formulae, parse_casks_json,
     parse_formulae_json, Cask, Formula,

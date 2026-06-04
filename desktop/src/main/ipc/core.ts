@@ -1,8 +1,13 @@
 import type {
   BrewDetectionResult,
+  BrewfileExportResult,
+  BrewfileReadResult,
   BrewInfo,
   BrewService,
   Cask,
+  CleanupPreview,
+  CleanupResult,
+  DoctorResult,
   Formula,
   OutdatedPackage,
   ServiceActionRequest,
@@ -24,6 +29,11 @@ interface NativeBrewweryCore {
   startService(request: ServiceActionRequest): ServiceActionResult;
   stopService(request: ServiceActionRequest): ServiceActionResult;
   restartService(request: ServiceActionRequest): ServiceActionResult;
+  previewCleanup(): CleanupPreview;
+  runCleanup(): CleanupResult;
+  runDoctor(): DoctorResult;
+  exportBrewfile(): BrewfileExportResult;
+  readBrewfile(path: string): BrewfileReadResult;
 }
 
 let nativeCorePromise: Promise<NativeBrewweryCore | undefined> | undefined;

@@ -2,6 +2,63 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.3.2 - History Polish
+
+Status: complete.
+
+### Added
+
+- Search field for local operation history.
+- Export history as JSON from the renderer.
+- Compact result toast notifications after logged operations.
+- Toast viewport with success/error styling, dismiss action, and automatic timeout.
+
+### Security
+
+- History export is renderer-local and does not add filesystem IPC or shell execution.
+- No telemetry, cloud sync, or network behavior was added.
+
+## v0.3.1 - Operation Results & History
+
+Status: complete.
+
+### Added
+
+- Local operation history store backed by renderer localStorage.
+- History entries for package upgrades, service actions, cleanup runs, doctor runs, and Brewfile exports.
+- Success and failure logging with timestamps, command summaries, targets, stdout, stderr, raw output, and error details.
+- History page with summary cards, filters, expandable output details, copy output, and clear action.
+
+### Security
+
+- Operation history remains local-only.
+- No telemetry, sync, cloud storage, or new IPC command execution surface was added.
+
+## v0.3.0 - Cleanup, Doctor & Brewfile
+
+Status: complete.
+
+### Added
+
+- Rust cleanup module with `preview_cleanup` and `run_cleanup`.
+- Rust doctor module with `run_doctor`.
+- Rust Brewfile module with `export_brewfile` and `read_brewfile`.
+- Shared TypeScript contracts for cleanup previews/results, doctor diagnostics, and Brewfile entries/results.
+- Typed IPC channels for cleanup, doctor, and Brewfile workflows.
+- Renderer API wrapper methods and hooks for cleanup, doctor, and Brewfile.
+- Cleanup page with preview-first workflow, parsed cleanup items, raw output details, and confirmation before `brew cleanup`.
+- Doctor page with diagnostics, health state, raw output details, and copy diagnostics action.
+- Brewfile page with export, copy, read-by-path, raw content, and grouped parsed entries.
+- Error codes for cleanup, doctor, Brewfile, and invalid file paths.
+
+### Security
+
+- Cleanup execution requires explicit confirmation after preview.
+- Doctor handles warning exit codes without treating them as fatal crashes.
+- Brewfile export uses a temporary file path controlled by Brewwery.
+- Brewfile read validates local paths before filesystem access.
+- No arbitrary shell execution and no `sudo` usage.
+
 ## v0.2.0 - Updates & Services
 
 ### Added

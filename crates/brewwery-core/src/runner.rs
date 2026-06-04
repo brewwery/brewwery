@@ -5,6 +5,8 @@ use crate::errors::{BrewweryError, BrewweryResult};
 pub struct CommandOutput {
     pub stdout: String,
     pub stderr: String,
+    pub status_code: Option<i32>,
+    pub success: bool,
 }
 
 pub fn run_brew(args: &[&str]) -> BrewweryResult<String> {
@@ -12,6 +14,16 @@ pub fn run_brew(args: &[&str]) -> BrewweryResult<String> {
 }
 
 pub fn run_brew_output(args: &[&str]) -> BrewweryResult<CommandOutput> {
+    let output = run_brew_output_permissive(args)?;
+
+    if !output.success {
+        return Err(BrewweryError::CommandFailed(output.stderr.clone()));
+    }
+
+    Ok(output)
+}
+
+pub fn run_brew_output_permissive(args: &[&str]) -> BrewweryResult<CommandOutput> {
     let brew = crate::system::detect_homebrew()
         .path
         .ok_or(BrewweryError::HomebrewNotFound)?;
@@ -23,15 +35,11 @@ pub fn run_brew_output(args: &[&str]) -> BrewweryResult<CommandOutput> {
         .output()
         .map_err(|error| BrewweryError::CommandFailed(error.to_string()))?;
 
-    if !output.status.success() {
-        return Err(BrewweryError::CommandFailed(
-            String::from_utf8_lossy(&output.stderr).trim().to_string(),
-        ));
-    }
-
     Ok(CommandOutput {
         stdout: String::from_utf8_lossy(&output.stdout).trim().to_string(),
         stderr: String::from_utf8_lossy(&output.stderr).trim().to_string(),
+        status_code: output.status.code(),
+        success: output.status.success(),
     })
 }
 

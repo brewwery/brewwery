@@ -22,11 +22,11 @@ Brewwery is a local-first macOS app. It should be conservative because it sits b
 
 ## Command Execution
 
-Homebrew commands are requested through typed IPC and executed by the Rust native core through predefined Homebrew operations. The app currently queries version, prefix, config, installed formulae, installed casks, outdated packages, and Homebrew services.
+Homebrew commands are requested through typed IPC and executed by the Rust native core through predefined Homebrew operations. The app currently queries version, prefix, config, installed formulae, installed casks, outdated packages, Homebrew services, cleanup previews, doctor diagnostics, and Brewfile exports.
 
-There is no generic shell command IPC, no renderer shell access, no sudo, and no destructive command in v0.2.
+There is no generic shell command IPC, no renderer shell access, and no sudo.
 
-The only mutating v0.2 operations are:
+The only mutating v0.3 operations are:
 
 - `brew upgrade <formula>`
 - `brew upgrade --cask <cask>`
@@ -34,8 +34,13 @@ The only mutating v0.2 operations are:
 - `brew services start <service>`
 - `brew services stop <service>`
 - `brew services restart <service>`
+- `brew cleanup`
 
-Package and service names are validated before being passed to Homebrew.
+Cleanup is never run automatically and is only enabled after `brew cleanup -n` preview plus explicit confirmation.
+
+Package names, service names, and Brewfile read paths are validated before being passed to Homebrew or the filesystem.
+
+Operation history is stored locally in renderer `localStorage`. It is not sent to any server, synced, or used for telemetry. Users can search it, export it as JSON from the renderer, or clear it from the History page.
 
 The environment sets:
 

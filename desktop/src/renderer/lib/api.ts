@@ -31,6 +31,17 @@ const browserFallbackApi: BrewweryApi = {
     start: () => unsupported(),
     stop: () => unsupported(),
     restart: () => unsupported()
+  },
+  cleanup: {
+    preview: () => unsupported(),
+    run: () => unsupported()
+  },
+  doctor: {
+    run: () => unsupported()
+  },
+  brewfile: {
+    export: () => unsupported(),
+    read: () => unsupported()
   }
 };
 

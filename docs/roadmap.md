@@ -42,15 +42,44 @@ Status: complete.
 - Rust allowlisted operations for updates and services
 - Loading, empty, and error states for updates and services
 
-## v0.2.x Read-only Expansion
+## v0.3 Cleanup, Doctor & Brewfile
 
-- Doctor page with parsed findings
-- Brewfile parser and preview
+Status: complete.
 
-## v0.3 Controlled Actions
+- Cleanup preview with parsed removable items and total size where available
+- Cleanup run with explicit confirmation
+- Brew doctor diagnostics parsing
+- Brewfile export through a temporary file
+- Brewfile read from validated local paths
+- Brewfile entries grouped by type in the UI
+- Typed IPC contracts for cleanup, doctor, and Brewfile
+- Rust allowlisted operations for cleanup, doctor, and Brewfile
+- Loading, empty, and error states for cleanup, doctor, and Brewfile
 
-- Explicit install, uninstall, and cleanup confirmation flows
-- Operation history stored locally
+## v0.3.1 Operation Results & History
+
+Status: complete.
+
+- Local operation history stored in renderer localStorage
+- Upgrade, service, cleanup, doctor, and Brewfile export outcomes recorded
+- Success and failure states with timestamps
+- Command summaries and targets
+- Expandable stdout, stderr, raw output, and error details
+- History filters and clear action
+
+## v0.3.2 History Polish
+
+Status: complete.
+
+- Search inside operation history
+- Export operation history as JSON from the renderer
+- Compact result toasts after logged operations
+- Toast dismissal and automatic timeout
+- No additional IPC or shell command surface
+
+## v0.4 Controlled Package Actions
+
+- Explicit install and uninstall confirmation flows
 - Terminal handoff for advanced commands
 
 ## Later

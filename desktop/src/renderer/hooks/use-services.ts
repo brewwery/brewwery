@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { BrewService, IpcError, ServiceActionRequest, ServiceActionResult } from "@brewwery/shared-types";
 import { api } from "@/lib/api";
+import { useHistoryStore } from "@/stores/history-store";
 
 type ServiceAction = "start" | "stop" | "restart";
 
@@ -40,8 +41,28 @@ export function useServices() {
       try {
         const response = await api.services[action](request);
         if (response.ok) {
+          useHistoryStore.getState().addEntry({
+            kind: "service",
+            status: "success",
+            title: `${capitalize(action)} ${request.name}`,
+            command: `brew services ${action} ${request.name}`,
+            target: request.name,
+            stdout: response.data?.stdout,
+            stderr: response.data?.stderr
+          });
           await refresh();
           return response.data;
+        }
+        if (response.error) {
+          useHistoryStore.getState().addEntry({
+            kind: "service",
+            status: "failed",
+            title: `Failed to ${action} ${request.name}`,
+            command: `brew services ${action} ${request.name}`,
+            target: request.name,
+            error: response.error,
+            stderr: response.error.raw
+          });
         }
         setError(response.error);
       } finally {
@@ -58,4 +79,8 @@ export function useServices() {
   }, [refresh]);
 
   return { services, loading, actionLoading, error, refresh, runAction };
+}
+
+function capitalize(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }

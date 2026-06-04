@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { IpcError, OutdatedPackage, UpgradeRequest, UpgradeResult } from "@brewwery/shared-types";
 import { api } from "@/lib/api";
+import { useHistoryStore } from "@/stores/history-store";
 
 export function useUpdates() {
   const [updates, setUpdates] = useState<OutdatedPackage[]>([]);
@@ -40,8 +41,28 @@ export function useUpdates() {
       try {
         const response = await api.updates.upgradePackage(request);
         if (response.ok) {
+          useHistoryStore.getState().addEntry({
+            kind: "upgrade",
+            status: "success",
+            title: `Upgraded ${request.name}`,
+            command: request.kind === "cask" ? `brew upgrade --cask ${request.name}` : `brew upgrade ${request.name}`,
+            target: request.name,
+            stdout: response.data?.stdout,
+            stderr: response.data?.stderr
+          });
           await refresh();
           return response.data;
+        }
+        if (response.error) {
+          useHistoryStore.getState().addEntry({
+            kind: "upgrade",
+            status: "failed",
+            title: `Failed to upgrade ${request.name}`,
+            command: request.kind === "cask" ? `brew upgrade --cask ${request.name}` : `brew upgrade ${request.name}`,
+            target: request.name,
+            error: response.error,
+            stderr: response.error.raw
+          });
         }
         setError(response.error);
       } finally {
@@ -60,8 +81,26 @@ export function useUpdates() {
     try {
       const response = await api.updates.upgradeAll();
       if (response.ok) {
+        useHistoryStore.getState().addEntry({
+          kind: "upgrade",
+          status: "success",
+          title: "Upgraded all outdated packages",
+          command: "brew upgrade",
+          stdout: response.data?.stdout,
+          stderr: response.data?.stderr
+        });
         await refresh();
         return response.data;
+      }
+      if (response.error) {
+        useHistoryStore.getState().addEntry({
+          kind: "upgrade",
+          status: "failed",
+          title: "Failed to upgrade all packages",
+          command: "brew upgrade",
+          error: response.error,
+          stderr: response.error.raw
+        });
       }
       setError(response.error);
     } finally {

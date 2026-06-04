@@ -75,6 +75,14 @@ export function normalizeIpcError(error: unknown): IpcError {
     };
   }
 
+  if (error instanceof Error && error.message.toLowerCase().includes("invalid file path")) {
+    return {
+      code: "INVALID_FILE_PATH",
+      message: "The file path is not valid.",
+      raw: error.message
+    };
+  }
+
   if (error instanceof Error && error.message.toLowerCase().includes("homebrew was not found")) {
     return {
       code: "HOMEBREW_NOT_FOUND",

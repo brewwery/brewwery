@@ -2,6 +2,7 @@ import type { PropsWithChildren } from "react";
 import { Sidebar } from "./sidebar";
 import { StatusBar } from "./status-bar";
 import { Titlebar } from "./titlebar";
+import { ToastViewport } from "@/components/ui/toast-viewport";
 
 export function AppShell({ children }: PropsWithChildren) {
   return (
@@ -12,6 +13,7 @@ export function AppShell({ children }: PropsWithChildren) {
         <div className="h-full overflow-auto p-6">{children}</div>
       </main>
       <StatusBar />
+      <ToastViewport />
     </div>
   );
 }

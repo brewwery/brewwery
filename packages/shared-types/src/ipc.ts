@@ -1,4 +1,7 @@
+import type { BrewfileExportResult, BrewfileReadResult } from "./brewfile";
+import type { CleanupPreview, CleanupResult } from "./cleanup";
 import type { Cask, Formula } from "./package";
+import type { DoctorResult } from "./doctor";
 import type { BrewService, ServiceActionRequest, ServiceActionResult } from "./service";
 import type { BrewDetectionResult, BrewInfo } from "./system";
 import type { OutdatedPackage, UpgradeRequest, UpgradeResult } from "./update";
@@ -13,6 +16,12 @@ export type IpcErrorCode =
   | "UPDATES_PARSE_FAILED"
   | "INVALID_PACKAGE_NAME"
   | "INVALID_SERVICE_NAME"
+  | "CLEANUP_PREVIEW_FAILED"
+  | "CLEANUP_RUN_FAILED"
+  | "DOCTOR_FAILED"
+  | "BREWFILE_EXPORT_FAILED"
+  | "BREWFILE_READ_FAILED"
+  | "INVALID_FILE_PATH"
   | "UNKNOWN_ERROR";
 
 export interface IpcError {
@@ -47,6 +56,17 @@ export interface BrewweryApi {
     stop(request: ServiceActionRequest): Promise<IpcResponse<ServiceActionResult>>;
     restart(request: ServiceActionRequest): Promise<IpcResponse<ServiceActionResult>>;
   };
+  cleanup: {
+    preview(): Promise<IpcResponse<CleanupPreview>>;
+    run(): Promise<IpcResponse<CleanupResult>>;
+  };
+  doctor: {
+    run(): Promise<IpcResponse<DoctorResult>>;
+  };
+  brewfile: {
+    export(): Promise<IpcResponse<BrewfileExportResult>>;
+    read(path: string): Promise<IpcResponse<BrewfileReadResult>>;
+  };
 }
 
 export type IpcChannel =
@@ -60,4 +80,9 @@ export type IpcChannel =
   | "services:list"
   | "services:start"
   | "services:stop"
-  | "services:restart";
+  | "services:restart"
+  | "cleanup:preview"
+  | "cleanup:run"
+  | "doctor:run"
+  | "brewfile:export"
+  | "brewfile:read";

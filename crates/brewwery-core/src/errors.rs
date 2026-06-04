@@ -14,4 +14,6 @@ pub enum BrewweryError {
     InvalidPackageName(String),
     #[error("invalid service name: {0}")]
     InvalidServiceName(String),
+    #[error("invalid file path: {0}")]
+    InvalidFilePath(String),
 }

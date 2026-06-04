@@ -20,6 +20,17 @@ const api: BrewweryApi = {
     start: (request) => ipcRenderer.invoke("services:start", request),
     stop: (request) => ipcRenderer.invoke("services:stop", request),
     restart: (request) => ipcRenderer.invoke("services:restart", request)
+  },
+  cleanup: {
+    preview: () => ipcRenderer.invoke("cleanup:preview"),
+    run: () => ipcRenderer.invoke("cleanup:run")
+  },
+  doctor: {
+    run: () => ipcRenderer.invoke("doctor:run")
+  },
+  brewfile: {
+    export: () => ipcRenderer.invoke("brewfile:export"),
+    read: (path) => ipcRenderer.invoke("brewfile:read", path)
   }
 };
 
