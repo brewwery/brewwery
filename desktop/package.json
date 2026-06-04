@@ -1,6 +1,6 @@
 {
   "name": "@brewwery/desktop",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "private": true,
   "productName": "Brewwery",
   "description": "Brewwery desktop app",
@@ -11,6 +11,9 @@
     "dev": "electron-vite dev",
     "build": "tsc -p tsconfig.json --noEmit && electron-vite build",
     "preview": "electron-vite preview",
+    "package:mac": "pnpm build && electron-builder --config electron-builder.yml --mac dmg zip --arm64",
+    "package:mac:x64": "pnpm build && electron-builder --config electron-builder.yml --mac dmg zip --x64",
+    "package:mac:universal": "pnpm build && electron-builder --config electron-builder.yml --mac dmg zip --universal",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "tsc -p tsconfig.json --noEmit"
   },

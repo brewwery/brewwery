@@ -1,4 +1,5 @@
-import { Menu, app } from "electron";
+import { BrowserWindow, Menu, app } from "electron";
+import type { AppShortcut } from "@brewwery/shared-types";
 
 export function createAppMenu(): void {
   const template: Electron.MenuItemConstructorOptions[] = [
@@ -6,6 +7,12 @@ export function createAppMenu(): void {
       label: app.name,
       submenu: [
         { role: "about" },
+        { type: "separator" },
+        {
+          label: "Settings...",
+          accelerator: "CommandOrControl+,",
+          click: () => sendShortcut("settings")
+        },
         { type: "separator" },
         { role: "hide" },
         { role: "hideOthers" },
@@ -15,9 +22,25 @@ export function createAppMenu(): void {
       ]
     },
     {
+      label: "File",
+      submenu: [
+        {
+          label: "Search Packages",
+          accelerator: "CommandOrControl+K",
+          click: () => sendShortcut("search")
+        },
+        {
+          label: "Refresh Current Page",
+          accelerator: "CommandOrControl+R",
+          click: () => sendShortcut("refresh")
+        },
+        { type: "separator" },
+        { role: "close", accelerator: "CommandOrControl+W" }
+      ]
+    },
+    {
       label: "View",
       submenu: [
-        { role: "reload" },
         { role: "toggleDevTools" },
         { type: "separator" },
         { role: "resetZoom" },
@@ -32,4 +55,12 @@ export function createAppMenu(): void {
   ];
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+}
+
+function sendShortcut(shortcut: AppShortcut) {
+  const window = BrowserWindow.getFocusedWindow() ?? BrowserWindow.getAllWindows()[0];
+  if (!window || window.isDestroyed()) return;
+  if (window.isMinimized()) window.restore();
+  window.show();
+  window.webContents.send("app:shortcut", shortcut);
 }

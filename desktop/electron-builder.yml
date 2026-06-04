@@ -1,19 +1,38 @@
-appId: app.brewwery.desktop
+appId: com.brewwery.app
 productName: Brewwery
 executableName: Brewwery
-artifactName: Brewwery-${version}-${arch}.${ext}
+artifactName: Brewwery-${version}-mac-${arch}.${ext}
 directories:
   output: dist-packages
 files:
   - out/**/*
   - package.json
+asarUnpack:
+  - node_modules/@brewwery/brewwery-core/**/*.node
 mac:
   icon: assets/brewwery-icon.png
   category: public.app-category.utilities
+  hardenedRuntime: false
+  gatekeeperAssess: false
   extendInfo:
     CFBundleName: Brewwery
     CFBundleDisplayName: Brewwery
     CFBundleExecutable: Brewwery
+    CFBundleIdentifier: com.brewwery.app
+    LSApplicationCategoryType: public.app-category.utilities
   target:
-    - dmg
-    - zip
+    - target: dmg
+      arch:
+        - arm64
+    - target: zip
+      arch:
+        - arm64
+dmg:
+  title: Brewwery ${version}
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications

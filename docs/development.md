@@ -32,8 +32,31 @@ Build only the Rust native core:
 pnpm --filter @brewwery/brewwery-core build
 ```
 
+## Package
+
+Build an unsigned Apple Silicon DMG and ZIP:
+
+```bash
+pnpm package:mac
+```
+
+Artifacts are written to:
+
+```text
+desktop/dist-packages/
+```
+
+Optional packaging commands:
+
+```bash
+pnpm package:mac:x64
+pnpm package:mac:universal
+```
+
+Current alpha builds are unsigned and not notarized. macOS may show a Gatekeeper warning for downloaded builds.
+
 ## Notes
 
 - The desktop app can run without Homebrew and will show Homebrew-not-found states.
-- Keep commands read-only until the action confirmation model is implemented.
+- Mutating Homebrew actions must stay allowlisted and require explicit confirmation.
 - Prefer adding shared data shapes to `packages/shared-types` before wiring new IPC.

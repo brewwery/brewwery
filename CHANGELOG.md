@@ -2,6 +2,38 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.5.1 - Tray Window Lifecycle Fix
+
+Status: complete.
+
+### Fixed
+
+- Fixed a main-process crash when choosing Open Brewwery from the tray after the original window had been closed.
+- Tray actions now resolve or create a live BrowserWindow before showing it or sending renderer shortcuts.
+
+## v0.5.0 - Distribution & Polish
+
+Status: complete.
+
+### Added
+
+- Production macOS `electron-builder` configuration.
+- Brewwery app metadata, `com.brewwery.app` bundle identifier, macOS utility category, artifact naming, and app icon wiring.
+- Unsigned Apple Silicon DMG and ZIP packaging through `pnpm package:mac`.
+- Optional x64 and universal packaging scripts for later validation.
+- GitHub Actions CI workflow for install, typecheck, lint, Rust tests, Rust build, Electron build, and artifact upload.
+- GitHub Actions release workflow for tag-based DMG/ZIP upload to GitHub Releases.
+- Tray menu with Open Brewwery, Check Updates, Run Doctor, Open Terminal, and Quit.
+- Keyboard shortcuts for search, refresh current page, settings, close window, and quit.
+- First-launch onboarding for detected Homebrew and Homebrew-not-found states.
+- Settings page with detected Homebrew path, history export/clear, theme placeholder, manual update check, app version, and About links.
+
+### Security
+
+- Renderer shortcuts and tray actions use typed app events instead of exposing shell execution.
+- Custom Homebrew path remains a documented placeholder until full validation is implemented across Rust and main-process runners.
+- Packaging remains unsigned and not notarized for the public alpha.
+
 ## v0.4.1 - Progress Output
 
 Status: complete.

@@ -5,6 +5,7 @@ import { createMainWindow } from "./window";
 import { createTray } from "./tray";
 
 app.setName("Brewwery");
+let mainWindow: BrowserWindow | undefined;
 
 const gotLock = app.requestSingleInstanceLock();
 
@@ -15,17 +16,18 @@ if (!gotLock) {
 app.whenReady().then(() => {
   app.setName("Brewwery");
   app.setAboutPanelOptions({
-    applicationName: "Brewwery"
+    applicationName: "Brewwery",
+    applicationVersion: app.getVersion(),
+    copyright: "MIT License. Made by Made Büro.",
+    website: "https://github.com/brewwery/brewwery"
   });
   createAppMenu();
   registerIpcHandlers();
-  const mainWindow = createMainWindow();
-  createTray(mainWindow);
+  mainWindow = createMainWindow();
+  createTray(getOrCreateMainWindow);
 
   app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createMainWindow();
-    }
+    getOrCreateMainWindow();
   });
 });
 
@@ -34,3 +36,17 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
+function getOrCreateMainWindow(): BrowserWindow {
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    return mainWindow;
+  }
+
+  mainWindow = BrowserWindow.getAllWindows().find((window) => !window.isDestroyed()) ?? createMainWindow();
+  mainWindow.once("closed", () => {
+    if (mainWindow?.isDestroyed()) {
+      mainWindow = undefined;
+    }
+  });
+  return mainWindow;
+}

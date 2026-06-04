@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import type { BrewweryApi, ProgressEvent } from "@brewwery/shared-types";
+import type { AppShortcut, BrewweryApi, ProgressEvent } from "@brewwery/shared-types";
 
 const api: BrewweryApi = {
   system: {
@@ -45,6 +45,13 @@ const api: BrewweryApi = {
       const listener = (_event: Electron.IpcRendererEvent, payload: unknown) => callback(payload as ProgressEvent);
       ipcRenderer.on("operation:progress", listener);
       return () => ipcRenderer.removeListener("operation:progress", listener);
+    }
+  },
+  app: {
+    onShortcut: (callback) => {
+      const listener = (_event: Electron.IpcRendererEvent, payload: unknown) => callback(payload as AppShortcut);
+      ipcRenderer.on("app:shortcut", listener);
+      return () => ipcRenderer.removeListener("app:shortcut", listener);
     }
   }
 };

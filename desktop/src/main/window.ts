@@ -12,8 +12,8 @@ export function createMainWindow(): BrowserWindow {
   }
 
   const window = new BrowserWindow({
-    width: 1180,
-    height: 760,
+    width: 1280,
+    height: 820,
     minWidth: 960,
     minHeight: 620,
     title: "Brewwery",

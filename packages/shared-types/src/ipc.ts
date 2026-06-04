@@ -8,6 +8,7 @@ import type { OutdatedPackage, UpgradeRequest, UpgradeResult } from "./update";
 
 export type ProgressOperationKind = "install" | "uninstall" | "upgrade";
 export type ProgressEventType = "started" | "stdout" | "stderr" | "completed" | "failed";
+export type AppShortcut = "search" | "refresh" | "settings" | "updates" | "doctor";
 
 export interface ProgressOperationStart {
   operationId: string;
@@ -107,6 +108,9 @@ export interface BrewweryApi {
   };
   progress: {
     onEvent(callback: (event: ProgressEvent) => void): () => void;
+  };
+  app: {
+    onShortcut(callback: (shortcut: AppShortcut) => void): () => void;
   };
 }
 

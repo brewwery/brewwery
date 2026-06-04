@@ -22,11 +22,11 @@ Brewwery is a local-first macOS app. It should be conservative because it sits b
 
 ## Command Execution
 
-Homebrew commands are requested through typed IPC and executed through predefined Homebrew operations. The Rust native core handles Homebrew detection, parsing, and normalized command operations. v0.4.1 also includes allowlisted streaming operations in the Electron main process for install, uninstall, and upgrade so stdout/stderr can be sent to the renderer as progress events.
+Homebrew commands are requested through typed IPC and executed through predefined Homebrew operations. The Rust native core handles Homebrew detection, parsing, and normalized command operations. The Electron main process also includes allowlisted streaming operations for install, uninstall, and upgrade so stdout/stderr can be sent to the renderer as progress events.
 
 There is no generic shell command IPC, no renderer shell access, and no sudo.
 
-The only mutating v0.4 operations are:
+The only mutating v0.5 operations are:
 
 - `brew install <formula>`
 - `brew install --cask <cask>`
@@ -47,6 +47,8 @@ Package names, service names, and Brewfile read paths are validated before being
 Package and cask identifiers accepted by install/uninstall are limited to ASCII letters, digits, `@`, `-`, `_`, `.`, and `+`. Spaces, shell metacharacters, redirection characters, and newlines are rejected before the Rust runner is invoked.
 
 Streaming progress operations still use fixed argv arrays and `shell: false`; the renderer receives progress events only and cannot provide arbitrary commands.
+
+The v0.5 Settings page displays a custom Homebrew path placeholder, but command execution still uses the established Homebrew detection path. A future custom path implementation must validate absolute paths, executable permissions, and `brew --version` before storing or using the path.
 
 Operation history is stored locally in renderer `localStorage`. It is not sent to any server, synced, or used for telemetry. Users can search it, export it as JSON from the renderer, or clear it from the History page.
 

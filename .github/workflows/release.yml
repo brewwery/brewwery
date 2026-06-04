@@ -1,11 +1,44 @@
 name: Release
 
 on:
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
 
 jobs:
-  build:
+  macos:
     runs-on: macos-latest
+    permissions:
+      contents: write
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: "false"
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Release packaging will be enabled after signing and notarization are configured."
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@stable
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: cargo test
+        working-directory: crates/brewwery-core
+      - run: pnpm package:mac
+      - uses: actions/upload-artifact@v4
+        with:
+          name: brewwery-macos-arm64
+          path: |
+            desktop/dist-packages/*.dmg
+            desktop/dist-packages/*.zip
+      - uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            desktop/dist-packages/*.dmg
+            desktop/dist-packages/*.zip
+          body_path: CHANGELOG.md

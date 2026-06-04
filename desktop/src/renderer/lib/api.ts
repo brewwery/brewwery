@@ -53,6 +53,9 @@ const browserFallbackApi: BrewweryApi = {
   },
   progress: {
     onEvent: () => () => undefined
+  },
+  app: {
+    onShortcut: () => () => undefined
   }
 };
 

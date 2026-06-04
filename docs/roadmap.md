@@ -107,9 +107,27 @@ Status: complete.
 - Existing confirmation modals remain required before every mutating operation
 - No generic command runner or renderer shell access
 
+## v0.5 Distribution & Polish
+
+Status: complete.
+
+- Production `electron-builder` macOS configuration
+- Brewwery app metadata, bundle identifier, app category, app icon, and artifact naming
+- Unsigned Apple Silicon DMG and ZIP packaging
+- Root package scripts for macOS packaging
+- GitHub Actions CI for dependency install, typecheck, lint, Rust tests, Rust build, Electron build, and artifact upload
+- GitHub Actions release workflow for tag-based DMG/ZIP upload
+- Basic tray menu with Open Brewwery, Check Updates, Run Doctor, Open Terminal, and Quit
+- Keyboard shortcuts for search, refresh, settings, close window, and quit
+- First-launch onboarding for Homebrew detected/not-found states
+- Settings page with Homebrew path display, history export/clear, theme placeholder, app version, and About links
+- Custom Homebrew path UI placeholder documented as a known limitation
+- v0.5 security and distribution documentation
+
 ## Later
 
-- Signed macOS builds
+- Signed and notarized macOS builds
+- Universal macOS build validation
 - Accessibility polish
 - Contributor-friendly test fixtures
 

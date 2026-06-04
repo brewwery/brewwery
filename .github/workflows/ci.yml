@@ -6,16 +6,26 @@ on:
   pull_request:
 
 jobs:
-  typecheck:
+  build:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.12.4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: pnpm
+      - uses: dtolnay/rust-toolchain@stable
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
+      - run: pnpm lint
+      - run: cargo test
+        working-directory: crates/brewwery-core
+      - run: pnpm --filter @brewwery/brewwery-core build
+      - run: pnpm --filter @brewwery/desktop build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: brewwery-electron-out
+          path: desktop/out
