@@ -2,6 +2,23 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.5.2 - Alpha Hardening
+
+Status: complete.
+
+### Added
+
+- Version bump to `0.5.2` across workspace packages, Rust crate metadata, and renderer About version.
+- `pnpm package:mac:dir` for local packaged `.app` testing without DMG creation.
+- `pnpm package:clean` for local packaging artifact cleanup.
+- Alpha QA checklist for packaged app, tray lifecycle, onboarding, settings, Homebrew states, progress output, and safety checks.
+- README uninstall notes for removing local alpha app data.
+
+### Notes
+
+- `pnpm package:mac` remains the DMG/ZIP command.
+- If local `hdiutil` fails, use `pnpm package:mac:dir` for local app testing and rely on GitHub Actions for DMG release artifacts.
+
 ## v0.5.1 - Custom Homebrew Path Validation
 
 Status: complete.

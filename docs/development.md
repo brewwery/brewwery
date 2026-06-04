@@ -46,6 +46,18 @@ Artifacts are written to:
 desktop/dist-packages/
 ```
 
+Build a packaged `.app` without creating a DMG:
+
+```bash
+pnpm package:mac:dir
+```
+
+Clean local packaging artifacts:
+
+```bash
+pnpm package:clean
+```
+
 Optional packaging commands:
 
 ```bash
@@ -54,6 +66,8 @@ pnpm package:mac:universal
 ```
 
 Current alpha builds are unsigned and not notarized. macOS may show a Gatekeeper warning for downloaded builds.
+
+Before publishing an alpha build, run through `docs/alpha-checklist.md`.
 
 ## Notes
 

@@ -135,6 +135,17 @@ Status: complete.
 - Settings page can validate, save, and reset custom Homebrew path
 - Tray Open Brewwery lifecycle crash fix
 
+## v0.5.2 Alpha Hardening
+
+Status: complete.
+
+- Version bump to 0.5.2 across workspace packages and Rust crate
+- `package:mac:dir` command for packaged `.app` testing without DMG creation
+- `package:clean` command for local packaging artifact cleanup
+- Alpha QA checklist covering packaged app, tray, onboarding, settings, core UX, and safety checks
+- README uninstall notes for local alpha app data
+- Development documentation for packaging and alpha verification
+
 ## Later
 
 - Signed and notarized macOS builds

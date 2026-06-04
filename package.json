@@ -1,6 +1,6 @@
 {
   "name": "brewwery",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": true,
   "description": "A clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles.",
   "license": "MIT",
@@ -9,6 +9,8 @@
     "dev": "pnpm --filter @brewwery/desktop dev",
     "build": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop build",
     "build:core": "pnpm --filter @brewwery/brewwery-core build",
+    "package:clean": "node -e \"import('node:fs').then(fs=>fs.rmSync('desktop/dist-packages',{recursive:true,force:true}))\"",
+    "package:mac:dir": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac:dir",
     "package:mac": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac",
     "package:mac:x64": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac:x64",
     "package:mac:universal": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac:universal",
