@@ -267,8 +267,9 @@ fn get_formula_info(name: String) -> napi::Result<PackageInfo> {
     validate_package_name(&name, "invalid package name")?;
     let output = run_brew(&["info", "--json=v2", name.as_str()])
         .map_err(|error| napi::Error::from_reason(error.to_string()))?;
-    let payload: FormulaInfoPayload =
-        serde_json::from_str(&output).map_err(|error| napi::Error::from_reason(BrewweryError::ParseFailed(error.to_string()).to_string()))?;
+    let payload: FormulaInfoPayload = serde_json::from_str(&output).map_err(|error| {
+        napi::Error::from_reason(BrewweryError::ParseFailed(error.to_string()).to_string())
+    })?;
     let formula = payload
         .formulae
         .into_iter()
@@ -281,8 +282,9 @@ fn get_cask_info(token: String) -> napi::Result<PackageInfo> {
     validate_package_name(&token, "invalid cask token")?;
     let output = run_brew(&["info", "--cask", "--json=v2", token.as_str()])
         .map_err(|error| napi::Error::from_reason(error.to_string()))?;
-    let payload: CaskInfoPayload =
-        serde_json::from_str(&output).map_err(|error| napi::Error::from_reason(BrewweryError::ParseFailed(error.to_string()).to_string()))?;
+    let payload: CaskInfoPayload = serde_json::from_str(&output).map_err(|error| {
+        napi::Error::from_reason(BrewweryError::ParseFailed(error.to_string()).to_string())
+    })?;
     let cask = payload
         .casks
         .into_iter()
@@ -291,11 +293,17 @@ fn get_cask_info(token: String) -> napi::Result<PackageInfo> {
     Ok(normalize_cask_info(cask, Some(output)))
 }
 
-fn run_package_action(action: &str, kind: &str, name: String, flags: &[&str]) -> napi::Result<PackageActionResult> {
+fn run_package_action(
+    action: &str,
+    kind: &str,
+    name: String,
+    flags: &[&str],
+) -> napi::Result<PackageActionResult> {
     let mut args = vec![action];
     args.extend_from_slice(flags);
     args.push(name.as_str());
-    let output = run_brew_output(&args).map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    let output =
+        run_brew_output(&args).map_err(|error| napi::Error::from_reason(error.to_string()))?;
 
     Ok(PackageActionResult {
         name,
@@ -307,15 +315,19 @@ fn run_package_action(action: &str, kind: &str, name: String, flags: &[&str]) ->
 }
 
 fn parse_formulae_inner(json: &str) -> BrewweryResult<Vec<Formula>> {
-    let payload: FormulaPayload =
-        serde_json::from_str(json).map_err(|error| BrewweryError::ParseFailed(error.to_string()))?;
+    let payload: FormulaPayload = serde_json::from_str(json)
+        .map_err(|error| BrewweryError::ParseFailed(error.to_string()))?;
 
-    Ok(payload.formulae.into_iter().map(normalize_formula).collect())
+    Ok(payload
+        .formulae
+        .into_iter()
+        .map(normalize_formula)
+        .collect())
 }
 
 fn parse_casks_inner(json: &str) -> BrewweryResult<Vec<Cask>> {
-    let payload: CaskPayload =
-        serde_json::from_str(json).map_err(|error| BrewweryError::ParseFailed(error.to_string()))?;
+    let payload: CaskPayload = serde_json::from_str(json)
+        .map_err(|error| BrewweryError::ParseFailed(error.to_string()))?;
 
     Ok(payload.casks.into_iter().map(normalize_cask).collect())
 }
@@ -335,8 +347,16 @@ fn normalize_formula(formula: RawFormula) -> Formula {
         description: formula.desc.or(formula.description),
         installedVersion: installed
             .and_then(|item| item.version.clone())
-            .or_else(|| formula.installed_versions.and_then(|versions| versions.first().cloned()))
-            .or_else(|| formula.versions.and_then(|versions| versions.first().cloned())),
+            .or_else(|| {
+                formula
+                    .installed_versions
+                    .and_then(|versions| versions.first().cloned())
+            })
+            .or_else(|| {
+                formula
+                    .versions
+                    .and_then(|versions| versions.first().cloned())
+            }),
         homepage: formula.homepage,
         dependencies,
         installedOnRequest: installed.and_then(|item| item.installed_on_request),
@@ -448,7 +468,11 @@ fn extract_cask_dependencies(value: serde_json::Value) -> Option<Vec<String>> {
             if let Some(value) = item.as_str() {
                 dependencies.push(value.to_string());
             } else if let Some(array) = item.as_array() {
-                dependencies.extend(array.iter().filter_map(|value| value.as_str().map(ToString::to_string)));
+                dependencies.extend(
+                    array
+                        .iter()
+                        .filter_map(|value| value.as_str().map(ToString::to_string)),
+                );
             }
         }
     }
@@ -467,9 +491,12 @@ fn validate_package_request(request: &PackageActionRequest) -> napi::Result<()> 
 fn validate_search_query(query: &str) -> napi::Result<()> {
     if !query.trim().is_empty()
         && query.len() <= 80
-        && query
-            .chars()
-            .all(|character| !matches!(character, ';' | '&' | '|' | '`' | '$' | '>' | '<' | '\n' | '\r'))
+        && query.chars().all(|character| {
+            !matches!(
+                character,
+                ';' | '&' | '|' | '`' | '$' | '>' | '<' | '\n' | '\r'
+            )
+        })
     {
         return Ok(());
     }
@@ -480,9 +507,9 @@ fn validate_search_query(query: &str) -> napi::Result<()> {
 fn validate_package_name(name: &str, message: &str) -> napi::Result<()> {
     if !name.is_empty()
         && name.len() <= 120
-        && name
-            .chars()
-            .all(|character| character.is_ascii_alphanumeric() || matches!(character, '@' | '-' | '_' | '.' | '+'))
+        && name.chars().all(|character| {
+            character.is_ascii_alphanumeric() || matches!(character, '@' | '-' | '_' | '.' | '+')
+        })
     {
         return Ok(());
     }

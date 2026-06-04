@@ -32,6 +32,13 @@ export interface BrewInfo {
   path: string
 }
 
+export interface BrewPathValidationResult {
+  valid: boolean
+  path: string
+  version?: string
+  error?: IpcError
+}
+
 export interface BrewService {
   name: string
   status: string
@@ -68,6 +75,8 @@ export interface CleanupResult {
   stdout?: string
   stderr?: string
 }
+
+export declare function clearCustomBrewPath(): void
 
 export declare function detectHomebrew(): BrewDetectionResult
 
@@ -195,6 +204,8 @@ export interface ServiceActionResult {
   stderr?: string
 }
 
+export declare function setCustomBrewPath(path: string): BrewPathValidationResult
+
 export declare function startService(request: ServiceActionRequest): ServiceActionResult
 
 export declare function stopService(request: ServiceActionRequest): ServiceActionResult
@@ -219,3 +230,5 @@ export interface UpgradeResult {
   stdout?: string
   stderr?: string
 }
+
+export declare function validateBrewPath(path: string): BrewPathValidationResult

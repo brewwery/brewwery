@@ -13,23 +13,26 @@ mod services;
 mod system;
 mod updates;
 
-pub use errors::{BrewweryError, BrewweryResult};
 pub use brewfile::{
-    export_brewfile, read_brewfile, BrewfileEntry, BrewfileExportResult, BrewfileReadResult,
+    BrewfileEntry, BrewfileExportResult, BrewfileReadResult, export_brewfile, read_brewfile,
 };
-pub use cleanup::{preview_cleanup, run_cleanup, CleanupItem, CleanupPreview, CleanupResult};
-pub use doctor::{run_doctor, DoctorDiagnostic, DoctorResult};
+pub use cleanup::{CleanupItem, CleanupPreview, CleanupResult, preview_cleanup, run_cleanup};
+pub use doctor::{DoctorDiagnostic, DoctorResult, run_doctor};
+pub use errors::{BrewweryError, BrewweryResult};
 pub use packages::{
-    get_package_info, install_cask, install_formula, list_casks, list_formulae, list_installed_casks,
-    list_installed_formulae, parse_casks_json, parse_formulae_json, search_packages, uninstall_cask,
-    uninstall_formula, Cask, Formula, PackageActionRequest, PackageActionResult, PackageInfo,
-    PackageSearchResult,
+    Cask, Formula, PackageActionRequest, PackageActionResult, PackageInfo, PackageSearchResult,
+    get_package_info, install_cask, install_formula, list_casks, list_formulae,
+    list_installed_casks, list_installed_formulae, parse_casks_json, parse_formulae_json,
+    search_packages, uninstall_cask, uninstall_formula,
 };
 pub use services::{
-    list_services, restart_service, start_service, stop_service, BrewService, ServiceActionRequest,
-    ServiceActionResult,
+    BrewService, ServiceActionRequest, ServiceActionResult, list_services, restart_service,
+    start_service, stop_service,
 };
-pub use system::{detect_homebrew, get_brew_info, BrewDetectionResult, BrewInfo, IpcError};
+pub use system::{
+    BrewDetectionResult, BrewInfo, BrewPathValidationResult, IpcError, clear_custom_brew_path,
+    detect_homebrew, get_brew_info, set_custom_brew_path, validate_brew_path,
+};
 pub use updates::{
-    list_outdated, upgrade_all, upgrade_package, OutdatedPackage, UpgradeRequest, UpgradeResult,
+    OutdatedPackage, UpgradeRequest, UpgradeResult, list_outdated, upgrade_all, upgrade_package,
 };

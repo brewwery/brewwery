@@ -37,7 +37,8 @@ pub fn export_brewfile() -> napi::Result<BrewfileExportResult> {
 
     run_brew_output(&args).map_err(|error| napi::Error::from_reason(error.to_string()))?;
 
-    let raw_content = fs::read_to_string(&path).map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    let raw_content =
+        fs::read_to_string(&path).map_err(|error| napi::Error::from_reason(error.to_string()))?;
     let entries = parse_brewfile_entries(&raw_content);
 
     Ok(BrewfileExportResult {
@@ -51,7 +52,8 @@ pub fn export_brewfile() -> napi::Result<BrewfileExportResult> {
 pub fn read_brewfile(path: String) -> napi::Result<BrewfileReadResult> {
     validate_brewfile_path(&path)?;
 
-    let raw_content = fs::read_to_string(&path).map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    let raw_content =
+        fs::read_to_string(&path).map_err(|error| napi::Error::from_reason(error.to_string()))?;
     if raw_content.len() > 1_000_000 {
         return Err(napi::Error::from_reason(
             BrewweryError::InvalidFilePath("Brewfile is too large.".to_string()).to_string(),

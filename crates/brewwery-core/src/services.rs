@@ -38,7 +38,8 @@ struct RawService {
 
 #[napi]
 pub fn list_services() -> napi::Result<Vec<BrewService>> {
-    let output = run_brew(&["services", "list", "--json"]).map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    let output = run_brew(&["services", "list", "--json"])
+        .map_err(|error| napi::Error::from_reason(error.to_string()))?;
     parse_services_inner(&output).map_err(|error| napi::Error::from_reason(error.to_string()))
 }
 
@@ -58,8 +59,8 @@ pub fn restart_service(request: ServiceActionRequest) -> napi::Result<ServiceAct
 }
 
 fn parse_services_inner(json: &str) -> Result<Vec<BrewService>, BrewweryError> {
-    let services: Vec<RawService> =
-        serde_json::from_str(json).map_err(|error| BrewweryError::ParseFailed(error.to_string()))?;
+    let services: Vec<RawService> = serde_json::from_str(json)
+        .map_err(|error| BrewweryError::ParseFailed(error.to_string()))?;
 
     Ok(services.into_iter().map(normalize_service).collect())
 }
@@ -102,9 +103,9 @@ fn run_service_action(name: String, action: &str) -> napi::Result<ServiceActionR
 fn validate_service_name(name: &str) -> napi::Result<()> {
     if !name.is_empty()
         && name.len() <= 120
-        && name
-            .chars()
-            .all(|character| character.is_ascii_alphanumeric() || matches!(character, '@' | '.' | '_' | '+' | '-'))
+        && name.chars().all(|character| {
+            character.is_ascii_alphanumeric() || matches!(character, '@' | '.' | '_' | '+' | '-')
+        })
     {
         return Ok(());
     }

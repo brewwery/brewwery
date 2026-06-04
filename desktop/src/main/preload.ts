@@ -6,6 +6,12 @@ const api: BrewweryApi = {
     detectHomebrew: () => ipcRenderer.invoke("system:detectHomebrew"),
     getBrewInfo: () => ipcRenderer.invoke("system:getBrewInfo")
   },
+  settings: {
+    getHomebrewPath: () => ipcRenderer.invoke("settings:getHomebrewPath"),
+    validateHomebrewPath: (path) => ipcRenderer.invoke("settings:validateHomebrewPath", path),
+    setHomebrewPath: (path) => ipcRenderer.invoke("settings:setHomebrewPath", path),
+    clearHomebrewPath: () => ipcRenderer.invoke("settings:clearHomebrewPath")
+  },
   packages: {
     listFormulae: () => ipcRenderer.invoke("packages:listFormulae"),
     listCasks: () => ipcRenderer.invoke("packages:listCasks"),

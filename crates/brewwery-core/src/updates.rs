@@ -51,7 +51,8 @@ struct RawOutdatedPackage {
 
 #[napi]
 pub fn list_outdated() -> napi::Result<Vec<OutdatedPackage>> {
-    let output = run_brew(&["outdated", "--json=v2"]).map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    let output = run_brew(&["outdated", "--json=v2"])
+        .map_err(|error| napi::Error::from_reason(error.to_string()))?;
     parse_outdated_inner(&output).map_err(|error| napi::Error::from_reason(error.to_string()))
 }
 
@@ -65,11 +66,12 @@ pub fn upgrade_package(request: UpgradeRequest) -> napi::Result<UpgradeResult> {
         _ => {
             return Err(napi::Error::from_reason(
                 BrewweryError::InvalidPackageName(request.name).to_string(),
-            ))
+            ));
         }
     };
 
-    let output = run_brew_output(&args).map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    let output =
+        run_brew_output(&args).map_err(|error| napi::Error::from_reason(error.to_string()))?;
 
     Ok(UpgradeResult {
         name: Some(request.name),
@@ -82,7 +84,8 @@ pub fn upgrade_package(request: UpgradeRequest) -> napi::Result<UpgradeResult> {
 
 #[napi]
 pub fn upgrade_all() -> napi::Result<UpgradeResult> {
-    let output = run_brew_output(&["upgrade"]).map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    let output = run_brew_output(&["upgrade"])
+        .map_err(|error| napi::Error::from_reason(error.to_string()))?;
 
     Ok(UpgradeResult {
         name: None,
@@ -94,12 +97,22 @@ pub fn upgrade_all() -> napi::Result<UpgradeResult> {
 }
 
 fn parse_outdated_inner(json: &str) -> BrewweryResult<Vec<OutdatedPackage>> {
-    let payload: OutdatedPayload =
-        serde_json::from_str(json).map_err(|error| BrewweryError::ParseFailed(error.to_string()))?;
+    let payload: OutdatedPayload = serde_json::from_str(json)
+        .map_err(|error| BrewweryError::ParseFailed(error.to_string()))?;
 
     let mut packages = Vec::with_capacity(payload.formulae.len() + payload.casks.len());
-    packages.extend(payload.formulae.into_iter().map(|item| normalize_outdated(item, "formula")));
-    packages.extend(payload.casks.into_iter().map(|item| normalize_outdated(item, "cask")));
+    packages.extend(
+        payload
+            .formulae
+            .into_iter()
+            .map(|item| normalize_outdated(item, "formula")),
+    );
+    packages.extend(
+        payload
+            .casks
+            .into_iter()
+            .map(|item| normalize_outdated(item, "cask")),
+    );
     Ok(packages)
 }
 
@@ -118,9 +131,10 @@ fn normalize_outdated(item: RawOutdatedPackage, kind: &str) -> OutdatedPackage {
 fn validate_package_name(name: &str) -> napi::Result<()> {
     if !name.is_empty()
         && name.len() <= 160
-        && name
-            .chars()
-            .all(|character| character.is_ascii_alphanumeric() || matches!(character, '/' | '@' | '.' | '_' | '+' | '-'))
+        && name.chars().all(|character| {
+            character.is_ascii_alphanumeric()
+                || matches!(character, '/' | '@' | '.' | '_' | '+' | '-')
+        })
     {
         return Ok(());
     }

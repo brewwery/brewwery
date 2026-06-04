@@ -43,7 +43,10 @@ pub fn run_brew_output_permissive(args: &[&str]) -> BrewweryResult<CommandOutput
     })
 }
 
-pub fn run_brew_with_fallback<'a>(primary_args: &[&'a str], fallback_args: &[&'a str]) -> BrewweryResult<String> {
+pub fn run_brew_with_fallback<'a>(
+    primary_args: &[&'a str],
+    fallback_args: &[&'a str],
+) -> BrewweryResult<String> {
     match run_brew(primary_args) {
         Ok(output) => Ok(output),
         Err(error) if error.to_string().contains("needless argument") => run_brew(fallback_args),

@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.5 Distribution & Polish / early alpha.
+Current status: v0.5.1 Custom Homebrew Path Validation / early alpha.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -29,6 +29,7 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - Stream progress output for install, uninstall, and upgrade operations.
 - Package unsigned macOS alpha builds as DMG and ZIP artifacts.
 - Use a first-launch onboarding screen, tray menu, keyboard shortcuts, and a basic Settings/About page.
+- Validate and save a custom Homebrew executable path for both normal and streaming Homebrew operations.
 - Provide a dark macOS utility UI with sidebar navigation and status bar.
 - Define typed IPC contracts in a shared workspace package.
 - Scaffold a Rust `napi-rs` core for future command parsing and execution.
@@ -136,14 +137,14 @@ Current alpha builds are unsigned and not notarized. macOS Gatekeeper may warn w
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.5 are limited to package install/uninstall, package upgrades, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.5.1 are limited to package install/uninstall, package upgrades, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, or monetization logic is included.
 
 ## Known Limitations
 
 - Dashboard, Packages, Casks, Updates, Services, Cleanup, Doctor, Brewfile, and History use real local data.
-- Custom Homebrew path is displayed in Settings as a v0.5 placeholder and is not used by command execution yet.
+- Custom Homebrew path is validated before saving and is used by both Rust runner commands and streaming progress commands.
 - Builds are unsigned and not notarized.
 - No sudo or arbitrary shell command is implemented.
 - Tapped formula names containing `/` are rejected by the strict v0.4 package-name validator.

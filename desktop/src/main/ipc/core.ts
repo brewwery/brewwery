@@ -3,6 +3,7 @@ import type {
   BrewfileExportResult,
   BrewfileReadResult,
   BrewInfo,
+  BrewPathValidationResult,
   BrewService,
   Cask,
   CleanupPreview,
@@ -19,11 +20,15 @@ import type {
   UpgradeRequest,
   UpgradeResult
 } from "@brewwery/shared-types";
+import { getStoredHomebrewPath } from "../settings-storage";
 import { BrewweryIpcError } from "./errors";
 
 interface NativeBrewweryCore {
   detectHomebrew(): BrewDetectionResult;
   getBrewInfo(): BrewInfo;
+  validateBrewPath(path: string): BrewPathValidationResult;
+  setCustomBrewPath(path: string): BrewPathValidationResult;
+  clearCustomBrewPath(): void;
   listFormulae(): Formula[];
   listCasks(): Cask[];
   searchPackages(query: string): PackageSearchResult[];
@@ -62,5 +67,18 @@ export async function getNativeCore(): Promise<NativeBrewweryCore> {
     );
   }
 
+  applyStoredHomebrewPath(nativeCore);
   return nativeCore;
+}
+
+function applyStoredHomebrewPath(nativeCore: NativeBrewweryCore) {
+  const storedPath = getStoredHomebrewPath();
+  if (storedPath) {
+    const validation = nativeCore.setCustomBrewPath(storedPath);
+    if (!validation.valid) {
+      nativeCore.clearCustomBrewPath();
+    }
+  } else {
+    nativeCore.clearCustomBrewPath();
+  }
 }

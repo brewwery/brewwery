@@ -17,6 +17,12 @@ const browserFallbackApi: BrewweryApi = {
     detectHomebrew: () => unsupported(),
     getBrewInfo: () => unsupported()
   },
+  settings: {
+    getHomebrewPath: () => unsupported(),
+    validateHomebrewPath: () => unsupported(),
+    setHomebrewPath: () => unsupported(),
+    clearHomebrewPath: () => unsupported()
+  },
   packages: {
     listFormulae: () => unsupported(),
     listCasks: () => unsupported(),

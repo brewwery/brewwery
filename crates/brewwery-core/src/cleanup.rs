@@ -30,13 +30,15 @@ pub struct CleanupResult {
 
 #[napi]
 pub fn preview_cleanup() -> napi::Result<CleanupPreview> {
-    let output = run_brew_output(&["cleanup", "-n"]).map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    let output = run_brew_output(&["cleanup", "-n"])
+        .map_err(|error| napi::Error::from_reason(error.to_string()))?;
     Ok(parse_cleanup_preview(&output.stdout))
 }
 
 #[napi]
 pub fn run_cleanup() -> napi::Result<CleanupResult> {
-    let output = run_brew_output(&["cleanup"]).map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    let output = run_brew_output(&["cleanup"])
+        .map_err(|error| napi::Error::from_reason(error.to_string()))?;
     let removed_items = output
         .stdout
         .lines()

@@ -2,14 +2,28 @@
 
 All notable changes to Brewwery will be documented in this file.
 
-## v0.5.1 - Tray Window Lifecycle Fix
+## v0.5.1 - Custom Homebrew Path Validation
 
 Status: complete.
+
+### Added
+
+- Rust validation for custom Homebrew executable paths.
+- Checks for absolute path, file existence, executable permissions, and `brew --version`.
+- Local main-process persistence for a validated custom Homebrew path.
+- Settings page controls to validate, save, and reset a custom Homebrew path.
+- Shared custom path application for both Rust runner commands and streaming progress commands.
 
 ### Fixed
 
 - Fixed a main-process crash when choosing Open Brewwery from the tray after the original window had been closed.
 - Tray actions now resolve or create a live BrowserWindow before showing it or sending renderer shortcuts.
+
+### Security
+
+- Invalid custom paths are rejected before command execution.
+- Saved custom paths are not accepted from renderer state alone; they must pass main-process/Rust validation.
+- Streaming operations use the same validated Homebrew path as normal commands.
 
 ## v0.5.0 - Distribution & Polish
 
@@ -31,7 +45,7 @@ Status: complete.
 ### Security
 
 - Renderer shortcuts and tray actions use typed app events instead of exposing shell execution.
-- Custom Homebrew path remains a documented placeholder until full validation is implemented across Rust and main-process runners.
+- Custom Homebrew path validation is completed in v0.5.1.
 - Packaging remains unsigned and not notarized for the public alpha.
 
 ## v0.4.1 - Progress Output

@@ -20,7 +20,8 @@ pub struct DoctorResult {
 
 #[napi]
 pub fn run_doctor() -> napi::Result<DoctorResult> {
-    let output = run_brew_output_permissive(&["doctor"]).map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    let output = run_brew_output_permissive(&["doctor"])
+        .map_err(|error| napi::Error::from_reason(error.to_string()))?;
     let raw_output = [output.stdout.as_str(), output.stderr.as_str()]
         .into_iter()
         .filter(|part| !part.is_empty())
@@ -58,7 +59,11 @@ fn parse_doctor_output(output: &str) -> Vec<DoctorDiagnostic> {
     diagnostics
 }
 
-fn push_diagnostic(diagnostics: &mut Vec<DoctorDiagnostic>, title: Option<String>, lines: &mut Vec<String>) {
+fn push_diagnostic(
+    diagnostics: &mut Vec<DoctorDiagnostic>,
+    title: Option<String>,
+    lines: &mut Vec<String>,
+) {
     if let Some(title) = title {
         let message = lines.join("\n").trim().to_string();
         let raw = if message.is_empty() {

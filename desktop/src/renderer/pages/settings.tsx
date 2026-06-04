@@ -1,9 +1,12 @@
-import { ExternalLink, RotateCcw, Trash2 } from "lucide-react";
+import { ExternalLink, RotateCcw, Save, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import type { BrewPathValidationResult, IpcError } from "@brewwery/shared-types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useSystem } from "@/hooks/use-system";
+import { api } from "@/lib/api";
 import {
   APP_VERSION,
   GITHUB_URL,
@@ -22,6 +25,70 @@ export function SettingsPage() {
   const setCustomHomebrewPath = useSettingsStore((state) => state.setCustomHomebrewPath);
   const setTheme = useSettingsStore((state) => state.setTheme);
   const theme = useSettingsStore((state) => state.theme);
+  const [pathLoading, setPathLoading] = useState(false);
+  const [pathValidation, setPathValidation] = useState<BrewPathValidationResult | undefined>();
+  const [pathError, setPathError] = useState<IpcError | undefined>();
+
+  useEffect(() => {
+    void api.settings.getHomebrewPath().then((response) => {
+      if (response.ok) {
+        setCustomHomebrewPath(response.data ?? "");
+      }
+    });
+  }, [setCustomHomebrewPath]);
+
+  const validatePath = async () => {
+    if (!customHomebrewPath.trim()) return;
+    setPathLoading(true);
+    setPathError(undefined);
+    try {
+      const response = await api.settings.validateHomebrewPath(customHomebrewPath);
+      if (response.ok) {
+        setPathValidation(response.data);
+        setPathError(response.data?.error);
+      } else {
+        setPathError(response.error);
+      }
+    } finally {
+      setPathLoading(false);
+    }
+  };
+
+  const savePath = async () => {
+    if (!customHomebrewPath.trim()) return;
+    setPathLoading(true);
+    setPathError(undefined);
+    try {
+      const response = await api.settings.setHomebrewPath(customHomebrewPath);
+      if (response.ok && response.data?.valid) {
+        setPathValidation(response.data);
+        setCustomHomebrewPath(response.data.path);
+        await refresh();
+      } else {
+        setPathValidation(response.data);
+        setPathError(response.data?.error ?? response.error);
+      }
+    } finally {
+      setPathLoading(false);
+    }
+  };
+
+  const resetPath = async () => {
+    setPathLoading(true);
+    setPathError(undefined);
+    try {
+      const response = await api.settings.clearHomebrewPath();
+      if (response.ok) {
+        resetCustomHomebrewPath();
+        setPathValidation(undefined);
+        await refresh();
+      } else {
+        setPathError(response.error);
+      }
+    } finally {
+      setPathLoading(false);
+    }
+  };
 
   return (
     <section className="space-y-5">
@@ -49,27 +116,31 @@ export function SettingsPage() {
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <div className="text-sm font-medium">Custom Homebrew path</div>
-              <Badge>Coming later</Badge>
+              {customHomebrewPath ? <Badge className="border-amber-500/25 bg-amber-500/10 text-accent">Custom</Badge> : <Badge>Auto-detect</Badge>}
             </div>
             <div className="flex gap-2">
               <Input
                 value={customHomebrewPath}
                 placeholder="/opt/homebrew/bin/brew"
                 onChange={(event) => setCustomHomebrewPath(event.target.value)}
-                disabled
               />
-              <Button variant="secondary" disabled>
+              <Button variant="secondary" onClick={() => void validatePath()} disabled={pathLoading || !customHomebrewPath.trim()}>
                 Validate
               </Button>
-              <Button variant="ghost" onClick={resetCustomHomebrewPath} disabled={!customHomebrewPath}>
+              <Button variant="primary" onClick={() => void savePath()} disabled={pathLoading || !customHomebrewPath.trim()}>
+                <Save className="h-4 w-4" />
+                Save
+              </Button>
+              <Button variant="ghost" onClick={() => void resetPath()} disabled={pathLoading && !customHomebrewPath}>
                 <RotateCcw className="h-4 w-4" />
                 Reset
               </Button>
             </div>
-            <p className="text-xs text-muted-foreground">
-              v0.5 displays the detected path. Custom path execution will be enabled after shared Rust/main-process validation is wired
-              across every Homebrew operation.
-            </p>
+            {pathValidation?.valid ? (
+              <p className="text-xs text-emerald-300">Validated {pathValidation.version ?? "Homebrew"} at {pathValidation.path}.</p>
+            ) : null}
+            {pathError ? <p className="text-xs text-red-300">{pathError.message}</p> : null}
+            <p className="text-xs text-muted-foreground">Saved paths are validated by Rust and used by both normal Homebrew commands and streaming progress operations.</p>
           </div>
 
           <Button variant="secondary" onClick={() => void refresh()}>

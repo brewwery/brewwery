@@ -15,3 +15,10 @@ export interface BrewInfo {
   architecture: BrewArchitecture;
   path: string;
 }
+
+export interface BrewPathValidationResult {
+  valid: boolean;
+  path: string;
+  version?: string;
+  error?: IpcError;
+}

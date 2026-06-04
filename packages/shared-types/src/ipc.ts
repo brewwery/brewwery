@@ -3,7 +3,7 @@ import type { CleanupPreview, CleanupResult } from "./cleanup";
 import type { Cask, Formula, PackageActionRequest, PackageActionResult, PackageInfo, PackageSearchResult } from "./package";
 import type { DoctorResult } from "./doctor";
 import type { BrewService, ServiceActionRequest, ServiceActionResult } from "./service";
-import type { BrewDetectionResult, BrewInfo } from "./system";
+import type { BrewDetectionResult, BrewInfo, BrewPathValidationResult } from "./system";
 import type { OutdatedPackage, UpgradeRequest, UpgradeResult } from "./update";
 
 export type ProgressOperationKind = "install" | "uninstall" | "upgrade";
@@ -72,6 +72,12 @@ export interface BrewweryApi {
     detectHomebrew(): Promise<IpcResponse<BrewDetectionResult>>;
     getBrewInfo(): Promise<IpcResponse<BrewInfo>>;
   };
+  settings: {
+    getHomebrewPath(): Promise<IpcResponse<string | undefined>>;
+    validateHomebrewPath(path: string): Promise<IpcResponse<BrewPathValidationResult>>;
+    setHomebrewPath(path: string): Promise<IpcResponse<BrewPathValidationResult>>;
+    clearHomebrewPath(): Promise<IpcResponse<undefined>>;
+  };
   packages: {
     listFormulae(): Promise<IpcResponse<Formula[]>>;
     listCasks(): Promise<IpcResponse<Cask[]>>;
@@ -117,6 +123,10 @@ export interface BrewweryApi {
 export type IpcChannel =
   | "system:detectHomebrew"
   | "system:getBrewInfo"
+  | "settings:getHomebrewPath"
+  | "settings:validateHomebrewPath"
+  | "settings:setHomebrewPath"
+  | "settings:clearHomebrewPath"
   | "packages:listFormulae"
   | "packages:listCasks"
   | "packages:search"

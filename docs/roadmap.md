@@ -121,8 +121,19 @@ Status: complete.
 - Keyboard shortcuts for search, refresh, settings, close window, and quit
 - First-launch onboarding for Homebrew detected/not-found states
 - Settings page with Homebrew path display, history export/clear, theme placeholder, app version, and About links
-- Custom Homebrew path UI placeholder documented as a known limitation
 - v0.5 security and distribution documentation
+
+## v0.5.1 Custom Homebrew Path Validation
+
+Status: complete.
+
+- Custom Homebrew executable path validation in Rust
+- Absolute path, file existence, executable permission, and `brew --version` checks
+- Persisted custom Homebrew path in Electron main process userData settings
+- Rust runner uses the validated custom path before default detection paths
+- Streaming progress runner uses the same validated custom path as the Rust runner
+- Settings page can validate, save, and reset custom Homebrew path
+- Tray Open Brewwery lifecycle crash fix
 
 ## Later
 
