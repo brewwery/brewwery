@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { Input } from "@/components/ui/input";
+import { OperationProgressPanel } from "@/components/ui/operation-progress-panel";
 import { ErrorDescription, StatePanel } from "@/components/ui/state-panel";
 import { Table, Td, Th } from "@/components/ui/table";
 import { usePackageActions, commandFor } from "@/hooks/use-package-actions";
@@ -20,7 +21,7 @@ export function SearchPage() {
   const setQuery = useUiStore((state) => state.setSearchQuery);
   const { debouncedQuery, error, loading, results } = usePackageDiscovery(query);
   const { clearInfo, error: infoError, info, loadInfo, loading: infoLoading } = usePackageInfo();
-  const { error: actionError, install, loading: actionLoading, uninstall } = usePackageActions();
+  const { clearProgress, error: actionError, install, loading: actionLoading, progress, uninstall } = usePackageActions();
   const [pendingAction, setPendingAction] = useState<PendingAction | undefined>();
 
   const openResult = async (result: PackageSearchResult) => {
@@ -61,6 +62,8 @@ export function SearchPage() {
         <StatePanel title="Search Homebrew packages" description="Type a package or app name to search formulae and casks." />
       ) : null}
       {!loading && !visibleError && debouncedQuery && results.length === 0 ? <StatePanel title="No packages found" /> : null}
+
+      <OperationProgressPanel progress={progress} onClear={clearProgress} />
 
       {!loading && !visibleError && results.length > 0 ? (
         <Card className="overflow-hidden">

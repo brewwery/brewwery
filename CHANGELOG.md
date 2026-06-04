@@ -2,6 +2,24 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.4.1 - Progress Output
+
+Status: complete.
+
+### Added
+
+- Progress event contracts for Homebrew operations.
+- Allowlisted streaming operation handlers for install, uninstall, upgrade one package, and upgrade all packages.
+- Renderer progress panel showing live stdout/stderr chunks while Homebrew runs.
+- Progress output on Search, Packages, Casks, and Updates pages.
+- History logging now uses final streamed stdout/stderr for install, uninstall, and upgrade operations.
+
+### Security
+
+- Streaming operations use fixed argv arrays with `shell: false`.
+- Renderer receives progress events only and still cannot execute shell commands.
+- Existing confirmation modals remain required before install, uninstall, and upgrade commands run.
+
 ## v0.4.0 - Search & Discovery
 
 Status: complete.

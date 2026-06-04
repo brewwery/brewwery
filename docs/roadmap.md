@@ -93,6 +93,20 @@ Status: complete.
 - Rust allowlisted operations for search, info, install, and uninstall
 - Strict package/cask token validation before mutating commands
 
+## v0.4.1 Progress Output
+
+Status: complete.
+
+- Streaming progress events for package install
+- Streaming progress events for package uninstall
+- Streaming progress events for upgrade one package
+- Streaming progress events for upgrade all packages
+- Shared progress event IPC contracts
+- Renderer progress output panel with stdout/stderr chunks
+- History entries use final streamed stdout/stderr
+- Existing confirmation modals remain required before every mutating operation
+- No generic command runner or renderer shell access
+
 ## Later
 
 - Signed macOS builds

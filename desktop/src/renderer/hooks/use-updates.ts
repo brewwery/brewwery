@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { IpcError, OutdatedPackage, UpgradeRequest, UpgradeResult } from "@brewwery/shared-types";
 import { api } from "@/lib/api";
 import { useHistoryStore } from "@/stores/history-store";
+import { useProgressOperation } from "./use-progress-operation";
 
 export function useUpdates() {
   const [updates, setUpdates] = useState<OutdatedPackage[]>([]);
@@ -9,6 +10,7 @@ export function useUpdates() {
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState<IpcError | undefined>();
   const [lastChecked, setLastChecked] = useState<Date | undefined>();
+  const progressOperation = useProgressOperation();
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -39,19 +41,49 @@ export function useUpdates() {
       setError(undefined);
 
       try {
-        const response = await api.updates.upgradePackage(request);
+        const response = await api.updates.upgradePackageWithProgress(request);
         if (response.ok) {
+          if (!response.data) {
+            throw new Error("Progress operation did not return an operation id.");
+          }
+
+          progressOperation.track(response.data);
+          const event = await progressOperation.waitForCompletion(response.data.operationId);
+          const command = request.kind === "cask" ? `brew upgrade --cask ${request.name}` : `brew upgrade ${request.name}`;
+
+          if (event.type === "failed") {
+            const actionError = event.error ?? {
+              code: "BREW_COMMAND_FAILED",
+              message: `Failed to upgrade ${request.name}.`,
+              raw: event.stderr || event.stdout
+            } satisfies IpcError;
+
+            useHistoryStore.getState().addEntry({
+              kind: "upgrade",
+              status: "failed",
+              title: `Failed to upgrade ${request.name}`,
+              command,
+              target: request.name,
+              error: actionError,
+              stdout: event.stdout,
+              stderr: event.stderr || actionError.raw
+            });
+            setError(actionError);
+            return undefined;
+          }
+
+          const result = event.result as UpgradeResult | undefined;
           useHistoryStore.getState().addEntry({
             kind: "upgrade",
             status: "success",
             title: `Upgraded ${request.name}`,
-            command: request.kind === "cask" ? `brew upgrade --cask ${request.name}` : `brew upgrade ${request.name}`,
+            command,
             target: request.name,
-            stdout: response.data?.stdout,
-            stderr: response.data?.stderr
+            stdout: result?.stdout ?? event.stdout,
+            stderr: result?.stderr ?? event.stderr
           });
           await refresh();
-          return response.data;
+          return result;
         }
         if (response.error) {
           useHistoryStore.getState().addEntry({
@@ -71,7 +103,7 @@ export function useUpdates() {
 
       return undefined;
     },
-    [refresh]
+    [progressOperation, refresh]
   );
 
   const upgradeAll = useCallback(async (): Promise<UpgradeResult | undefined> => {
@@ -79,18 +111,46 @@ export function useUpdates() {
     setError(undefined);
 
     try {
-      const response = await api.updates.upgradeAll();
+      const response = await api.updates.upgradeAllWithProgress();
       if (response.ok) {
+        if (!response.data) {
+          throw new Error("Progress operation did not return an operation id.");
+        }
+
+        progressOperation.track(response.data);
+        const event = await progressOperation.waitForCompletion(response.data.operationId);
+
+        if (event.type === "failed") {
+          const actionError = event.error ?? {
+            code: "BREW_COMMAND_FAILED",
+            message: "Failed to upgrade all packages.",
+            raw: event.stderr || event.stdout
+          } satisfies IpcError;
+
+          useHistoryStore.getState().addEntry({
+            kind: "upgrade",
+            status: "failed",
+            title: "Failed to upgrade all packages",
+            command: "brew upgrade",
+            error: actionError,
+            stdout: event.stdout,
+            stderr: event.stderr || actionError.raw
+          });
+          setError(actionError);
+          return undefined;
+        }
+
+        const result = event.result as UpgradeResult | undefined;
         useHistoryStore.getState().addEntry({
           kind: "upgrade",
           status: "success",
           title: "Upgraded all outdated packages",
           command: "brew upgrade",
-          stdout: response.data?.stdout,
-          stderr: response.data?.stderr
+          stdout: result?.stdout ?? event.stdout,
+          stderr: result?.stderr ?? event.stderr
         });
         await refresh();
-        return response.data;
+        return result;
       }
       if (response.error) {
         useHistoryStore.getState().addEntry({
@@ -108,11 +168,22 @@ export function useUpdates() {
     }
 
     return undefined;
-  }, [refresh]);
+  }, [progressOperation, refresh]);
 
   useEffect(() => {
     void refresh();
   }, [refresh]);
 
-  return { updates, loading, actionLoading, error, lastChecked, refresh, upgradePackage, upgradeAll };
+  return {
+    updates,
+    loading,
+    actionLoading,
+    error,
+    lastChecked,
+    progress: progressOperation.progress,
+    clearProgress: progressOperation.clear,
+    refresh,
+    upgradePackage,
+    upgradeAll
+  };
 }

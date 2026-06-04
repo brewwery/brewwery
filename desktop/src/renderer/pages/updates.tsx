@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
+import { OperationProgressPanel } from "@/components/ui/operation-progress-panel";
 import { ErrorDescription, StatePanel } from "@/components/ui/state-panel";
 import { Table, Td, Th } from "@/components/ui/table";
 import { useUpdates } from "@/hooks/use-updates";
@@ -12,7 +13,18 @@ import { useUpdates } from "@/hooks/use-updates";
 type PendingUpgrade = { type: "one"; package: OutdatedPackage } | { type: "all" };
 
 export function UpdatesPage() {
-  const { updates, loading, actionLoading, error, lastChecked, refresh, upgradePackage, upgradeAll } = useUpdates();
+  const {
+    updates,
+    loading,
+    actionLoading,
+    clearProgress,
+    error,
+    lastChecked,
+    progress,
+    refresh,
+    upgradePackage,
+    upgradeAll
+  } = useUpdates();
   const [pendingUpgrade, setPendingUpgrade] = useState<PendingUpgrade | undefined>();
 
   const formulaeCount = useMemo(() => updates.filter((item) => item.kind === "formula").length, [updates]);
@@ -71,6 +83,8 @@ export function UpdatesPage() {
         />
       ) : null}
       {!loading && !error && updates.length === 0 ? <StatePanel title="Everything is up to date" /> : null}
+
+      <OperationProgressPanel progress={progress} onClear={clearProgress} />
 
       {!loading && !error && updates.length > 0 ? (
         <Card className="overflow-hidden">

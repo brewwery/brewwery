@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import type { BrewweryApi } from "@brewwery/shared-types";
+import type { BrewweryApi, ProgressEvent } from "@brewwery/shared-types";
 
 const api: BrewweryApi = {
   system: {
@@ -12,12 +12,16 @@ const api: BrewweryApi = {
     search: (query) => ipcRenderer.invoke("packages:search", query),
     info: (request) => ipcRenderer.invoke("packages:info", request),
     install: (request) => ipcRenderer.invoke("packages:install", request),
-    uninstall: (request) => ipcRenderer.invoke("packages:uninstall", request)
+    uninstall: (request) => ipcRenderer.invoke("packages:uninstall", request),
+    installWithProgress: (request) => ipcRenderer.invoke("packages:installProgress", request),
+    uninstallWithProgress: (request) => ipcRenderer.invoke("packages:uninstallProgress", request)
   },
   updates: {
     list: () => ipcRenderer.invoke("updates:list"),
     upgradePackage: (request) => ipcRenderer.invoke("updates:upgradePackage", request),
-    upgradeAll: () => ipcRenderer.invoke("updates:upgradeAll")
+    upgradeAll: () => ipcRenderer.invoke("updates:upgradeAll"),
+    upgradePackageWithProgress: (request) => ipcRenderer.invoke("updates:upgradePackageProgress", request),
+    upgradeAllWithProgress: () => ipcRenderer.invoke("updates:upgradeAllProgress")
   },
   services: {
     list: () => ipcRenderer.invoke("services:list"),
@@ -35,6 +39,13 @@ const api: BrewweryApi = {
   brewfile: {
     export: () => ipcRenderer.invoke("brewfile:export"),
     read: (path) => ipcRenderer.invoke("brewfile:read", path)
+  },
+  progress: {
+    onEvent: (callback) => {
+      const listener = (_event: Electron.IpcRendererEvent, payload: unknown) => callback(payload as ProgressEvent);
+      ipcRenderer.on("operation:progress", listener);
+      return () => ipcRenderer.removeListener("operation:progress", listener);
+    }
   }
 };
 

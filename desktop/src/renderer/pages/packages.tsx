@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { Input } from "@/components/ui/input";
+import { OperationProgressPanel } from "@/components/ui/operation-progress-panel";
 import { ErrorDescription, StatePanel } from "@/components/ui/state-panel";
 import { Table, Td, Th } from "@/components/ui/table";
 import { Tab, Tabs } from "@/components/ui/tabs";
@@ -21,7 +22,7 @@ type SortKey = "name" | "version" | "status";
 export function PackagesPage() {
   const { packages, loading, error, refreshAll: refreshPackages } = usePackages("formula");
   const { refresh: refreshSystem } = useSystem();
-  const { loading: actionLoading, uninstall } = usePackageActions();
+  const { clearProgress, loading: actionLoading, progress, uninstall } = usePackageActions();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<FormulaFilter>("all");
   const [sortKey, setSortKey] = useState<SortKey>("name");
@@ -99,6 +100,8 @@ export function PackagesPage() {
           description={<ErrorDescription error={error} />}
         />
       ) : null}
+
+      <OperationProgressPanel progress={progress} onClear={clearProgress} />
 
       {!loading && !error && rows.length === 0 ? <StatePanel title="No formulae installed" /> : null}
       {!loading && !error && rows.length > 0 && visibleRows.length === 0 ? <StatePanel title="No formulae match your search" /> : null}

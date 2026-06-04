@@ -23,12 +23,16 @@ const browserFallbackApi: BrewweryApi = {
     search: () => unsupported(),
     info: () => unsupported(),
     install: () => unsupported(),
-    uninstall: () => unsupported()
+    uninstall: () => unsupported(),
+    installWithProgress: () => unsupported(),
+    uninstallWithProgress: () => unsupported()
   },
   updates: {
     list: () => unsupported(),
     upgradePackage: () => unsupported(),
-    upgradeAll: () => unsupported()
+    upgradeAll: () => unsupported(),
+    upgradePackageWithProgress: () => unsupported(),
+    upgradeAllWithProgress: () => unsupported()
   },
   services: {
     list: () => unsupported(),
@@ -46,6 +50,9 @@ const browserFallbackApi: BrewweryApi = {
   brewfile: {
     export: () => unsupported(),
     read: () => unsupported()
+  },
+  progress: {
+    onEvent: () => () => undefined
   }
 };
 

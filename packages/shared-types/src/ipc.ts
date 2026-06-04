@@ -6,6 +6,31 @@ import type { BrewService, ServiceActionRequest, ServiceActionResult } from "./s
 import type { BrewDetectionResult, BrewInfo } from "./system";
 import type { OutdatedPackage, UpgradeRequest, UpgradeResult } from "./update";
 
+export type ProgressOperationKind = "install" | "uninstall" | "upgrade";
+export type ProgressEventType = "started" | "stdout" | "stderr" | "completed" | "failed";
+
+export interface ProgressOperationStart {
+  operationId: string;
+  kind: ProgressOperationKind;
+  command: string;
+  target?: string;
+}
+
+export interface ProgressEvent {
+  operationId: string;
+  kind: ProgressOperationKind;
+  type: ProgressEventType;
+  command: string;
+  timestamp: string;
+  target?: string;
+  chunk?: string;
+  stdout?: string;
+  stderr?: string;
+  statusCode?: number;
+  result?: PackageActionResult | UpgradeResult;
+  error?: IpcError;
+}
+
 export type IpcErrorCode =
   | "HOMEBREW_NOT_FOUND"
   | "BREW_COMMAND_FAILED"
@@ -53,11 +78,15 @@ export interface BrewweryApi {
     info(request: PackageActionRequest): Promise<IpcResponse<PackageInfo>>;
     install(request: PackageActionRequest): Promise<IpcResponse<PackageActionResult>>;
     uninstall(request: PackageActionRequest): Promise<IpcResponse<PackageActionResult>>;
+    installWithProgress(request: PackageActionRequest): Promise<IpcResponse<ProgressOperationStart>>;
+    uninstallWithProgress(request: PackageActionRequest): Promise<IpcResponse<ProgressOperationStart>>;
   };
   updates: {
     list(): Promise<IpcResponse<OutdatedPackage[]>>;
     upgradePackage(request: UpgradeRequest): Promise<IpcResponse<UpgradeResult>>;
     upgradeAll(): Promise<IpcResponse<UpgradeResult>>;
+    upgradePackageWithProgress(request: UpgradeRequest): Promise<IpcResponse<ProgressOperationStart>>;
+    upgradeAllWithProgress(): Promise<IpcResponse<ProgressOperationStart>>;
   };
   services: {
     list(): Promise<IpcResponse<BrewService[]>>;
@@ -76,6 +105,9 @@ export interface BrewweryApi {
     export(): Promise<IpcResponse<BrewfileExportResult>>;
     read(path: string): Promise<IpcResponse<BrewfileReadResult>>;
   };
+  progress: {
+    onEvent(callback: (event: ProgressEvent) => void): () => void;
+  };
 }
 
 export type IpcChannel =
@@ -87,9 +119,13 @@ export type IpcChannel =
   | "packages:info"
   | "packages:install"
   | "packages:uninstall"
+  | "packages:installProgress"
+  | "packages:uninstallProgress"
   | "updates:list"
   | "updates:upgradePackage"
   | "updates:upgradeAll"
+  | "updates:upgradePackageProgress"
+  | "updates:upgradeAllProgress"
   | "services:list"
   | "services:start"
   | "services:stop"

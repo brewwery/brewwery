@@ -67,6 +67,14 @@ export function normalizeIpcError(error: unknown): IpcError {
     };
   }
 
+  if (error instanceof Error && error.message.toLowerCase().includes("invalid cask token")) {
+    return {
+      code: "INVALID_CASK_TOKEN",
+      message: "The cask token is not valid.",
+      raw: error.message
+    };
+  }
+
   if (error instanceof Error && error.message.toLowerCase().includes("invalid service name")) {
     return {
       code: "INVALID_SERVICE_NAME",

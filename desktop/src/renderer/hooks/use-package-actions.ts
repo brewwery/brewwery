@@ -3,6 +3,7 @@ import type { IpcError, PackageActionRequest, PackageActionResult } from "@breww
 import { api } from "@/lib/api";
 import { useHistoryStore } from "@/stores/history-store";
 import { usePackageStore } from "@/stores/package-store";
+import { useProgressOperation } from "./use-progress-operation";
 
 type PackageAction = "install" | "uninstall";
 
@@ -11,6 +12,7 @@ export function usePackageActions() {
   const setCasks = usePackageStore((state) => state.setCasks);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<IpcError | undefined>();
+  const progressOperation = useProgressOperation();
 
   const refreshInstalled = useCallback(async () => {
     const [formulae, casks] = await Promise.all([api.packages.listFormulae(), api.packages.listCasks()]);
@@ -24,21 +26,51 @@ export function usePackageActions() {
       setError(undefined);
 
       try {
-        const response = action === "install" ? await api.packages.install(request) : await api.packages.uninstall(request);
         const command = commandFor(action, request);
+        const response =
+          action === "install" ? await api.packages.installWithProgress(request) : await api.packages.uninstallWithProgress(request);
 
         if (response.ok) {
+          if (!response.data) {
+            throw new Error("Progress operation did not return an operation id.");
+          }
+
+          progressOperation.track(response.data);
+          const event = await progressOperation.waitForCompletion(response.data.operationId);
+
+          if (event.type === "failed") {
+            const actionError = event.error ?? {
+              code: action === "install" ? "PACKAGE_INSTALL_FAILED" : "PACKAGE_UNINSTALL_FAILED",
+              message: `Failed to ${action} ${request.name}.`,
+              raw: event.stderr || event.stdout
+            } satisfies IpcError;
+
+            useHistoryStore.getState().addEntry({
+              kind: action,
+              status: "failed",
+              title: `Failed to ${action} ${request.name}`,
+              command,
+              target: request.name,
+              error: actionError,
+              stdout: event.stdout,
+              stderr: event.stderr || actionError.raw
+            });
+            setError(actionError);
+            return undefined;
+          }
+
+          const result = event.result as PackageActionResult | undefined;
           useHistoryStore.getState().addEntry({
             kind: action,
             status: "success",
             title: `${capitalize(action)}ed ${request.name}`,
             command,
             target: request.name,
-            stdout: response.data?.stdout,
-            stderr: response.data?.stderr
+            stdout: result?.stdout ?? event.stdout,
+            stderr: result?.stderr ?? event.stderr
           });
           await refreshInstalled();
-          return response.data;
+          return result;
         }
 
         if (response.error) {
@@ -59,10 +91,18 @@ export function usePackageActions() {
 
       return undefined;
     },
-    [refreshInstalled]
+    [progressOperation, refreshInstalled]
   );
 
-  return { loading, error, install: (request: PackageActionRequest) => runAction("install", request), uninstall: (request: PackageActionRequest) => runAction("uninstall", request), refreshInstalled };
+  return {
+    loading,
+    error,
+    progress: progressOperation.progress,
+    clearProgress: progressOperation.clear,
+    install: (request: PackageActionRequest) => runAction("install", request),
+    uninstall: (request: PackageActionRequest) => runAction("uninstall", request),
+    refreshInstalled
+  };
 }
 
 export function commandFor(action: PackageAction, request: PackageActionRequest) {
