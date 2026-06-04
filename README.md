@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.3.2 History Polish / early alpha.
+Current status: v0.4 Search & Discovery / early alpha.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -23,6 +23,9 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - Export and inspect Brewfile contents.
 - Review local operation history with timestamps and output details.
 - Search operation history, export it as JSON, and see compact result toasts after operations.
+- Search Homebrew formulae and casks through a dedicated discovery page.
+- Inspect discovered package metadata, including homepage, latest version, dependencies, caveats, and install command.
+- Install and uninstall formulae/casks after explicit confirmation, with operation history and result toasts.
 - Provide a dark macOS utility UI with sidebar navigation and status bar.
 - Define typed IPC contracts in a shared workspace package.
 - Scaffold a Rust `napi-rs` core for future command parsing and execution.
@@ -45,6 +48,14 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - `brew cleanup`
 - `brew doctor`
 - `brew bundle dump --force --file=<path>`
+- `brew search --formula <query>`
+- `brew search --cask <query>`
+- `brew info --json=v2 <formula>`
+- `brew info --cask --json=v2 <cask>`
+- `brew install <formula>`
+- `brew install --cask <cask>`
+- `brew uninstall <formula>`
+- `brew uninstall --cask <cask>`
 
 Homebrew 5 may reject `--json=v2` for `brew list`; Brewwery then falls back to `brew list --formula --versions --json` or `brew list --cask --versions --json`.
 
@@ -95,7 +106,7 @@ pnpm --filter @brewwery/brewwery-core build
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.3 are limited to package upgrades, Homebrew service start/stop/restart, and cleanup after preview, and require explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.4 are limited to package install/uninstall, package upgrades, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, or monetization logic is included.
 
@@ -103,7 +114,9 @@ No authentication, telemetry, cloud sync, or monetization logic is included.
 
 - Dashboard, Packages, Casks, Updates, Services, Cleanup, Doctor, Brewfile, and History use real local data.
 - Settings is a clean stub.
-- No install, uninstall, sudo, or arbitrary shell command is implemented.
+- No sudo or arbitrary shell command is implemented.
+- Tapped formula names containing `/` are rejected by the strict v0.4 package-name validator.
+- Search result rows show lightweight data first; full metadata loads when a package detail is opened.
 - Package path and Terminal shortcuts are placeholders.
 - Formula/cask descriptions depend on the JSON shape returned by the installed Homebrew version.
 

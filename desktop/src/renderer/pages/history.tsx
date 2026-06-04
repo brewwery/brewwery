@@ -14,6 +14,8 @@ type HistoryFilter = "all" | OperationKind;
 
 const filters: Array<{ value: HistoryFilter; label: string }> = [
   { value: "all", label: "All" },
+  { value: "install", label: "Installs" },
+  { value: "uninstall", label: "Uninstalls" },
   { value: "upgrade", label: "Upgrades" },
   { value: "service", label: "Services" },
   { value: "cleanup", label: "Cleanup" },

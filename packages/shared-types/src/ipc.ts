@@ -1,6 +1,6 @@
 import type { BrewfileExportResult, BrewfileReadResult } from "./brewfile";
 import type { CleanupPreview, CleanupResult } from "./cleanup";
-import type { Cask, Formula } from "./package";
+import type { Cask, Formula, PackageActionRequest, PackageActionResult, PackageInfo, PackageSearchResult } from "./package";
 import type { DoctorResult } from "./doctor";
 import type { BrewService, ServiceActionRequest, ServiceActionResult } from "./service";
 import type { BrewDetectionResult, BrewInfo } from "./system";
@@ -15,6 +15,11 @@ export type IpcErrorCode =
   | "SERVICE_COMMAND_FAILED"
   | "UPDATES_PARSE_FAILED"
   | "INVALID_PACKAGE_NAME"
+  | "INVALID_CASK_TOKEN"
+  | "PACKAGE_SEARCH_FAILED"
+  | "PACKAGE_INFO_FAILED"
+  | "PACKAGE_INSTALL_FAILED"
+  | "PACKAGE_UNINSTALL_FAILED"
   | "INVALID_SERVICE_NAME"
   | "CLEANUP_PREVIEW_FAILED"
   | "CLEANUP_RUN_FAILED"
@@ -44,6 +49,10 @@ export interface BrewweryApi {
   packages: {
     listFormulae(): Promise<IpcResponse<Formula[]>>;
     listCasks(): Promise<IpcResponse<Cask[]>>;
+    search(query: string): Promise<IpcResponse<PackageSearchResult[]>>;
+    info(request: PackageActionRequest): Promise<IpcResponse<PackageInfo>>;
+    install(request: PackageActionRequest): Promise<IpcResponse<PackageActionResult>>;
+    uninstall(request: PackageActionRequest): Promise<IpcResponse<PackageActionResult>>;
   };
   updates: {
     list(): Promise<IpcResponse<OutdatedPackage[]>>;
@@ -74,6 +83,10 @@ export type IpcChannel =
   | "system:getBrewInfo"
   | "packages:listFormulae"
   | "packages:listCasks"
+  | "packages:search"
+  | "packages:info"
+  | "packages:install"
+  | "packages:uninstall"
   | "updates:list"
   | "updates:upgradePackage"
   | "updates:upgradeAll"

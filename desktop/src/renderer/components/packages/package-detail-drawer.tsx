@@ -1,5 +1,6 @@
-import { Copy, ExternalLink, FolderOpen, Terminal } from "lucide-react";
-import type { Cask, Formula } from "@brewwery/shared-types";
+import { Copy, ExternalLink, FolderOpen, PackagePlus, PackageX, Terminal, Upload } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import type { Cask, Formula, PackageActionRequest, PackageInfo } from "@brewwery/shared-types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -12,24 +13,29 @@ type PackageDetail =
   | {
       kind: "cask";
       item: Cask;
+    }
+  | {
+      kind: "info";
+      item: PackageInfo;
     };
 
 interface PackageDetailDrawerProps {
   detail?: PackageDetail;
   onClose: () => void;
+  onInstall?: (request: PackageActionRequest) => void;
+  onUninstall?: (request: PackageActionRequest) => void;
+  onUpgrade?: (request: PackageActionRequest) => void;
+  actionLoading?: boolean;
 }
 
-export function PackageDetailDrawer({ detail, onClose }: PackageDetailDrawerProps) {
+export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall, onUninstall, onUpgrade }: PackageDetailDrawerProps) {
   if (!detail) return null;
 
-  const isFormula = detail.kind === "formula";
-  const title = isFormula ? detail.item.name : detail.item.name?.[0] ?? detail.item.token;
-  const subtitle = isFormula ? detail.item.fullName : detail.item.token;
-  const version = detail.item.installedVersion ?? "Unknown";
-  const description = detail.item.description ?? (isFormula ? "Installed Homebrew formula" : "Installed Homebrew cask");
-  const homepage = detail.item.homepage;
-  const installCommand = isFormula ? `brew install ${detail.item.name}` : `brew install --cask ${detail.item.token}`;
-  const copyName = isFormula ? detail.item.name : detail.item.token;
+  const model = normalizeDetail(detail);
+  const installCommand = model.kind === "cask" ? `brew install --cask ${model.name}` : `brew install ${model.name}`;
+  const uninstallCommand = model.kind === "cask" ? `brew uninstall --cask ${model.name}` : `brew uninstall ${model.name}`;
+  const upgradeCommand = model.kind === "cask" ? `brew upgrade --cask ${model.name}` : `brew upgrade ${model.name}`;
+  const request: PackageActionRequest = { name: model.name, kind: model.kind };
 
   return (
     <div className="fixed inset-0 z-40 flex justify-end bg-black/30" onClick={onClose}>
@@ -39,8 +45,8 @@ export function PackageDetailDrawer({ detail, onClose }: PackageDetailDrawerProp
       >
         <div className="flex h-14 items-center justify-between border-b border-border px-5">
           <div>
-            <div className="text-sm font-semibold">{title}</div>
-            <div className="text-xs text-muted-foreground">{subtitle}</div>
+            <div className="text-sm font-semibold">{model.title}</div>
+            <div className="text-xs text-muted-foreground">{model.subtitle}</div>
           </div>
           <Button variant="ghost" className="h-8 px-2" onClick={onClose}>
             Close
@@ -49,40 +55,61 @@ export function PackageDetailDrawer({ detail, onClose }: PackageDetailDrawerProp
 
         <div className="space-y-5 p-5">
           <div className="flex items-center gap-2">
-            <Badge className={cn(isFormula ? "text-accent" : "border-purple-500/25 bg-purple-500/10 text-purple-300")}>
-              {detail.kind}
+            <Badge className={cn(model.kind === "formula" ? "text-accent" : "border-purple-500/25 bg-purple-500/10 text-purple-300")}>
+              {model.kind}
             </Badge>
-            <Badge className="border-emerald-500/25 bg-emerald-500/10 text-emerald-300">Installed</Badge>
-            {isFormula && detail.item.installedOnRequest !== undefined ? (
-              <Badge>{detail.item.installedOnRequest ? "On request" : "Dependency"}</Badge>
+            <Badge className={model.installed ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-300" : "border-border bg-white/[0.04]"}>
+              {model.installed ? "Installed" : "Available"}
+            </Badge>
+            {model.installedOnRequest !== undefined ? (
+              <Badge>{model.installedOnRequest ? "On request" : "Dependency"}</Badge>
             ) : null}
           </div>
 
-          <Info label="Installed version" value={version} />
-          <Info label="Description" value={description} />
+          <Info label="Installed version" value={model.installedVersion ?? "Not installed"} />
+          <Info label="Latest version" value={model.latestVersion ?? "Unknown"} />
+          <Info label="Description" value={model.description ?? "No description available."} />
 
-          {homepage ? (
+          {model.homepage ? (
             <div>
               <div className="mb-1 text-xs text-muted-foreground">Homepage</div>
               <button
                 className="inline-flex max-w-full items-center gap-2 truncate text-sm text-accent hover:underline"
-                onClick={() => window.open(homepage, "_blank", "noopener,noreferrer")}
+                onClick={() => model.homepage && window.open(model.homepage, "_blank", "noopener,noreferrer")}
               >
                 <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-                <span className="truncate">{homepage}</span>
+                <span className="truncate">{model.homepage}</span>
               </button>
             </div>
           ) : null}
 
-          {isFormula ? <Dependencies dependencies={detail.item.dependencies ?? []} /> : null}
+          <Dependencies dependencies={model.dependencies ?? []} />
+          {model.caveats ? <Info label="Caveats" value={model.caveats} /> : null}
 
           <div className="space-y-2 border-t border-border pt-5">
-            <ActionButton icon={Copy} label="Copy package name" onClick={() => copy(copyName)} />
+            {!model.installed ? (
+              <ActionButton icon={PackagePlus} label="Install" disabled={!onInstall || actionLoading} onClick={() => onInstall?.(request)} />
+            ) : (
+              <ActionButton icon={PackageX} label="Uninstall" disabled={!onUninstall || actionLoading} onClick={() => onUninstall?.(request)} />
+            )}
+            <ActionButton icon={Upload} label="Upgrade" disabled={!onUpgrade || actionLoading} onClick={() => onUpgrade?.(request)} tooltip={!onUpgrade ? "Use Updates page" : undefined} />
+            <ActionButton icon={Copy} label="Copy package name" onClick={() => copy(model.name)} />
             <ActionButton icon={Copy} label="Copy install command" onClick={() => copy(installCommand)} />
-            <ActionButton icon={ExternalLink} label="Open homepage" disabled={!homepage} onClick={() => homepage && window.open(homepage, "_blank", "noopener,noreferrer")} />
+            <ActionButton icon={Copy} label="Copy uninstall command" disabled={!model.installed} onClick={() => copy(uninstallCommand)} />
+            <ActionButton icon={Copy} label="Copy upgrade command" disabled={!model.installed} onClick={() => copy(upgradeCommand)} />
+            <ActionButton icon={ExternalLink} label="Open homepage" disabled={!model.homepage} onClick={() => model.homepage && window.open(model.homepage, "_blank", "noopener,noreferrer")} />
             <ActionButton icon={FolderOpen} label="Open package path" disabled tooltip="Coming later" />
             <ActionButton icon={Terminal} label="Open Terminal" disabled tooltip="Coming later" />
           </div>
+
+          {model.rawJson ? (
+            <details className="border-t border-border pt-4">
+              <summary className="cursor-pointer text-xs font-medium text-accent">Show raw JSON</summary>
+              <pre className="mt-2 max-h-64 overflow-auto rounded-md border border-border bg-black/20 p-3 text-xs leading-5 text-muted-foreground">
+                {model.rawJson}
+              </pre>
+            </details>
+          ) : null}
         </div>
       </aside>
     </div>
@@ -123,7 +150,7 @@ function ActionButton({
   tooltip
 }: {
   disabled?: boolean;
-  icon: typeof Copy;
+  icon: LucideIcon;
   label: string;
   onClick?: () => void;
   tooltip?: string;
@@ -138,4 +165,59 @@ function ActionButton({
 
 function copy(value: string) {
   void navigator.clipboard.writeText(value);
+}
+
+function normalizeDetail(detail: PackageDetail) {
+  if (detail.kind === "info") {
+    const displayTitle = detail.item.displayName?.[0] ?? detail.item.name;
+    return {
+      title: displayTitle,
+      subtitle: detail.item.fullName ?? detail.item.token ?? detail.item.name,
+      name: detail.item.token ?? detail.item.name,
+      kind: detail.item.kind,
+      installed: detail.item.installed,
+      installedVersion: detail.item.installedVersion,
+      latestVersion: detail.item.latestVersion,
+      description: detail.item.description,
+      homepage: detail.item.homepage,
+      dependencies: detail.item.dependencies,
+      caveats: detail.item.caveats,
+      rawJson: detail.item.rawJson,
+      installedOnRequest: undefined
+    };
+  }
+
+  if (detail.kind === "formula") {
+    return {
+      title: detail.item.name,
+      subtitle: detail.item.fullName ?? detail.item.name,
+      name: detail.item.name,
+      kind: "formula" as const,
+      installed: true,
+      installedVersion: detail.item.installedVersion,
+      latestVersion: undefined,
+      description: detail.item.description,
+      homepage: detail.item.homepage,
+      dependencies: detail.item.dependencies,
+      caveats: undefined,
+      rawJson: undefined,
+      installedOnRequest: detail.item.installedOnRequest
+    };
+  }
+
+  return {
+    title: detail.item.name?.[0] ?? detail.item.token,
+    subtitle: detail.item.token,
+    name: detail.item.token,
+    kind: "cask" as const,
+    installed: true,
+    installedVersion: detail.item.installedVersion,
+    latestVersion: undefined,
+    description: detail.item.description,
+    homepage: detail.item.homepage,
+    dependencies: undefined,
+    caveats: undefined,
+    rawJson: undefined,
+    installedOnRequest: undefined
+  };
 }

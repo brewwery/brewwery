@@ -1,4 +1,4 @@
-import { Activity, Archive, Boxes, Download, FileText, Gauge, History, Package, Settings, Sparkles, Stethoscope } from "lucide-react";
+import { Activity, Archive, Boxes, Download, FileText, Gauge, History, Package, Search, Settings, Sparkles, Stethoscope } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useSystem } from "@/hooks/use-system";
@@ -10,6 +10,7 @@ const sections: Array<{ title: string; items: Array<{ id: PageId; label: string;
     title: "Library",
     items: [
       { id: "dashboard", label: "Dashboard", icon: Gauge },
+      { id: "search", label: "Search", icon: Search },
       { id: "packages", label: "Packages", icon: Package },
       { id: "updates", label: "Updates", icon: Download },
       { id: "casks", label: "Casks", icon: Archive }

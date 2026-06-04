@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 import type { IpcError } from "@brewwery/shared-types";
 import { useToastStore } from "./toast-store";
 
-export type OperationKind = "upgrade" | "service" | "cleanup" | "doctor" | "brewfile_export";
+export type OperationKind = "install" | "uninstall" | "upgrade" | "service" | "cleanup" | "doctor" | "brewfile_export";
 export type OperationStatus = "success" | "failed";
 
 export interface OperationLogEntry {

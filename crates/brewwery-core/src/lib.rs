@@ -20,8 +20,10 @@ pub use brewfile::{
 pub use cleanup::{preview_cleanup, run_cleanup, CleanupItem, CleanupPreview, CleanupResult};
 pub use doctor::{run_doctor, DoctorDiagnostic, DoctorResult};
 pub use packages::{
-    list_casks, list_formulae, list_installed_casks, list_installed_formulae, parse_casks_json,
-    parse_formulae_json, Cask, Formula,
+    get_package_info, install_cask, install_formula, list_casks, list_formulae, list_installed_casks,
+    list_installed_formulae, parse_casks_json, parse_formulae_json, search_packages, uninstall_cask,
+    uninstall_formula, Cask, Formula, PackageActionRequest, PackageActionResult, PackageInfo,
+    PackageSearchResult,
 };
 pub use services::{
     list_services, restart_service, start_service, stop_service, BrewService, ServiceActionRequest,

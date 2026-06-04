@@ -8,7 +8,11 @@ const api: BrewweryApi = {
   },
   packages: {
     listFormulae: () => ipcRenderer.invoke("packages:listFormulae"),
-    listCasks: () => ipcRenderer.invoke("packages:listCasks")
+    listCasks: () => ipcRenderer.invoke("packages:listCasks"),
+    search: (query) => ipcRenderer.invoke("packages:search", query),
+    info: (request) => ipcRenderer.invoke("packages:info", request),
+    install: (request) => ipcRenderer.invoke("packages:install", request),
+    uninstall: (request) => ipcRenderer.invoke("packages:uninstall", request)
   },
   updates: {
     list: () => ipcRenderer.invoke("updates:list"),

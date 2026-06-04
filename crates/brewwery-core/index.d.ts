@@ -98,6 +98,12 @@ export interface Formula {
 
 export declare function getBrewInfo(): BrewInfo
 
+export declare function getPackageInfo(request: PackageActionRequest): PackageInfo
+
+export declare function installCask(token: string): PackageActionResult
+
+export declare function installFormula(name: string): PackageActionResult
+
 export interface IpcError {
   code: string
   message: string
@@ -126,6 +132,41 @@ export interface OutdatedPackage {
   pinnedVersion?: string
 }
 
+export interface PackageActionRequest {
+  name: string
+  kind: string
+}
+
+export interface PackageActionResult {
+  name: string
+  kind: string
+  success: boolean
+  stdout?: string
+  stderr?: string
+}
+
+export interface PackageInfo {
+  name: string
+  token?: string
+  fullName?: string
+  displayName?: Array<string>
+  kind: string
+  description?: string
+  homepage?: string
+  latestVersion?: string
+  installedVersion?: string
+  dependencies?: Array<string>
+  caveats?: string
+  installed: boolean
+  rawJson?: string
+}
+
+export interface PackageSearchResult {
+  name: string
+  kind: string
+  installed?: boolean
+}
+
 export declare function parseCasksJson(json: string): Array<Cask>
 
 export declare function parseFormulaeJson(json: string): Array<Formula>
@@ -139,6 +180,8 @@ export declare function restartService(request: ServiceActionRequest): ServiceAc
 export declare function runCleanup(): CleanupResult
 
 export declare function runDoctor(): DoctorResult
+
+export declare function searchPackages(query: string): Array<PackageSearchResult>
 
 export interface ServiceActionRequest {
   name: string
@@ -155,6 +198,10 @@ export interface ServiceActionResult {
 export declare function startService(request: ServiceActionRequest): ServiceActionResult
 
 export declare function stopService(request: ServiceActionRequest): ServiceActionResult
+
+export declare function uninstallCask(token: string): PackageActionResult
+
+export declare function uninstallFormula(name: string): PackageActionResult
 
 export declare function upgradeAll(): UpgradeResult
 

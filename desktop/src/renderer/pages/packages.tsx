@@ -5,12 +5,15 @@ import { PackageDetailDrawer } from "@/components/packages/package-detail-drawer
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { Input } from "@/components/ui/input";
 import { ErrorDescription, StatePanel } from "@/components/ui/state-panel";
 import { Table, Td, Th } from "@/components/ui/table";
 import { Tab, Tabs } from "@/components/ui/tabs";
+import { commandFor, usePackageActions } from "@/hooks/use-package-actions";
 import { usePackages } from "@/hooks/use-packages";
 import { useSystem } from "@/hooks/use-system";
+import type { PackageActionRequest } from "@brewwery/shared-types";
 
 type FormulaFilter = "all" | "request" | "dependency";
 type SortKey = "name" | "version" | "status";
@@ -18,10 +21,12 @@ type SortKey = "name" | "version" | "status";
 export function PackagesPage() {
   const { packages, loading, error, refreshAll: refreshPackages } = usePackages("formula");
   const { refresh: refreshSystem } = useSystem();
+  const { loading: actionLoading, uninstall } = usePackageActions();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<FormulaFilter>("all");
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [selected, setSelected] = useState<Formula | undefined>();
+  const [pendingUninstall, setPendingUninstall] = useState<PackageActionRequest | undefined>();
   const rows = packages as Formula[];
 
   const visibleRows = useMemo(() => {
@@ -40,6 +45,14 @@ export function PackagesPage() {
 
   const refreshAll = async () => {
     await Promise.all([refreshPackages(), refreshSystem()]);
+  };
+
+  const confirmUninstall = async () => {
+    if (!pendingUninstall) return;
+    await uninstall(pendingUninstall);
+    setPendingUninstall(undefined);
+    setSelected(undefined);
+    await refreshAll();
   };
 
   return (
@@ -145,7 +158,30 @@ export function PackagesPage() {
         </Card>
       ) : null}
 
-      <PackageDetailDrawer detail={selected ? { kind: "formula", item: selected } : undefined} onClose={() => setSelected(undefined)} />
+      <PackageDetailDrawer
+        detail={selected ? { kind: "formula", item: selected } : undefined}
+        actionLoading={actionLoading}
+        onClose={() => setSelected(undefined)}
+        onUninstall={setPendingUninstall}
+      />
+
+      <ConfirmationDialog
+        open={Boolean(pendingUninstall)}
+        title={`Uninstall ${pendingUninstall?.name ?? "package"}?`}
+        description={
+          <>
+            Brewwery will run <span className="font-mono text-foreground">{pendingUninstall ? commandFor("uninstall", pendingUninstall) : ""}</span>.
+            <div className="mt-2">
+              This may remove the selected package from your Homebrew environment. Dependencies are not automatically removed unless Homebrew
+              does it.
+            </div>
+          </>
+        }
+        confirmLabel="Uninstall"
+        loading={actionLoading}
+        onCancel={() => setPendingUninstall(undefined)}
+        onConfirm={() => void confirmUninstall()}
+      />
     </section>
   );
 }

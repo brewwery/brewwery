@@ -2,6 +2,28 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.4.0 - Search & Discovery
+
+Status: complete.
+
+### Added
+
+- Dedicated Search page for Homebrew package discovery.
+- Debounced search across formulae and casks using allowlisted Homebrew commands.
+- Package info loading for formulae and casks with normalized metadata.
+- Detail drawer support for discovered packages, installed state, latest version, dependencies, caveats, homepage, and raw JSON details.
+- Install formula and cask flows with explicit confirmation.
+- Uninstall formula and cask flows with explicit confirmation and warning copy.
+- Install/uninstall operation history entries with command summary, stdout, stderr, and error details.
+- Result toasts after install/uninstall operations.
+- Installed formulae and casks refresh after package mutations.
+
+### Security
+
+- Added strict package and cask token validation before install/uninstall.
+- Kept all commands allowlisted through typed IPC and the Rust napi-rs core.
+- No generic shell command runner, no sudo, no telemetry, and no search-query logging.
+
 ## v0.3.2 - History Polish
 
 Status: complete.

@@ -10,6 +10,10 @@ import type {
   DoctorResult,
   Formula,
   OutdatedPackage,
+  PackageActionRequest,
+  PackageActionResult,
+  PackageInfo,
+  PackageSearchResult,
   ServiceActionRequest,
   ServiceActionResult,
   UpgradeRequest,
@@ -22,6 +26,12 @@ interface NativeBrewweryCore {
   getBrewInfo(): BrewInfo;
   listFormulae(): Formula[];
   listCasks(): Cask[];
+  searchPackages(query: string): PackageSearchResult[];
+  getPackageInfo(request: PackageActionRequest): PackageInfo;
+  installFormula(name: string): PackageActionResult;
+  installCask(name: string): PackageActionResult;
+  uninstallFormula(name: string): PackageActionResult;
+  uninstallCask(name: string): PackageActionResult;
   listOutdated(): OutdatedPackage[];
   upgradePackage(request: UpgradeRequest): UpgradeResult;
   upgradeAll(): UpgradeResult;

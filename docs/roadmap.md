@@ -77,10 +77,21 @@ Status: complete.
 - Toast dismissal and automatic timeout
 - No additional IPC or shell command surface
 
-## v0.4 Controlled Package Actions
+## v0.4 Search & Discovery
 
-- Explicit install and uninstall confirmation flows
-- Terminal handoff for advanced commands
+Status: complete.
+
+- Dedicated Homebrew discovery page
+- Debounced search across Homebrew formulae and casks
+- Loading, empty, Homebrew-not-found, and error states for search
+- Package detail drawer for discovered formulae and casks
+- Package metadata: homepage, latest version, installed version, dependencies, caveats, raw JSON details, and install command
+- Install formulae and casks after explicit confirmation
+- Uninstall formulae and casks after explicit confirmation
+- Result toasts and operation history entries for install/uninstall
+- Installed formulae/casks refresh after install and uninstall
+- Rust allowlisted operations for search, info, install, and uninstall
+- Strict package/cask token validation before mutating commands
 
 ## Later
 

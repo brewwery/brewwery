@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 export type PageId =
   | "dashboard"
+  | "search"
   | "packages"
   | "updates"
   | "casks"
@@ -14,10 +15,14 @@ export type PageId =
 
 interface UiState {
   activePage: PageId;
+  searchQuery: string;
   setActivePage: (page: PageId) => void;
+  setSearchQuery: (query: string) => void;
 }
 
 export const useUiStore = create<UiState>((set) => ({
   activePage: "dashboard",
-  setActivePage: (page) => set({ activePage: page })
+  searchQuery: "",
+  setActivePage: (page) => set({ activePage: page }),
+  setSearchQuery: (query) => set({ searchQuery: query })
 }));

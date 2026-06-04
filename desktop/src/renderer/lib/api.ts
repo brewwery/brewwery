@@ -19,7 +19,11 @@ const browserFallbackApi: BrewweryApi = {
   },
   packages: {
     listFormulae: () => unsupported(),
-    listCasks: () => unsupported()
+    listCasks: () => unsupported(),
+    search: () => unsupported(),
+    info: () => unsupported(),
+    install: () => unsupported(),
+    uninstall: () => unsupported()
   },
   updates: {
     list: () => unsupported(),
