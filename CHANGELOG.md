@@ -2,6 +2,28 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.6.0-alpha.1 - Private Alpha
+
+Status: complete.
+
+### Added
+
+- Version bump to `0.6.0-alpha.1` across workspace packages, Rust crate metadata, and renderer About version.
+- Private alpha release notes draft.
+- Known issues document.
+- Private alpha install/uninstall guide.
+- Expanded QA checklist for packaged app, Homebrew path validation, all major pages, package actions, maintenance workflows, tray/shortcuts, and security review.
+- Release notes link in Settings About section.
+
+### Verification
+
+- Apple Silicon packaged `.app` is the primary private alpha verification target.
+- DMG and ZIP release artifact names are documented for GitHub Releases.
+
+### Security
+
+- Private alpha checklist confirms no generic shell execution, no direct renderer IPC, confirmation for mutating actions, Rust allowlist, `shell: false` streaming runner, no `sudo`, no telemetry, no cloud sync, and no paid/pro logic.
+
 ## v0.5.2 - Alpha Hardening
 
 Status: complete.

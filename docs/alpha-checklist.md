@@ -1,6 +1,6 @@
-# Alpha Checklist
+# Private Alpha Checklist
 
-Use this checklist before publishing a public alpha build.
+Use this checklist before publishing `v0.6.0-alpha.1`.
 
 ## Build
 
@@ -11,65 +11,147 @@ Use this checklist before publishing a public alpha build.
 - `pnpm --filter @brewwery/desktop build`
 - `pnpm package:mac:dir`
 - `pnpm package:mac`
+- Confirm artifact names:
+  - `Brewwery-0.6.0-alpha.1-mac-arm64.dmg`
+  - `Brewwery-0.6.0-alpha.1-mac-arm64.zip`
+- Confirm app version inside bundle is `0.6.0-alpha.1`.
+- Confirm bundle id is `com.brewwery.app`.
 
 If local DMG creation fails with `hdiutil`, use `pnpm package:mac:dir` to test the packaged `.app` and let GitHub Actions create the DMG on a clean macOS runner.
 
-## Packaged App
+## Fresh Install
 
-- Open `desktop/dist-packages/mac-arm64/Brewwery.app`.
+- Remove old local `.app`.
+- Remove old `localStorage` data if a clean test is needed.
+- Remove `settings.json` if a clean custom path test is needed.
+- Open the DMG.
+- Drag `Brewwery.app` into `/Applications`.
+- Launch app from `/Applications`.
 - Confirm app name is Brewwery in the menu bar.
 - Confirm dock icon and menu bar icon are Brewwery assets.
+- Confirm first launch onboarding appears.
+- Confirm Homebrew auto-detection.
+- Confirm Dashboard loads after first launch.
+- Quit and reopen.
 - Close the window with `Command+W`.
 - Choose tray menu `Open Brewwery`.
 - Confirm no main-process error appears.
-- Choose tray menu `Check Updates`.
-- Choose tray menu `Run Doctor`.
-- Quit from tray menu.
 
-## First Launch
+## Homebrew Path QA
 
-- Delete local app data if a clean first-launch test is needed.
-- Confirm onboarding appears.
-- Confirm detected Homebrew version, prefix, architecture, and path.
-- Confirm Homebrew-not-found copy is readable if Homebrew is unavailable.
+- `/opt/homebrew/bin/brew` works.
+- `/usr/local/bin/brew` fallback does not break where available.
+- Missing Homebrew state is readable.
+- Invalid custom path is rejected.
+- Valid custom path is accepted.
+- Reset custom path returns to auto-detect.
+- `brew --version` validation appears.
+- Permission denied path is rejected.
+- Non-executable file path is rejected.
+- Directory instead of executable path is rejected.
 
-## Settings
+## Pages
 
-- Confirm detected Homebrew path is displayed.
-- Validate `/opt/homebrew/bin/brew` on Apple Silicon.
-- Save the custom path.
-- Confirm Dashboard/Packages still load data.
-- Reset the custom path.
-- Export history JSON.
-- Clear history.
+- Dashboard
+- Packages
+- Casks
+- Search
+- Updates
+- Services
+- Cleanup
+- Doctor
+- Brewfile
+- History
+- Settings
 
-## Core UX
+## Packages And Discovery
 
-- Dashboard loads without crashing.
-- Packages handles large installed formula lists.
-- Casks handles empty and non-empty states.
-- Search has loading, empty, and error states.
-- Package detail drawer opens from installed packages and discovery search.
-- Install/uninstall/upgrade require confirmation.
-- Progress output remains scrollable and does not freeze the UI.
-- Raw output panels are readable.
+- Formulae list loads.
+- Casks list loads.
+- Search formulae works.
+- Search casks works.
+- Package detail drawer opens.
+- Cask detail drawer opens.
+- Package info loads.
+- Cask info loads.
+- Caveats display correctly.
+- Raw JSON details are expandable.
+- Install formula with confirmation.
+- Install cask with confirmation.
+- Uninstall formula with confirmation.
+- Uninstall cask with confirmation.
+- Install failure is handled.
+- Uninstall failure is handled.
+- Progress output works.
+- History logs install/uninstall.
+- Toast appears after operation.
+- Package lists refresh after operation.
 
-## Safety
+## Updates
 
-- No direct `ipcRenderer` usage outside preload.
-- No generic shell command IPC exists.
+- Updates page loads.
+- Empty updates state.
+- Outdated packages state.
+- Upgrade one package confirmation.
+- Upgrade all confirmation.
+- Upgrade progress output.
+- Upgrade failure handling.
+- History logs upgrade.
+- Toast appears after upgrade.
+- Dashboard updates count refreshes.
+
+## Maintenance
+
+- Cleanup preview works.
+- Parsed cleanup items display.
+- Estimated size displays when available.
+- Raw output expandable.
+- Nothing to clean state.
+- Cleanup run requires confirmation.
+- Cleanup result summary.
+- Cleanup failure handling.
+- History logs cleanup.
+- Toast appears after cleanup.
+- Doctor diagnostics run.
+- Brewfile export works.
+- Brewfile read-by-path works.
+
+## Tray And Shortcuts
+
+- Tray menu opens.
+- Open Brewwery works after close.
+- Check Updates behaves safely.
+- Run Doctor behaves safely.
+- Open Terminal works.
+- Quit works.
+- `Command+K` Search.
+- `Command+R` Refresh.
+- `Command+,` Settings.
+- `Command+W` Close.
+- `Command+Q` Quit.
+- Window restore works.
+- No crash after closing/reopening window.
+
+## Security Review
+
+- No generic shell execution.
+- No direct `ipcRenderer` in pages/components.
+- Renderer uses `window.brewwery` API wrapper.
+- Mutating actions require confirmation.
+- Rust allowlist intact.
+- Streaming runner uses `shell: false`.
+- Custom path validation works.
 - No `sudo`.
 - No telemetry.
 - No cloud sync.
-- Mutating actions remain allowlisted and confirmed.
+- No paid/pro logic.
+- No automatic cleanup.
+- No automatic install/uninstall/upgrade.
 
-## Uninstall Local Alpha
+## Release Draft
 
-Remove the local packaged app and Brewwery user data:
-
-```bash
-rm -rf "desktop/dist-packages/mac-arm64/Brewwery.app"
-rm -rf "$HOME/Library/Application Support/Brewwery"
-rm -f "$HOME/Library/Preferences/com.brewwery.app.plist"
-rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
-```
+- Create GitHub release draft for `v0.6.0-alpha.1`.
+- Use `docs/release-notes/v0.6.0-alpha.1.md` as release body.
+- Upload DMG artifact.
+- Upload ZIP artifact.
+- Mark as prerelease.

@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.5.2 Alpha Hardening / early alpha.
+Current status: v0.6.0-alpha.1 Private Alpha / private alpha.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -31,6 +31,7 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - Use a first-launch onboarding screen, tray menu, keyboard shortcuts, and a basic Settings/About page.
 - Validate and save a custom Homebrew executable path for both normal and streaming Homebrew operations.
 - Use a packaged-app alpha checklist and local `.app` packaging command for DMG-independent testing.
+- Prepare private alpha release notes, known issues, install/uninstall instructions, and QA checklist.
 - Provide a dark macOS utility UI with sidebar navigation and status bar.
 - Define typed IPC contracts in a shared workspace package.
 - Scaffold a Rust `napi-rs` core for future command parsing and execution.
@@ -150,6 +151,12 @@ Current alpha builds are unsigned and not notarized. macOS Gatekeeper may warn w
 
 Before publishing, run through [docs/alpha-checklist.md](docs/alpha-checklist.md).
 
+Private alpha docs:
+
+- [Private alpha guide](docs/private-alpha.md)
+- [Known issues](docs/known-issues.md)
+- [Release notes draft](docs/release-notes/v0.6.0-alpha.1.md)
+
 ## Uninstall Local Alpha
 
 Remove the local packaged app and Brewwery user data:
@@ -163,7 +170,7 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.5.2 are limited to package install/uninstall, package upgrades, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.6.0-alpha.1 are limited to package install/uninstall, package upgrades, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, or monetization logic is included.
 
@@ -172,6 +179,7 @@ No authentication, telemetry, cloud sync, or monetization logic is included.
 - Dashboard, Packages, Casks, Updates, Services, Cleanup, Doctor, Brewfile, and History use real local data.
 - Custom Homebrew path is validated before saving and is used by both Rust runner commands and streaming progress commands.
 - Builds are unsigned and not notarized.
+- Apple Silicon is the primary tested architecture for the private alpha.
 - No sudo or arbitrary shell command is implemented.
 - Tapped formula names containing `/` are rejected by the strict v0.4 package-name validator.
 - Search result rows show lightweight data first; full metadata loads when a package detail is opened.

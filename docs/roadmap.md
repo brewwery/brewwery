@@ -146,6 +146,21 @@ Status: complete.
 - README uninstall notes for local alpha app data
 - Development documentation for packaging and alpha verification
 
+## v0.6.0-alpha.1 Private Alpha
+
+Status: complete.
+
+- Version bump to `0.6.0-alpha.1`
+- Private alpha release notes draft
+- Known issues document
+- Private alpha install/uninstall instructions
+- Packaged app verification docs
+- Expanded private alpha QA checklist
+- Release draft instructions for GitHub Releases
+- Settings About release notes link
+- Apple Silicon packaged `.app` verification path
+- Final security review checklist for private alpha
+
 ## Later
 
 - Signed and notarized macOS builds

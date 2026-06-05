@@ -11,6 +11,7 @@ import {
   APP_VERSION,
   GITHUB_URL,
   ISSUE_URL,
+  RELEASE_NOTES_URL,
   WEBSITE_URL
 } from "@/lib/constants";
 import { useHistoryStore } from "@/stores/history-store";
@@ -202,6 +203,7 @@ export function SettingsPage() {
             <ExternalButton href={GITHUB_URL} label="GitHub" />
             <ExternalButton href={WEBSITE_URL} label="Website" />
             <ExternalButton href={ISSUE_URL} label="Report issue" />
+            <ExternalButton href={RELEASE_NOTES_URL} label="Release notes" />
           </div>
         </CardContent>
       </Card>

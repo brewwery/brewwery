@@ -1,6 +1,6 @@
 {
   "name": "brewwery",
-  "version": "0.5.2",
+  "version": "0.6.0-alpha.1",
   "private": true,
   "description": "A clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles.",
   "license": "MIT",

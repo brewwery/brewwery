@@ -69,6 +69,12 @@ Current alpha builds are unsigned and not notarized. macOS may show a Gatekeeper
 
 Before publishing an alpha build, run through `docs/alpha-checklist.md`.
 
+Private alpha release preparation lives in:
+
+- `docs/private-alpha.md`
+- `docs/known-issues.md`
+- `docs/release-notes/v0.6.0-alpha.1.md`
+
 ## Notes
 
 - The desktop app can run without Homebrew and will show Homebrew-not-found states.

@@ -2,6 +2,7 @@ import { Terminal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePackages } from "@/hooks/use-packages";
 import { useSystem } from "@/hooks/use-system";
+import { APP_VERSION } from "@/lib/constants";
 
 export function StatusBar() {
   const { detection, system, loading } = useSystem();
@@ -21,10 +22,13 @@ export function StatusBar() {
         <span>{formulae.length} formulae</span>
         <span>{casks.length} casks</span>
       </div>
-      <Button variant="ghost" className="h-7 px-2 text-xs" disabled title="Terminal handoff is planned for a later release.">
-        <Terminal className="h-3.5 w-3.5" />
-        Open Terminal
-      </Button>
+      <div className="flex items-center gap-3">
+        <span>Brewwery {APP_VERSION}</span>
+        <Button variant="ghost" className="h-7 px-2 text-xs" disabled title="Terminal handoff is planned for a later release.">
+          <Terminal className="h-3.5 w-3.5" />
+          Open Terminal
+        </Button>
+      </div>
     </footer>
   );
 }
