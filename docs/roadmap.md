@@ -161,6 +161,20 @@ Status: complete.
 - Apple Silicon packaged `.app` verification path
 - Final security review checklist for private alpha
 
+## v0.6.0-alpha.2 Private Alpha Polish
+
+Status: complete.
+
+- Version bump to `0.6.0-alpha.2`
+- Settings Copy diagnostics action for private alpha reports
+- Dashboard last-refreshed state
+- Dashboard running-first service preview
+- History failed-only filter
+- `pnpm alpha:verify` command for local release verification
+- `pnpm alpha:clean-install` helper for fresh local alpha testing
+- Private alpha test report template
+- v0.6.0-alpha.2 release notes draft
+
 ## Later
 
 - Signed and notarized macOS builds

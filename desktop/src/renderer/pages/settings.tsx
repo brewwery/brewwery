@@ -1,4 +1,4 @@
-import { ExternalLink, RotateCcw, Save, Trash2 } from "lucide-react";
+import { Clipboard, ExternalLink, RotateCcw, Save, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { BrewPathValidationResult, IpcError } from "@brewwery/shared-types";
 import { Badge } from "@/components/ui/badge";
@@ -6,8 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useSystem } from "@/hooks/use-system";
+import { usePackages } from "@/hooks/use-packages";
+import { useServices } from "@/hooks/use-services";
+import { useUpdates } from "@/hooks/use-updates";
 import { api } from "@/lib/api";
 import {
+  APP_CHANNEL,
   APP_VERSION,
   GITHUB_URL,
   ISSUE_URL,
@@ -19,6 +23,10 @@ import { useSettingsStore } from "@/stores/settings-store";
 
 export function SettingsPage() {
   const { detection, error, loading, refresh, system } = useSystem();
+  const { packages: formulae } = usePackages("formula");
+  const { packages: casks } = usePackages("cask");
+  const { services } = useServices();
+  const { updates } = useUpdates();
   const entries = useHistoryStore((state) => state.entries);
   const clearEntries = useHistoryStore((state) => state.clearEntries);
   const customHomebrewPath = useSettingsStore((state) => state.customHomebrewPath);
@@ -195,11 +203,35 @@ export function SettingsPage() {
           </div>
           <div className="grid gap-3 md:grid-cols-2">
             <InfoBox label="Version" value={APP_VERSION} />
+            <InfoBox label="Channel" value={APP_CHANNEL} />
             <InfoBox label="License" value="MIT" />
             <InfoBox label="Made by" value="Made Büro" />
             <InfoBox label="Platform" value="macOS first, Apple Silicon primary" />
+            <InfoBox label="Architecture" value={system?.architecture ?? "unknown"} />
           </div>
           <div className="flex flex-wrap gap-2">
+            <Button
+              variant="primary"
+              onClick={() =>
+                void navigator.clipboard.writeText(
+                  diagnosticsText({
+                    appVersion: APP_VERSION,
+                    channel: APP_CHANNEL,
+                    brewVersion: system?.version ?? "unknown",
+                    brewPath: system?.path ?? "unknown",
+                    brewPrefix: system?.prefix ?? "unknown",
+                    architecture: system?.architecture ?? "unknown",
+                    formulae: formulae.length,
+                    casks: casks.length,
+                    services: services.length,
+                    updates: updates.length
+                  })
+                )
+              }
+            >
+              <Clipboard className="h-4 w-4" />
+              Copy diagnostics
+            </Button>
             <ExternalButton href={GITHUB_URL} label="GitHub" />
             <ExternalButton href={WEBSITE_URL} label="Website" />
             <ExternalButton href={ISSUE_URL} label="Report issue" />
@@ -209,6 +241,12 @@ export function SettingsPage() {
       </Card>
     </section>
   );
+}
+
+function diagnosticsText(values: Record<string, string | number>) {
+  return Object.entries(values)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join("\n");
 }
 
 function InfoBox({ label, value }: { label: string; value: string }) {

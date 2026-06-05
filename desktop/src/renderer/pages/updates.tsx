@@ -33,17 +33,18 @@ export function UpdatesPage() {
   const confirmUpgrade = async () => {
     if (!pendingUpgrade) return;
 
-    if (pendingUpgrade.type === "all") {
+    const upgrade = pendingUpgrade;
+    setPendingUpgrade(undefined);
+
+    if (upgrade.type === "all") {
       await upgradeAll();
     } else {
       const request: UpgradeRequest = {
-        name: pendingUpgrade.package.name,
-        kind: pendingUpgrade.package.kind
+        name: upgrade.package.name,
+        kind: upgrade.package.kind
       };
       await upgradePackage(request);
     }
-
-    setPendingUpgrade(undefined);
   };
 
   return (

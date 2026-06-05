@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.6.0-alpha.1 Private Alpha / private alpha.
+Current status: v0.6.0-alpha.2 Private Alpha Polish / private alpha.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -30,6 +30,9 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - Package unsigned macOS alpha builds as DMG and ZIP artifacts.
 - Use a first-launch onboarding screen, tray menu, keyboard shortcuts, and a basic Settings/About page.
 - Validate and save a custom Homebrew executable path for both normal and streaming Homebrew operations.
+- Copy a compact diagnostics report from Settings.
+- Show Dashboard last-refresh state and running-first service preview.
+- Filter History to failed operations during alpha QA.
 - Use a packaged-app alpha checklist and local `.app` packaging command for DMG-independent testing.
 - Prepare private alpha release notes, known issues, install/uninstall instructions, and QA checklist.
 - Provide a dark macOS utility UI with sidebar navigation and status bar.
@@ -118,10 +121,28 @@ Build a packaged `.app` without creating a DMG:
 pnpm package:mac:dir
 ```
 
+Build and verify a ZIP artifact without creating a DMG:
+
+```bash
+pnpm package:mac:zip
+```
+
 Clean local packaging artifacts:
 
 ```bash
 pnpm package:clean
+```
+
+Run the private alpha verification pass:
+
+```bash
+pnpm alpha:verify
+```
+
+Clean an old local alpha install before fresh testing:
+
+```bash
+pnpm alpha:clean-install
 ```
 
 Optional packaging commands:
@@ -149,13 +170,15 @@ Brewwery uses `electron-builder` with:
 
 Current alpha builds are unsigned and not notarized. macOS Gatekeeper may warn when opening downloaded builds until signing and notarization are configured.
 
+If local DMG creation fails because of `hdiutil`, use `pnpm package:mac:zip` or `pnpm package:mac:dir` for local verification and let GitHub Actions build the DMG on a clean macOS runner.
+
 Before publishing, run through [docs/alpha-checklist.md](docs/alpha-checklist.md).
 
 Private alpha docs:
 
 - [Private alpha guide](docs/private-alpha.md)
 - [Known issues](docs/known-issues.md)
-- [Release notes draft](docs/release-notes/v0.6.0-alpha.1.md)
+- [Release notes draft](docs/release-notes/v0.6.0-alpha.2.md)
 
 ## Uninstall Local Alpha
 
@@ -170,7 +193,7 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.6.0-alpha.1 are limited to package install/uninstall, package upgrades, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.6.0-alpha.2 are limited to package install/uninstall, package upgrades, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, or monetization logic is included.
 

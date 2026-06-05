@@ -2,6 +2,32 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.6.0-alpha.2 - Private Alpha Polish
+
+Status: complete.
+
+### Added
+
+- Version bump to `0.6.0-alpha.2` across workspace packages, Rust crate metadata, and renderer About version.
+- Settings Copy diagnostics action with app version, channel, Homebrew path/version/prefix, architecture, and local package/service/update counts.
+- History failed-only filter for faster private alpha triage.
+- Dashboard last-refreshed state and running-first services preview.
+- `pnpm alpha:verify` for the private alpha verification command sequence.
+- `pnpm alpha:clean-install` helper for fresh local alpha testing.
+- `pnpm package:mac:zip` for local ZIP artifact verification when `hdiutil` blocks DMG creation.
+- Private alpha test report template.
+- v0.6.0-alpha.2 release notes draft.
+- Release workflow now uses version-specific release notes when a matching `docs/release-notes/<tag>.md` file exists.
+- Packaging now excludes Rust source and `target/` build output from the app bundle while keeping the native `.node` binding unpacked.
+- Dashboard services preview is more compact so the Updates panel fits better in narrower windows.
+- Operation progress panel now shows target, short operation id, package count summary, and a visible progress strip.
+- Updates confirmation closes after approval so live upgrade progress remains visible.
+
+### Security
+
+- Diagnostics are copied locally by explicit user action only.
+- Alpha clean-install helper removes Brewwery app/user data only and does not remove Homebrew or Homebrew packages.
+
 ## v0.6.0-alpha.1 - Private Alpha
 
 Status: complete.

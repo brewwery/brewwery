@@ -1,6 +1,6 @@
 # Private Alpha
 
-Private alpha target: `v0.6.0-alpha.1`.
+Private alpha target: `v0.6.0-alpha.2`.
 
 ## Build
 
@@ -11,6 +11,7 @@ pnpm install --frozen-lockfile
 pnpm typecheck
 pnpm lint
 cargo test --manifest-path crates/brewwery-core/Cargo.toml
+pnpm alpha:verify
 ```
 
 Build a local packaged `.app` without DMG creation:
@@ -27,11 +28,19 @@ pnpm package:clean
 pnpm package:mac
 ```
 
+If local DMG creation fails because of `hdiutil`, verify the ZIP locally and use GitHub Actions for the DMG:
+
+```bash
+pnpm package:clean
+pnpm package:mac:zip
+unzip -t "desktop/dist-packages/Brewwery-0.6.0-alpha.2-mac-arm64.zip"
+```
+
 Expected Apple Silicon artifacts:
 
 ```text
-desktop/dist-packages/Brewwery-0.6.0-alpha.1-mac-arm64.dmg
-desktop/dist-packages/Brewwery-0.6.0-alpha.1-mac-arm64.zip
+desktop/dist-packages/Brewwery-0.6.0-alpha.2-mac-arm64.dmg
+desktop/dist-packages/Brewwery-0.6.0-alpha.2-mac-arm64.zip
 desktop/dist-packages/mac-arm64/Brewwery.app
 ```
 
@@ -47,7 +56,7 @@ Check bundle metadata:
 Expected:
 
 ```text
-0.6.0-alpha.1
+0.6.0-alpha.2
 com.brewwery.app
 ```
 
@@ -81,32 +90,38 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 This does not remove Homebrew or any installed Homebrew packages.
 
+You can also run the local helper:
+
+```bash
+pnpm alpha:clean-install
+```
+
 ## GitHub Release Draft
 
 Release tag:
 
 ```text
-v0.6.0-alpha.1
+v0.6.0-alpha.2
 ```
 
-Use `docs/release-notes/v0.6.0-alpha.1.md` as the draft release body.
+Use `docs/release-notes/v0.6.0-alpha.2.md` as the draft release body.
 
 Upload:
 
 ```text
-Brewwery-0.6.0-alpha.1-mac-arm64.dmg
-Brewwery-0.6.0-alpha.1-mac-arm64.zip
+Brewwery-0.6.0-alpha.2-mac-arm64.dmg
+Brewwery-0.6.0-alpha.2-mac-arm64.zip
 ```
 
 After `gh auth login`, create the draft release with:
 
 ```bash
-gh release create v0.6.0-alpha.1 \
+gh release create v0.6.0-alpha.2 \
   --repo brewwery/brewwery \
   --draft \
   --prerelease \
-  --title "Brewwery v0.6.0-alpha.1" \
-  --notes-file docs/release-notes/v0.6.0-alpha.1.md \
-  desktop/dist-packages/Brewwery-0.6.0-alpha.1-mac-arm64.dmg \
-  desktop/dist-packages/Brewwery-0.6.0-alpha.1-mac-arm64.zip
+  --title "Brewwery v0.6.0-alpha.2" \
+  --notes-file docs/release-notes/v0.6.0-alpha.2.md \
+  desktop/dist-packages/Brewwery-0.6.0-alpha.2-mac-arm64.dmg \
+  desktop/dist-packages/Brewwery-0.6.0-alpha.2-mac-arm64.zip
 ```

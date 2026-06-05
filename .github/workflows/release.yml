@@ -29,6 +29,14 @@ jobs:
       - run: cargo test
         working-directory: crates/brewwery-core
       - run: pnpm package:mac
+      - name: Resolve release notes
+        run: |
+          notes="docs/release-notes/${GITHUB_REF_NAME}.md"
+          if [ -f "$notes" ]; then
+            echo "RELEASE_NOTES=$notes" >> "$GITHUB_ENV"
+          else
+            echo "RELEASE_NOTES=CHANGELOG.md" >> "$GITHUB_ENV"
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: brewwery-macos-arm64
@@ -41,4 +49,4 @@ jobs:
           files: |
             desktop/dist-packages/*.dmg
             desktop/dist-packages/*.zip
-          body_path: CHANGELOG.md
+          body_path: ${{ env.RELEASE_NOTES }}

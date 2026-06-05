@@ -13,6 +13,7 @@ export function OperationProgressPanel({ progress, onClear }: OperationProgressP
   if (!progress) return null;
 
   const output = progress.lines.length > 0 ? progress.lines : fallbackLines(progress);
+  const summary = progressSummary(progress);
 
   return (
     <Card className="overflow-hidden">
@@ -36,6 +37,31 @@ export function OperationProgressPanel({ progress, onClear }: OperationProgressP
           ) : null}
         </div>
 
+        <div className="grid gap-2 rounded-md border border-border bg-background/45 p-3 text-xs md:grid-cols-[1fr_auto_auto] md:items-center">
+          <div className="min-w-0">
+            <div className="text-muted-foreground">Target</div>
+            <div className="mt-1 truncate font-medium text-foreground">{progress.target ?? progress.command}</div>
+          </div>
+          <Meta label="Packages" value={summary.packageLabel} />
+          <Meta label="Operation ID" value={shortOperationId(progress.operationId)} mono />
+        </div>
+
+        <div>
+          <div className="mb-1 flex items-center justify-between text-xs text-muted-foreground">
+            <span>{summary.statusLabel}</span>
+            <span>{progress.status}</span>
+          </div>
+          <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+            <div
+              className={cn(
+                "h-full rounded-full transition-all",
+                progress.status === "failed" ? "bg-red-400" : progress.status === "success" ? "bg-emerald-400" : "animate-pulse bg-accent"
+              )}
+              style={{ width: progress.status === "success" || progress.status === "failed" ? "100%" : `${summary.percent}%` }}
+            />
+          </div>
+        </div>
+
         <div className="max-h-48 overflow-auto rounded-md border border-border bg-background/70 p-3 font-mono text-xs leading-5">
           {output.length > 0 ? (
             output.map((line, index) => (
@@ -55,6 +81,44 @@ export function OperationProgressPanel({ progress, onClear }: OperationProgressP
       </CardContent>
     </Card>
   );
+}
+
+function Meta({ label, mono, value }: { label: string; mono?: boolean; value: string }) {
+  return (
+    <div className="min-w-[110px]">
+      <div className="text-muted-foreground">{label}</div>
+      <div className={cn("mt-1 truncate text-foreground", mono ? "font-mono" : "font-medium")}>{value}</div>
+    </div>
+  );
+}
+
+function progressSummary(progress: OperationProgressState) {
+  const text = `${progress.stdout}\n${progress.stderr}`;
+  const total = parseQueuedPackageCount(text, progress);
+  const packageLabel = total === 1 ? "1 package queued" : `${total} packages queued`;
+
+  if (progress.status === "success") {
+    return { packageLabel, percent: 100, statusLabel: total === 1 ? "1 of 1 package completed" : `${total} packages completed` };
+  }
+
+  if (progress.status === "failed") {
+    return { packageLabel, percent: 100, statusLabel: "Stopped with an error" };
+  }
+
+  const phaseCount = (text.match(/^==>/gm) ?? []).length;
+  const percent = Math.min(85, Math.max(12, phaseCount * 12));
+  const statusLabel = total === 1 ? "Processing 1 package" : `Processing ${total} packages`;
+  return { packageLabel, percent, statusLabel };
+}
+
+function parseQueuedPackageCount(text: string, progress: OperationProgressState) {
+  const upgradeMatch = text.match(/Upgrading\s+(\d+)\s+outdated package/i);
+  if (upgradeMatch?.[1]) return Number(upgradeMatch[1]);
+  return progress.kind === "upgrade" && progress.target ? 1 : 1;
+}
+
+function shortOperationId(operationId: string) {
+  return operationId.split("-")[0] ?? operationId.slice(0, 8);
 }
 
 function fallbackLines(progress: OperationProgressState) {

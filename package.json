@@ -1,8 +1,9 @@
 {
   "name": "brewwery",
-  "version": "0.6.0-alpha.1",
+  "version": "0.6.0-alpha.2",
   "private": true,
   "description": "A clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles.",
+  "author": "Made Büro",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -12,8 +13,11 @@
     "package:clean": "node -e \"import('node:fs').then(fs=>fs.rmSync('desktop/dist-packages',{recursive:true,force:true}))\"",
     "package:mac:dir": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac:dir",
     "package:mac": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac",
+    "package:mac:zip": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac:zip",
     "package:mac:x64": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac:x64",
     "package:mac:universal": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac:universal",
+    "alpha:verify": "pnpm typecheck && pnpm lint && cargo test --manifest-path crates/brewwery-core/Cargo.toml && pnpm --filter @brewwery/desktop build && pnpm package:mac:dir",
+    "alpha:clean-install": "node scripts/alpha-clean-install.mjs",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint"
   },

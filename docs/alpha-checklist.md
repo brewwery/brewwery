@@ -1,6 +1,6 @@
 # Private Alpha Checklist
 
-Use this checklist before publishing `v0.6.0-alpha.1`.
+Use this checklist before publishing `v0.6.0-alpha.2`.
 
 ## Build
 
@@ -10,14 +10,18 @@ Use this checklist before publishing `v0.6.0-alpha.1`.
 - `cargo test` in `crates/brewwery-core`
 - `pnpm --filter @brewwery/desktop build`
 - `pnpm package:mac:dir`
+- `pnpm package:mac:zip`
 - `pnpm package:mac`
+- `pnpm alpha:verify`
 - Confirm artifact names:
-  - `Brewwery-0.6.0-alpha.1-mac-arm64.dmg`
-  - `Brewwery-0.6.0-alpha.1-mac-arm64.zip`
-- Confirm app version inside bundle is `0.6.0-alpha.1`.
+  - `Brewwery-0.6.0-alpha.2-mac-arm64.dmg`
+  - `Brewwery-0.6.0-alpha.2-mac-arm64.zip`
+- Confirm app version inside bundle is `0.6.0-alpha.2`.
 - Confirm bundle id is `com.brewwery.app`.
 
 If local DMG creation fails with `hdiutil`, use `pnpm package:mac:dir` to test the packaged `.app` and let GitHub Actions create the DMG on a clean macOS runner.
+
+Use `pnpm package:mac:zip` plus `unzip -t` to verify the local ZIP artifact independently of DMG creation.
 
 ## Fresh Install
 
@@ -53,6 +57,8 @@ If local DMG creation fails with `hdiutil`, use `pnpm package:mac:dir` to test t
 ## Pages
 
 - Dashboard
+- Dashboard last refreshed state
+- Dashboard running-first service preview
 - Packages
 - Casks
 - Search
@@ -62,7 +68,9 @@ If local DMG creation fails with `hdiutil`, use `pnpm package:mac:dir` to test t
 - Doctor
 - Brewfile
 - History
+- History failed-only filter
 - Settings
+- Settings Copy diagnostics
 
 ## Packages And Discovery
 
@@ -150,8 +158,8 @@ If local DMG creation fails with `hdiutil`, use `pnpm package:mac:dir` to test t
 
 ## Release Draft
 
-- Create GitHub release draft for `v0.6.0-alpha.1`.
-- Use `docs/release-notes/v0.6.0-alpha.1.md` as release body.
+- Create GitHub release draft for `v0.6.0-alpha.2`.
+- Use `docs/release-notes/v0.6.0-alpha.2.md` as release body.
 - Upload DMG artifact.
 - Upload ZIP artifact.
 - Mark as prerelease.

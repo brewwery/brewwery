@@ -7,6 +7,10 @@ directories:
 files:
   - out/**/*
   - package.json
+  - "!node_modules/@brewwery/brewwery-core/target/**"
+  - "!node_modules/@brewwery/brewwery-core/src/**"
+  - "!node_modules/@brewwery/brewwery-core/Cargo.*"
+  - "!node_modules/@brewwery/brewwery-core/build.rs"
 asarUnpack:
   - node_modules/@brewwery/brewwery-core/**/*.node
 mac:

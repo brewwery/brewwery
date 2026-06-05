@@ -52,10 +52,28 @@ Build a packaged `.app` without creating a DMG:
 pnpm package:mac:dir
 ```
 
+Build a ZIP artifact without creating a DMG:
+
+```bash
+pnpm package:mac:zip
+```
+
 Clean local packaging artifacts:
 
 ```bash
 pnpm package:clean
+```
+
+Run the private alpha verification sequence:
+
+```bash
+pnpm alpha:verify
+```
+
+Clean old local alpha app/user data before a fresh install test:
+
+```bash
+pnpm alpha:clean-install
 ```
 
 Optional packaging commands:
@@ -73,7 +91,8 @@ Private alpha release preparation lives in:
 
 - `docs/private-alpha.md`
 - `docs/known-issues.md`
-- `docs/release-notes/v0.6.0-alpha.1.md`
+- `docs/private-alpha-test-report.md`
+- `docs/release-notes/v0.6.0-alpha.2.md`
 
 ## Notes
 

@@ -10,10 +10,11 @@ import { cn } from "@/lib/cn";
 import type { OperationKind, OperationLogEntry } from "@/stores/history-store";
 import { useHistoryStore } from "@/stores/history-store";
 
-type HistoryFilter = "all" | OperationKind;
+type HistoryFilter = "all" | "failed" | OperationKind;
 
 const filters: Array<{ value: HistoryFilter; label: string }> = [
   { value: "all", label: "All" },
+  { value: "failed", label: "Failed" },
   { value: "install", label: "Installs" },
   { value: "uninstall", label: "Uninstalls" },
   { value: "upgrade", label: "Upgrades" },
@@ -32,7 +33,8 @@ export function HistoryPage() {
   const visibleEntries = useMemo(
     () =>
       entries.filter((entry) => {
-        if (filter !== "all" && entry.kind !== filter) return false;
+        if (filter === "failed" && entry.status !== "failed") return false;
+        if (filter !== "all" && filter !== "failed" && entry.kind !== filter) return false;
         const normalizedQuery = query.trim().toLowerCase();
         if (!normalizedQuery) return true;
 

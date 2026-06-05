@@ -1,5 +1,6 @@
 import { Activity, Archive, Download, Package, RefreshCw, Server } from "lucide-react";
 import type { BrewService, OutdatedPackage } from "@brewwery/shared-types";
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -12,6 +13,7 @@ import { cn } from "@/lib/cn";
 import { useUiStore } from "@/stores/ui-store";
 
 export function DashboardPage() {
+  const [lastRefreshed, setLastRefreshed] = useState<Date>();
   const { detection, error: systemError, loading: systemLoading, refresh: refreshSystem, system } = useSystem();
   const { error: formulaeError, loading: formulaeLoading, packages, refresh: refreshFormulae } = usePackages("formula");
   const { error: casksError, loading: casksLoading, packages: casks, refresh: refreshCasks } = usePackages("cask");
@@ -24,6 +26,7 @@ export function DashboardPage() {
   const runningServices = services.filter((service) => service.status === "started");
   const stoppedServices = services.filter((service) => service.status === "stopped");
   const errorServices = services.filter((service) => service.status === "error");
+  const previewServices = [...runningServices, ...services.filter((service) => service.status !== "started")].slice(0, 5);
   const formulaUpdates = updates.filter((item) => item.kind === "formula");
   const caskUpdates = updates.filter((item) => item.kind === "cask");
 
@@ -36,6 +39,7 @@ export function DashboardPage() {
 
   const refreshAll = async () => {
     await Promise.all([refreshSystem(), refreshFormulae(), refreshCasks(), refreshUpdates(), refreshServices()]);
+    setLastRefreshed(new Date());
   };
 
   return (
@@ -43,7 +47,10 @@ export function DashboardPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold tracking-normal">Dashboard</h1>
-          <p className="mt-1 text-sm text-muted-foreground">A quick read on this Mac's Homebrew installation.</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            A quick read on this Mac's Homebrew installation.
+            <span className="ml-2">{loadingSomething ? "Refreshing..." : formatLastRefreshed(lastRefreshed)}</span>
+          </p>
         </div>
         <Button variant="secondary" onClick={() => void refreshAll()} disabled={loadingSomething}>
           <RefreshCw className={cn("h-4 w-4", loadingSomething ? "animate-spin" : "")} />
@@ -108,17 +115,15 @@ export function DashboardPage() {
             </Button>
           </CardHeader>
           <CardContent className="space-y-3">
-            <MiniBars
-              items={[
-                { label: "Started", value: runningServices.length, className: "bg-emerald-400" },
-                { label: "Stopped", value: stoppedServices.length, className: "bg-white/30" },
-                { label: "Errors", value: errorServices.length, className: "bg-red-400" }
-              ]}
-            />
+            <div className="flex flex-wrap gap-2 text-xs">
+              <ServicePill label="Started" value={runningServices.length} tone="started" />
+              <ServicePill label="Stopped" value={stoppedServices.length} tone="stopped" />
+              <ServicePill label="Errors" value={errorServices.length} tone="error" />
+            </div>
             {servicesError ? <InlineError message="Failed to load services" /> : null}
             {!servicesError && !servicesLoading && services.length === 0 ? <EmptyLine text="No Homebrew services found" /> : null}
             {servicesLoading && services.length === 0 ? <SkeletonRows count={4} /> : null}
-            {services.slice(0, 5).map((service) => (
+            {previewServices.map((service) => (
               <ServiceRow key={service.name} service={service} />
             ))}
           </CardContent>
@@ -170,6 +175,10 @@ export function DashboardPage() {
   );
 }
 
+function formatLastRefreshed(value?: Date) {
+  return value ? `Last refreshed ${value.toLocaleTimeString()}` : "Live data ready";
+}
+
 function StatusDot({ tone }: { tone: "success" | "error" | "loading" | "neutral" }) {
   return (
     <span
@@ -203,7 +212,7 @@ function MiniBars({ items }: { items: Array<{ label: string; value: number; clas
 
 function ServiceRow({ service }: { service: BrewService }) {
   return (
-    <div className="flex items-center gap-3 rounded-md border border-border bg-background/45 p-3">
+    <div className="flex items-center gap-3 rounded-md border border-border bg-background/45 px-3 py-2.5">
       <Server className="h-4 w-4 text-muted-foreground" />
       <div className="min-w-0 flex-1">
         <div className="truncate text-sm font-medium">{service.name}</div>
@@ -211,6 +220,22 @@ function ServiceRow({ service }: { service: BrewService }) {
       </div>
       <ServiceBadge status={service.status} />
     </div>
+  );
+}
+
+function ServicePill({ label, tone, value }: { label: string; tone: "started" | "stopped" | "error"; value: number }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-2 rounded-full border px-2.5 py-1",
+        tone === "started" ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-300" : "",
+        tone === "stopped" ? "border-white/10 bg-white/5 text-muted-foreground" : "",
+        tone === "error" ? "border-red-500/20 bg-red-500/10 text-red-300" : ""
+      )}
+    >
+      {label}
+      <span className="font-medium text-foreground">{value}</span>
+    </span>
   );
 }
 

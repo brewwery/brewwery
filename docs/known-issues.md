@@ -2,7 +2,7 @@
 
 Known issues for the current private alpha.
 
-## v0.6.0-alpha.1
+## v0.6.0-alpha.2
 
 - Builds are unsigned and not notarized. macOS Gatekeeper may warn before launch.
 - Apple Silicon is the primary tested architecture.
