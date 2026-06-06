@@ -2,6 +2,31 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.7.0-beta.1 - Private Beta
+
+Status: complete.
+
+### Added
+
+- Version bump to `0.7.0-beta.1` across workspace packages, Rust crate metadata, and renderer About version.
+- Private beta release notes draft.
+- Private beta guide and test report template.
+- `pnpm beta:verify` as the private beta verification command.
+
+### Improved
+
+- History storage trims very large stdout/stderr/details payloads to keep localStorage and rendering responsive.
+- History page renders entries in batches with a Show more control.
+- History raw output previews are capped while the Copy action still copies stored details.
+- Live progress output trims oversized chunks and keeps only the latest progress lines.
+- Operation progress details show a compact target, operation id, package count, and progress strip.
+- Error states now show friendly user-facing messages with expandable technical details.
+- Packaged app excludes Rust source and `target/` build output while keeping the native `.node` binding unpacked.
+
+### Verification
+
+- Private beta is intended to verify `.app` and ZIP locally, with DMG creation delegated to GitHub Actions if local `hdiutil` fails.
+
 ## v0.6.0-alpha.2 - Private Alpha Polish
 
 Status: complete.

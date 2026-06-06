@@ -48,11 +48,11 @@ Package and cask identifiers accepted by install/uninstall are limited to ASCII 
 
 Streaming progress operations still use fixed argv arrays and `shell: false`; the renderer receives progress events only and cannot provide arbitrary commands.
 
-The v0.6.0-alpha.2 Settings page can save a custom Homebrew path only after Rust validates that it is an absolute executable file and can run `brew --version`. The saved path is stored locally in Electron `userData` settings and is applied to both the Rust runner and streaming progress runner before falling back to default Homebrew detection paths.
+The v0.7.0-beta.1 Settings page can save a custom Homebrew path only after Rust validates that it is an absolute executable file and can run `brew --version`. The saved path is stored locally in Electron `userData` settings and is applied to both the Rust runner and streaming progress runner before falling back to default Homebrew detection paths.
 
-Private alpha security review coverage is tracked in `docs/alpha-checklist.md`.
+Private beta security review coverage is tracked in `docs/private-beta-test-report.md`.
 
-Operation history is stored locally in renderer `localStorage`. It is not sent to any server, synced, or used for telemetry. Users can search it, export it as JSON from the renderer, or clear it from the History page.
+Operation history is stored locally in renderer `localStorage`. It is not sent to any server, synced, or used for telemetry. Users can search it, export it as JSON from the renderer, or clear it from the History page. Large stdout/stderr/details are trimmed before storage to keep the app responsive.
 
 Settings diagnostics are copied to the clipboard only after explicit user action. They contain app/Homebrew metadata and local counts, not package history output.
 

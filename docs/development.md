@@ -64,10 +64,10 @@ Clean local packaging artifacts:
 pnpm package:clean
 ```
 
-Run the private alpha verification sequence:
+Run the private beta verification sequence:
 
 ```bash
-pnpm alpha:verify
+pnpm beta:verify
 ```
 
 Clean old local alpha app/user data before a fresh install test:
@@ -83,16 +83,16 @@ pnpm package:mac:x64
 pnpm package:mac:universal
 ```
 
-Current alpha builds are unsigned and not notarized. macOS may show a Gatekeeper warning for downloaded builds.
+Current beta builds are unsigned and not notarized. macOS may show a Gatekeeper warning for downloaded builds.
 
-Before publishing an alpha build, run through `docs/alpha-checklist.md`.
+Before publishing a beta build, run through `docs/private-beta-test-report.md`.
 
-Private alpha release preparation lives in:
+Private beta release preparation lives in:
 
-- `docs/private-alpha.md`
+- `docs/private-beta.md`
 - `docs/known-issues.md`
-- `docs/private-alpha-test-report.md`
-- `docs/release-notes/v0.6.0-alpha.2.md`
+- `docs/private-beta-test-report.md`
+- `docs/release-notes/v0.7.0-beta.1.md`
 
 ## Notes
 

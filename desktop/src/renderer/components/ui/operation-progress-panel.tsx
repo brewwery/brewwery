@@ -1,6 +1,7 @@
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import type { OperationProgressState } from "@/hooks/use-progress-operation";
 import { cn } from "@/lib/cn";
+import { friendlyErrorMessage } from "@/lib/errors";
 import { Button } from "./button";
 import { Card, CardContent } from "./card";
 
@@ -77,7 +78,7 @@ export function OperationProgressPanel({ progress, onClear }: OperationProgressP
           )}
         </div>
 
-        {progress.error ? <div className="text-sm text-red-300">{progress.error.message}</div> : null}
+        {progress.error ? <div className="text-sm text-red-300">{friendlyErrorMessage(progress.error)}</div> : null}
       </CardContent>
     </Card>
   );

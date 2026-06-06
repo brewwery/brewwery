@@ -31,26 +31,28 @@ interface HistoryState {
 }
 
 const maxEntries = 100;
+const maxOutputChars = 20_000;
 
 export const useHistoryStore = create<HistoryState>()(
   persist(
     (set) => ({
       entries: [],
       addEntry: (entry) => {
+        const safeEntry = compactEntry(entry);
         set((state) => ({
           entries: [
             {
               id: createId(),
-              timestamp: entry.timestamp ?? new Date().toISOString(),
-              ...entry
+              timestamp: safeEntry.timestamp ?? new Date().toISOString(),
+              ...safeEntry
             },
             ...state.entries
           ].slice(0, maxEntries)
         }));
         useToastStore.getState().showToast({
-          tone: entry.status === "success" ? "success" : "error",
-          title: entry.title,
-          description: entry.command
+          tone: safeEntry.status === "success" ? "success" : "error",
+          title: safeEntry.title,
+          description: safeEntry.command
         });
       },
       clearEntries: () => set({ entries: [] })
@@ -68,4 +70,26 @@ function createId() {
   }
 
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function compactEntry(entry: OperationLogInput): OperationLogInput {
+  return {
+    ...entry,
+    stdout: compactOutput(entry.stdout),
+    stderr: compactOutput(entry.stderr),
+    details: compactOutput(entry.details),
+    error: entry.error
+      ? {
+          ...entry.error,
+          raw: compactOutput(entry.error.raw)
+        }
+      : undefined
+  };
+}
+
+function compactOutput(value?: string) {
+  if (!value || value.length <= maxOutputChars) return value;
+  const head = value.slice(0, Math.floor(maxOutputChars * 0.65));
+  const tail = value.slice(-Math.floor(maxOutputChars * 0.25));
+  return `${head}\n\n[Brewwery trimmed ${value.length - head.length - tail.length} characters to keep History fast.]\n\n${tail}`;
 }

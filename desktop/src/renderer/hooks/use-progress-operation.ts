@@ -85,7 +85,7 @@ function reduceProgress(current: OperationProgressState | undefined, event: Prog
       ...base,
       stdout: event.type === "stdout" ? base.stdout + chunk : base.stdout,
       stderr: event.type === "stderr" ? base.stderr + chunk : base.stderr,
-      lines: [...base.lines, { stream: event.type, text: chunk, timestamp: event.timestamp }].slice(-80)
+      lines: [...base.lines, { stream: event.type, text: compactChunk(chunk), timestamp: event.timestamp }].slice(-80)
     };
   }
 
@@ -109,4 +109,10 @@ function reduceProgress(current: OperationProgressState | undefined, event: Prog
   }
 
   return base;
+}
+
+function compactChunk(chunk: string) {
+  const max = 4_000;
+  if (chunk.length <= max) return chunk;
+  return `${chunk.slice(0, max)}\n[Brewwery trimmed ${chunk.length - max} characters from this live output chunk.]`;
 }

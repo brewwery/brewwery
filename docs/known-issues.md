@@ -1,8 +1,8 @@
 # Known Issues
 
-Known issues for the current private alpha.
+Known issues for the current private beta.
 
-## v0.6.0-alpha.2
+## v0.7.0-beta.1
 
 - Builds are unsigned and not notarized. macOS Gatekeeper may warn before launch.
 - Apple Silicon is the primary tested architecture.
@@ -17,3 +17,4 @@ Known issues for the current private alpha.
 - No cloud sync is included.
 - No paid/pro features are included.
 - Builds are not auto-updated yet.
+- History stores trimmed output for very large operation logs to keep the app responsive.

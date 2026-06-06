@@ -29,6 +29,7 @@ export function HistoryPage() {
   const clearEntries = useHistoryStore((state) => state.clearEntries);
   const [filter, setFilter] = useState<HistoryFilter>("all");
   const [query, setQuery] = useState("");
+  const [visibleLimit, setVisibleLimit] = useState(40);
 
   const visibleEntries = useMemo(
     () =>
@@ -55,6 +56,7 @@ export function HistoryPage() {
 
   const successCount = entries.filter((entry) => entry.status === "success").length;
   const failedCount = entries.length - successCount;
+  const displayedEntries = visibleEntries.slice(0, visibleLimit);
 
   return (
     <section className="space-y-5">
@@ -100,9 +102,14 @@ export function HistoryPage() {
 
       {visibleEntries.length > 0 ? (
         <div className="space-y-3">
-          {visibleEntries.map((entry) => (
+          {displayedEntries.map((entry) => (
             <OperationCard key={entry.id} entry={entry} />
           ))}
+          {visibleEntries.length > displayedEntries.length ? (
+            <Button variant="secondary" className="w-full" onClick={() => setVisibleLimit((value) => value + 40)}>
+              Show {Math.min(40, visibleEntries.length - displayedEntries.length)} more
+            </Button>
+          ) : null}
         </div>
       ) : null}
     </section>
@@ -122,6 +129,7 @@ function SummaryCard({ label, value }: { label: string; value: number }) {
 
 function OperationCard({ entry }: { entry: OperationLogEntry }) {
   const output = [entry.details, entry.stdout, entry.stderr, entry.error?.raw].filter(Boolean).join("\n\n");
+  const preview = outputPreview(output);
 
   return (
     <Card>
@@ -160,14 +168,20 @@ function OperationCard({ entry }: { entry: OperationLogEntry }) {
         {output ? (
           <details className="mt-4">
             <summary className="cursor-pointer text-xs font-medium text-accent">Show output details</summary>
-            <pre className="mt-2 max-h-80 overflow-auto rounded-md border border-border bg-black/20 p-3 text-xs leading-5 text-muted-foreground">
-              {output}
+            <pre className="mt-2 max-h-72 overflow-auto rounded-md border border-border bg-black/20 p-3 text-xs leading-5 text-muted-foreground">
+              {preview}
             </pre>
           </details>
         ) : null}
       </CardContent>
     </Card>
   );
+}
+
+function outputPreview(output: string) {
+  const max = 8_000;
+  if (output.length <= max) return output;
+  return `${output.slice(0, max)}\n\n[Preview trimmed. Use Copy to copy the stored details.]`;
 }
 
 function StatusBadge({ status }: { status: OperationLogEntry["status"] }) {

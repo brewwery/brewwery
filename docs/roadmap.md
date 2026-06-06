@@ -175,6 +175,22 @@ Status: complete.
 - Private alpha test report template
 - v0.6.0-alpha.2 release notes draft
 
+## v0.7.0-beta.1 Private Beta
+
+Status: complete.
+
+- Version bump to `0.7.0-beta.1`
+- Private beta release notes draft
+- Private beta test report template
+- README status updated for private beta
+- History render batching for large local operation logs
+- History and progress output trimming for large brew stdout/stderr
+- Friendly error messages with expandable technical details
+- Packaged app native-core cleanup to keep artifacts smaller
+- Local `.app` and ZIP verification path
+- DMG delegated to GitHub Actions when local `hdiutil` fails
+- Final private beta security checklist
+
 ## Later
 
 - Signed and notarized macOS builds

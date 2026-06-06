@@ -1,6 +1,6 @@
 {
   "name": "brewwery",
-  "version": "0.6.0-alpha.2",
+  "version": "0.7.0-beta.1",
   "private": true,
   "description": "A clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles.",
   "author": "Made Büro",
@@ -16,7 +16,8 @@
     "package:mac:zip": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac:zip",
     "package:mac:x64": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac:x64",
     "package:mac:universal": "pnpm --filter @brewwery/shared-types build && pnpm --filter @brewwery/brewwery-core build && pnpm --filter @brewwery/desktop package:mac:universal",
-    "alpha:verify": "pnpm typecheck && pnpm lint && cargo test --manifest-path crates/brewwery-core/Cargo.toml && pnpm --filter @brewwery/desktop build && pnpm package:mac:dir",
+    "beta:verify": "pnpm typecheck && pnpm lint && cargo test --manifest-path crates/brewwery-core/Cargo.toml && pnpm --filter @brewwery/desktop build && pnpm package:mac:dir",
+    "alpha:verify": "pnpm beta:verify",
     "alpha:clean-install": "node scripts/alpha-clean-install.mjs",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint"

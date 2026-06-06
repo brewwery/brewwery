@@ -3,6 +3,7 @@ import { AlertTriangle, Beer, Loader2, PackageOpen } from "lucide-react";
 import type { IpcError } from "@brewwery/shared-types";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
+import { errorDetails, friendlyErrorMessage } from "@/lib/errors";
 
 interface StatePanelProps {
   title: string;
@@ -25,10 +26,16 @@ export function StatePanel({ title, description, kind = "empty" }: StatePanelPro
 }
 
 export function ErrorDescription({ error }: { error: IpcError }) {
+  const details = errorDetails(error);
+
   return (
     <>
-      <div>{error.message}</div>
-      <div className="mt-2 font-mono text-xs text-amber-300">{error.code}</div>
+      <div>{friendlyErrorMessage(error)}</div>
+      <details className="mt-2">
+        <summary className="cursor-pointer text-xs font-medium text-accent">Show details</summary>
+        <div className="mt-2 font-mono text-xs text-amber-300">{error.code}</div>
+        {details ? <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded-md border border-border bg-black/20 p-2 text-left text-xs text-muted-foreground">{details}</pre> : null}
+      </details>
     </>
   );
 }
