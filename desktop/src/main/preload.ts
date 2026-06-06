@@ -24,6 +24,7 @@ const api: BrewweryApi = {
   },
   updates: {
     list: () => ipcRenderer.invoke("updates:list"),
+    updateMetadata: () => ipcRenderer.invoke("updates:updateMetadata"),
     upgradePackage: (request) => ipcRenderer.invoke("updates:upgradePackage", request),
     upgradeAll: () => ipcRenderer.invoke("updates:upgradeAll"),
     upgradePackageWithProgress: (request) => ipcRenderer.invoke("updates:upgradePackageProgress", request),

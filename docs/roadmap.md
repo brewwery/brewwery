@@ -205,6 +205,24 @@ Status: complete.
 - Local DMG `hdiutil create ... -fs APFS` issue documented
 - GitHub Actions remains the clean-runner DMG path
 
+## v0.7.2-beta.3 Beta QA Fixes
+
+Status: complete.
+
+- Version bump to `0.7.2-beta.3`
+- Search installed state is reconciled from installed formulae/casks
+- Formulae compare by `formula.name`
+- Casks compare by `cask.token`
+- Installed matching is case-insensitive
+- Package detail drawer respects corrected installed state
+- Invalid discovery search queries do not run `brew search`
+- Cyrillic search input shows a friendly local state
+- Stale search responses are ignored
+- Search input remains responsive during long Homebrew searches
+- Rust search validation uses the renderer allowlist
+- Updates page includes explicit `Check for updates` action with confirmation
+- The action runs `brew update`, logs to History, and reloads outdated package counts
+
 ## Later
 
 - Signed and notarized macOS builds

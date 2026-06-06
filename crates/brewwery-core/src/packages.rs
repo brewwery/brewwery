@@ -492,10 +492,7 @@ fn validate_search_query(query: &str) -> napi::Result<()> {
     if !query.trim().is_empty()
         && query.len() <= 80
         && query.chars().all(|character| {
-            !matches!(
-                character,
-                ';' | '&' | '|' | '`' | '$' | '>' | '<' | '\n' | '\r'
-            )
+            character.is_ascii_alphanumeric() || matches!(character, '@' | '-' | '_' | '.' | '+')
         })
     {
         return Ok(());

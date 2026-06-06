@@ -31,6 +31,13 @@ pub struct UpgradeResult {
     pub stderr: Option<String>,
 }
 
+#[napi(object)]
+pub struct BrewUpdateResult {
+    pub success: bool,
+    pub stdout: Option<String>,
+    pub stderr: Option<String>,
+}
+
 #[derive(Deserialize)]
 struct OutdatedPayload {
     #[serde(default)]
@@ -54,6 +61,18 @@ pub fn list_outdated() -> napi::Result<Vec<OutdatedPackage>> {
     let output = run_brew(&["outdated", "--json=v2"])
         .map_err(|error| napi::Error::from_reason(error.to_string()))?;
     parse_outdated_inner(&output).map_err(|error| napi::Error::from_reason(error.to_string()))
+}
+
+#[napi]
+pub fn update_homebrew_metadata() -> napi::Result<BrewUpdateResult> {
+    let output = run_brew_output(&["update"])
+        .map_err(|error| napi::Error::from_reason(error.to_string()))?;
+
+    Ok(BrewUpdateResult {
+        success: true,
+        stdout: (!output.stdout.is_empty()).then_some(output.stdout),
+        stderr: (!output.stderr.is_empty()).then_some(output.stderr),
+    })
 }
 
 #[napi]

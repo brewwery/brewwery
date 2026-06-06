@@ -19,10 +19,11 @@ type PendingAction = { action: "install" | "uninstall"; request: PackageActionRe
 export function SearchPage() {
   const query = useUiStore((state) => state.searchQuery);
   const setQuery = useUiStore((state) => state.setSearchQuery);
-  const { debouncedQuery, error, loading, results } = usePackageDiscovery(query);
+  const { debouncedQuery, error, hydrateInfo, installedLoaded, invalidQuery, loading, results } = usePackageDiscovery(query);
   const { clearInfo, error: infoError, info, loadInfo, loading: infoLoading } = usePackageInfo();
   const { clearProgress, error: actionError, install, loading: actionLoading, progress, uninstall } = usePackageActions();
   const [pendingAction, setPendingAction] = useState<PendingAction | undefined>();
+  const detailInfo = hydrateInfo(info);
 
   const openResult = async (result: PackageSearchResult) => {
     await loadInfo({ name: result.name, kind: result.kind });
@@ -54,18 +55,24 @@ export function SearchPage() {
       </div>
 
       {loading ? <StatePanel kind="loading" title="Searching Homebrew..." /> : null}
+      {!loading && invalidQuery ? (
+        <StatePanel
+          title="Use Latin characters to search Homebrew packages"
+          description="Homebrew package search supports letters, numbers, @, -, _, ., and +."
+        />
+      ) : null}
       {!loading && visibleError?.code === "HOMEBREW_NOT_FOUND" ? <HomebrewNotFound /> : null}
-      {!loading && visibleError && visibleError.code !== "HOMEBREW_NOT_FOUND" ? (
+      {!loading && !invalidQuery && visibleError && visibleError.code !== "HOMEBREW_NOT_FOUND" ? (
         <StatePanel kind="error" title="Failed to search packages" description={<ErrorDescription error={visibleError} />} />
       ) : null}
       {!loading && !visibleError && !debouncedQuery ? (
         <StatePanel title="Search Homebrew packages" description="Type a package or app name to search formulae and casks." />
       ) : null}
-      {!loading && !visibleError && debouncedQuery && results.length === 0 ? <StatePanel title="No packages found" /> : null}
+      {!loading && !invalidQuery && !visibleError && debouncedQuery && results.length === 0 ? <StatePanel title="No packages found" /> : null}
 
       <OperationProgressPanel progress={progress} onClear={clearProgress} />
 
-      {!loading && !visibleError && results.length > 0 ? (
+      {!loading && !invalidQuery && !visibleError && results.length > 0 ? (
         <Card className="overflow-hidden">
           <Table>
             <thead>
@@ -85,7 +92,9 @@ export function SearchPage() {
                       {result.kind}
                     </Badge>
                   </Td>
-                  <Td className="text-muted-foreground">{result.installed ? "Installed" : "Available"}</Td>
+                  <Td className="text-muted-foreground">
+                    {!installedLoaded ? "Checking..." : result.installed ? "Installed" : "Available"}
+                  </Td>
                   <Td className="text-right">
                     <Button
                       variant="ghost"
@@ -108,7 +117,7 @@ export function SearchPage() {
       ) : null}
 
       <PackageDetailDrawer
-        detail={info ? { kind: "info", item: info } : undefined}
+        detail={detailInfo ? { kind: "info", item: detailInfo } : undefined}
         actionLoading={actionLoading || infoLoading}
         onClose={clearInfo}
         onInstall={(request) => setPendingAction({ action: "install", request })}

@@ -2,6 +2,20 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.7.2-beta.3 - Beta QA Fixes
+
+### Fixed
+
+- Search results now compute installed state from installed formula names and cask tokens instead of trusting lightweight `brew search` rows.
+- Search status matching is case-insensitive and uses `formula.name` for formulae and `cask.token` for casks.
+- Package detail drawer now respects the corrected installed state for discovered packages.
+- Invalid discovery search queries no longer trigger `brew search`; Cyrillic and non-allowlisted input shows a friendly local state.
+- Stale search results are ignored so older Homebrew responses cannot overwrite newer queries.
+- Search input remains controlled and responsive while Homebrew search is running.
+- Rust search query validation now uses the same allowlisted ASCII package-name characters as the renderer guard.
+- Updates page now has an explicit `Check for updates` action for `brew update`, followed by an outdated package refresh.
+- Homebrew metadata updates require confirmation and are logged in History.
+
 ## v0.7.1-beta.2 - Beta Fixes
 
 ### Added

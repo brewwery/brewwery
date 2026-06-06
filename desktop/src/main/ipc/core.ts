@@ -1,5 +1,6 @@
 import type {
   BrewDetectionResult,
+  BrewUpdateResult,
   BrewfileExportResult,
   BrewfileReadResult,
   BrewInfo,
@@ -38,6 +39,7 @@ interface NativeBrewweryCore {
   uninstallFormula(name: string): PackageActionResult;
   uninstallCask(name: string): PackageActionResult;
   listOutdated(): OutdatedPackage[];
+  updateHomebrewMetadata(): BrewUpdateResult;
   upgradePackage(request: UpgradeRequest): UpgradeResult;
   upgradeAll(): UpgradeResult;
   listServices(): BrewService[];

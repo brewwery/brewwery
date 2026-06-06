@@ -24,3 +24,9 @@ export interface UpgradeResult {
   stdout?: string;
   stderr?: string;
 }
+
+export interface BrewUpdateResult {
+  success: boolean;
+  stdout?: string;
+  stderr?: string;
+}

@@ -35,6 +35,7 @@ const browserFallbackApi: BrewweryApi = {
   },
   updates: {
     list: () => unsupported(),
+    updateMetadata: () => unsupported(),
     upgradePackage: () => unsupported(),
     upgradeAll: () => unsupported(),
     upgradePackageWithProgress: () => unsupported(),

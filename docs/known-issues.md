@@ -2,7 +2,7 @@
 
 Known issues for the current private beta.
 
-## v0.7.1-beta.2
+## v0.7.2-beta.3
 
 - Builds are unsigned and not notarized. macOS Gatekeeper may warn before launch.
 - Apple Silicon is the primary tested architecture.
@@ -11,6 +11,7 @@ Known issues for the current private beta.
 - Long-running Homebrew operations depend on Homebrew stdout/stderr output. Some commands may appear quiet until Homebrew emits output.
 - Cleanup and service actions currently show final operation output rather than live streaming progress.
 - Tapped formula names containing `/` are rejected by the strict v0.4 package-name validator.
+- Discovery search accepts only ASCII Homebrew package-name characters.
 - Package path and Open Terminal shortcuts from package detail are placeholders.
 - Custom Homebrew path validation requires an absolute executable path that can run `brew --version`.
 - No telemetry or crash reporting is included by design.

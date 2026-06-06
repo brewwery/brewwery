@@ -1,4 +1,4 @@
-import { Download, RefreshCw } from "lucide-react";
+import { Download, RefreshCw, RotateCw } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { OutdatedPackage, UpgradeRequest } from "@brewwery/shared-types";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,7 @@ import { Table, Td, Th } from "@/components/ui/table";
 import { useUpdates } from "@/hooks/use-updates";
 
 type PendingUpgrade = { type: "one"; package: OutdatedPackage } | { type: "all" };
+type PendingMetadataUpdate = { type: "metadata" };
 
 export function UpdatesPage() {
   const {
@@ -22,10 +23,12 @@ export function UpdatesPage() {
     lastChecked,
     progress,
     refresh,
+    updateMetadata,
     upgradePackage,
     upgradeAll
   } = useUpdates();
   const [pendingUpgrade, setPendingUpgrade] = useState<PendingUpgrade | undefined>();
+  const [pendingMetadataUpdate, setPendingMetadataUpdate] = useState<PendingMetadataUpdate | undefined>();
 
   const formulaeCount = useMemo(() => updates.filter((item) => item.kind === "formula").length, [updates]);
   const casksCount = updates.length - formulaeCount;
@@ -47,6 +50,12 @@ export function UpdatesPage() {
     }
   };
 
+  const confirmMetadataUpdate = async () => {
+    if (!pendingMetadataUpdate) return;
+    setPendingMetadataUpdate(undefined);
+    await updateMetadata();
+  };
+
   return (
     <section className="space-y-5">
       <div className="flex items-center justify-between">
@@ -59,7 +68,11 @@ export function UpdatesPage() {
         <div className="flex items-center gap-2">
           <Button variant="secondary" onClick={() => void refresh()} disabled={loading || actionLoading}>
             <RefreshCw className="h-4 w-4" />
-            Refresh
+            Refresh list
+          </Button>
+          <Button variant="secondary" onClick={() => setPendingMetadataUpdate({ type: "metadata" })} disabled={loading || actionLoading}>
+            <RotateCw className="h-4 w-4" />
+            Check for updates
           </Button>
           <Button variant="primary" onClick={() => setPendingUpgrade({ type: "all" })} disabled={loading || actionLoading || updates.length === 0}>
             <Download className="h-4 w-4" />
@@ -152,6 +165,21 @@ export function UpdatesPage() {
         loading={actionLoading}
         onCancel={() => setPendingUpgrade(undefined)}
         onConfirm={() => void confirmUpgrade()}
+      />
+
+      <ConfirmationDialog
+        open={Boolean(pendingMetadataUpdate)}
+        title="Check for Homebrew updates?"
+        description={
+          <>
+            Brewwery will run <span className="font-mono text-foreground">brew update</span>, then refresh outdated packages. This may use the network
+            and can take a little while.
+          </>
+        }
+        confirmLabel="Check for updates"
+        loading={actionLoading}
+        onCancel={() => setPendingMetadataUpdate(undefined)}
+        onConfirm={() => void confirmMetadataUpdate()}
       />
     </section>
   );

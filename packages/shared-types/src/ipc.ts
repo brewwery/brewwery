@@ -4,7 +4,7 @@ import type { Cask, Formula, PackageActionRequest, PackageActionResult, PackageI
 import type { DoctorResult } from "./doctor";
 import type { BrewService, ServiceActionRequest, ServiceActionResult } from "./service";
 import type { BrewDetectionResult, BrewInfo, BrewPathValidationResult } from "./system";
-import type { OutdatedPackage, UpgradeRequest, UpgradeResult } from "./update";
+import type { BrewUpdateResult, OutdatedPackage, UpgradeRequest, UpgradeResult } from "./update";
 
 export type ProgressOperationKind = "install" | "uninstall" | "upgrade";
 export type ProgressEventType = "started" | "stdout" | "stderr" | "completed" | "failed";
@@ -40,6 +40,7 @@ export type IpcErrorCode =
   | "UNSUPPORTED_PLATFORM"
   | "SERVICE_COMMAND_FAILED"
   | "UPDATES_PARSE_FAILED"
+  | "BREW_UPDATE_FAILED"
   | "INVALID_PACKAGE_NAME"
   | "INVALID_CASK_TOKEN"
   | "PACKAGE_SEARCH_FAILED"
@@ -90,6 +91,7 @@ export interface BrewweryApi {
   };
   updates: {
     list(): Promise<IpcResponse<OutdatedPackage[]>>;
+    updateMetadata(): Promise<IpcResponse<BrewUpdateResult>>;
     upgradePackage(request: UpgradeRequest): Promise<IpcResponse<UpgradeResult>>;
     upgradeAll(): Promise<IpcResponse<UpgradeResult>>;
     upgradePackageWithProgress(request: UpgradeRequest): Promise<IpcResponse<ProgressOperationStart>>;
@@ -136,6 +138,7 @@ export type IpcChannel =
   | "packages:installProgress"
   | "packages:uninstallProgress"
   | "updates:list"
+  | "updates:updateMetadata"
   | "updates:upgradePackage"
   | "updates:upgradeAll"
   | "updates:upgradePackageProgress"

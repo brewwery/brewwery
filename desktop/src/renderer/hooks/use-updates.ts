@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import type { IpcError, OutdatedPackage, UpgradeRequest, UpgradeResult } from "@brewwery/shared-types";
+import type { BrewUpdateResult, IpcError, OutdatedPackage, UpgradeRequest, UpgradeResult } from "@brewwery/shared-types";
 import { api } from "@/lib/api";
 import { useHistoryStore } from "@/stores/history-store";
 import { useProgressOperation } from "./use-progress-operation";
@@ -34,6 +34,59 @@ export function useUpdates() {
       setLoading(false);
     }
   }, []);
+
+  const updateMetadata = useCallback(async (): Promise<BrewUpdateResult | undefined> => {
+    setActionLoading(true);
+    setError(undefined);
+
+    try {
+      const response = await api.updates.updateMetadata();
+      if (response.ok) {
+        const result = response.data;
+        useHistoryStore.getState().addEntry({
+          kind: "brew_update",
+          status: "success",
+          title: "Updated Homebrew metadata",
+          command: "brew update",
+          stdout: result?.stdout,
+          stderr: result?.stderr
+        });
+        await refresh();
+        return result;
+      }
+
+      if (response.error) {
+        useHistoryStore.getState().addEntry({
+          kind: "brew_update",
+          status: "failed",
+          title: "Failed to update Homebrew metadata",
+          command: "brew update",
+          error: response.error,
+          stderr: response.error.raw
+        });
+      }
+      setError(response.error);
+    } catch (caught: unknown) {
+      const actionError = {
+        code: "UNKNOWN_ERROR",
+        message: caught instanceof Error ? caught.message : "Unable to update Homebrew metadata.",
+        raw: String(caught)
+      } satisfies IpcError;
+      useHistoryStore.getState().addEntry({
+        kind: "brew_update",
+        status: "failed",
+        title: "Failed to update Homebrew metadata",
+        command: "brew update",
+        error: actionError,
+        stderr: actionError.raw
+      });
+      setError(actionError);
+    } finally {
+      setActionLoading(false);
+    }
+
+    return undefined;
+  }, [refresh]);
 
   const upgradePackage = useCallback(
     async (request: UpgradeRequest): Promise<UpgradeResult | undefined> => {
@@ -183,6 +236,7 @@ export function useUpdates() {
     progress: progressOperation.progress,
     clearProgress: progressOperation.clear,
     refresh,
+    updateMetadata,
     upgradePackage,
     upgradeAll
   };

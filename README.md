@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.7.1-beta.2 Private Beta / packaged-app verification.
+Current status: v0.7.2-beta.3 Private Beta / Search QA fixes.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -24,6 +24,8 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - Review local operation history with timestamps and output details.
 - Search operation history, export it as JSON, and see compact result toasts after operations.
 - Search Homebrew formulae and casks through a dedicated discovery page.
+- Show correct installed/available state in discovery search results.
+- Guard discovery search so non-Homebrew package-name input does not run `brew search`.
 - Inspect discovered package metadata, including homepage, latest version, dependencies, caveats, and install command.
 - Install and uninstall formulae/casks after explicit confirmation, with operation history and result toasts.
 - Stream progress output for install, uninstall, and upgrade operations.
@@ -48,6 +50,7 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - `brew list --formula --json=v2`
 - `brew list --cask --json=v2`
 - `brew outdated --json=v2`
+- `brew update`
 - `brew upgrade <formula>`
 - `brew upgrade --cask <cask>`
 - `brew upgrade`
@@ -180,7 +183,7 @@ Private beta docs:
 
 - [Private beta guide](docs/private-beta.md)
 - [Known issues](docs/known-issues.md)
-- [Release notes draft](docs/release-notes/v0.7.1-beta.2.md)
+- [Release notes draft](docs/release-notes/v0.7.2-beta.3.md)
 
 ## Uninstall Local Alpha
 
@@ -195,7 +198,7 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.7.1-beta.2 are limited to package install/uninstall, package upgrades, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.7.2-beta.3 are limited to package install/uninstall, package upgrades, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, or monetization logic is included.
 
@@ -207,7 +210,8 @@ No authentication, telemetry, cloud sync, or monetization logic is included.
 - Apple Silicon is the primary tested architecture for the private beta.
 - No sudo or arbitrary shell command is implemented.
 - Tapped formula names containing `/` are rejected by the strict v0.4 package-name validator.
-- Search result rows show lightweight data first; full metadata loads when a package detail is opened.
+- Search result rows show lightweight data first; installed state is reconciled from local formulae/casks and full metadata loads when a package detail is opened.
+- Updates are based on local Homebrew metadata. Use `Check for updates` on the Updates page to run `brew update`, then refresh outdated package counts.
 - Progress output is shown for package install/uninstall/upgrade, but cleanup/service progress still uses final operation output.
 - Package path and Terminal shortcuts are placeholders.
 - Formula/cask descriptions depend on the JSON shape returned by the installed Homebrew version.

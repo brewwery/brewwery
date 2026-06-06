@@ -47,6 +47,12 @@ export interface BrewService {
   command?: string
 }
 
+export interface BrewUpdateResult {
+  success: boolean
+  stdout?: string
+  stderr?: string
+}
+
 export interface Cask {
   token: string
   name?: Array<string>
@@ -213,6 +219,8 @@ export declare function stopService(request: ServiceActionRequest): ServiceActio
 export declare function uninstallCask(token: string): PackageActionResult
 
 export declare function uninstallFormula(name: string): PackageActionResult
+
+export declare function updateHomebrewMetadata(): BrewUpdateResult
 
 export declare function upgradeAll(): UpgradeResult
 

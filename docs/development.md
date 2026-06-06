@@ -92,7 +92,7 @@ Private beta release preparation lives in:
 - `docs/private-beta.md`
 - `docs/known-issues.md`
 - `docs/private-beta-test-report.md`
-- `docs/release-notes/v0.7.1-beta.2.md`
+- `docs/release-notes/v0.7.2-beta.3.md`
 
 ## Notes
 

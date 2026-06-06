@@ -34,5 +34,6 @@ pub use system::{
     detect_homebrew, get_brew_info, set_custom_brew_path, validate_brew_path,
 };
 pub use updates::{
-    OutdatedPackage, UpgradeRequest, UpgradeResult, list_outdated, upgrade_all, upgrade_package,
+    BrewUpdateResult, OutdatedPackage, UpgradeRequest, UpgradeResult, list_outdated,
+    update_homebrew_metadata, upgrade_all, upgrade_package,
 };
