@@ -191,6 +191,20 @@ Status: complete.
 - DMG delegated to GitHub Actions when local `hdiutil` fails
 - Final private beta security checklist
 
+## v0.7.1-beta.2 Beta Fixes
+
+Status: complete.
+
+- Version bump to `0.7.1-beta.2`
+- Private beta release notes for beta.2
+- Private beta guide and test report restored/updated
+- `pnpm beta:clean-install` helper alias
+- Local `.app` and ZIP rebuild
+- ZIP integrity verification
+- Bundle version and bundle identifier verification
+- Local DMG `hdiutil create ... -fs APFS` issue documented
+- GitHub Actions remains the clean-runner DMG path
+
 ## Later
 
 - Signed and notarized macOS builds

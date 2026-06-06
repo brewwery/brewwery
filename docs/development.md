@@ -70,10 +70,10 @@ Run the private beta verification sequence:
 pnpm beta:verify
 ```
 
-Clean old local alpha app/user data before a fresh install test:
+Clean old local beta app/user data before a fresh install test:
 
 ```bash
-pnpm alpha:clean-install
+pnpm beta:clean-install
 ```
 
 Optional packaging commands:
@@ -92,7 +92,7 @@ Private beta release preparation lives in:
 - `docs/private-beta.md`
 - `docs/known-issues.md`
 - `docs/private-beta-test-report.md`
-- `docs/release-notes/v0.7.0-beta.1.md`
+- `docs/release-notes/v0.7.1-beta.2.md`
 
 ## Notes
 

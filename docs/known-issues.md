@@ -2,12 +2,12 @@
 
 Known issues for the current private beta.
 
-## v0.7.0-beta.1
+## v0.7.1-beta.2
 
 - Builds are unsigned and not notarized. macOS Gatekeeper may warn before launch.
 - Apple Silicon is the primary tested architecture.
 - Intel and universal builds are configured but may be untested.
-- Local DMG creation can fail if `hdiutil` is unavailable or the local macOS disk image subsystem is in a bad state. Use `pnpm package:mac:dir` for local `.app` testing and GitHub Actions for release DMG artifacts.
+- Local DMG creation currently fails on this machine at `hdiutil create ... -fs APFS`. Use `pnpm package:mac:dir` or `pnpm package:mac:zip` for local verification and GitHub Actions for release DMG artifacts.
 - Long-running Homebrew operations depend on Homebrew stdout/stderr output. Some commands may appear quiet until Homebrew emits output.
 - Cleanup and service actions currently show final operation output rather than live streaming progress.
 - Tapped formula names containing `/` are rejected by the strict v0.4 package-name validator.

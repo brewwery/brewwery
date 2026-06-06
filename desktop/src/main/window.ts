@@ -1,10 +1,25 @@
-import { BrowserWindow, app, nativeImage, shell } from "electron";
+import { BrowserWindow, app, nativeImage, screen, shell } from "electron";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import icon from "../../assets/brewwery-icon.png?asset";
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const appIcon = nativeImage.createFromPath(icon);
+const fixedWindowSize = {
+  width: 1180,
+  height: 840
+};
+
+function centerWindow(window: BrowserWindow): void {
+  const display = screen.getDisplayMatching(window.getBounds());
+  const { x, y, width, height } = display.workArea;
+  const bounds = window.getBounds();
+
+  window.setPosition(
+    Math.round(x + (width - bounds.width) / 2),
+    Math.round(y + (height - bounds.height) / 2)
+  );
+}
 
 export function createMainWindow(): BrowserWindow {
   if (process.platform === "darwin") {
@@ -12,10 +27,15 @@ export function createMainWindow(): BrowserWindow {
   }
 
   const window = new BrowserWindow({
-    width: 1280,
-    height: 820,
-    minWidth: 960,
-    minHeight: 620,
+    ...fixedWindowSize,
+    minWidth: fixedWindowSize.width,
+    minHeight: fixedWindowSize.height,
+    maxWidth: fixedWindowSize.width,
+    maxHeight: fixedWindowSize.height,
+    resizable: false,
+    maximizable: false,
+    fullscreenable: false,
+    center: true,
     title: "Brewwery",
     titleBarStyle: "hiddenInset",
     trafficLightPosition: { x: 16, y: 18 },
@@ -30,7 +50,22 @@ export function createMainWindow(): BrowserWindow {
     }
   });
 
-  window.once("ready-to-show", () => window.show());
+  window.webContents.on("before-input-event", (event, input) => {
+    if (input.type !== "keyDown") return;
+    if (!input.control || input.meta || input.alt || input.shift) return;
+    if (input.key.toLowerCase() !== "c") return;
+
+    event.preventDefault();
+    if (window.isMinimized()) window.restore();
+    centerWindow(window);
+    window.show();
+    window.focus();
+  });
+
+  window.once("ready-to-show", () => {
+    centerWindow(window);
+    window.show();
+  });
 
   window.webContents.setWindowOpenHandler(({ url }) => {
     void shell.openExternal(url);

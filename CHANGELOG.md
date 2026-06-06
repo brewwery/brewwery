@@ -2,15 +2,28 @@
 
 All notable changes to Brewwery will be documented in this file.
 
-## v0.7.0-beta.1 - Private Beta
+## v0.7.1-beta.2 - Beta Fixes
 
-Status: complete.
+### Added
+- Fixed main window size to `1180x840`.
+- Window centering shortcut via `Control+C` in the main process, which also handles `fn + control + c` on macOS keyboards.
+- Window centering now uses the current display work area on both horizontal and vertical axes.
+
+### Verified
+
+- Local `.app` build path.
+- Local ZIP build path.
+- Bundle version and bundle identifier checks.
+- ZIP integrity check.
+
+### Known
+
+- Local DMG creation still fails on this machine at `hdiutil create ... -fs APFS`; GitHub Actions remains the DMG build path on a clean macOS runner.
+
+## v0.7.0-beta.1 - Private Beta
 
 ### Added
 
-- Version bump to `0.7.0-beta.1` across workspace packages, Rust crate metadata, and renderer About version.
-- Private beta release notes draft.
-- Private beta guide and test report template.
 - `pnpm beta:verify` as the private beta verification command.
 
 ### Improved
@@ -29,19 +42,14 @@ Status: complete.
 
 ## v0.6.0-alpha.2 - Private Alpha Polish
 
-Status: complete.
-
 ### Added
 
-- Version bump to `0.6.0-alpha.2` across workspace packages, Rust crate metadata, and renderer About version.
 - Settings Copy diagnostics action with app version, channel, Homebrew path/version/prefix, architecture, and local package/service/update counts.
 - History failed-only filter for faster private alpha triage.
 - Dashboard last-refreshed state and running-first services preview.
 - `pnpm alpha:verify` for the private alpha verification command sequence.
 - `pnpm alpha:clean-install` helper for fresh local alpha testing.
 - `pnpm package:mac:zip` for local ZIP artifact verification when `hdiutil` blocks DMG creation.
-- Private alpha test report template.
-- v0.6.0-alpha.2 release notes draft.
 - Release workflow now uses version-specific release notes when a matching `docs/release-notes/<tag>.md` file exists.
 - Packaging now excludes Rust source and `target/` build output from the app bundle while keeping the native `.node` binding unpacked.
 - Dashboard services preview is more compact so the Updates panel fits better in narrower windows.
@@ -55,13 +63,8 @@ Status: complete.
 
 ## v0.6.0-alpha.1 - Private Alpha
 
-Status: complete.
-
 ### Added
 
-- Version bump to `0.6.0-alpha.1` across workspace packages, Rust crate metadata, and renderer About version.
-- Private alpha release notes draft.
-- Known issues document.
 - Private alpha install/uninstall guide.
 - Expanded QA checklist for packaged app, Homebrew path validation, all major pages, package actions, maintenance workflows, tray/shortcuts, and security review.
 - Release notes link in Settings About section.
@@ -77,15 +80,11 @@ Status: complete.
 
 ## v0.5.2 - Alpha Hardening
 
-Status: complete.
-
 ### Added
 
-- Version bump to `0.5.2` across workspace packages, Rust crate metadata, and renderer About version.
 - `pnpm package:mac:dir` for local packaged `.app` testing without DMG creation.
 - `pnpm package:clean` for local packaging artifact cleanup.
 - Alpha QA checklist for packaged app, tray lifecycle, onboarding, settings, Homebrew states, progress output, and safety checks.
-- README uninstall notes for removing local alpha app data.
 
 ### Notes
 
@@ -93,8 +92,6 @@ Status: complete.
 - If local `hdiutil` fails, use `pnpm package:mac:dir` for local app testing and rely on GitHub Actions for DMG release artifacts.
 
 ## v0.5.1 - Custom Homebrew Path Validation
-
-Status: complete.
 
 ### Added
 
@@ -117,8 +114,6 @@ Status: complete.
 
 ## v0.5.0 - Distribution & Polish
 
-Status: complete.
-
 ### Added
 
 - Production macOS `electron-builder` configuration.
@@ -140,8 +135,6 @@ Status: complete.
 
 ## v0.4.1 - Progress Output
 
-Status: complete.
-
 ### Added
 
 - Progress event contracts for Homebrew operations.
@@ -157,8 +150,6 @@ Status: complete.
 - Existing confirmation modals remain required before install, uninstall, and upgrade commands run.
 
 ## v0.4.0 - Search & Discovery
-
-Status: complete.
 
 ### Added
 
@@ -180,8 +171,6 @@ Status: complete.
 
 ## v0.3.2 - History Polish
 
-Status: complete.
-
 ### Added
 
 - Search field for local operation history.
@@ -196,8 +185,6 @@ Status: complete.
 
 ## v0.3.1 - Operation Results & History
 
-Status: complete.
-
 ### Added
 
 - Local operation history store backed by renderer localStorage.
@@ -211,8 +198,6 @@ Status: complete.
 - No telemetry, sync, cloud storage, or new IPC command execution surface was added.
 
 ## v0.3.0 - Cleanup, Doctor & Brewfile
-
-Status: complete.
 
 ### Added
 
@@ -259,8 +244,6 @@ Status: complete.
 
 ## v0.1.1 - Package Detail & UX Polish
 
-Status: complete.
-
 ### Added
 
 - Package detail drawer for installed Homebrew formulae.
@@ -281,8 +264,6 @@ Status: complete.
 - Improved macOS app metadata for packaged builds.
 
 ## v0.1.0 - Foundation
-
-Status: complete.
 
 ### Added
 

@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.7.0-beta.1 Private Beta / launch-candidate hardening.
+Current status: v0.7.1-beta.2 Private Beta / packaged-app verification.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -141,10 +141,10 @@ Run the private beta verification pass:
 pnpm beta:verify
 ```
 
-Clean an old local alpha install before fresh testing:
+Clean an old local beta install before fresh testing:
 
 ```bash
-pnpm alpha:clean-install
+pnpm beta:clean-install
 ```
 
 Optional packaging commands:
@@ -172,15 +172,15 @@ Brewwery uses `electron-builder` with:
 
 Current beta builds are unsigned and not notarized. macOS Gatekeeper may warn when opening downloaded builds until signing and notarization are configured.
 
-If local DMG creation fails because of `hdiutil`, use `pnpm package:mac:zip` or `pnpm package:mac:dir` for local verification and let GitHub Actions build the DMG on a clean macOS runner.
+If local DMG creation fails because of `hdiutil create ... -fs APFS`, use `pnpm package:mac:zip` or `pnpm package:mac:dir` for local verification and let GitHub Actions build the DMG on a clean macOS runner.
 
-Before publishing, run through [docs/alpha-checklist.md](docs/alpha-checklist.md).
+Before publishing, run through [docs/private-beta-test-report.md](docs/private-beta-test-report.md).
 
 Private beta docs:
 
 - [Private beta guide](docs/private-beta.md)
 - [Known issues](docs/known-issues.md)
-- [Release notes draft](docs/release-notes/v0.7.0-beta.1.md)
+- [Release notes draft](docs/release-notes/v0.7.1-beta.2.md)
 
 ## Uninstall Local Alpha
 
@@ -195,7 +195,7 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.7.0-beta.1 are limited to package install/uninstall, package upgrades, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.7.1-beta.2 are limited to package install/uninstall, package upgrades, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, or monetization logic is included.
 
