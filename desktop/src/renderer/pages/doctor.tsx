@@ -48,7 +48,7 @@ export function DoctorPage() {
                 <div className="text-sm text-muted-foreground">Health status</div>
                 <div className="mt-1 text-xl font-semibold">Warnings found</div>
               </div>
-              <Badge className="border-amber-500/25 bg-amber-500/10 text-accent">{result.diagnostics.length} diagnostics</Badge>
+              <Badge className="border-[color:var(--brewwery-warning-border)] bg-[var(--brewwery-warning-bg)] text-accent">{result.diagnostics.length} diagnostics</Badge>
             </CardContent>
           </Card>
 
@@ -85,8 +85,8 @@ function SeverityBadge({ severity }: { severity: DoctorDiagnostic["severity"] })
   return (
     <Badge
       className={cn(
-        severity === "warning" && "border-amber-500/25 bg-amber-500/10 text-accent",
-        severity === "error" && "border-red-500/25 bg-red-500/10 text-red-300",
+        severity === "warning" && "border-[color:var(--brewwery-warning-border)] bg-[var(--brewwery-warning-bg)] text-accent",
+        severity === "error" && "border-[color:var(--brewwery-danger-border)] bg-[var(--brewwery-danger-bg)] text-[var(--brewwery-danger)]",
         severity === "info" && "border-sky-500/25 bg-sky-500/10 text-sky-300"
       )}
     >

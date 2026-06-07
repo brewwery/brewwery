@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useSystem } from "@/hooks/use-system";
 import { type PageId, useUiStore } from "@/stores/ui-store";
+import lightLogotype from "../../../../assets/brewwery.svg?asset";
 import logotype from "../../../../assets/brewwery-logotype.svg?asset";
 
 const sections: Array<{ title: string; items: Array<{ id: PageId; label: string; icon: LucideIcon }> }> = [
@@ -42,7 +43,8 @@ export function Sidebar() {
   return (
     <aside className="row-span-2 flex min-h-0 flex-col bg-[var(--brewwery-sidebar)] p-4">
       <div className="mb-7 flex h-16 items-center pt-2">
-        <img className="h-12 w-auto max-w-[210px]" src={logotype} alt="Brewwery" />
+        <img className="brewwery-logo-dark h-12 w-auto max-w-[210px]" src={logotype} alt="Brewwery" />
+        <img className="brewwery-logo-light h-12 w-auto max-w-[210px]" src={lightLogotype} alt="Brewwery" />
       </div>
 
       <nav className="flex-1 space-y-5">
@@ -60,7 +62,7 @@ export function Sidebar() {
                     key={item.id}
                     className={cn(
                       "flex h-9 w-full items-center gap-3 rounded-md px-2 text-sm transition-colors",
-                      active ? "bg-amber-500/12 text-accent" : "text-muted-foreground hover:bg-[var(--brewwery-card-hover)] hover:text-foreground"
+                      active ? "bg-[var(--brewwery-accent-soft)] text-accent" : "text-muted-foreground hover:bg-[var(--brewwery-card-hover)] hover:text-foreground"
                     )}
                     onClick={() => setActivePage(item.id)}
                   >
@@ -80,7 +82,7 @@ export function Sidebar() {
           Homebrew
         </div>
         <div className="text-muted-foreground">{loading ? "Loading Homebrew..." : system?.version ?? "Homebrew not found"}</div>
-        <div className={cn("mt-2", detection?.found ? "text-emerald-400" : "text-amber-400")}>
+        <div className={cn("mt-2", detection?.found ? "text-[var(--brewwery-success)]" : "text-[var(--brewwery-warning)]")}>
           {detection?.found ? "Detected" : "Not detected"}
         </div>
       </div>

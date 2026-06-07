@@ -2,8 +2,6 @@
 
 ## v0.1 Foundation
 
-Status: complete.
-
 - pnpm workspace scaffold
 - Electron, React, Vite, TypeScript app shell
 - Tailwind CSS dark theme
@@ -15,8 +13,6 @@ Status: complete.
 - Homebrew detection and read-only package/cask listing
 
 ## v0.1.1 Package Detail & UX Polish
-
-Status: complete.
 
 - Package detail drawer for installed formulae
 - Cask detail drawer for installed casks
@@ -31,8 +27,6 @@ Status: complete.
 
 ## v0.2 Updates & Services
 
-Status: complete.
-
 - Updates page with outdated package parsing
 - Upgrade one package and upgrade all flows with explicit confirmation
 - Services page with service status
@@ -43,8 +37,6 @@ Status: complete.
 - Loading, empty, and error states for updates and services
 
 ## v0.3 Cleanup, Doctor & Brewfile
-
-Status: complete.
 
 - Cleanup preview with parsed removable items and total size where available
 - Cleanup run with explicit confirmation
@@ -58,8 +50,6 @@ Status: complete.
 
 ## v0.3.1 Operation Results & History
 
-Status: complete.
-
 - Local operation history stored in renderer localStorage
 - Upgrade, service, cleanup, doctor, and Brewfile export outcomes recorded
 - Success and failure states with timestamps
@@ -69,8 +59,6 @@ Status: complete.
 
 ## v0.3.2 History Polish
 
-Status: complete.
-
 - Search inside operation history
 - Export operation history as JSON from the renderer
 - Compact result toasts after logged operations
@@ -78,8 +66,6 @@ Status: complete.
 - No additional IPC or shell command surface
 
 ## v0.4 Search & Discovery
-
-Status: complete.
 
 - Dedicated Homebrew discovery page
 - Debounced search across Homebrew formulae and casks
@@ -95,8 +81,6 @@ Status: complete.
 
 ## v0.4.1 Progress Output
 
-Status: complete.
-
 - Streaming progress events for package install
 - Streaming progress events for package uninstall
 - Streaming progress events for upgrade one package
@@ -108,8 +92,6 @@ Status: complete.
 - No generic command runner or renderer shell access
 
 ## v0.5 Distribution & Polish
-
-Status: complete.
 
 - Production `electron-builder` macOS configuration
 - Brewwery app metadata, bundle identifier, app category, app icon, and artifact naming
@@ -125,8 +107,6 @@ Status: complete.
 
 ## v0.5.1 Custom Homebrew Path Validation
 
-Status: complete.
-
 - Custom Homebrew executable path validation in Rust
 - Absolute path, file existence, executable permission, and `brew --version` checks
 - Persisted custom Homebrew path in Electron main process userData settings
@@ -137,8 +117,6 @@ Status: complete.
 
 ## v0.5.2 Alpha Hardening
 
-Status: complete.
-
 - Version bump to 0.5.2 across workspace packages and Rust crate
 - `package:mac:dir` command for packaged `.app` testing without DMG creation
 - `package:clean` command for local packaging artifact cleanup
@@ -148,9 +126,6 @@ Status: complete.
 
 ## v0.6.0-alpha.1 Private Alpha
 
-Status: complete.
-
-- Version bump to `0.6.0-alpha.1`
 - Private alpha release notes draft
 - Known issues document
 - Private alpha install/uninstall instructions
@@ -163,9 +138,6 @@ Status: complete.
 
 ## v0.6.0-alpha.2 Private Alpha Polish
 
-Status: complete.
-
-- Version bump to `0.6.0-alpha.2`
 - Settings Copy diagnostics action for private alpha reports
 - Dashboard last-refreshed state
 - Dashboard running-first service preview
@@ -177,9 +149,6 @@ Status: complete.
 
 ## v0.7.0-beta.1 Private Beta
 
-Status: complete.
-
-- Version bump to `0.7.0-beta.1`
 - Private beta release notes draft
 - Private beta test report template
 - README status updated for private beta
@@ -193,9 +162,6 @@ Status: complete.
 
 ## v0.7.1-beta.2 Beta Fixes
 
-Status: complete.
-
-- Version bump to `0.7.1-beta.2`
 - Private beta release notes for beta.2
 - Private beta guide and test report restored/updated
 - `pnpm beta:clean-install` helper alias
@@ -207,9 +173,6 @@ Status: complete.
 
 ## v0.7.2-beta.3 Beta QA Fixes
 
-Status: complete.
-
-- Version bump to `0.7.2-beta.3`
 - Search installed state is reconciled from installed formulae/casks
 - Formulae compare by `formula.name`
 - Casks compare by `cask.token`
@@ -225,9 +188,6 @@ Status: complete.
 
 ## v0.8.0 Launch Candidate
 
-Status: complete.
-
-- Version bump to `0.8.0`
 - `APP_CHANNEL` set to `Launch Candidate`
 - About and status bar show `Brewwery 0.8.0`
 - Release notes added at `docs/release-notes/v0.8.0.md`
@@ -242,13 +202,19 @@ Status: complete.
 
 ## v0.8.1 Light Theme & Visual Polish
 
-Status: complete.
-
 - Working Settings theme selector
 - System, Dark, and warm Light theme modes
 - Theme persisted in local Settings store
 - Core shell and UI components moved to theme tokens
 - Hardcoded dark raw-output and drawer surfaces replaced with theme-aware surfaces
+
+## v0.8.2 Light Theme QA Polish
+
+- Light theme sidebar logo made readable
+- Light theme success, danger, and warning colors strengthened
+- Status badges, dots, toasts, progress panels, and inline errors use shared theme tokens
+- macOS window resize, maximize, and fullscreen controls restored
+- Window centering shortcut remains available and centers on both axes
 
 ## Later
 

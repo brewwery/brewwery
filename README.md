@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.8.1 Launch Candidate / light theme polish.
+Current status: v0.8.2 Launch Candidate / light theme polish.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -184,7 +184,7 @@ Launch Candidate docs:
 
 - [Known issues](docs/known-issues.md)
 - [Launch Candidate checklist](docs/launch-candidate-checklist.md)
-- [Release notes draft](docs/release-notes/v0.8.1.md)
+- [Release notes draft](docs/release-notes/v0.8.2.md)
 
 ## Uninstall Local Alpha
 
@@ -199,7 +199,7 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.8.1 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.8.2 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, or monetization logic is included.
 

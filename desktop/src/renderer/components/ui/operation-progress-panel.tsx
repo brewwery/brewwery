@@ -22,8 +22,8 @@ export function OperationProgressPanel({ progress, onClear }: OperationProgressP
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2">
             {progress.status === "running" ? <Loader2 className="h-4 w-4 animate-spin text-accent" /> : null}
-            {progress.status === "success" ? <CheckCircle2 className="h-4 w-4 text-emerald-400" /> : null}
-            {progress.status === "failed" ? <XCircle className="h-4 w-4 text-red-400" /> : null}
+            {progress.status === "success" ? <CheckCircle2 className="h-4 w-4 text-[var(--brewwery-success)]" /> : null}
+            {progress.status === "failed" ? <XCircle className="h-4 w-4 text-[var(--brewwery-danger)]" /> : null}
             <div className="min-w-0">
               <div className="truncate text-sm font-medium">
                 {progress.status === "running" ? "Running Homebrew operation" : progress.status === "success" ? "Operation completed" : "Operation failed"}
@@ -56,7 +56,7 @@ export function OperationProgressPanel({ progress, onClear }: OperationProgressP
             <div
               className={cn(
                 "h-full rounded-full transition-all",
-                progress.status === "failed" ? "bg-red-400" : progress.status === "success" ? "bg-emerald-400" : "animate-pulse bg-accent"
+                progress.status === "failed" ? "bg-[var(--brewwery-danger)]" : progress.status === "success" ? "bg-[var(--brewwery-success)]" : "animate-pulse bg-accent"
               )}
               style={{ width: progress.status === "success" || progress.status === "failed" ? "100%" : `${summary.percent}%` }}
             />
@@ -68,7 +68,7 @@ export function OperationProgressPanel({ progress, onClear }: OperationProgressP
             output.map((line, index) => (
               <pre
                 key={`${line.timestamp}:${index}`}
-                className={cn("whitespace-pre-wrap break-words", line.stream === "stderr" ? "text-amber-200" : "text-muted-foreground")}
+                className={cn("whitespace-pre-wrap break-words", line.stream === "stderr" ? "text-[var(--brewwery-warning)]" : "text-muted-foreground")}
               >
                 {line.text}
               </pre>
@@ -78,7 +78,7 @@ export function OperationProgressPanel({ progress, onClear }: OperationProgressP
           )}
         </div>
 
-        {progress.error ? <div className="text-sm text-red-300">{friendlyErrorMessage(progress.error)}</div> : null}
+        {progress.error ? <div className="text-sm text-[var(--brewwery-danger)]">{friendlyErrorMessage(progress.error)}</div> : null}
       </CardContent>
     </Card>
   );

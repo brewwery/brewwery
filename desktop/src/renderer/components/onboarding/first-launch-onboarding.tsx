@@ -32,7 +32,7 @@ export function FirstLaunchOnboarding() {
             <div className="grid gap-3 rounded-md border border-border bg-background/60 p-4 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Detected Homebrew</span>
-                <Badge className="border-emerald-500/25 bg-emerald-500/10 text-emerald-300">Found</Badge>
+                <Badge className="border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]">Found</Badge>
               </div>
               <InfoRow label="Version" value={system.version} />
               <InfoRow label="Prefix" value={system.prefix} />
@@ -48,7 +48,7 @@ export function FirstLaunchOnboarding() {
                   {path}
                 </div>
               ))}
-              {error?.message ? <p className="mt-3 text-xs text-red-300">{error.message}</p> : null}
+              {error?.message ? <p className="mt-3 text-xs text-[var(--brewwery-danger)]">{error.message}</p> : null}
             </div>
           )}
 

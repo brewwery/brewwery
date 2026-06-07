@@ -21,6 +21,16 @@
   --brewwery-muted-foreground: hsl(220 9% 62%);
   --brewwery-accent: hsl(39 96% 52%);
   --brewwery-accent-foreground: hsl(32 95% 8%);
+  --brewwery-accent-soft: rgb(245 158 11 / 0.12);
+  --brewwery-success: hsl(154 70% 58%);
+  --brewwery-success-bg: rgb(16 185 129 / 0.1);
+  --brewwery-success-border: rgb(16 185 129 / 0.28);
+  --brewwery-danger: hsl(0 86% 72%);
+  --brewwery-danger-bg: rgb(239 68 68 / 0.1);
+  --brewwery-danger-border: rgb(239 68 68 / 0.28);
+  --brewwery-warning: hsl(39 96% 58%);
+  --brewwery-warning-bg: rgb(245 158 11 / 0.1);
+  --brewwery-warning-border: rgb(245 158 11 / 0.28);
   --brewwery-app-panel: #111318;
   --brewwery-sidebar: #0f1115;
   --brewwery-titlebar: #101216;
@@ -38,22 +48,48 @@
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --brewwery-background: hsl(42 22% 93%);
-  --brewwery-foreground: hsl(32 14% 13%);
-  --brewwery-border: hsl(35 14% 78%);
-  --brewwery-muted: hsl(42 18% 88%);
-  --brewwery-muted-foreground: hsl(32 8% 43%);
-  --brewwery-accent: hsl(39 92% 43%);
-  --brewwery-accent-foreground: hsl(38 34% 97%);
-  --brewwery-app-panel: hsl(42 22% 94%);
-  --brewwery-sidebar: hsl(40 21% 89%);
-  --brewwery-titlebar: hsl(40 20% 91%);
-  --brewwery-card: rgb(255 252 246 / 0.72);
-  --brewwery-card-hover: rgb(255 248 236 / 0.95);
-  --brewwery-input: rgb(255 252 246 / 0.76);
+  --brewwery-background: hsl(42 24% 94%);
+  --brewwery-foreground: hsl(32 16% 12%);
+  --brewwery-border: hsl(35 14% 74%);
+  --brewwery-muted: hsl(42 18% 87%);
+  --brewwery-muted-foreground: hsl(32 9% 39%);
+  --brewwery-accent: hsl(36 100% 36%);
+  --brewwery-accent-foreground: hsl(38 40% 98%);
+  --brewwery-accent-soft: hsl(39 82% 86%);
+  --brewwery-success: hsl(154 58% 31%);
+  --brewwery-success-bg: hsl(153 46% 88%);
+  --brewwery-success-border: hsl(153 37% 62%);
+  --brewwery-danger: hsl(1 70% 43%);
+  --brewwery-danger-bg: hsl(4 82% 94%);
+  --brewwery-danger-border: hsl(2 62% 72%);
+  --brewwery-warning: hsl(36 100% 34%);
+  --brewwery-warning-bg: hsl(39 86% 89%);
+  --brewwery-warning-border: hsl(37 72% 60%);
+  --brewwery-app-panel: hsl(42 24% 95%);
+  --brewwery-sidebar: hsl(40 19% 88%);
+  --brewwery-titlebar: hsl(40 20% 92%);
+  --brewwery-card: rgb(255 252 246 / 0.82);
+  --brewwery-card-hover: rgb(255 249 239 / 0.98);
+  --brewwery-input: rgb(255 252 246 / 0.9);
   --brewwery-overlay: rgb(31 29 25 / 0.18);
   --brewwery-pre: rgb(255 252 246 / 0.72);
   --brewwery-shadow-panel: 0 16px 44px rgb(42 36 27 / 0.12);
+}
+
+.brewwery-logo-dark {
+  display: block;
+}
+
+.brewwery-logo-light {
+  display: none;
+}
+
+:root[data-theme="light"] .brewwery-logo-dark {
+  display: none;
+}
+
+:root[data-theme="light"] .brewwery-logo-light {
+  display: flex;
 }
 
 * {

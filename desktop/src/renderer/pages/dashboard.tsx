@@ -144,7 +144,7 @@ export function DashboardPage() {
           <CardContent className="space-y-3">
             <MiniBars
               items={[
-                { label: "Formulae", value: formulaUpdates.length, className: "bg-amber-400" },
+                { label: "Formulae", value: formulaUpdates.length, className: "bg-[var(--brewwery-warning)]" },
                 { label: "Casks", value: caskUpdates.length, className: "bg-purple-400" }
               ]}
             />
@@ -184,8 +184,8 @@ function StatusDot({ tone }: { tone: "success" | "error" | "loading" | "neutral"
     <span
       className={cn(
         "h-2.5 w-2.5 rounded-full",
-        tone === "success" ? "bg-emerald-400" : "",
-        tone === "error" ? "bg-red-400" : "",
+        tone === "success" ? "bg-[var(--brewwery-success)]" : "",
+        tone === "error" ? "bg-[var(--brewwery-danger)]" : "",
         tone === "loading" ? "animate-pulse bg-accent" : "",
         tone === "neutral" ? "bg-muted-foreground" : ""
       )}
@@ -228,9 +228,9 @@ function ServicePill({ label, tone, value }: { label: string; tone: "started" | 
     <span
       className={cn(
         "inline-flex items-center gap-2 rounded-full border px-2.5 py-1",
-        tone === "started" ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-300" : "",
+        tone === "started" ? "border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]" : "",
         tone === "stopped" ? "border-border bg-[var(--brewwery-card)] text-muted-foreground" : "",
-        tone === "error" ? "border-red-500/20 bg-red-500/10 text-red-300" : ""
+        tone === "error" ? "border-[color:var(--brewwery-danger-border)] bg-[var(--brewwery-danger-bg)] text-[var(--brewwery-danger)]" : ""
       )}
     >
       {label}
@@ -242,9 +242,9 @@ function ServicePill({ label, tone, value }: { label: string; tone: "started" | 
 function ServiceBadge({ status }: { status: BrewService["status"] }) {
   const className =
     status === "started"
-      ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-300"
+      ? "border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]"
       : status === "error"
-        ? "border-red-500/25 bg-red-500/10 text-red-300"
+        ? "border-[color:var(--brewwery-danger-border)] bg-[var(--brewwery-danger-bg)] text-[var(--brewwery-danger)]"
         : "border-border bg-[var(--brewwery-card)] text-muted-foreground";
   return <Badge className={className}>{status}</Badge>;
 }
@@ -281,7 +281,7 @@ function EmptyLine({ text }: { text: string }) {
 }
 
 function InlineError({ message }: { message: string }) {
-  return <div className="rounded-md border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-200">{message}</div>;
+  return <div className="rounded-md border border-[color:var(--brewwery-danger-border)] bg-[var(--brewwery-danger-bg)] p-3 text-sm text-[var(--brewwery-danger)]">{message}</div>;
 }
 
 function Info({ label, value }: { label: string; value: string }) {

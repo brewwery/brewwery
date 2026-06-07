@@ -5,9 +5,13 @@ import icon from "../../assets/brewwery-icon.png?asset";
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const appIcon = nativeImage.createFromPath(icon);
-const fixedWindowSize = {
+const defaultWindowSize = {
   width: 1180,
   height: 840
+};
+const minimumWindowSize = {
+  width: 960,
+  height: 620
 };
 
 function centerWindow(window: BrowserWindow): void {
@@ -27,14 +31,12 @@ export function createMainWindow(): BrowserWindow {
   }
 
   const window = new BrowserWindow({
-    ...fixedWindowSize,
-    minWidth: fixedWindowSize.width,
-    minHeight: fixedWindowSize.height,
-    maxWidth: fixedWindowSize.width,
-    maxHeight: fixedWindowSize.height,
-    resizable: false,
-    maximizable: false,
-    fullscreenable: false,
+    ...defaultWindowSize,
+    minWidth: minimumWindowSize.width,
+    minHeight: minimumWindowSize.height,
+    resizable: true,
+    maximizable: true,
+    fullscreenable: true,
     center: true,
     title: "Brewwery",
     titleBarStyle: "hiddenInset",
@@ -53,7 +55,7 @@ export function createMainWindow(): BrowserWindow {
   window.webContents.on("before-input-event", (event, input) => {
     if (input.type !== "keyDown") return;
     if (!input.control || input.meta || input.alt || input.shift) return;
-    if (input.key.toLowerCase() !== "c") return;
+    if (input.key.toLowerCase() !== "c" && input.code !== "KeyC") return;
 
     event.preventDefault();
     if (window.isMinimized()) window.restore();

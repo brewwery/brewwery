@@ -2,6 +2,20 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.8.2 - Light Theme QA Polish
+
+### Fixed
+
+- Light theme sidebar logo is now readable instead of using the white dark-mode SVG lockup.
+- Light theme green, red, and amber status colors have stronger contrast.
+- The main window can be resized, maximized, and fullscreened again from the macOS traffic-light controls.
+- Window centering via `Control+C` is more reliable and keeps centering on both axes.
+
+### Improved
+
+- Status badges, dots, toasts, progress panels, inline errors, and confirmation accents now use shared theme tokens.
+- Light theme uses a slightly stronger warm amber accent and clearer panel/input contrast.
+
 ## v0.8.1 - Light Theme & Visual Polish
 
 ### Added

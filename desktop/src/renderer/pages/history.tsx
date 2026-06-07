@@ -148,7 +148,7 @@ function OperationCard({ entry }: { entry: OperationLogEntry }) {
             </div>
             {entry.command ? <div className="mt-3 font-mono text-xs text-muted-foreground">{entry.command}</div> : null}
             {entry.error ? (
-              <div className="mt-3 rounded-md border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-200">
+              <div className="mt-3 rounded-md border border-[color:var(--brewwery-danger-border)] bg-[var(--brewwery-danger-bg)] p-3 text-sm text-[var(--brewwery-danger)]">
                 <div>{entry.error.message}</div>
                 <div className="mt-1 font-mono text-xs">{entry.error.code}</div>
               </div>
@@ -188,8 +188,8 @@ function StatusBadge({ status }: { status: OperationLogEntry["status"] }) {
   return (
     <Badge
       className={cn(
-        status === "success" && "border-emerald-500/25 bg-emerald-500/10 text-emerald-300",
-        status === "failed" && "border-red-500/25 bg-red-500/10 text-red-300"
+        status === "success" && "border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]",
+        status === "failed" && "border-[color:var(--brewwery-danger-border)] bg-[var(--brewwery-danger-bg)] text-[var(--brewwery-danger)]"
       )}
     >
       {status}

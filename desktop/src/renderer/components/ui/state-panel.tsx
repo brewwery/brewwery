@@ -33,7 +33,7 @@ export function ErrorDescription({ error }: { error: IpcError }) {
       <div>{friendlyErrorMessage(error)}</div>
       <details className="mt-2">
         <summary className="cursor-pointer text-xs font-medium text-accent">Show details</summary>
-        <div className="mt-2 font-mono text-xs text-amber-300">{error.code}</div>
+        <div className="mt-2 font-mono text-xs text-[var(--brewwery-warning)]">{error.code}</div>
         {details ? <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded-md border border-border bg-[var(--brewwery-pre)] p-2 text-left text-xs text-muted-foreground">{details}</pre> : null}
       </details>
     </>

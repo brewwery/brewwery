@@ -137,7 +137,7 @@ export function PackagesPage() {
                   <Td className="max-w-md truncate text-muted-foreground">{pkg.description ?? "Installed Homebrew formula"}</Td>
                   <Td>
                     <div className="flex items-center gap-2">
-                      <Badge className="border-emerald-500/25 bg-emerald-500/10 text-emerald-300">Installed</Badge>
+                      <Badge className="border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]">Installed</Badge>
                       {pkg.installedOnRequest !== undefined ? <Badge>{pkg.installedOnRequest ? "On request" : "Dependency"}</Badge> : null}
                     </div>
                   </Td>

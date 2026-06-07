@@ -58,7 +58,7 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
             <Badge className={cn(model.kind === "formula" ? "text-accent" : "border-purple-500/25 bg-purple-500/10 text-purple-300")}>
               {model.kind}
             </Badge>
-            <Badge className={model.installed ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-500" : "border-border bg-[var(--brewwery-card)]"}>
+            <Badge className={model.installed ? "border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]" : "border-border bg-[var(--brewwery-card)]"}>
               {model.installed ? "Installed" : "Available"}
             </Badge>
             {model.installedOnRequest !== undefined ? (

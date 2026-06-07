@@ -19,8 +19,8 @@ export function ToastViewport() {
             key={toast.id}
             className={cn(
               "pointer-events-auto rounded-lg border bg-[var(--brewwery-card)] p-3 shadow-panel backdrop-blur",
-              toast.tone === "success" && "border-emerald-500/25",
-              toast.tone === "error" && "border-red-500/25",
+              toast.tone === "success" && "border-[color:var(--brewwery-success-border)]",
+              toast.tone === "error" && "border-[color:var(--brewwery-danger-border)]",
               toast.tone === "info" && "border-border"
             )}
           >
@@ -28,8 +28,8 @@ export function ToastViewport() {
               <Icon
                 className={cn(
                   "mt-0.5 h-4 w-4 shrink-0",
-                  toast.tone === "success" && "text-emerald-300",
-                  toast.tone === "error" && "text-red-300",
+                  toast.tone === "success" && "text-[var(--brewwery-success)]",
+                  toast.tone === "error" && "text-[var(--brewwery-danger)]",
                   toast.tone === "info" && "text-accent"
                 )}
               />

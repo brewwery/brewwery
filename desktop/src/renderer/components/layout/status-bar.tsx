@@ -11,7 +11,7 @@ export function StatusBar() {
     <footer className="flex items-center justify-between border-l border-t border-border bg-[var(--brewwery-titlebar)] px-4 text-xs text-muted-foreground">
       <div className="flex items-center gap-4">
         <span className="flex items-center gap-2">
-          <span className={detection?.found ? "h-2 w-2 rounded-full bg-emerald-400" : "h-2 w-2 rounded-full bg-amber-400"} />
+          <span className={detection?.found ? "h-2 w-2 rounded-full bg-[var(--brewwery-success)]" : "h-2 w-2 rounded-full bg-[var(--brewwery-warning)]"} />
           {loading ? "Loading Homebrew..." : detection?.found ? "Homebrew running" : "Homebrew not found"}
         </span>
         <span>{system?.version ?? "unknown"}</span>

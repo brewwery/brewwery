@@ -130,7 +130,7 @@ export function UpdatesPage() {
                     </Badge>
                   </Td>
                   <Td>
-                    <Badge className="border-amber-500/25 bg-amber-500/10 text-accent">{item.pinned ? "Pinned" : "Outdated"}</Badge>
+                    <Badge className="border-[color:var(--brewwery-warning-border)] bg-[var(--brewwery-warning-bg)] text-accent">{item.pinned ? "Pinned" : "Outdated"}</Badge>
                   </Td>
                   <Td className="text-right">
                     <Button

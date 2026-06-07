@@ -120,12 +120,12 @@ export function SettingsPage() {
             <InfoBox label="Checked paths" value={(detection?.checkedPaths ?? ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"]).join(", ")} />
           </div>
 
-          {error ? <div className="rounded-md border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-200">{error.message}</div> : null}
+          {error ? <div className="rounded-md border border-[color:var(--brewwery-danger-border)] bg-[var(--brewwery-danger-bg)] p-3 text-sm text-[var(--brewwery-danger)]">{error.message}</div> : null}
 
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <div className="text-sm font-medium">Custom Homebrew path</div>
-              {customHomebrewPath ? <Badge className="border-amber-500/25 bg-amber-500/10 text-accent">Custom</Badge> : <Badge>Auto-detect</Badge>}
+              {customHomebrewPath ? <Badge className="border-[color:var(--brewwery-warning-border)] bg-[var(--brewwery-warning-bg)] text-accent">Custom</Badge> : <Badge>Auto-detect</Badge>}
             </div>
             <div className="flex gap-2">
               <Input
@@ -146,9 +146,9 @@ export function SettingsPage() {
               </Button>
             </div>
             {pathValidation?.valid ? (
-              <p className="text-xs text-emerald-300">Validated {pathValidation.version ?? "Homebrew"} at {pathValidation.path}.</p>
+              <p className="text-xs text-[var(--brewwery-success)]">Validated {pathValidation.version ?? "Homebrew"} at {pathValidation.path}.</p>
             ) : null}
-            {pathError ? <p className="text-xs text-red-300">{pathError.message}</p> : null}
+            {pathError ? <p className="text-xs text-[var(--brewwery-danger)]">{pathError.message}</p> : null}
             <p className="text-xs text-muted-foreground">Saved paths are validated by Rust and used by both normal Homebrew commands and streaming progress operations.</p>
           </div>
 

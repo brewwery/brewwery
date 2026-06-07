@@ -91,7 +91,7 @@ Launch Candidate release preparation lives in:
 
 - `docs/known-issues.md`
 - `docs/launch-candidate-checklist.md`
-- `docs/release-notes/v0.8.1.md`
+- `docs/release-notes/v0.8.2.md`
 
 ## Notes
 

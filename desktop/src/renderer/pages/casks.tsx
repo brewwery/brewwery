@@ -117,7 +117,7 @@ export function CasksPage() {
                   </Td>
                   <Td className="max-w-md truncate text-muted-foreground">{pkg.description ?? "Installed Homebrew cask"}</Td>
                   <Td>
-                    <Badge className="border-emerald-500/25 bg-emerald-500/10 text-emerald-300">Installed</Badge>
+                    <Badge className="border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]">Installed</Badge>
                   </Td>
                   <Td className="text-right">
                     <Button
