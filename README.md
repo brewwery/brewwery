@@ -8,13 +8,9 @@ The project is open source, MIT licensed, and targets macOS first, with Apple Si
 
 See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 
-## Screenshots
+## Brewwery
 
 ![Dashboard](docs/screenshots/Dashboard.png)
-
-![Search](docs/screenshots/Search.png)
-
-![Updates](docs/screenshots/Updates.png)
 
 ## Features
 
@@ -210,6 +206,14 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.8.2 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, or monetization logic is included.
+
+## Screenshots
+
+![Dashboard](docs/screenshots/Dashboard.png)
+
+![Search](docs/screenshots/Search.png)
+
+![Updates](docs/screenshots/Updates.png)
 
 ## Known Limitations
 
