@@ -8,7 +8,7 @@ export function StatusBar() {
   const { packages: casks } = usePackages("cask");
 
   return (
-    <footer className="flex items-center justify-between border-l border-t border-border bg-[#101216] px-4 text-xs text-muted-foreground">
+    <footer className="flex items-center justify-between border-l border-t border-border bg-[var(--brewwery-titlebar)] px-4 text-xs text-muted-foreground">
       <div className="flex items-center gap-4">
         <span className="flex items-center gap-2">
           <span className={detection?.found ? "h-2 w-2 rounded-full bg-emerald-400" : "h-2 w-2 rounded-full bg-amber-400"} />

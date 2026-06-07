@@ -99,7 +99,7 @@ function RawOutput({ output }: { output: string }) {
   return (
     <details className="text-left">
       <summary className="cursor-pointer text-xs font-medium text-accent">Show raw output</summary>
-      <pre className="mt-2 max-h-80 overflow-auto rounded-md border border-border bg-black/20 p-3 text-xs leading-5 text-muted-foreground">
+      <pre className="mt-2 max-h-80 overflow-auto rounded-md border border-border bg-[var(--brewwery-pre)] p-3 text-xs leading-5 text-muted-foreground">
         {output}
       </pre>
     </details>

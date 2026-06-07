@@ -240,6 +240,16 @@ Status: complete.
 - Issue templates added for bugs and feature requests
 - `pnpm release:verify` added as the primary verification script
 
+## v0.8.1 Light Theme & Visual Polish
+
+Status: complete.
+
+- Working Settings theme selector
+- System, Dark, and warm Light theme modes
+- Theme persisted in local Settings store
+- Core shell and UI components moved to theme tokens
+- Hardcoded dark raw-output and drawer surfaces replaced with theme-aware surfaces
+
 ## Later
 
 - Signed and notarized macOS builds

@@ -85,7 +85,7 @@ export function SearchPage() {
             </thead>
             <tbody>
               {results.map((result) => (
-                <tr key={`${result.kind}:${result.name}`} className="cursor-pointer hover:bg-white/[0.025]" onClick={() => void openResult(result)}>
+                <tr key={`${result.kind}:${result.name}`} className="cursor-pointer hover:bg-[var(--brewwery-card-hover)]" onClick={() => void openResult(result)}>
                   <Td className="font-medium">{result.name}</Td>
                   <Td>
                     <Badge className={result.kind === "cask" ? "border-purple-500/25 bg-purple-500/10 text-purple-300" : undefined}>

@@ -96,7 +96,7 @@ export function CleanupPage() {
             </thead>
             <tbody>
               {preview.items.map((item, index) => (
-                <tr key={`${item.path ?? item.name}:${index}`} className="hover:bg-white/[0.025]">
+                <tr key={`${item.path ?? item.name}:${index}`} className="hover:bg-[var(--brewwery-card-hover)]">
                   <Td className="font-medium">{item.name ?? "Unknown item"}</Td>
                   <Td>
                     <Badge>{formatKind(item.kind)}</Badge>
@@ -141,7 +141,7 @@ function RawOutput({ stdout, stderr }: { stdout?: string; stderr?: string }) {
   return (
     <details className="mt-3 text-left">
       <summary className="cursor-pointer text-xs font-medium text-accent">Show details</summary>
-      <pre className="mt-2 max-h-64 overflow-auto rounded-md border border-border bg-black/20 p-3 text-xs leading-5 text-muted-foreground">
+      <pre className="mt-2 max-h-64 overflow-auto rounded-md border border-border bg-[var(--brewwery-pre)] p-3 text-xs leading-5 text-muted-foreground">
         {[stdout, stderr].filter(Boolean).join("\n")}
       </pre>
     </details>

@@ -25,7 +25,7 @@ export function ConfirmationDialog({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 p-6">
+    <div className="fixed inset-0 z-50 grid place-items-center bg-[var(--brewwery-overlay)] p-6">
       <Dialog className="w-full max-w-md">
         <div className="flex items-start gap-3">
           <div className="grid h-9 w-9 shrink-0 place-items-center rounded-md border border-amber-500/25 bg-amber-500/10">

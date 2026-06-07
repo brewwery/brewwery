@@ -40,7 +40,7 @@ export function Sidebar() {
   const { detection, system, loading } = useSystem();
 
   return (
-    <aside className="row-span-2 flex min-h-0 flex-col bg-[#0f1115] p-4">
+    <aside className="row-span-2 flex min-h-0 flex-col bg-[var(--brewwery-sidebar)] p-4">
       <div className="mb-7 flex h-16 items-center pt-2">
         <img className="h-12 w-auto max-w-[210px]" src={logotype} alt="Brewwery" />
       </div>
@@ -60,7 +60,7 @@ export function Sidebar() {
                     key={item.id}
                     className={cn(
                       "flex h-9 w-full items-center gap-3 rounded-md px-2 text-sm transition-colors",
-                      active ? "bg-amber-500/12 text-accent" : "text-muted-foreground hover:bg-white/[0.05] hover:text-foreground"
+                      active ? "bg-amber-500/12 text-accent" : "text-muted-foreground hover:bg-[var(--brewwery-card-hover)] hover:text-foreground"
                     )}
                     onClick={() => setActivePage(item.id)}
                   >
@@ -74,7 +74,7 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="rounded-lg border border-border bg-white/[0.035] p-3 text-xs">
+      <div className="rounded-lg border border-border bg-[var(--brewwery-card)] p-3 text-xs">
         <div className="mb-1 flex items-center gap-2 font-medium text-foreground">
           <Boxes className="h-3.5 w-3.5 text-accent" />
           Homebrew

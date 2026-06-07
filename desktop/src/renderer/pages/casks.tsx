@@ -106,7 +106,7 @@ export function CasksPage() {
             </thead>
             <tbody>
               {visibleRows.map((pkg) => (
-                <tr key={pkg.token} className="cursor-pointer hover:bg-white/[0.025]" onClick={() => setSelected(pkg)}>
+                <tr key={pkg.token} className="cursor-pointer hover:bg-[var(--brewwery-card-hover)]" onClick={() => setSelected(pkg)}>
                   <Td>
                     <div className="font-medium">{pkg.name?.[0] ?? pkg.token}</div>
                     <div className="mt-1 text-xs text-muted-foreground">{pkg.token}</div>

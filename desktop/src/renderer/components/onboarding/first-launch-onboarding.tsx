@@ -19,8 +19,8 @@ export function FirstLaunchOnboarding() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-6 backdrop-blur-sm">
-      <Card className="w-full max-w-xl overflow-hidden border-border bg-[#15181d] shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--brewwery-overlay)] p-6 backdrop-blur-sm">
+      <Card className="w-full max-w-xl overflow-hidden border-border shadow-2xl">
         <CardHeader>
           <div className="text-lg font-semibold">Welcome to Brewwery</div>
           <p className="text-sm text-muted-foreground">Homebrew, without the terminal.</p>

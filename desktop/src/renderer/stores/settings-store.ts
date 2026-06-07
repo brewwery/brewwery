@@ -28,7 +28,7 @@ export const useSettingsStore = create<SettingsState>()(
     }),
     {
       name: "brewwery-settings",
-      version: 1
+      version: 2
     }
   )
 );

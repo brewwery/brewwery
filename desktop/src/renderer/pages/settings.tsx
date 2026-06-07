@@ -165,12 +165,12 @@ export function SettingsPage() {
         <CardContent className="space-y-3">
           <div className="flex flex-wrap gap-2">
             {(["system", "dark", "light"] as const).map((option) => (
-              <Button key={option} variant={theme === option ? "primary" : "secondary"} onClick={() => setTheme(option)} disabled={option !== "dark"}>
+              <Button key={option} variant={theme === option ? "primary" : "secondary"} onClick={() => setTheme(option)}>
                 {option}
               </Button>
             ))}
           </div>
-          <p className="text-xs text-muted-foreground">Dark theme is active for the public alpha. System and light themes are placeholders.</p>
+          <p className="text-xs text-muted-foreground">System follows macOS appearance. Light uses a warm macOS utility palette.</p>
         </CardContent>
       </Card>
 

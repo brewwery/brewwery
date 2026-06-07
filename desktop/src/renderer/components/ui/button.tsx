@@ -13,8 +13,8 @@ export function Button({ className, variant = "secondary", ...props }: ButtonPro
       className={cn(
         "inline-flex h-9 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50",
         variant === "primary" && "bg-accent text-accent-foreground hover:bg-amber-400",
-        variant === "secondary" && "border border-border bg-white/[0.04] text-foreground hover:bg-white/[0.07]",
-        variant === "ghost" && "text-muted-foreground hover:bg-white/[0.06] hover:text-foreground",
+        variant === "secondary" && "border border-border bg-[var(--brewwery-card)] text-foreground hover:bg-[var(--brewwery-card-hover)]",
+        variant === "ghost" && "text-muted-foreground hover:bg-[var(--brewwery-card-hover)] hover:text-foreground",
         className
       )}
       {...props}

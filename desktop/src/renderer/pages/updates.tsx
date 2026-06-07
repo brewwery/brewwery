@@ -115,7 +115,7 @@ export function UpdatesPage() {
             </thead>
             <tbody>
               {updates.map((item) => (
-                <tr key={`${item.kind}:${item.name}`} className="hover:bg-white/[0.025]">
+                <tr key={`${item.kind}:${item.name}`} className="hover:bg-[var(--brewwery-card-hover)]">
                   <Td>
                     <div className="font-medium">{item.name}</div>
                     {item.installedVersions.length > 1 ? (

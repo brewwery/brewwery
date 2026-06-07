@@ -18,7 +18,7 @@ export function ToastViewport() {
           <div
             key={toast.id}
             className={cn(
-              "pointer-events-auto rounded-lg border bg-[#151820]/95 p-3 shadow-panel backdrop-blur",
+              "pointer-events-auto rounded-lg border bg-[var(--brewwery-card)] p-3 shadow-panel backdrop-blur",
               toast.tone === "success" && "border-emerald-500/25",
               toast.tone === "error" && "border-red-500/25",
               toast.tone === "info" && "border-border"

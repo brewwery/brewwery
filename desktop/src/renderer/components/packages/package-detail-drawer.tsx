@@ -38,9 +38,9 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
   const request: PackageActionRequest = { name: model.name, kind: model.kind };
 
   return (
-    <div className="fixed inset-0 z-40 flex justify-end bg-black/30" onClick={onClose}>
+    <div className="fixed inset-0 z-40 flex justify-end bg-[var(--brewwery-overlay)]" onClick={onClose}>
       <aside
-        className="h-full w-[420px] border-l border-border bg-[#111318] shadow-panel"
+        className="h-full w-[420px] border-l border-border bg-[var(--brewwery-app-panel)] shadow-panel"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex h-14 items-center justify-between border-b border-border px-5">
@@ -58,7 +58,7 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
             <Badge className={cn(model.kind === "formula" ? "text-accent" : "border-purple-500/25 bg-purple-500/10 text-purple-300")}>
               {model.kind}
             </Badge>
-            <Badge className={model.installed ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-300" : "border-border bg-white/[0.04]"}>
+            <Badge className={model.installed ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-500" : "border-border bg-[var(--brewwery-card)]"}>
               {model.installed ? "Installed" : "Available"}
             </Badge>
             {model.installedOnRequest !== undefined ? (
@@ -103,7 +103,7 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
           {model.rawJson ? (
             <details className="border-t border-border pt-4">
               <summary className="cursor-pointer text-xs font-medium text-accent">Show raw JSON</summary>
-              <pre className="mt-2 max-h-64 overflow-auto rounded-md border border-border bg-black/20 p-3 text-xs leading-5 text-muted-foreground">
+              <pre className="mt-2 max-h-64 overflow-auto rounded-md border border-border bg-[var(--brewwery-pre)] p-3 text-xs leading-5 text-muted-foreground">
                 {model.rawJson}
               </pre>
             </details>
@@ -118,7 +118,7 @@ function Info({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <div className="mb-1 text-xs text-muted-foreground">{label}</div>
-      <div className="rounded-md border border-border bg-black/15 p-3 text-sm leading-6 text-foreground">{value}</div>
+      <div className="rounded-md border border-border bg-[var(--brewwery-pre)] p-3 text-sm leading-6 text-foreground">{value}</div>
     </div>
   );
 }
@@ -134,7 +134,7 @@ function Dependencies({ dependencies }: { dependencies: string[] }) {
           ))}
         </div>
       ) : (
-        <div className="rounded-md border border-border bg-black/15 p-3 text-sm text-muted-foreground">No dependencies listed.</div>
+        <div className="rounded-md border border-border bg-[var(--brewwery-pre)] p-3 text-sm text-muted-foreground">No dependencies listed.</div>
       )}
     </div>
   );

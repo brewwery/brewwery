@@ -100,7 +100,7 @@ export function BrewfilePage() {
               </div>
             </CardHeader>
             <CardContent>
-              <pre className="max-h-[640px] overflow-auto rounded-md border border-border bg-black/20 p-3 text-xs leading-5 text-muted-foreground">
+              <pre className="max-h-[640px] overflow-auto rounded-md border border-border bg-[var(--brewwery-pre)] p-3 text-xs leading-5 text-muted-foreground">
                 {result.rawContent}
               </pre>
             </CardContent>

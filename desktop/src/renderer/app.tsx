@@ -35,7 +35,20 @@ export function App() {
   const setActivePage = useUiStore((state) => state.setActivePage);
   const setSearchQuery = useUiStore((state) => state.setSearchQuery);
   const firstLaunchComplete = useSettingsStore((state) => state.firstLaunchComplete);
+  const theme = useSettingsStore((state) => state.theme);
   const [refreshKey, setRefreshKey] = useState(0);
+
+  useEffect(() => {
+    const applyTheme = () => {
+      const resolvedTheme =
+        theme === "system" ? (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark") : theme;
+      document.documentElement.dataset.theme = resolvedTheme;
+    };
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
+    applyTheme();
+    mediaQuery.addEventListener("change", applyTheme);
+    return () => mediaQuery.removeEventListener("change", applyTheme);
+  }, [theme]);
 
   useEffect(() => {
     return api.app.onShortcut((shortcut) => {

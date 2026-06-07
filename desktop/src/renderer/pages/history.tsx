@@ -168,7 +168,7 @@ function OperationCard({ entry }: { entry: OperationLogEntry }) {
         {output ? (
           <details className="mt-4">
             <summary className="cursor-pointer text-xs font-medium text-accent">Show output details</summary>
-            <pre className="mt-2 max-h-72 overflow-auto rounded-md border border-border bg-black/20 p-3 text-xs leading-5 text-muted-foreground">
+            <pre className="mt-2 max-h-72 overflow-auto rounded-md border border-border bg-[var(--brewwery-pre)] p-3 text-xs leading-5 text-muted-foreground">
               {preview}
             </pre>
           </details>

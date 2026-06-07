@@ -200,7 +200,7 @@ function MiniBars({ items }: { items: Array<{ label: string; value: number; clas
       {items.map((item) => (
         <div key={item.label} className="grid grid-cols-[90px_1fr_40px] items-center gap-3 text-xs">
           <span className="text-muted-foreground">{item.label}</span>
-          <div className="h-2 overflow-hidden rounded-full bg-white/10">
+          <div className="h-2 overflow-hidden rounded-full bg-muted">
             <div className={cn("h-full rounded-full", item.className)} style={{ width: `${Math.max((item.value / max) * 100, item.value ? 8 : 0)}%` }} />
           </div>
           <span className="text-right text-foreground">{item.value}</span>
@@ -229,7 +229,7 @@ function ServicePill({ label, tone, value }: { label: string; tone: "started" | 
       className={cn(
         "inline-flex items-center gap-2 rounded-full border px-2.5 py-1",
         tone === "started" ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-300" : "",
-        tone === "stopped" ? "border-white/10 bg-white/5 text-muted-foreground" : "",
+        tone === "stopped" ? "border-border bg-[var(--brewwery-card)] text-muted-foreground" : "",
         tone === "error" ? "border-red-500/20 bg-red-500/10 text-red-300" : ""
       )}
     >
@@ -245,7 +245,7 @@ function ServiceBadge({ status }: { status: BrewService["status"] }) {
       ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-300"
       : status === "error"
         ? "border-red-500/25 bg-red-500/10 text-red-300"
-        : "border-white/10 bg-white/5 text-muted-foreground";
+        : "border-border bg-[var(--brewwery-card)] text-muted-foreground";
   return <Badge className={className}>{status}</Badge>;
 }
 
@@ -270,7 +270,7 @@ function SkeletonRows({ count }: { count: number }) {
   return (
     <>
       {Array.from({ length: count }).map((_, index) => (
-        <div key={index} className="h-[66px] animate-pulse rounded-md border border-border bg-white/[0.035]" />
+        <div key={index} className="h-[66px] animate-pulse rounded-md border border-border bg-[var(--brewwery-card)]" />
       ))}
     </>
   );
@@ -286,7 +286,7 @@ function InlineError({ message }: { message: string }) {
 
 function Info({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-md border border-border bg-black/15 p-3">
+    <div className="rounded-md border border-border bg-[var(--brewwery-pre)] p-3">
       <div className="text-xs text-muted-foreground">{label}</div>
       <div className="mt-1 truncate text-foreground">{value}</div>
     </div>

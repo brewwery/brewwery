@@ -1,23 +1,59 @@
 @import "tailwindcss";
 
 @theme {
-  --color-border: hsl(220 12% 18%);
-  --color-background: hsl(220 13% 9%);
-  --color-foreground: hsl(38 22% 92%);
-  --color-muted: hsl(220 10% 13%);
-  --color-muted-foreground: hsl(220 9% 62%);
-  --color-accent: hsl(39 96% 52%);
-  --color-accent-foreground: hsl(32 95% 8%);
+  --color-border: var(--brewwery-border);
+  --color-background: var(--brewwery-background);
+  --color-foreground: var(--brewwery-foreground);
+  --color-muted: var(--brewwery-muted);
+  --color-muted-foreground: var(--brewwery-muted-foreground);
+  --color-accent: var(--brewwery-accent);
+  --color-accent-foreground: var(--brewwery-accent-foreground);
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --shadow-panel: 0 16px 50px rgb(0 0 0 / 0.28);
+  --shadow-panel: var(--brewwery-shadow-panel);
 }
 
 :root {
   color-scheme: dark;
-  background: #111318;
+  --brewwery-background: hsl(220 13% 9%);
+  --brewwery-foreground: hsl(38 22% 92%);
+  --brewwery-border: hsl(220 12% 18%);
+  --brewwery-muted: hsl(220 10% 13%);
+  --brewwery-muted-foreground: hsl(220 9% 62%);
+  --brewwery-accent: hsl(39 96% 52%);
+  --brewwery-accent-foreground: hsl(32 95% 8%);
+  --brewwery-app-panel: #111318;
+  --brewwery-sidebar: #0f1115;
+  --brewwery-titlebar: #101216;
+  --brewwery-card: rgb(255 255 255 / 0.035);
+  --brewwery-card-hover: rgb(255 255 255 / 0.06);
+  --brewwery-input: rgb(0 0 0 / 0.2);
+  --brewwery-overlay: rgb(0 0 0 / 0.45);
+  --brewwery-pre: rgb(0 0 0 / 0.2);
+  --brewwery-shadow-panel: 0 16px 50px rgb(0 0 0 / 0.28);
+  background: var(--brewwery-app-panel);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --brewwery-background: hsl(42 22% 93%);
+  --brewwery-foreground: hsl(32 14% 13%);
+  --brewwery-border: hsl(35 14% 78%);
+  --brewwery-muted: hsl(42 18% 88%);
+  --brewwery-muted-foreground: hsl(32 8% 43%);
+  --brewwery-accent: hsl(39 92% 43%);
+  --brewwery-accent-foreground: hsl(38 34% 97%);
+  --brewwery-app-panel: hsl(42 22% 94%);
+  --brewwery-sidebar: hsl(40 21% 89%);
+  --brewwery-titlebar: hsl(40 20% 91%);
+  --brewwery-card: rgb(255 252 246 / 0.72);
+  --brewwery-card-hover: rgb(255 248 236 / 0.95);
+  --brewwery-input: rgb(255 252 246 / 0.76);
+  --brewwery-overlay: rgb(31 29 25 / 0.18);
+  --brewwery-pre: rgb(255 252 246 / 0.72);
+  --brewwery-shadow-panel: 0 16px 44px rgb(42 36 27 / 0.12);
 }
 
 * {
@@ -29,8 +65,8 @@ body {
   min-width: 960px;
   min-height: 620px;
   overflow: hidden;
-  background: #111318;
-  color: #eee8dc;
+  background: var(--brewwery-app-panel);
+  color: var(--brewwery-foreground);
 }
 
 button,

@@ -9,7 +9,7 @@ export function Titlebar() {
   const setSearchQuery = useUiStore((state) => state.setSearchQuery);
 
   return (
-    <header className="col-span-2 grid grid-cols-[260px_1fr_auto] items-center border-b border-border bg-[#101216] pl-24 pr-4 [-webkit-app-region:drag]">
+    <header className="col-span-2 grid grid-cols-[260px_1fr_auto] items-center border-b border-border bg-[var(--brewwery-titlebar)] pl-24 pr-4 [-webkit-app-region:drag]">
       <div className="text-sm font-semibold tracking-normal text-foreground">Brewwery</div>
       <div className="relative max-w-md [-webkit-app-region:no-drag]">
         <Search className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />

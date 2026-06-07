@@ -74,7 +74,7 @@ export function ServicesPage() {
             </thead>
             <tbody>
               {services.map((service) => (
-                <tr key={service.name} className="hover:bg-white/[0.025]">
+                <tr key={service.name} className="hover:bg-[var(--brewwery-card-hover)]">
                   <Td>
                     <div className="font-medium">{service.name}</div>
                     {service.command ? <div className="mt-1 max-w-md truncate text-xs text-muted-foreground">{service.command}</div> : null}
@@ -156,7 +156,7 @@ function ServiceStatusBadge({ status }: { status: BrewService["status"] }) {
     <Badge
       className={cn(
         status === "started" && "border-emerald-500/25 bg-emerald-500/10 text-emerald-300",
-        status === "stopped" && "border-border bg-white/[0.04] text-muted-foreground",
+        status === "stopped" && "border-border bg-[var(--brewwery-card)] text-muted-foreground",
         status === "error" && "border-red-500/25 bg-red-500/10 text-red-300",
         status === "unknown" && "border-zinc-500/25 bg-zinc-500/10 text-zinc-300"
       )}

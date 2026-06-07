@@ -2,6 +2,20 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.8.1 - Light Theme & Visual Polish
+
+### Added
+
+- Working theme selector in Settings with `system`, `dark`, and `light`.
+- Warm light theme using a soft gray-beige macOS utility palette.
+- System theme mode that follows macOS appearance.
+
+### Improved
+
+- Core layout, sidebar, titlebar, status bar, cards, inputs, buttons, badges, tabs, dialogs, toasts, package drawer, onboarding, and progress panels now use theme tokens.
+- Raw output panels and detail surfaces use theme-aware panel colors instead of hardcoded dark backgrounds.
+- Settings Appearance copy now describes the active theme behavior.
+
 ## v0.8.0 - Launch Candidate
 
 ### Added

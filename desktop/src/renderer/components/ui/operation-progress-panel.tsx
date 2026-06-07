@@ -52,7 +52,7 @@ export function OperationProgressPanel({ progress, onClear }: OperationProgressP
             <span>{summary.statusLabel}</span>
             <span>{progress.status}</span>
           </div>
-          <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+          <div className="h-1.5 overflow-hidden rounded-full bg-muted">
             <div
               className={cn(
                 "h-full rounded-full transition-all",

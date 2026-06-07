@@ -123,7 +123,7 @@ export function PackagesPage() {
               {visibleRows.map((pkg) => (
                 <tr
                   key={pkg.fullName ?? pkg.name}
-                  className="cursor-pointer hover:bg-white/[0.025]"
+                  className="cursor-pointer hover:bg-[var(--brewwery-card-hover)]"
                   onClick={() => setSelected(pkg)}
                 >
                   <Td>

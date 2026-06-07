@@ -2,7 +2,7 @@
 
 Known issues for the current Launch Candidate.
 
-## v0.8.0
+## v0.8.1
 
 - Keep: builds are unsigned and not notarized. macOS Gatekeeper may warn before launch.
 - Keep: Apple Silicon is the primary tested architecture.
