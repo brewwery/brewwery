@@ -30,11 +30,11 @@ export function CleanupPage() {
         <div className="flex items-center gap-2">
           <Button variant="secondary" disabled={loading || running} onClick={() => void previewCleanup()}>
             <RefreshCw className="h-4 w-4" />
-            Preview Cleanup
+            Preview cleanup
           </Button>
           <Button variant="primary" disabled={!canRunCleanup || loading || running} onClick={() => setConfirmOpen(true)}>
             <Trash2 className="h-4 w-4" />
-            Run Cleanup
+            Run cleanup
           </Button>
         </div>
       </div>
@@ -124,7 +124,7 @@ export function CleanupPage() {
             logs, and broken links listed in the preview.
           </>
         }
-        confirmLabel="Run Cleanup"
+        confirmLabel="Run cleanup"
         loading={running}
         onCancel={() => setConfirmOpen(false)}
         onConfirm={() => void confirmCleanup()}

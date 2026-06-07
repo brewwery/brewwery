@@ -1,21 +1,20 @@
 # Known Issues
 
-Known issues for the current private beta.
+Known issues for the current Launch Candidate.
 
-## v0.7.2-beta.3
+## v0.8.0
 
-- Builds are unsigned and not notarized. macOS Gatekeeper may warn before launch.
-- Apple Silicon is the primary tested architecture.
-- Intel and universal builds are configured but may be untested.
-- Local DMG creation currently fails on this machine at `hdiutil create ... -fs APFS`. Use `pnpm package:mac:dir` or `pnpm package:mac:zip` for local verification and GitHub Actions for release DMG artifacts.
-- Long-running Homebrew operations depend on Homebrew stdout/stderr output. Some commands may appear quiet until Homebrew emits output.
-- Cleanup and service actions currently show final operation output rather than live streaming progress.
-- Tapped formula names containing `/` are rejected by the strict v0.4 package-name validator.
-- Discovery search accepts only ASCII Homebrew package-name characters.
-- Package path and Open Terminal shortcuts from package detail are placeholders.
-- Custom Homebrew path validation requires an absolute executable path that can run `brew --version`.
-- No telemetry or crash reporting is included by design.
-- No cloud sync is included.
-- No paid/pro features are included.
-- Builds are not auto-updated yet.
-- History stores trimmed output for very large operation logs to keep the app responsive.
+- Keep: builds are unsigned and not notarized. macOS Gatekeeper may warn before launch.
+- Keep: Apple Silicon is the primary tested architecture.
+- Move to v0.9: Intel and universal builds are configured but still need dedicated validation.
+- Move to v0.9: local DMG creation can fail on this machine at `hdiutil create ... -fs APFS`; use `pnpm package:mac:dir` or `pnpm package:mac:zip` locally and GitHub Actions for release DMG artifacts.
+- Move to v0.9: cleanup and service actions currently show final operation output rather than live streaming progress.
+- Move to v0.9: tapped formula names containing `/` are rejected by the strict package-name validator.
+- Keep: discovery search accepts only ASCII Homebrew package-name characters.
+- Fixed for v0.8: package path and package-detail Terminal placeholders are hidden from the detail drawer.
+- Keep: custom Homebrew path validation requires an absolute executable path that can run `brew --version`.
+- Keep: no telemetry or crash reporting is included by design.
+- Keep: no cloud sync is included.
+- Keep: no paid/pro features are included.
+- Move to v0.9: builds are not auto-updated yet.
+- Keep: History stores trimmed output for very large operation logs to keep the app responsive.

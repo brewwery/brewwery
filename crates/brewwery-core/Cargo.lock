@@ -10,7 +10,7 @@ checksum = "c4512299f36f043ab09a583e57bceb5a5aab7a73db1805848e8fef3c9e8c78b3"
 
 [[package]]
 name = "brewwery-core"
-version = "0.7.2-beta.3"
+version = "0.8.0"
 dependencies = [
  "napi",
  "napi-build",

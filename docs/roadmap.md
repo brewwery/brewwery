@@ -223,6 +223,23 @@ Status: complete.
 - Updates page includes explicit `Check for updates` action with confirmation
 - The action runs `brew update`, logs to History, and reloads outdated package counts
 
+## v0.8.0 Launch Candidate
+
+Status: complete.
+
+- Version bump to `0.8.0`
+- `APP_CHANNEL` set to `Launch Candidate`
+- About and status bar show `Brewwery 0.8.0`
+- Release notes added at `docs/release-notes/v0.8.0.md`
+- Launch Candidate checklist added
+- README and docs updated from beta wording to Launch Candidate wording
+- Known limitations reviewed as Keep, Fixed, or Move to v0.9
+- Package-detail placeholder actions hidden from primary UI
+- Status bar disabled Terminal placeholder removed
+- Button labels standardized across Updates, Cleanup, Doctor, and Brewfile
+- Issue templates added for bugs and feature requests
+- `pnpm release:verify` added as the primary verification script
+
 ## Later
 
 - Signed and notarized macOS builds

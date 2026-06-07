@@ -25,7 +25,7 @@ export function DoctorPage() {
           </Button>
           <Button variant="primary" disabled={loading} onClick={() => void runDoctor()}>
             <Stethoscope className="h-4 w-4" />
-            Run Doctor
+            Run doctor
           </Button>
         </div>
       </div>

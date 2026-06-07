@@ -1,0 +1,57 @@
+name: Bug report
+description: Report a problem in Brewwery
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for testing Brewwery. Please include enough detail to reproduce the issue locally.
+  - type: input
+    id: version
+    attributes:
+      label: Brewwery version
+      placeholder: "0.8.0"
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: "macOS 15.x"
+    validations:
+      required: true
+  - type: input
+    id: architecture
+    attributes:
+      label: Mac architecture
+      placeholder: "Apple Silicon / Intel"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the issue and what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. See ...
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: Paste Settings -> Copy diagnostics output if relevant. Remove anything you do not want to share.
+      render: text
+  - type: textarea
+    id: logs
+    attributes:
+      label: Output or screenshots
+      description: Add Homebrew output, screenshots, or operation details if useful.

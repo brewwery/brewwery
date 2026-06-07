@@ -45,7 +45,7 @@ export function BrewfilePage() {
           </Button>
           <Button variant="primary" disabled={loading} onClick={() => void exportBrewfile()}>
             <FileDown className="h-4 w-4" />
-            Export current setup
+            Export Brewfile
           </Button>
         </div>
       </div>

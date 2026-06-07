@@ -2,6 +2,29 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.8.0 - Launch Candidate
+
+### Added
+
+- `APP_CHANNEL` is now `Launch Candidate`.
+- `pnpm release:verify` as the primary Launch Candidate verification command.
+- GitHub issue templates for bug reports and feature requests.
+
+### Improved
+
+- Updates wording is standardized around `Refresh list` and `Check for updates`.
+- Cleanup, Doctor, and Brewfile action labels now use consistent launch-candidate wording.
+- Package detail drawer no longer shows placeholder package path or Terminal actions.
+- Status bar no longer shows a disabled Terminal placeholder.
+- Tray menu wording is aligned with `Check for updates` and `Run doctor`.
+
+### Known
+
+- Builds remain unsigned and not notarized for v0.8.
+- Local DMG APFS issues are documented; GitHub Actions remains the preferred DMG path.
+- Intel/universal validation is moved to v0.9.
+- Cleanup and service live streaming progress is moved to v0.9.
+
 ## v0.7.2-beta.3 - Beta QA Fixes
 
 ### Fixed

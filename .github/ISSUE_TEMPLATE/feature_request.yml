@@ -1,0 +1,41 @@
+name: Feature request
+description: Suggest an improvement for Brewwery
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping shape Brewwery.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What workflow should Brewwery make easier?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What would you like to see?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Packages
+        - Casks
+        - Search
+        - Updates
+        - Services
+        - Cleanup
+        - Doctor
+        - Brewfile
+        - History
+        - Settings
+        - Packaging
+        - Other
+    validations:
+      required: true

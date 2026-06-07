@@ -26,7 +26,7 @@ Homebrew commands are requested through typed IPC and executed through predefine
 
 There is no generic shell command IPC, no renderer shell access, and no sudo.
 
-The only mutating v0.5 operations are:
+The only mutating v0.8 operations are:
 
 - `brew install <formula>`
 - `brew install --cask <cask>`
@@ -35,6 +35,7 @@ The only mutating v0.5 operations are:
 - `brew upgrade <formula>`
 - `brew upgrade --cask <cask>`
 - `brew upgrade`
+- `brew update`
 - `brew services start <service>`
 - `brew services stop <service>`
 - `brew services restart <service>`
@@ -48,13 +49,13 @@ Package and cask identifiers accepted by install/uninstall are limited to ASCII 
 
 Streaming progress operations still use fixed argv arrays and `shell: false`; the renderer receives progress events only and cannot provide arbitrary commands.
 
-The v0.7.2-beta.3 Settings page can save a custom Homebrew path only after Rust validates that it is an absolute executable file and can run `brew --version`. The saved path is stored locally in Electron `userData` settings and is applied to both the Rust runner and streaming progress runner before falling back to default Homebrew detection paths.
+The v0.8.0 Settings page can save a custom Homebrew path only after Rust validates that it is an absolute executable file and can run `brew --version`. The saved path is stored locally in Electron `userData` settings and is applied to both the Rust runner and streaming progress runner before falling back to default Homebrew detection paths.
 
 Discovery search queries are validated in both the renderer and Rust core. Only ASCII package-name characters (`a-z`, `A-Z`, `0-9`, `@`, `-`, `_`, `.`, `+`) are accepted before an allowlisted `brew search` operation is run.
 
 Homebrew metadata refresh is explicit. Brewwery does not run `brew update` automatically on startup or page load; the Updates page requires user confirmation before running the allowlisted `brew update` operation.
 
-Private beta security review coverage is tracked in `docs/private-beta-test-report.md`.
+Launch Candidate security review coverage is tracked in `docs/launch-candidate-checklist.md`.
 
 Operation history is stored locally in renderer `localStorage`. It is not sent to any server, synced, or used for telemetry. Users can search it, export it as JSON from the renderer, or clear it from the History page. Large stdout/stderr/details are trimmed before storage to keep the app responsive.
 

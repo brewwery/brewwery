@@ -64,13 +64,13 @@ Clean local packaging artifacts:
 pnpm package:clean
 ```
 
-Run the private beta verification sequence:
+Run the Launch Candidate verification sequence:
 
 ```bash
-pnpm beta:verify
+pnpm release:verify
 ```
 
-Clean old local beta app/user data before a fresh install test:
+Clean old local app/user data before a fresh install test:
 
 ```bash
 pnpm beta:clean-install
@@ -83,16 +83,15 @@ pnpm package:mac:x64
 pnpm package:mac:universal
 ```
 
-Current beta builds are unsigned and not notarized. macOS may show a Gatekeeper warning for downloaded builds.
+Current Launch Candidate builds are unsigned and not notarized. macOS may show a Gatekeeper warning for downloaded builds.
 
-Before publishing a beta build, run through `docs/private-beta-test-report.md`.
+Before publishing a Launch Candidate build, run through `docs/launch-candidate-checklist.md`.
 
-Private beta release preparation lives in:
+Launch Candidate release preparation lives in:
 
-- `docs/private-beta.md`
 - `docs/known-issues.md`
-- `docs/private-beta-test-report.md`
-- `docs/release-notes/v0.7.2-beta.3.md`
+- `docs/launch-candidate-checklist.md`
+- `docs/release-notes/v0.8.0.md`
 
 ## Notes
 

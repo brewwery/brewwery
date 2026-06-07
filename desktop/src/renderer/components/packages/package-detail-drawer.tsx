@@ -1,4 +1,4 @@
-import { Copy, ExternalLink, FolderOpen, PackagePlus, PackageX, Terminal, Upload } from "lucide-react";
+import { Copy, ExternalLink, PackagePlus, PackageX, Upload } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Cask, Formula, PackageActionRequest, PackageInfo } from "@brewwery/shared-types";
 import { Badge } from "@/components/ui/badge";
@@ -98,8 +98,6 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
             <ActionButton icon={Copy} label="Copy uninstall command" disabled={!model.installed} onClick={() => copy(uninstallCommand)} />
             <ActionButton icon={Copy} label="Copy upgrade command" disabled={!model.installed} onClick={() => copy(upgradeCommand)} />
             <ActionButton icon={ExternalLink} label="Open homepage" disabled={!model.homepage} onClick={() => model.homepage && window.open(model.homepage, "_blank", "noopener,noreferrer")} />
-            <ActionButton icon={FolderOpen} label="Open package path" disabled tooltip="Coming later" />
-            <ActionButton icon={Terminal} label="Open Terminal" disabled tooltip="Coming later" />
           </div>
 
           {model.rawJson ? (

@@ -14,8 +14,8 @@ export function createTray(getMainWindow: () => BrowserWindow): Tray {
       { label: "Brewwery", enabled: false },
       { type: "separator" },
       { label: "Open Brewwery", click: () => showAndSend(getMainWindow()) },
-      { label: "Check Updates", click: () => showAndSend(getMainWindow(), "updates") },
-      { label: "Run Doctor", click: () => showAndSend(getMainWindow(), "doctor") },
+      { label: "Check for updates", click: () => showAndSend(getMainWindow(), "updates") },
+      { label: "Run doctor", click: () => showAndSend(getMainWindow(), "doctor") },
       {
         label: "Open Terminal",
         click: () => {
