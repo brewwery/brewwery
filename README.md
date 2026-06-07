@@ -10,12 +10,11 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 
 ## Screenshots
 
-| Dark | Light |
-| --- | --- |
-| ![Brewwery dashboard dark](docs/screenshots/Dashboard.png) | ![Brewwery dashboard light](docs/screenshots/Dashboard-Light.png) |
-| ![Brewwery search dark](docs/screenshots/Search.png) | ![Brewwery search light](docs/screenshots/Search-Light.png) |
-| ![Brewwery updates dark](docs/screenshots/Updates.png) | ![Brewwery updates light](docs/screenshots/Updates-Light.png) |
-| ![Brewwery settings dark](docs/screenshots/Settings.png) | ![Brewwery settings light](docs/screenshots/Settings-Light.png) |
+![Dashboard](docs/screenshots/Dashboard.png)
+
+![Search](docs/screenshots/Search.png)
+
+![Updates](docs/screenshots/Updates.png)
 
 ## Features
 
