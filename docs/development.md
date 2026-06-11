@@ -83,7 +83,7 @@ pnpm package:mac:x64
 pnpm package:mac:universal
 ```
 
-Apple Silicon is the recommended v1.0 target. x64 and universal builds are validation targets for v0.9.0, but Intel runtime testing still requires an Intel Mac or dedicated runner.
+Apple Silicon is the recommended v1.0 target. x64 and universal builds are validation targets for the v0.9 release-candidate line, but Intel runtime testing still requires an Intel Mac or dedicated runner.
 
 On this machine, x64 and universal packaging currently fail before Electron packaging because the Rust `x86_64-apple-darwin` target is not installed. A machine with `rustup target add x86_64-apple-darwin` or a dedicated Intel/universal CI runner is required to complete that validation.
 
@@ -95,7 +95,7 @@ Release Candidate release preparation lives in:
 
 - `docs/known-issues.md`
 - `docs/release-candidate-checklist.md`
-- `docs/release-notes/v0.9.0.md`
+- `docs/release-notes/v0.9.1.md`
 - `docs/signing-notarization.md`
 
 ## Notes

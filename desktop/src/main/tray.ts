@@ -1,4 +1,4 @@
-import { BrowserWindow, Menu, Tray, app, nativeImage, shell } from "electron";
+import { BrowserWindow, Menu, Tray, app, nativeImage } from "electron";
 import type { AppShortcut } from "@brewwery/shared-types";
 import icon from "../../assets/menu-bar-icon.png?asset";
 
@@ -11,17 +11,10 @@ export function createTray(getMainWindow: () => BrowserWindow): Tray {
   tray.setToolTip("Brewwery");
   tray.setContextMenu(
     Menu.buildFromTemplate([
-      { label: "Brewwery", enabled: false },
-      { type: "separator" },
       { label: "Open Brewwery", click: () => showAndSend(getMainWindow()) },
       { label: "Check for updates", click: () => showAndSend(getMainWindow(), "updates") },
       { label: "Run doctor", click: () => showAndSend(getMainWindow(), "doctor") },
-      {
-        label: "Open Terminal",
-        click: () => {
-          void shell.openPath("/System/Applications/Utilities/Terminal.app");
-        }
-      },
+      { label: "Settings", click: () => showAndSend(getMainWindow(), "settings") },
       { type: "separator" },
       { label: "Quit", click: () => app.quit() }
     ])

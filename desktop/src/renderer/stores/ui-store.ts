@@ -2,7 +2,9 @@ import { create } from "zustand";
 
 export type PageId =
   | "dashboard"
+  | "discover"
   | "search"
+  | "favorites"
   | "packages"
   | "updates"
   | "casks"

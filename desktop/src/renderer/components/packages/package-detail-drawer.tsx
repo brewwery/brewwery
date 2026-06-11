@@ -1,9 +1,10 @@
-import { Copy, ExternalLink, PackagePlus, PackageX, Upload } from "lucide-react";
+import { Copy, ExternalLink, PackagePlus, PackageX, Star, Upload } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Cask, Formula, PackageActionRequest, PackageInfo } from "@brewwery/shared-types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
+import { isFavoritePackage, useFavoritesStore } from "@/stores/favorites-store";
 
 type PackageDetail =
   | {
@@ -29,9 +30,13 @@ interface PackageDetailDrawerProps {
 }
 
 export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall, onUninstall, onUpgrade }: PackageDetailDrawerProps) {
+  const favorites = useFavoritesStore((state) => state.favorites);
+  const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
+
   if (!detail) return null;
 
   const model = normalizeDetail(detail);
+  const favorite = isFavoritePackage(favorites, model.name, model.kind);
   const installCommand = model.kind === "cask" ? `brew install --cask ${model.name}` : `brew install ${model.name}`;
   const uninstallCommand = model.kind === "cask" ? `brew uninstall --cask ${model.name}` : `brew uninstall ${model.name}`;
   const upgradeCommand = model.kind === "cask" ? `brew upgrade --cask ${model.name}` : `brew upgrade ${model.name}`;
@@ -58,6 +63,12 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
             <Badge className={cn(model.kind === "formula" ? "text-accent" : "border-purple-500/25 bg-purple-500/10 text-purple-300")}>
               {model.kind}
             </Badge>
+            {favorite ? (
+              <Badge className="border-accent/30 bg-[var(--brewwery-accent-soft)] text-accent">
+                <Star className="mr-1 h-3 w-3 fill-accent" />
+                Favorite
+              </Badge>
+            ) : null}
             <Badge className={model.installed ? "border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]" : "border-border bg-[var(--brewwery-card)]"}>
               {model.installed ? "Installed" : "Available"}
             </Badge>
@@ -87,6 +98,12 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
           {model.caveats ? <Info label="Caveats" value={model.caveats} /> : null}
 
           <div className="space-y-2 border-t border-border pt-5">
+            <ActionButton
+              icon={Star}
+              label={favorite ? "Remove from Favorites" : "Add to Favorites"}
+              iconClassName={favorite ? "fill-accent text-accent" : undefined}
+              onClick={() => toggleFavorite(model.name, model.kind)}
+            />
             {!model.installed ? (
               <ActionButton icon={PackagePlus} label="Install" disabled={!onInstall || actionLoading} onClick={() => onInstall?.(request)} />
             ) : (
@@ -143,19 +160,21 @@ function Dependencies({ dependencies }: { dependencies: string[] }) {
 function ActionButton({
   disabled,
   icon: Icon,
+  iconClassName,
   label,
   onClick,
   tooltip
 }: {
   disabled?: boolean;
   icon: LucideIcon;
+  iconClassName?: string;
   label: string;
   onClick?: () => void;
   tooltip?: string;
 }) {
   return (
     <Button className="w-full justify-start" disabled={disabled} onClick={onClick} title={tooltip} variant="secondary">
-      <Icon className="h-4 w-4" />
+      <Icon className={cn("h-4 w-4", iconClassName)} />
       {label}
     </Button>
   );

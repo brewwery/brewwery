@@ -2,6 +2,26 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.9.1 - Discover & Favorites
+
+### Added
+
+- Local Discover page with curated Homebrew formulae and cask collections.
+- Local Favorites page for saved formulae and casks.
+- Favorite add/remove action in the package detail drawer.
+- Favorite indicators in Search, Discover, Packages, and Casks.
+
+### Changed
+
+- Sidebar Library order is now Dashboard, Discover, Search, Favorites, Packages, Casks, Updates.
+- Release workflow now builds unsigned artifacts by default instead of exporting empty signing secrets.
+
+### Security
+
+- Discover uses a static bundled registry.
+- Favorites are stored locally with Zustand persistence.
+- No new brew commands, IPC channels, accounts, telemetry, cloud sync, paid logic, or donation/support logic were added.
+
 ## v0.9.0 - Release Candidate
 
 ### Improved

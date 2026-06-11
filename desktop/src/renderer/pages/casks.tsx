@@ -1,4 +1,4 @@
-import { MoreHorizontal, RefreshCw } from "lucide-react";
+import { MoreHorizontal, RefreshCw, Star } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { Cask } from "@brewwery/shared-types";
 import { PackageDetailDrawer } from "@/components/packages/package-detail-drawer";
@@ -14,6 +14,7 @@ import { Tab, Tabs } from "@/components/ui/tabs";
 import { commandFor, usePackageActions } from "@/hooks/use-package-actions";
 import { usePackages } from "@/hooks/use-packages";
 import { useSystem } from "@/hooks/use-system";
+import { isFavoritePackage, useFavoritesStore } from "@/stores/favorites-store";
 import type { PackageActionRequest } from "@brewwery/shared-types";
 
 type SortKey = "name" | "version" | "status";
@@ -22,6 +23,7 @@ export function CasksPage() {
   const { packages, loading, error, refreshAll: refreshPackages } = usePackages("cask");
   const { refresh: refreshSystem } = useSystem();
   const { clearProgress, loading: actionLoading, progress, uninstall } = usePackageActions();
+  const favorites = useFavoritesStore((state) => state.favorites);
   const [query, setQuery] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [selected, setSelected] = useState<Cask | undefined>();
@@ -108,7 +110,10 @@ export function CasksPage() {
               {visibleRows.map((pkg) => (
                 <tr key={pkg.token} className="cursor-pointer hover:bg-[var(--brewwery-card-hover)]" onClick={() => setSelected(pkg)}>
                   <Td>
-                    <div className="font-medium">{pkg.name?.[0] ?? pkg.token}</div>
+                    <div className="flex items-center gap-2 font-medium">
+                      {pkg.name?.[0] ?? pkg.token}
+                      {isFavoritePackage(favorites, pkg.token, "cask") ? <Star className="h-3.5 w-3.5 fill-accent text-accent" /> : null}
+                    </div>
                     <div className="mt-1 text-xs text-muted-foreground">{pkg.token}</div>
                   </Td>
                   <Td className="text-muted-foreground">{pkg.installedVersion ?? "Unknown"}</Td>

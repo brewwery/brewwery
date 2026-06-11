@@ -1,4 +1,4 @@
-import { Info, SearchIcon } from "lucide-react";
+import { Info, SearchIcon, Star } from "lucide-react";
 import { useState } from "react";
 import type { PackageActionRequest, PackageSearchResult } from "@brewwery/shared-types";
 import { PackageDetailDrawer } from "@/components/packages/package-detail-drawer";
@@ -12,6 +12,7 @@ import { ErrorDescription, StatePanel } from "@/components/ui/state-panel";
 import { Table, Td, Th } from "@/components/ui/table";
 import { usePackageActions, commandFor } from "@/hooks/use-package-actions";
 import { usePackageDiscovery, usePackageInfo } from "@/hooks/use-package-discovery";
+import { isFavoritePackage, useFavoritesStore } from "@/stores/favorites-store";
 import { useUiStore } from "@/stores/ui-store";
 
 type PendingAction = { action: "install" | "uninstall"; request: PackageActionRequest };
@@ -22,6 +23,7 @@ export function SearchPage() {
   const { debouncedQuery, error, hydrateInfo, installedLoaded, invalidQuery, loading, results } = usePackageDiscovery(query);
   const { clearInfo, error: infoError, info, loadInfo, loading: infoLoading } = usePackageInfo();
   const { clearProgress, error: actionError, install, loading: actionLoading, progress, uninstall } = usePackageActions();
+  const favorites = useFavoritesStore((state) => state.favorites);
   const [pendingAction, setPendingAction] = useState<PendingAction | undefined>();
   const detailInfo = hydrateInfo(info);
 
@@ -86,7 +88,12 @@ export function SearchPage() {
             <tbody>
               {results.map((result) => (
                 <tr key={`${result.kind}:${result.name}`} className="cursor-pointer hover:bg-[var(--brewwery-card-hover)]" onClick={() => void openResult(result)}>
-                  <Td className="font-medium">{result.name}</Td>
+                  <Td className="font-medium">
+                    <div className="flex items-center gap-2">
+                      {result.name}
+                      {isFavoritePackage(favorites, result.name, result.kind) ? <Star className="h-3.5 w-3.5 fill-accent text-accent" /> : null}
+                    </div>
+                  </Td>
                   <Td>
                     <Badge className={result.kind === "cask" ? "border-purple-500/25 bg-purple-500/10 text-purple-300" : undefined}>
                       {result.kind}

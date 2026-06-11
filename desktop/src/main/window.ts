@@ -11,7 +11,7 @@ const defaultWindowSize = {
 };
 const minimumWindowSize = {
   width: 960,
-  height: 620
+  height: 680
 };
 
 function centerWindow(window: BrowserWindow): void {

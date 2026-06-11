@@ -1,10 +1,10 @@
 # Signing And Notarization
 
-Brewwery v0.9.0 prepares signing configuration, but Release Candidate builds remain unsigned unless Apple Developer assets are available.
+Brewwery v0.9.1 prepares signing configuration, but Release Candidate builds remain unsigned unless Apple Developer assets are available.
 
 ## Decision
 
-- v0.9.0: unsigned Release Candidate builds are acceptable for private QA.
+- v0.9.1: unsigned Release Candidate builds are acceptable for private QA.
 - v1.0: target a signed and notarized Apple Silicon build if Apple Developer Program access is ready.
 - Fallback: if signing is not ready, keep the build private/limited and document Gatekeeper warnings clearly.
 
@@ -28,6 +28,8 @@ APPLE_API_KEY_ID
 APPLE_API_ISSUER
 APPLE_TEAM_ID
 ```
+
+The public unsigned Release Candidate workflow does not export these secrets by default. Secret names in workflow files are visible in open-source repositories, but secret values are not visible to users and are masked by GitHub Actions. Brewwery keeps signing secrets out of the default release job until signing/notarization is intentionally enabled.
 
 Alternative Apple ID notarization secrets:
 

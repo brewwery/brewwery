@@ -241,6 +241,26 @@ After v0.9.0, only the following changes should land before v1.0:
 - Release pipeline polish
 - Security review fixes
 
+## v0.9.1 Discover & Favorites
+
+Status: implemented as Release Candidate polish.
+
+- Local Discover page with curated package collections
+- Local Favorites page backed by Zustand persistence
+- Favorite add/remove action in the package detail drawer
+- Favorite indicators in Search, Discover, Packages, and Casks
+- No new Homebrew commands or IPC channels
+- No accounts, cloud sync, telemetry, paid logic, or donation/support logic
+
+## v0.9.2 QA Fixes
+
+Planned if Release Candidate testing finds issues.
+
+- Bug fixes
+- Documentation cleanup
+- Packaging verification
+- Final launch candidate QA
+
 ## Later
 
 - Signed and notarized macOS builds

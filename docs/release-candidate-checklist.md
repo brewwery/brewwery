@@ -1,19 +1,19 @@
 # Release Candidate Checklist
 
-Brewwery v0.9.0 Release Candidate checklist.
+Brewwery v0.9.1 Release Candidate checklist.
 
 ## Version And Metadata
 
-- [ ] Workspace package version is `0.9.0`.
-- [ ] Desktop package version is `0.9.0`.
-- [ ] Shared types package version is `0.9.0`.
-- [ ] Rust crate version is `0.9.0`.
-- [ ] Cargo lock version is `0.9.0`.
-- [ ] Generated napi wrapper expects `0.9.0`.
-- [ ] `APP_VERSION` is `0.9.0`.
+- [ ] Workspace package version is `0.9.1`.
+- [ ] Desktop package version is `0.9.1`.
+- [ ] Shared types package version is `0.9.1`.
+- [ ] Rust crate version is `0.9.1`.
+- [ ] Cargo lock version is `0.9.1`.
+- [ ] Generated napi wrapper expects `0.9.1`.
+- [ ] `APP_VERSION` is `0.9.1`.
 - [ ] `APP_CHANNEL` is `Release Candidate`.
 - [ ] Bundle id is `com.brewwery.app`.
-- [ ] Bundle metadata shows `0.9.0`.
+- [ ] Bundle metadata shows `0.9.1`.
 
 ## Build And Packaging
 

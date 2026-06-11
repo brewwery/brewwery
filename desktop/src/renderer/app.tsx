@@ -5,7 +5,9 @@ import { BrewfilePage } from "./pages/brewfile";
 import { CasksPage } from "./pages/casks";
 import { CleanupPage } from "./pages/cleanup";
 import { DashboardPage } from "./pages/dashboard";
+import { DiscoverPage } from "./pages/discover";
 import { DoctorPage } from "./pages/doctor";
+import { FavoritesPage } from "./pages/favorites";
 import { HistoryPage } from "./pages/history";
 import { PackagesPage } from "./pages/packages";
 import { SearchPage } from "./pages/search";
@@ -18,7 +20,9 @@ import { useUiStore } from "./stores/ui-store";
 
 const pages = {
   dashboard: <DashboardPage />,
+  discover: <DiscoverPage />,
   search: <SearchPage />,
+  favorites: <FavoritesPage />,
   packages: <PackagesPage />,
   updates: <UpdatesPage />,
   casks: <CasksPage />,

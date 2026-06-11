@@ -21,6 +21,8 @@ Brewwery is a local-first macOS app. It should be conservative because it sits b
 - The preload exposes only the `window.brewwery` API.
 - External links are opened by the OS browser and denied inside app windows.
 
+Favorites and Discover are local renderer features. Favorites are stored in local Zustand persistence, and Discover uses a static bundled registry. They do not add new IPC channels, shell commands, remote requests, telemetry, accounts, cloud sync, paid logic, or donation/support logic.
+
 ## Command Execution
 
 Homebrew commands are requested through typed IPC and executed through predefined Homebrew operations. The Rust native core handles Homebrew detection, parsing, and normalized command operations. The Electron main process also includes allowlisted streaming operations for install, uninstall, and upgrade so stdout/stderr can be sent to the renderer as progress events.
@@ -50,7 +52,7 @@ Package and cask identifiers accepted by install/uninstall are limited to ASCII 
 
 Streaming progress operations still use fixed argv arrays and `shell: false`; the renderer receives progress events only and cannot provide arbitrary commands.
 
-The v0.9.0 Settings page can save a custom Homebrew path only after Rust validates that it is an absolute executable file and can run `brew --version`. The saved path is stored locally in Electron `userData` settings and is applied to both the Rust runner and streaming progress runner before falling back to default Homebrew detection paths.
+The v0.9.1 Settings page can save a custom Homebrew path only after Rust validates that it is an absolute executable file and can run `brew --version`. The saved path is stored locally in Electron `userData` settings and is applied to both the Rust runner and streaming progress runner before falling back to default Homebrew detection paths.
 
 Discovery search queries are validated in both the renderer and Rust core. Only ASCII package-name characters (`a-z`, `A-Z`, `0-9`, `@`, `-`, `_`, `.`, `+`) are accepted before an allowlisted `brew search` operation is run.
 

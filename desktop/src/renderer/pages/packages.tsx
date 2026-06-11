@@ -1,4 +1,4 @@
-import { MoreHorizontal, RefreshCw } from "lucide-react";
+import { MoreHorizontal, RefreshCw, Star } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { Formula } from "@brewwery/shared-types";
 import { PackageDetailDrawer } from "@/components/packages/package-detail-drawer";
@@ -14,6 +14,7 @@ import { Tab, Tabs } from "@/components/ui/tabs";
 import { commandFor, usePackageActions } from "@/hooks/use-package-actions";
 import { usePackages } from "@/hooks/use-packages";
 import { useSystem } from "@/hooks/use-system";
+import { isFavoritePackage, useFavoritesStore } from "@/stores/favorites-store";
 import type { PackageActionRequest } from "@brewwery/shared-types";
 
 type FormulaFilter = "all" | "request" | "dependency";
@@ -23,6 +24,7 @@ export function PackagesPage() {
   const { packages, loading, error, refreshAll: refreshPackages } = usePackages("formula");
   const { refresh: refreshSystem } = useSystem();
   const { clearProgress, loading: actionLoading, progress, uninstall } = usePackageActions();
+  const favorites = useFavoritesStore((state) => state.favorites);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<FormulaFilter>("all");
   const [sortKey, setSortKey] = useState<SortKey>("name");
@@ -127,7 +129,10 @@ export function PackagesPage() {
                   onClick={() => setSelected(pkg)}
                 >
                   <Td>
-                    <div className="font-medium">{pkg.name}</div>
+                    <div className="flex items-center gap-2 font-medium">
+                      {pkg.name}
+                      {isFavoritePackage(favorites, pkg.name, "formula") ? <Star className="h-3.5 w-3.5 fill-accent text-accent" /> : null}
+                    </div>
                     <div className="mt-1 text-xs text-muted-foreground">{pkg.fullName ?? pkg.name}</div>
                   </Td>
                   <Td className="text-muted-foreground">{pkg.installedVersion ?? "Unknown"}</Td>

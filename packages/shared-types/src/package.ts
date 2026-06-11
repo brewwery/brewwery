@@ -54,3 +54,9 @@ export interface PackageActionResult {
   stdout?: string;
   stderr?: string;
 }
+
+export interface FavoritePackage {
+  name: string;
+  kind: PackageKind;
+  addedAt: string;
+}
