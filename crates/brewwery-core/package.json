@@ -1,11 +1,14 @@
 {
   "name": "@brewwery/brewwery-core",
-  "version": "0.8.2",
+  "version": "0.9.0",
   "private": true,
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "build": "napi build --platform --release",
+    "build:darwin:arm64": "napi build --platform --release --target aarch64-apple-darwin",
+    "build:darwin:x64": "napi build --platform --release --target x86_64-apple-darwin",
+    "build:darwin:universal": "pnpm build:darwin:arm64 && pnpm build:darwin:x64",
     "build:debug": "napi build --platform",
     "typecheck": "cargo check",
     "lint": "cargo check"

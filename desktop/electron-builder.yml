@@ -16,8 +16,10 @@ asarUnpack:
 mac:
   icon: assets/brewwery-icon.png
   category: public.app-category.utilities
-  hardenedRuntime: false
+  hardenedRuntime: true
   gatekeeperAssess: false
+  entitlements: entitlements.mac.plist
+  entitlementsInherit: entitlements.mac.inherit.plist
   extendInfo:
     CFBundleName: Brewwery
     CFBundleDisplayName: Brewwery
@@ -26,11 +28,7 @@ mac:
     LSApplicationCategoryType: public.app-category.utilities
   target:
     - target: dmg
-      arch:
-        - arm64
     - target: zip
-      arch:
-        - arm64
 dmg:
   title: Brewwery ${version}
   contents:

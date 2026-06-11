@@ -64,7 +64,7 @@ Clean local packaging artifacts:
 pnpm package:clean
 ```
 
-Run the Launch Candidate verification sequence:
+Run the Release Candidate verification sequence:
 
 ```bash
 pnpm release:verify
@@ -83,15 +83,20 @@ pnpm package:mac:x64
 pnpm package:mac:universal
 ```
 
-Current Launch Candidate builds are unsigned and not notarized. macOS may show a Gatekeeper warning for downloaded builds.
+Apple Silicon is the recommended v1.0 target. x64 and universal builds are validation targets for v0.9.0, but Intel runtime testing still requires an Intel Mac or dedicated runner.
 
-Before publishing a Launch Candidate build, run through `docs/launch-candidate-checklist.md`.
+On this machine, x64 and universal packaging currently fail before Electron packaging because the Rust `x86_64-apple-darwin` target is not installed. A machine with `rustup target add x86_64-apple-darwin` or a dedicated Intel/universal CI runner is required to complete that validation.
 
-Launch Candidate release preparation lives in:
+Current Release Candidate builds are unsigned and not notarized. macOS may show a Gatekeeper warning for downloaded builds. See `docs/signing-notarization.md` for the v1.0 signing plan, entitlements, and required CI secrets.
+
+Before publishing a Release Candidate build, run through `docs/release-candidate-checklist.md`.
+
+Release Candidate release preparation lives in:
 
 - `docs/known-issues.md`
-- `docs/launch-candidate-checklist.md`
-- `docs/release-notes/v0.8.2.md`
+- `docs/release-candidate-checklist.md`
+- `docs/release-notes/v0.9.0.md`
+- `docs/signing-notarization.md`
 
 ## Notes
 

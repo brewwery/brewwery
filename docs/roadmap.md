@@ -216,6 +216,31 @@
 - macOS window resize, maximize, and fullscreen controls restored
 - Window centering shortcut remains available and centers on both axes
 
+## v0.9.0 Release Candidate
+
+Status: in progress.
+
+- Version bump to `0.9.0`
+- `APP_CHANNEL` set to `Release Candidate`
+- About, status bar, and bundle metadata show `Brewwery 0.9.0`
+- Release notes added at `docs/release-notes/v0.9.0.md`
+- Release Candidate checklist added
+- Signing and notarization preparation documented
+- Known limitations reviewed and assigned to keep, fixed, or future release
+- Apple Silicon remains the recommended v1.0 target
+- Intel and universal builds are validation targets, with runtime testing documented as pending until an Intel Mac or dedicated runner is available
+
+## Feature Freeze
+
+After v0.9.0, only the following changes should land before v1.0:
+
+- Bug fixes
+- Documentation updates
+- Packaging fixes
+- QA findings
+- Release pipeline polish
+- Security review fixes
+
 ## Later
 
 - Signed and notarized macOS builds

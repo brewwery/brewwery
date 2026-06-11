@@ -2,6 +2,21 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.9.0 - Release Candidate
+
+### Improved
+
+- README, security, development, known issues, and roadmap now describe v0.9.0 Release Candidate status.
+- Known limitations are documented as explicit release decisions: keep, move to v1.x, or fixed.
+- Release Candidate feature freeze is documented: only bug fixes, docs, packaging, QA, release pipeline polish, and security review should land before v1.0.
+
+### Known
+
+- v0.9.0 remains unsigned and not notarized while signing assets are prepared.
+- Apple Silicon remains the primary verified build target for v1.0.
+- Intel and universal packaging are attempted for validation, but Intel runtime testing requires an Intel Mac or dedicated runner.
+- Cleanup and service actions continue to show final result output rather than live streaming progress.
+
 ## v0.8.2 - Light Theme QA Polish
 
 ### Fixed

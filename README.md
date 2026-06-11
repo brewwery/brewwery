@@ -2,13 +2,11 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.8.2 Launch Candidate / light theme polish.
+Current status: v0.9.0 Release Candidate / feature freeze.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
 See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
-
-## Brewwery
 
 ![Dashboard](docs/screenshots/Dashboard.png)
 
@@ -33,7 +31,7 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - Inspect discovered package metadata, including homepage, latest version, dependencies, caveats, and install command.
 - Install and uninstall formulae/casks after explicit confirmation, with operation history and result toasts.
 - Stream progress output for install, uninstall, and upgrade operations.
-- Package unsigned macOS launch-candidate builds as DMG and ZIP artifacts.
+- Package unsigned macOS release-candidate builds as DMG and ZIP artifacts.
 - Use a first-launch onboarding screen, tray menu, keyboard shortcuts, and a basic Settings/About page.
 - Switch between System, Dark, and warm Light themes.
 - Validate and save a custom Homebrew executable path for both normal and streaming Homebrew operations.
@@ -42,8 +40,8 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - Filter History to failed operations during QA.
 - Keep History and live progress output responsive with capped output previews.
 - Show calmer, user-facing error messages with expandable technical details.
-- Use packaged-app launch-candidate verification docs and local `.app` packaging command for DMG-independent testing.
-- Prepare launch-candidate release notes, known issues, install/uninstall instructions, and QA checklist.
+- Use packaged-app release-candidate verification docs and local `.app` packaging command for DMG-independent testing.
+- Prepare release-candidate release notes, known issues, install/uninstall instructions, and QA checklist.
 - Provide a dark macOS utility UI with sidebar navigation and status bar.
 - Define typed IPC contracts in a shared workspace package.
 - Scaffold a Rust `napi-rs` core for future command parsing and execution.
@@ -143,7 +141,7 @@ Clean local packaging artifacts:
 pnpm package:clean
 ```
 
-Run the Launch Candidate verification pass:
+Run the Release Candidate verification pass:
 
 ```bash
 pnpm release:verify
@@ -178,19 +176,20 @@ Brewwery uses `electron-builder` with:
 - primary target: Apple Silicon `arm64`
 - artifacts: unsigned `.dmg` and `.zip`
 
-Current Launch Candidate builds are unsigned and not notarized. macOS Gatekeeper may warn when opening downloaded builds until signing and notarization are configured.
+Current Release Candidate builds are unsigned and not notarized. macOS Gatekeeper may warn when opening downloaded builds until signing and notarization are configured.
 
 If local DMG creation fails because of `hdiutil create ... -fs APFS`, use `pnpm package:mac:zip` or `pnpm package:mac:dir` for local verification and let GitHub Actions build the DMG on a clean macOS runner.
 
-Before publishing, run through [docs/launch-candidate-checklist.md](docs/launch-candidate-checklist.md).
+Before publishing, run through [docs/release-candidate-checklist.md](docs/release-candidate-checklist.md).
 
-Launch Candidate docs:
+Release Candidate docs:
 
 - [Known issues](docs/known-issues.md)
-- [Launch Candidate checklist](docs/launch-candidate-checklist.md)
-- [Release notes draft](docs/release-notes/v0.8.2.md)
+- [Release Candidate checklist](docs/release-candidate-checklist.md)
+- [Release notes draft](docs/release-notes/v0.9.0.md)
+- [Signing and notarization](docs/signing-notarization.md)
 
-## Uninstall Local Alpha
+## Uninstall Local Build
 
 Remove the local packaged app and Brewwery user data:
 
@@ -203,9 +202,9 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.8.2 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Mutating operations in v0.9.0 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
-No authentication, telemetry, cloud sync, or monetization logic is included.
+No authentication, telemetry, cloud sync, monetization, donation, or support logic is included.
 
 ## Screenshots
 
@@ -217,17 +216,17 @@ No authentication, telemetry, cloud sync, or monetization logic is included.
 
 ## Known Limitations
 
-- Dashboard, Packages, Casks, Updates, Services, Cleanup, Doctor, Brewfile, and History use real local data.
-- Custom Homebrew path is validated before saving and is used by both Rust runner commands and streaming progress commands.
-- Builds are unsigned and not notarized.
-- Apple Silicon is the primary tested architecture for the Launch Candidate.
-- No sudo or arbitrary shell command is implemented.
-- Tapped formula names containing `/` are rejected by the strict v0.4 package-name validator.
-- Search result rows show lightweight data first; installed state is reconciled from local formulae/casks and full metadata loads when a package detail is opened.
-- Updates are based on local Homebrew metadata. Use `Check for updates` on the Updates page to run `brew update`, then refresh outdated package counts.
-- Progress output is shown for package install/uninstall/upgrade, but cleanup/service progress still uses final operation output.
+- Builds are unsigned and not notarized during the Release Candidate.
+- Local DMG creation may fail on some machines because of the APFS `hdiutil` issue; use `.app`/ZIP locally and GitHub Actions for release DMG artifacts.
+- Apple Silicon is the recommended v1.0 target; Intel and universal builds move to v1.1 validation if needed.
+- Progress output is shown for package install/uninstall/upgrade, but cleanup and service actions still show final operation output only.
 - Package path and package-detail Terminal shortcuts are hidden until they can be implemented safely.
-- Formula/cask descriptions depend on the JSON shape returned by the installed Homebrew version.
+- Tapped formula names containing `/` are rejected by the strict package-name validator.
+- Discovery search accepts only ASCII Homebrew package-name characters.
+- Updates are based on local Homebrew metadata. Use `Check for updates` on the Updates page to run `brew update`, then refresh outdated package counts.
+- No sudo or arbitrary shell command is implemented.
+- No telemetry, crash reporting, cloud sync, paid/pro, donation, or support logic is included.
+- See [docs/known-issues.md](docs/known-issues.md) for the full release-candidate decision list.
 
 ## License
 
