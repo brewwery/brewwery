@@ -7,7 +7,7 @@ const currentDir = dirname(fileURLToPath(import.meta.url));
 const appIcon = nativeImage.createFromPath(icon);
 const defaultWindowSize = {
   width: 1180,
-  height: 840
+  height: 880
 };
 const minimumWindowSize = {
   width: 960,

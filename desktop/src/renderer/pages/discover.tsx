@@ -34,6 +34,15 @@ export function DiscoverPage() {
     () => discoverCollections.find((item) => item.id === selectedCollection) ?? discoverCollections[0]!,
     [selectedCollection]
   );
+  const collectionSummary = useMemo(() => {
+    const installed = collection.items.filter((item) => isPackageInstalled(item.name, item.kind, formulae, casks)).length;
+    const favorite = collection.items.filter((item) => isFavoritePackage(favorites, item.name, item.kind)).length;
+    return {
+      installed,
+      favorite,
+      available: collection.items.length - installed
+    };
+  }, [casks, collection.items, favorites, formulae]);
 
   const visibleError = infoError ?? actionError;
 
@@ -77,7 +86,16 @@ export function DiscoverPage() {
               <h2 className="text-base font-semibold">{collection.title}</h2>
               <p className="mt-1 text-sm text-muted-foreground">{collection.description}</p>
             </div>
-            <Badge>{collection.items.length} packages</Badge>
+            <div className="flex flex-wrap justify-end gap-2">
+              <Badge>{collection.items.length} packages</Badge>
+              <Badge className="border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]">
+                {collectionSummary.installed} installed
+              </Badge>
+              <Badge className="border-accent/30 bg-[var(--brewwery-accent-soft)] text-accent">
+                {collectionSummary.favorite} favorites
+              </Badge>
+              <Badge>{collectionSummary.available} available</Badge>
+            </div>
           </div>
         </CardHeader>
         <CardContent>

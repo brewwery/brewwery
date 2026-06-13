@@ -254,12 +254,17 @@ Status: implemented as Release Candidate polish.
 
 ## v0.9.2 QA Fixes
 
-Planned if Release Candidate testing finds issues.
+Status: implemented.
 
-- Bug fixes
+- Settings `Check Homebrew` action for explicit `brew update`
+- Search installed status badge polish
+- Scrollable package detail drawer
+- Discover collection summary polish
+- Tapped formula identifier validation fix
+- Favorite state immediate UI update
+- Tray menu cleanup
 - Documentation cleanup
 - Packaging verification
-- Final launch candidate QA
 
 ## Later
 

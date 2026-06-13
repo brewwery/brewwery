@@ -1,9 +1,10 @@
-import { Clipboard, ExternalLink, RotateCcw, Save, Trash2 } from "lucide-react";
+import { Clipboard, ExternalLink, RefreshCw, RotateCcw, RotateCw, Save, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { BrewPathValidationResult, IpcError } from "@brewwery/shared-types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { Input } from "@/components/ui/input";
 import { useSystem } from "@/hooks/use-system";
 import { usePackages } from "@/hooks/use-packages";
@@ -26,7 +27,7 @@ export function SettingsPage() {
   const { packages: formulae } = usePackages("formula");
   const { packages: casks } = usePackages("cask");
   const { services } = useServices();
-  const { updates } = useUpdates();
+  const { actionLoading: updatesActionLoading, updateMetadata, updates } = useUpdates();
   const entries = useHistoryStore((state) => state.entries);
   const clearEntries = useHistoryStore((state) => state.clearEntries);
   const customHomebrewPath = useSettingsStore((state) => state.customHomebrewPath);
@@ -37,6 +38,7 @@ export function SettingsPage() {
   const [pathLoading, setPathLoading] = useState(false);
   const [pathValidation, setPathValidation] = useState<BrewPathValidationResult | undefined>();
   const [pathError, setPathError] = useState<IpcError | undefined>();
+  const [pendingMetadataUpdate, setPendingMetadataUpdate] = useState(false);
 
   useEffect(() => {
     void api.settings.getHomebrewPath().then((response) => {
@@ -99,6 +101,12 @@ export function SettingsPage() {
     }
   };
 
+  const confirmMetadataUpdate = async () => {
+    setPendingMetadataUpdate(false);
+    await updateMetadata();
+    await refresh();
+  };
+
   return (
     <section className="space-y-5">
       <div>
@@ -152,9 +160,16 @@ export function SettingsPage() {
             <p className="text-xs text-muted-foreground">Saved paths are validated by Rust and used by both normal Homebrew commands and streaming progress operations.</p>
           </div>
 
-          <Button variant="secondary" onClick={() => void refresh()}>
-            Check manually
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="secondary" onClick={() => void refresh()} disabled={loading}>
+              <RefreshCw className={loading ? "h-4 w-4 animate-spin" : "h-4 w-4"} />
+              Refresh data
+            </Button>
+            <Button variant="secondary" onClick={() => setPendingMetadataUpdate(true)} disabled={loading || updatesActionLoading || Boolean(detection && !detection.found)}>
+              <RotateCw className={updatesActionLoading ? "h-4 w-4 animate-spin" : "h-4 w-4"} />
+              Check Homebrew
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
@@ -239,6 +254,21 @@ export function SettingsPage() {
           </div>
         </CardContent>
       </Card>
+
+      <ConfirmationDialog
+        open={pendingMetadataUpdate}
+        title="Check Homebrew for updates?"
+        description={
+          <>
+            Brewwery will run <span className="font-mono text-foreground">brew update</span>, then refresh Homebrew information. This may use
+            the network and can take a little while.
+          </>
+        }
+        confirmLabel="Check Homebrew"
+        loading={updatesActionLoading}
+        onCancel={() => setPendingMetadataUpdate(false)}
+        onConfirm={() => void confirmMetadataUpdate()}
+      />
     </section>
   );
 }

@@ -258,7 +258,11 @@ function errorFor(plan: ProgressPlan, output: string, statusCode: number | null)
 
 function normalizePackageRequest(request: PackageActionRequest): PackageActionRequest {
   const kind = request.kind === "cask" ? "cask" : "formula";
-  validateIdentifier(request.name, kind === "cask" ? "invalid cask token" : "invalid package name");
+  if (kind === "cask") {
+    validateCaskToken(request.name);
+  } else {
+    validateFormulaIdentifier(request.name);
+  }
   return {
     name: request.name,
     kind
@@ -267,15 +271,29 @@ function normalizePackageRequest(request: PackageActionRequest): PackageActionRe
 
 function normalizeUpgradeRequest(request: UpgradeRequest): UpgradeRequest {
   const kind = request.kind === "cask" ? "cask" : "formula";
-  validateIdentifier(request.name, "invalid package name");
+  if (kind === "cask") {
+    validateCaskToken(request.name);
+  } else {
+    validateFormulaIdentifier(request.name);
+  }
   return {
     name: request.name,
     kind
   };
 }
 
-function validateIdentifier(value: string, message: string) {
+function validateFormulaIdentifier(value: string) {
+  if (!value || value.length > 120 || value.startsWith("/") || value.endsWith("/") || value.includes("//")) {
+    throw new Error("invalid package name");
+  }
+
+  if (!/^[A-Za-z0-9@_.+/-]+$/.test(value)) {
+    throw new Error("invalid package name");
+  }
+}
+
+function validateCaskToken(value: string) {
   if (!value || value.length > 120 || !/^[A-Za-z0-9@_.+-]+$/.test(value)) {
-    throw new Error(message);
+    throw new Error("invalid cask token");
   }
 }

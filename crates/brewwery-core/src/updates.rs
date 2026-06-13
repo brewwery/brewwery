@@ -77,11 +77,15 @@ pub fn update_homebrew_metadata() -> napi::Result<BrewUpdateResult> {
 
 #[napi]
 pub fn upgrade_package(request: UpgradeRequest) -> napi::Result<UpgradeResult> {
-    validate_package_name(&request.name)?;
-
     let args = match request.kind {
-        ref kind if kind == "formula" => vec!["upgrade", request.name.as_str()],
-        ref kind if kind == "cask" => vec!["upgrade", "--cask", request.name.as_str()],
+        ref kind if kind == "formula" => {
+            validate_formula_name(&request.name)?;
+            vec!["upgrade", request.name.as_str()]
+        }
+        ref kind if kind == "cask" => {
+            validate_cask_token(&request.name)?;
+            vec!["upgrade", "--cask", request.name.as_str()]
+        }
         _ => {
             return Err(napi::Error::from_reason(
                 BrewweryError::InvalidPackageName(request.name).to_string(),
@@ -147,13 +151,13 @@ fn normalize_outdated(item: RawOutdatedPackage, kind: &str) -> OutdatedPackage {
     }
 }
 
-fn validate_package_name(name: &str) -> napi::Result<()> {
+fn validate_formula_name(name: &str) -> napi::Result<()> {
     if !name.is_empty()
         && name.len() <= 160
-        && name.chars().all(|character| {
-            character.is_ascii_alphanumeric()
-                || matches!(character, '/' | '@' | '.' | '_' | '+' | '-')
-        })
+        && !name.starts_with('/')
+        && !name.ends_with('/')
+        && !name.contains("//")
+        && name.chars().all(is_formula_identifier_char)
     {
         return Ok(());
     }
@@ -161,4 +165,25 @@ fn validate_package_name(name: &str) -> napi::Result<()> {
     Err(napi::Error::from_reason(
         BrewweryError::InvalidPackageName(name.to_string()).to_string(),
     ))
+}
+
+fn validate_cask_token(token: &str) -> napi::Result<()> {
+    if !token.is_empty()
+        && token.len() <= 160
+        && token.chars().all(is_package_token_char)
+    {
+        return Ok(());
+    }
+
+    Err(napi::Error::from_reason(
+        BrewweryError::InvalidPackageName(token.to_string()).to_string(),
+    ))
+}
+
+fn is_formula_identifier_char(character: char) -> bool {
+    is_package_token_char(character) || character == '/'
+}
+
+fn is_package_token_char(character: char) -> bool {
+    character.is_ascii_alphanumeric() || matches!(character, '@' | '.' | '_' | '+' | '-')
 }

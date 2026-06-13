@@ -1,4 +1,4 @@
-import { Info, SearchIcon, Star } from "lucide-react";
+import { Info, SearchIcon, Star, X } from "lucide-react";
 import { useState } from "react";
 import type { PackageActionRequest, PackageSearchResult } from "@brewwery/shared-types";
 import { PackageDetailDrawer } from "@/components/packages/package-detail-drawer";
@@ -53,7 +53,17 @@ export function SearchPage() {
 
       <div className="relative max-w-xl">
         <SearchIcon className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-        <Input className="pl-9" placeholder="Search Homebrew packages..." value={query} onChange={(event) => setQuery(event.target.value)} />
+        <Input className="pl-9 pr-9" placeholder="Search Homebrew packages..." value={query} onChange={(event) => setQuery(event.target.value)} />
+        {query ? (
+          <button
+            type="button"
+            className="absolute right-2 top-2 inline-flex h-5 w-5 items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
+            aria-label="Clear search"
+            onClick={() => setQuery("")}
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        ) : null}
       </div>
 
       {loading ? <StatePanel kind="loading" title="Searching Homebrew..." /> : null}
@@ -99,8 +109,16 @@ export function SearchPage() {
                       {result.kind}
                     </Badge>
                   </Td>
-                  <Td className="text-muted-foreground">
-                    {!installedLoaded ? "Checking..." : result.installed ? "Installed" : "Available"}
+                  <Td>
+                    {!installedLoaded ? (
+                      <Badge>Checking...</Badge>
+                    ) : result.installed ? (
+                      <Badge className="border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]">
+                        Installed
+                      </Badge>
+                    ) : (
+                      <Badge className="border-border bg-[var(--brewwery-card)]">Available</Badge>
+                    )}
                   </Td>
                   <Td className="text-right">
                     <Button

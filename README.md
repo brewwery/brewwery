@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.9.1 Release Candidate / feature freeze.
+Current status: v0.9.2 Release Candidate / feature freeze.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -188,7 +188,7 @@ Release Candidate docs:
 
 - [Known issues](docs/known-issues.md)
 - [Release Candidate checklist](docs/release-candidate-checklist.md)
-- [Release notes draft](docs/release-notes/v0.9.1.md)
+- [Release notes draft](docs/release-notes/v0.9.2.md)
 - [Signing and notarization](docs/signing-notarization.md)
 
 ## Uninstall Local Build
@@ -204,7 +204,7 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Favorites and Discover are local UI features and do not add shell commands, accounts, telemetry, or cloud sync. Mutating operations in v0.9.1 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Favorites and Discover are local UI features and do not add shell commands, accounts, telemetry, or cloud sync. Mutating operations in v0.9.2 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, monetization, donation, or support logic is included.
 
@@ -223,9 +223,8 @@ No authentication, telemetry, cloud sync, monetization, donation, or support log
 - Apple Silicon is the recommended v1.0 target; Intel and universal builds move to v1.1 validation if needed.
 - Progress output is shown for package install/uninstall/upgrade, but cleanup and service actions still show final operation output only.
 - Package path and package-detail Terminal shortcuts are hidden until they can be implemented safely.
-- Tapped formula names containing `/` are rejected by the strict package-name validator.
 - Discovery search accepts only ASCII Homebrew package-name characters.
-- Updates are based on local Homebrew metadata. Use `Check for updates` on the Updates page to run `brew update`, then refresh outdated package counts.
+- Updates are based on local Homebrew metadata. Use `Check for updates` on the Updates page or `Check Homebrew` in Settings to run `brew update`, then refresh outdated package counts.
 - No sudo or arbitrary shell command is implemented.
 - No telemetry, crash reporting, cloud sync, paid/pro, donation, or support logic is included.
 - See [docs/known-issues.md](docs/known-issues.md) for the full release-candidate decision list.

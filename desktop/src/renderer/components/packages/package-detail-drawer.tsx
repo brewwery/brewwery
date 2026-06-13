@@ -45,10 +45,10 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
   return (
     <div className="fixed inset-0 z-40 flex justify-end bg-[var(--brewwery-overlay)]" onClick={onClose}>
       <aside
-        className="h-full w-[420px] border-l border-border bg-[var(--brewwery-app-panel)] shadow-panel"
+        className="flex h-full w-[420px] flex-col border-l border-border bg-[var(--brewwery-app-panel)] shadow-panel"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex h-14 items-center justify-between border-b border-border px-5">
+        <div className="flex h-14 shrink-0 items-center justify-between border-b border-border px-5">
           <div>
             <div className="text-sm font-semibold">{model.title}</div>
             <div className="text-xs text-muted-foreground">{model.subtitle}</div>
@@ -58,7 +58,7 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
           </Button>
         </div>
 
-        <div className="space-y-5 p-5">
+        <div className="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
           <div className="flex items-center gap-2">
             <Badge className={cn(model.kind === "formula" ? "text-accent" : "border-purple-500/25 bg-purple-500/10 text-purple-300")}>
               {model.kind}

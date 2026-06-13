@@ -229,25 +229,25 @@ pub fn get_package_info(request: PackageActionRequest) -> napi::Result<PackageIn
 
 #[napi]
 pub fn install_formula(name: String) -> napi::Result<PackageActionResult> {
-    validate_package_name(&name, "invalid package name")?;
+    validate_formula_name(&name, "invalid package name")?;
     run_package_action("install", "formula", name, &[])
 }
 
 #[napi]
 pub fn install_cask(token: String) -> napi::Result<PackageActionResult> {
-    validate_package_name(&token, "invalid cask token")?;
+    validate_cask_token(&token, "invalid cask token")?;
     run_package_action("install", "cask", token, &["--cask"])
 }
 
 #[napi]
 pub fn uninstall_formula(name: String) -> napi::Result<PackageActionResult> {
-    validate_package_name(&name, "invalid package name")?;
+    validate_formula_name(&name, "invalid package name")?;
     run_package_action("uninstall", "formula", name, &[])
 }
 
 #[napi]
 pub fn uninstall_cask(token: String) -> napi::Result<PackageActionResult> {
-    validate_package_name(&token, "invalid cask token")?;
+    validate_cask_token(&token, "invalid cask token")?;
     run_package_action("uninstall", "cask", token, &["--cask"])
 }
 
@@ -264,7 +264,7 @@ fn search_casks(query: String) -> napi::Result<Vec<PackageSearchResult>> {
 }
 
 fn get_formula_info(name: String) -> napi::Result<PackageInfo> {
-    validate_package_name(&name, "invalid package name")?;
+    validate_formula_name(&name, "invalid package name")?;
     let output = run_brew(&["info", "--json=v2", name.as_str()])
         .map_err(|error| napi::Error::from_reason(error.to_string()))?;
     let payload: FormulaInfoPayload = serde_json::from_str(&output).map_err(|error| {
@@ -279,7 +279,7 @@ fn get_formula_info(name: String) -> napi::Result<PackageInfo> {
 }
 
 fn get_cask_info(token: String) -> napi::Result<PackageInfo> {
-    validate_package_name(&token, "invalid cask token")?;
+    validate_cask_token(&token, "invalid cask token")?;
     let output = run_brew(&["info", "--cask", "--json=v2", token.as_str()])
         .map_err(|error| napi::Error::from_reason(error.to_string()))?;
     let payload: CaskInfoPayload = serde_json::from_str(&output).map_err(|error| {
@@ -482,8 +482,8 @@ fn extract_cask_dependencies(value: serde_json::Value) -> Option<Vec<String>> {
 
 fn validate_package_request(request: &PackageActionRequest) -> napi::Result<()> {
     match request.kind.as_str() {
-        "formula" => validate_package_name(&request.name, "invalid package name"),
-        "cask" => validate_package_name(&request.name, "invalid cask token"),
+        "formula" => validate_formula_name(&request.name, "invalid package name"),
+        "cask" => validate_cask_token(&request.name, "invalid cask token"),
         _ => Err(napi::Error::from_reason("invalid package kind")),
     }
 }
@@ -501,15 +501,35 @@ fn validate_search_query(query: &str) -> napi::Result<()> {
     Err(napi::Error::from_reason("invalid package search query"))
 }
 
-fn validate_package_name(name: &str, message: &str) -> napi::Result<()> {
+fn validate_formula_name(name: &str, message: &str) -> napi::Result<()> {
     if !name.is_empty()
         && name.len() <= 120
-        && name.chars().all(|character| {
-            character.is_ascii_alphanumeric() || matches!(character, '@' | '-' | '_' | '.' | '+')
-        })
+        && !name.starts_with('/')
+        && !name.ends_with('/')
+        && !name.contains("//")
+        && name.chars().all(is_formula_identifier_char)
     {
         return Ok(());
     }
 
     Err(napi::Error::from_reason(format!("{message}: {name}")))
+}
+
+fn validate_cask_token(token: &str, message: &str) -> napi::Result<()> {
+    if !token.is_empty()
+        && token.len() <= 120
+        && token.chars().all(is_package_token_char)
+    {
+        return Ok(());
+    }
+
+    Err(napi::Error::from_reason(format!("{message}: {token}")))
+}
+
+fn is_formula_identifier_char(character: char) -> bool {
+    is_package_token_char(character) || character == '/'
+}
+
+fn is_package_token_char(character: char) -> bool {
+    character.is_ascii_alphanumeric() || matches!(character, '@' | '-' | '_' | '.' | '+')
 }

@@ -2,6 +2,26 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.9.2 - RC QA Fixes
+
+### Added
+
+- Settings `Check Homebrew` action for explicit `brew update` with confirmation.
+- Discover collection summary for installed, favorite, available, and total packages.
+
+### Fixed
+
+- Package detail drawer now scrolls internally, so lower actions and raw details remain reachable.
+- Search installed status now uses a green installed badge instead of muted text.
+- Tapped formula identifiers containing `/` are accepted for package info, install, uninstall, and upgrade while cask tokens remain strict.
+- Favorite buttons update immediately after toggling.
+- Tray menu no longer shows a disabled app-name item and uses Settings instead of Open Terminal.
+
+### Security
+
+- `brew update` remains confirmation-gated.
+- Formula slash support still rejects spaces, shell metacharacters, leading/trailing slashes, repeated slashes, redirection characters, and newlines.
+
 ## v0.9.1 - Discover & Favorites
 
 ### Added

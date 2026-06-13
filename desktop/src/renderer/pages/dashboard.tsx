@@ -52,10 +52,12 @@ export function DashboardPage() {
             <span className="ml-2">{loadingSomething ? "Refreshing..." : formatLastRefreshed(lastRefreshed)}</span>
           </p>
         </div>
-        <Button variant="secondary" onClick={() => void refreshAll()} disabled={loadingSomething}>
-          <RefreshCw className={cn("h-4 w-4", loadingSomething ? "animate-spin" : "")} />
-          Refresh
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button title="Reloads current Homebrew data without running brew update" variant="secondary" onClick={() => void refreshAll()} disabled={loadingSomething}>
+            <RefreshCw className={cn("h-4 w-4", loadingSomething ? "animate-spin" : "")} />
+            Refresh data
+          </Button>
+        </div>
       </div>
 
       {homebrewMissing ? (
@@ -171,6 +173,7 @@ export function DashboardPage() {
           <Info label="Formulae / Casks" value={`${packages.length} / ${casks.length}`} />
         </CardContent>
       </Card>
+
     </section>
   );
 }
