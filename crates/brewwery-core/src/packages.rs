@@ -516,10 +516,7 @@ fn validate_formula_name(name: &str, message: &str) -> napi::Result<()> {
 }
 
 fn validate_cask_token(token: &str, message: &str) -> napi::Result<()> {
-    if !token.is_empty()
-        && token.len() <= 120
-        && token.chars().all(is_package_token_char)
-    {
+    if !token.is_empty() && token.len() <= 120 && token.chars().all(is_package_token_char) {
         return Ok(());
     }
 
@@ -532,4 +529,78 @@ fn is_formula_identifier_char(character: char) -> bool {
 
 fn is_package_token_char(character: char) -> bool {
     character.is_ascii_alphanumeric() || matches!(character, '@' | '-' | '_' | '.' | '+')
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parses_and_normalizes_formulae() {
+        let json = r#"{
+          "formulae": [{
+            "name": "redis",
+            "full_name": "redis",
+            "desc": "Persistent key-value database",
+            "homepage": "https://redis.io/",
+            "dependencies": ["openssl@3"],
+            "installed": [{"version": "8.0.0", "installed_on_request": true}]
+          }]
+        }"#;
+
+        let formulae = parse_formulae_inner(json).expect("formula JSON should parse");
+        assert_eq!(formulae.len(), 1);
+        assert_eq!(formulae[0].name, "redis");
+        assert_eq!(formulae[0].installedVersion.as_deref(), Some("8.0.0"));
+        assert_eq!(formulae[0].installedOnRequest, Some(true));
+        assert_eq!(
+            formulae[0]
+                .dependencies
+                .as_ref()
+                .and_then(|dependencies| dependencies.first())
+                .map(String::as_str),
+            Some("openssl@3")
+        );
+    }
+
+    #[test]
+    fn parses_cask_name_and_installed_version() {
+        let json = r#"{
+          "casks": [{
+            "token": "visual-studio-code",
+            "name": ["Visual Studio Code"],
+            "desc": "Code editor",
+            "installed": ["1.100.0"]
+          }]
+        }"#;
+
+        let casks = parse_casks_inner(json).expect("cask JSON should parse");
+        assert_eq!(casks.len(), 1);
+        assert_eq!(casks[0].token, "visual-studio-code");
+        assert_eq!(
+            casks[0].name.as_deref(),
+            Some(["Visual Studio Code".to_string()].as_slice())
+        );
+        assert_eq!(casks[0].installedVersion.as_deref(), Some("1.100.0"));
+    }
+
+    #[test]
+    fn search_parser_ignores_homebrew_headers() {
+        let results = parse_search_lines("==> Formulae\nredis redis@6.2\n", "formula");
+        assert_eq!(results.len(), 2);
+        assert_eq!(results[0].name, "redis");
+        assert_eq!(results[1].name, "redis@6.2");
+    }
+
+    #[test]
+    fn validates_formulae_casks_and_search_queries() {
+        assert!(validate_formula_name("mongodb/brew/mongodb-community", "invalid").is_ok());
+        assert!(validate_formula_name("redis;rm", "invalid").is_err());
+        assert!(validate_formula_name("tap//formula", "invalid").is_err());
+        assert!(validate_cask_token("visual-studio-code", "invalid").is_ok());
+        assert!(validate_cask_token("tap/cask", "invalid").is_err());
+        assert!(validate_search_query("postgresql@17").is_ok());
+        assert!(validate_search_query("редис").is_err());
+        assert!(validate_search_query("redis | sh").is_err());
+    }
 }

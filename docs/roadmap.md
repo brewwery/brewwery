@@ -266,6 +266,18 @@ Status: implemented.
 - Documentation cleanup
 - Packaging verification
 
+## v0.9.3 Stability & Error Recovery
+
+Status: implemented.
+
+- Bounded stdout/stderr capture in Electron main and renderer progress state
+- Retry actions for package, cask, update, service, cleanup preview, and doctor errors
+- Rust unit tests for Homebrew formulae, casks, updates, services, cleanup, and doctor parsers
+- Validation regression tests for formula, cask, search, upgrade, and service identifiers
+- napi-rs `noop` test configuration for CI tests without a Node host
+- Known issues split into external release constraints and engineering follow-ups
+- No new Homebrew commands or IPC channels
+
 ## Later
 
 - Signed and notarized macOS builds

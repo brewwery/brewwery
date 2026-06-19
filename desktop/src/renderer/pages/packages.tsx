@@ -100,6 +100,7 @@ export function PackagesPage() {
           kind="error"
           title={error.code === "BREW_JSON_PARSE_FAILED" ? "Failed to parse Homebrew output" : "Failed to load formulae"}
           description={<ErrorDescription error={error} />}
+          action={<Button variant="secondary" onClick={() => void refreshAll()}>Retry</Button>}
         />
       ) : null}
 

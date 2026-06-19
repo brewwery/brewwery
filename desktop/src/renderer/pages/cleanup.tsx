@@ -53,6 +53,7 @@ export function CleanupPage() {
           kind="error"
           title={error.code === "CLEANUP_RUN_FAILED" ? "Cleanup failed" : "Failed to preview cleanup"}
           description={<ErrorDescription error={error} />}
+          action={<Button variant="secondary" onClick={() => void previewCleanup()}>Retry preview</Button>}
         />
       ) : null}
 

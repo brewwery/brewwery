@@ -94,6 +94,7 @@ export function UpdatesPage() {
           kind="error"
           title={error.code === "UPDATES_PARSE_FAILED" ? "Failed to parse Homebrew updates" : "Failed to load updates"}
           description={<ErrorDescription error={error} />}
+          action={<Button variant="secondary" onClick={() => void refresh()}>Retry</Button>}
         />
       ) : null}
       {!loading && !error && updates.length === 0 ? <StatePanel title="Everything is up to date" /> : null}

@@ -168,10 +168,7 @@ fn validate_formula_name(name: &str) -> napi::Result<()> {
 }
 
 fn validate_cask_token(token: &str) -> napi::Result<()> {
-    if !token.is_empty()
-        && token.len() <= 160
-        && token.chars().all(is_package_token_char)
-    {
+    if !token.is_empty() && token.len() <= 160 && token.chars().all(is_package_token_char) {
         return Ok(());
     }
 
@@ -186,4 +183,41 @@ fn is_formula_identifier_char(character: char) -> bool {
 
 fn is_package_token_char(character: char) -> bool {
     character.is_ascii_alphanumeric() || matches!(character, '@' | '.' | '_' | '+' | '-')
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parses_formula_and_cask_updates() {
+        let json = r#"{
+          "formulae": [{
+            "name": "redis",
+            "installed_versions": ["7.2.0"],
+            "current_version": "8.0.0",
+            "pinned": false
+          }],
+          "casks": [{
+            "name": "iterm2",
+            "installed_versions": ["3.5.0"],
+            "current_version": "3.6.0"
+          }]
+        }"#;
+
+        let updates = parse_outdated_inner(json).expect("outdated JSON should parse");
+        assert_eq!(updates.len(), 2);
+        assert_eq!(updates[0].kind, "formula");
+        assert_eq!(updates[0].currentVersion.as_deref(), Some("7.2.0"));
+        assert_eq!(updates[0].latestVersion.as_deref(), Some("8.0.0"));
+        assert_eq!(updates[1].kind, "cask");
+    }
+
+    #[test]
+    fn validates_upgrade_targets() {
+        assert!(validate_formula_name("mongodb/brew/mongodb-community").is_ok());
+        assert!(validate_formula_name("redis && whoami").is_err());
+        assert!(validate_cask_token("visual-studio-code").is_ok());
+        assert!(validate_cask_token("homebrew/cask").is_err());
+    }
 }

@@ -95,7 +95,7 @@ Release Candidate release preparation lives in:
 
 - `docs/known-issues.md`
 - `docs/release-candidate-checklist.md`
-- `docs/release-notes/v0.9.2.md`
+- `docs/release-notes/v0.9.3.md`
 - `docs/signing-notarization.md`
 
 ## Notes

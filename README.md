@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.9.2 Release Candidate / feature freeze.
+Current status: v0.9.3 Release Candidate / feature freeze.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -41,7 +41,10 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - Show Dashboard last-refresh state and running-first service preview.
 - Filter History to failed operations during QA.
 - Keep History and live progress output responsive with capped output previews.
+- Bound captured operation output in Electron main and renderer memory for long Homebrew operations.
 - Show calmer, user-facing error messages with expandable technical details.
+- Retry failed read and diagnostics operations from consistent error states.
+- Run Rust parser and validation regression tests in CI without requiring a Node host.
 - Use packaged-app release-candidate verification docs and local `.app` packaging command for DMG-independent testing.
 - Prepare release-candidate release notes, known issues, install/uninstall instructions, and QA checklist.
 - Provide a dark macOS utility UI with sidebar navigation and status bar.
@@ -182,15 +185,6 @@ Current Release Candidate builds are unsigned and not notarized. macOS Gatekeepe
 
 If local DMG creation fails because of `hdiutil create ... -fs APFS`, use `pnpm package:mac:zip` or `pnpm package:mac:dir` for local verification and let GitHub Actions build the DMG on a clean macOS runner.
 
-Before publishing, run through [docs/release-candidate-checklist.md](docs/release-candidate-checklist.md).
-
-Release Candidate docs:
-
-- [Known issues](docs/known-issues.md)
-- [Release Candidate checklist](docs/release-candidate-checklist.md)
-- [Release notes draft](docs/release-notes/v0.9.2.md)
-- [Signing and notarization](docs/signing-notarization.md)
-
 ## Uninstall Local Build
 
 Remove the local packaged app and Brewwery user data:
@@ -204,7 +198,7 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Favorites and Discover are local UI features and do not add shell commands, accounts, telemetry, or cloud sync. Mutating operations in v0.9.2 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Favorites and Discover are local UI features and do not add shell commands, accounts, telemetry, or cloud sync. Mutating operations in v0.9.3 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, monetization, donation, or support logic is included.
 

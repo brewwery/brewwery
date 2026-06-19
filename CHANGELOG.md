@@ -2,6 +2,25 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.9.3 - Stability & Error Recovery
+
+### Added
+
+- Retry actions for formulae, casks, updates, services, cleanup preview, and doctor error states.
+- Thirteen Rust unit tests covering Homebrew JSON normalization, parsers, and identifier validation.
+- napi-rs test configuration that allows Rust tests to run without a Node host.
+
+### Changed
+
+- Streaming install, uninstall, and upgrade output is bounded in both Electron main and renderer memory.
+- Large live logs preserve useful beginning and ending sections with a visible trim marker.
+- Known issues now distinguish external release constraints from actionable engineering follow-ups.
+
+### Security
+
+- Formula, cask, search, and service validation now have regression tests for rejected shell metacharacters and invalid identifiers.
+- No new command, IPC, telemetry, account, cloud, paid, or sudo surface was added.
+
 ## v0.9.2 - RC QA Fixes
 
 ### Added

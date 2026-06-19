@@ -81,3 +81,24 @@ fn push_diagnostic(
         lines.clear();
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parses_multiple_doctor_warnings() {
+        let output = "Warning: Unbrewed dylibs were found\nRemove the files.\n\nWarning: Broken symlinks were found\nRun brew cleanup.\n";
+        let diagnostics = parse_doctor_output(output);
+
+        assert_eq!(diagnostics.len(), 2);
+        assert_eq!(diagnostics[0].severity, "warning");
+        assert_eq!(diagnostics[0].title, "Unbrewed dylibs were found");
+        assert_eq!(diagnostics[1].message, "Run brew cleanup.");
+    }
+
+    #[test]
+    fn healthy_output_has_no_diagnostics() {
+        assert!(parse_doctor_output("Your system is ready to brew.").is_empty());
+    }
+}

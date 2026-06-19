@@ -114,3 +114,34 @@ fn validate_service_name(name: &str) -> napi::Result<()> {
         BrewweryError::InvalidServiceName(name.to_string()).to_string(),
     ))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn normalizes_service_statuses() {
+        assert_eq!(normalize_status(Some("started")), "started");
+        assert_eq!(normalize_status(Some("none")), "stopped");
+        assert_eq!(normalize_status(Some("error")), "error");
+        assert_eq!(normalize_status(Some("scheduled")), "unknown");
+    }
+
+    #[test]
+    fn validates_service_names() {
+        assert!(validate_service_name("postgresql@17").is_ok());
+        assert!(validate_service_name("mongodb-community").is_ok());
+        assert!(validate_service_name("redis;rm").is_err());
+        assert!(validate_service_name("redis service").is_err());
+    }
+
+    #[test]
+    fn parses_services_json() {
+        let json =
+            r#"[{"name":"redis","status":"started","user":"umid","file":"/tmp/redis.plist"}]"#;
+        let services = parse_services_inner(json).expect("services JSON should parse");
+        assert_eq!(services.len(), 1);
+        assert_eq!(services[0].name, "redis");
+        assert_eq!(services[0].status, "started");
+    }
+}

@@ -33,7 +33,12 @@ export function DoctorPage() {
       {loading ? <StatePanel kind="loading" title="Running brew doctor..." /> : null}
       {!loading && error?.code === "HOMEBREW_NOT_FOUND" ? <HomebrewNotFound /> : null}
       {!loading && error && error.code !== "HOMEBREW_NOT_FOUND" ? (
-        <StatePanel kind="error" title="Failed to run brew doctor" description={<ErrorDescription error={error} />} />
+        <StatePanel
+          kind="error"
+          title="Failed to run brew doctor"
+          description={<ErrorDescription error={error} />}
+          action={<Button variant="secondary" onClick={() => void runDoctor()}>Retry</Button>}
+        />
       ) : null}
       {!loading && !error && !result ? <StatePanel title="No doctor run yet" /> : null}
       {!loading && !error && result?.healthy ? (

@@ -124,3 +124,33 @@ fn find_cleanup_total(output: &str) -> Option<String> {
         })
     })
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parses_cleanup_items_and_total() {
+        let output = "Would remove: /opt/homebrew/Cellar/redis/7.2.0 (12 files, 3.4MB)\nThis operation would free approximately 3.4MB of disk space.\n";
+        let preview = parse_cleanup_preview(output);
+
+        assert_eq!(preview.items.len(), 1);
+        assert_eq!(preview.items[0].name.as_deref(), Some("7.2.0"));
+        assert_eq!(preview.items[0].kind.as_deref(), Some("old_version"));
+        assert_eq!(preview.items[0].size.as_deref(), Some("3.4MB"));
+        assert_eq!(preview.totalSize.as_deref(), Some("3.4MB"));
+    }
+
+    #[test]
+    fn classifies_cache_paths() {
+        assert_eq!(
+            classify_cleanup_item("/Users/test/Library/Caches/Homebrew/file"),
+            "cache"
+        );
+        assert_eq!(
+            classify_cleanup_item("/opt/homebrew/Cellar/redis/1"),
+            "old_version"
+        );
+        assert_eq!(classify_cleanup_item("/tmp/file"), "unknown");
+    }
+}

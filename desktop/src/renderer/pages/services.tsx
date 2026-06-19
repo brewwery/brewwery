@@ -56,7 +56,12 @@ export function ServicesPage() {
       {loading ? <StatePanel kind="loading" title="Loading services..." /> : null}
       {!loading && error?.code === "HOMEBREW_NOT_FOUND" ? <HomebrewNotFound /> : null}
       {!loading && error && error.code !== "HOMEBREW_NOT_FOUND" ? (
-        <StatePanel kind="error" title="Failed to load services" description={<ErrorDescription error={error} />} />
+        <StatePanel
+          kind="error"
+          title="Failed to load services"
+          description={<ErrorDescription error={error} />}
+          action={<Button variant="secondary" onClick={() => void refresh()}>Retry</Button>}
+        />
       ) : null}
       {!loading && !error && services.length === 0 ? <StatePanel title="No Homebrew services found" /> : null}
 

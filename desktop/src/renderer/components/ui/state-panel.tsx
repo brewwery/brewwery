@@ -8,10 +8,11 @@ import { errorDetails, friendlyErrorMessage } from "@/lib/errors";
 interface StatePanelProps {
   title: string;
   description?: ReactNode;
+  action?: ReactNode;
   kind?: "loading" | "empty" | "error" | "homebrew";
 }
 
-export function StatePanel({ title, description, kind = "empty" }: StatePanelProps) {
+export function StatePanel({ title, description, action, kind = "empty" }: StatePanelProps) {
   const Icon = kind === "loading" ? Loader2 : kind === "error" ? AlertTriangle : kind === "homebrew" ? Beer : PackageOpen;
 
   return (
@@ -20,6 +21,7 @@ export function StatePanel({ title, description, kind = "empty" }: StatePanelPro
         <Icon className={cn("mb-4 h-8 w-8 text-accent", kind === "loading" && "animate-spin")} />
         <h2 className="text-base font-semibold text-foreground">{title}</h2>
         {description ? <div className="mt-2 max-w-lg text-sm leading-6 text-muted-foreground">{description}</div> : null}
+        {action ? <div className="mt-4">{action}</div> : null}
       </CardContent>
     </Card>
   );

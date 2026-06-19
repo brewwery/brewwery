@@ -20,6 +20,9 @@ export interface OperationProgressState {
   error?: IpcError;
 }
 
+const MAX_LIVE_OUTPUT_CHARS = 120_000;
+const OUTPUT_TRIM_MARKER = "\n\n[Brewwery trimmed earlier live output.]\n\n";
+
 export function useProgressOperation() {
   const [progress, setProgress] = useState<OperationProgressState | undefined>();
   const resolvers = useRef(new Map<string, (event: ProgressEvent) => void>());
@@ -83,8 +86,8 @@ function reduceProgress(current: OperationProgressState | undefined, event: Prog
     const chunk = event.chunk ?? "";
     return {
       ...base,
-      stdout: event.type === "stdout" ? base.stdout + chunk : base.stdout,
-      stderr: event.type === "stderr" ? base.stderr + chunk : base.stderr,
+      stdout: event.type === "stdout" ? appendBoundedOutput(base.stdout, chunk) : base.stdout,
+      stderr: event.type === "stderr" ? appendBoundedOutput(base.stderr, chunk) : base.stderr,
       lines: [...base.lines, { stream: event.type, text: compactChunk(chunk), timestamp: event.timestamp }].slice(-80)
     };
   }
@@ -115,4 +118,13 @@ function compactChunk(chunk: string) {
   const max = 4_000;
   if (chunk.length <= max) return chunk;
   return `${chunk.slice(0, max)}\n[Brewwery trimmed ${chunk.length - max} characters from this live output chunk.]`;
+}
+
+function appendBoundedOutput(current: string, chunk: string) {
+  const combined = current + chunk;
+  if (combined.length <= MAX_LIVE_OUTPUT_CHARS) return combined;
+
+  const headLength = Math.floor(MAX_LIVE_OUTPUT_CHARS * 0.35);
+  const tailLength = MAX_LIVE_OUTPUT_CHARS - headLength - OUTPUT_TRIM_MARKER.length;
+  return `${combined.slice(0, headLength)}${OUTPUT_TRIM_MARKER}${combined.slice(-tailLength)}`;
 }

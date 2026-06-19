@@ -32,6 +32,9 @@ type ProgressPlan =
       request?: UpgradeRequest;
     };
 
+const MAX_CAPTURED_OUTPUT_CHARS = 200_000;
+const OUTPUT_TRIM_MARKER = "\n\n[Brewwery trimmed earlier live output.]\n\n";
+
 export function registerOperationProgressHandlers(): void {
   ipcMain.handle(
     "packages:installProgress",
@@ -138,13 +141,13 @@ async function startBrewProgress(webContents: WebContents, plan: ProgressPlan): 
 
   child.stdout.on("data", (chunk: Buffer) => {
     const text = chunk.toString();
-    stdout += text;
+    stdout = appendBoundedOutput(stdout, text);
     emitProgress(webContents, progressChunk(operationId, plan, "stdout", text));
   });
 
   child.stderr.on("data", (chunk: Buffer) => {
     const text = chunk.toString();
-    stderr += text;
+    stderr = appendBoundedOutput(stderr, text);
     emitProgress(webContents, progressChunk(operationId, plan, "stderr", text));
   });
 
@@ -296,4 +299,13 @@ function validateCaskToken(value: string) {
   if (!value || value.length > 120 || !/^[A-Za-z0-9@_.+-]+$/.test(value)) {
     throw new Error("invalid cask token");
   }
+}
+
+function appendBoundedOutput(current: string, chunk: string): string {
+  const combined = current + chunk;
+  if (combined.length <= MAX_CAPTURED_OUTPUT_CHARS) return combined;
+
+  const headLength = Math.floor(MAX_CAPTURED_OUTPUT_CHARS * 0.35);
+  const tailLength = MAX_CAPTURED_OUTPUT_CHARS - headLength - OUTPUT_TRIM_MARKER.length;
+  return `${combined.slice(0, headLength)}${OUTPUT_TRIM_MARKER}${combined.slice(-tailLength)}`;
 }
