@@ -22,7 +22,7 @@ export function DiscoverPage() {
   const { packages: formulaPackages } = usePackages("formula");
   const { packages: caskPackages } = usePackages("cask");
   const { clearInfo, error: infoError, info, loadInfo, loading: infoLoading } = usePackageInfo();
-  const { clearProgress, error: actionError, install, loading: actionLoading, progress } = usePackageActions();
+  const { cancelProgress, clearProgress, error: actionError, install, loading: actionLoading, progress, progressCancelling } = usePackageActions();
   const favorites = useFavoritesStore((state) => state.favorites);
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
   const [selectedCollection, setSelectedCollection] = useState(discoverCollections[0]?.id ?? "");
@@ -158,7 +158,7 @@ export function DiscoverPage() {
         </CardContent>
       </Card>
 
-      <OperationProgressPanel progress={progress} onClear={clearProgress} />
+      <OperationProgressPanel progress={progress} cancelling={progressCancelling} onCancel={(operationId) => void cancelProgress(operationId)} onClear={clearProgress} />
 
       <PackageDetailDrawer
         detail={info ? { kind: "info", item: info } : undefined}

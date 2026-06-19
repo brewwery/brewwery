@@ -113,8 +113,8 @@ export function useUpdates() {
 
             useHistoryStore.getState().addEntry({
               kind: "upgrade",
-              status: "failed",
-              title: `Failed to upgrade ${request.name}`,
+              status: actionError.code === "OPERATION_CANCELLED" ? "cancelled" : "failed",
+              title: upgradeFailureTitle(request.name, actionError),
               command,
               target: request.name,
               error: actionError,
@@ -182,8 +182,8 @@ export function useUpdates() {
 
           useHistoryStore.getState().addEntry({
             kind: "upgrade",
-            status: "failed",
-            title: "Failed to upgrade all packages",
+            status: actionError.code === "OPERATION_CANCELLED" ? "cancelled" : "failed",
+            title: upgradeFailureTitle(undefined, actionError),
             command: "brew upgrade",
             error: actionError,
             stdout: event.stdout,
@@ -235,9 +235,18 @@ export function useUpdates() {
     lastChecked,
     progress: progressOperation.progress,
     clearProgress: progressOperation.clear,
+    cancelProgress: progressOperation.cancel,
+    progressCancelling: progressOperation.cancelling,
     refresh,
     updateMetadata,
     upgradePackage,
     upgradeAll
   };
+}
+
+function upgradeFailureTitle(name: string | undefined, error: IpcError) {
+  const target = name ?? "all packages";
+  if (error.code === "OPERATION_CANCELLED") return `Cancelled upgrade of ${target}`;
+  if (error.code === "OPERATION_TIMEOUT") return `Upgrade timed out for ${target}`;
+  return name ? `Failed to upgrade ${name}` : "Failed to upgrade all packages";
 }

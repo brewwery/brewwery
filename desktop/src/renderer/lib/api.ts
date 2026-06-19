@@ -59,6 +59,7 @@ const browserFallbackApi: BrewweryApi = {
     read: () => unsupported()
   },
   progress: {
+    cancel: () => unsupported(),
     onEvent: () => () => undefined
   },
   app: {

@@ -1,64 +1,87 @@
-import { CheckCircle2, Loader2, XCircle } from "lucide-react";
+import { CheckCircle2, Loader2, Square, XCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 import type { OperationProgressState } from "@/hooks/use-progress-operation";
 import { cn } from "@/lib/cn";
 import { friendlyErrorMessage } from "@/lib/errors";
 import { Button } from "./button";
 import { Card, CardContent } from "./card";
+import { ConfirmationDialog } from "./confirmation-dialog";
 
 interface OperationProgressPanelProps {
   progress?: OperationProgressState;
   onClear?: () => void;
+  onCancel?: (operationId: string) => void;
+  cancelling?: boolean;
 }
 
-export function OperationProgressPanel({ progress, onClear }: OperationProgressPanelProps) {
+export function OperationProgressPanel({ progress, onClear, onCancel, cancelling = false }: OperationProgressPanelProps) {
+  const [cancelOpen, setCancelOpen] = useState(false);
+
+  useEffect(() => setCancelOpen(false), [progress?.operationId, progress?.status]);
+
   if (!progress) return null;
 
   const output = progress.lines.length > 0 ? progress.lines : fallbackLines(progress);
   const summary = progressSummary(progress);
 
   return (
-    <Card className="overflow-hidden">
+    <>
+      <Card className="overflow-hidden">
       <CardContent className="space-y-3">
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2">
             {progress.status === "running" ? <Loader2 className="h-4 w-4 animate-spin text-accent" /> : null}
             {progress.status === "success" ? <CheckCircle2 className="h-4 w-4 text-[var(--brewwery-success)]" /> : null}
-            {progress.status === "failed" ? <XCircle className="h-4 w-4 text-[var(--brewwery-danger)]" /> : null}
+            {progress.status !== "running" && progress.status !== "success" ? (
+              <XCircle className={cn("h-4 w-4", progress.status === "cancelled" ? "text-accent" : "text-[var(--brewwery-danger)]")} />
+            ) : null}
             <div className="min-w-0">
               <div className="truncate text-sm font-medium">
-                {progress.status === "running" ? "Running Homebrew operation" : progress.status === "success" ? "Operation completed" : "Operation failed"}
+                {progressTitle(progress.status)}
               </div>
               <div className="truncate font-mono text-xs text-muted-foreground">{progress.command}</div>
             </div>
           </div>
-          {progress.status !== "running" ? (
+          {progress.status === "running" && onCancel ? (
+            <Button variant="secondary" className="h-8" disabled={cancelling} onClick={() => setCancelOpen(true)}>
+              <Square className="h-3.5 w-3.5 fill-current" />
+              {cancelling ? "Cancelling..." : "Cancel operation"}
+            </Button>
+          ) : (
             <Button variant="ghost" className="h-8" onClick={onClear}>
               Dismiss
             </Button>
-          ) : null}
+          )}
         </div>
 
-        <div className="grid gap-2 rounded-md border border-border bg-background/45 p-3 text-xs md:grid-cols-[1fr_auto_auto] md:items-center">
+        <div className="grid gap-2 rounded-md border border-border bg-background/45 p-3 text-xs md:grid-cols-[1fr_auto_auto_auto] md:items-center">
           <div className="min-w-0">
             <div className="text-muted-foreground">Target</div>
             <div className="mt-1 truncate font-medium text-foreground">{progress.target ?? progress.command}</div>
           </div>
           <Meta label="Packages" value={summary.packageLabel} />
+          <Meta label="Safety timeout" value={formatTimeout(progress.timeoutSeconds)} />
           <Meta label="Operation ID" value={shortOperationId(progress.operationId)} mono />
         </div>
 
         <div>
           <div className="mb-1 flex items-center justify-between text-xs text-muted-foreground">
             <span>{summary.statusLabel}</span>
-            <span>{progress.status}</span>
+            <span>{formatStatus(progress.status)}</span>
           </div>
           <div className="h-1.5 overflow-hidden rounded-full bg-muted">
             <div
               className={cn(
                 "h-full rounded-full transition-all",
-                progress.status === "failed" ? "bg-[var(--brewwery-danger)]" : progress.status === "success" ? "bg-[var(--brewwery-success)]" : "animate-pulse bg-accent"
+                progress.status === "cancelled"
+                  ? "bg-accent"
+                  : progress.status === "failed" || progress.status === "timed_out"
+                    ? "bg-[var(--brewwery-danger)]"
+                    : progress.status === "success"
+                      ? "bg-[var(--brewwery-success)]"
+                      : "animate-pulse bg-accent"
               )}
-              style={{ width: progress.status === "success" || progress.status === "failed" ? "100%" : `${summary.percent}%` }}
+              style={{ width: progress.status !== "running" ? "100%" : `${summary.percent}%` }}
             />
           </div>
         </div>
@@ -78,9 +101,26 @@ export function OperationProgressPanel({ progress, onClear }: OperationProgressP
           )}
         </div>
 
-        {progress.error ? <div className="text-sm text-[var(--brewwery-danger)]">{friendlyErrorMessage(progress.error)}</div> : null}
+        {progress.error ? (
+          <div className={cn("text-sm", progress.status === "cancelled" ? "text-accent" : "text-[var(--brewwery-danger)]")}>
+            {friendlyErrorMessage(progress.error)}
+          </div>
+        ) : null}
       </CardContent>
-    </Card>
+      </Card>
+      <ConfirmationDialog
+        open={cancelOpen}
+        title="Cancel this Homebrew operation?"
+        description="Brewwery will stop the active Homebrew process. The package may require a retry or Homebrew cleanup afterward."
+        confirmLabel="Cancel operation"
+        loading={cancelling}
+        onCancel={() => setCancelOpen(false)}
+        onConfirm={() => {
+          setCancelOpen(false);
+          onCancel?.(progress.operationId);
+        }}
+      />
+    </>
   );
 }
 
@@ -106,10 +146,35 @@ function progressSummary(progress: OperationProgressState) {
     return { packageLabel, percent: 100, statusLabel: "Stopped with an error" };
   }
 
+  if (progress.status === "cancelled") {
+    return { packageLabel, percent: 100, statusLabel: "Cancelled by user" };
+  }
+
+  if (progress.status === "timed_out") {
+    return { packageLabel, percent: 100, statusLabel: "Stopped by safety timeout" };
+  }
+
   const phaseCount = (text.match(/^==>/gm) ?? []).length;
   const percent = Math.min(85, Math.max(12, phaseCount * 12));
   const statusLabel = total === 1 ? "Processing 1 package" : `Processing ${total} packages`;
   return { packageLabel, percent, statusLabel };
+}
+
+function progressTitle(status: OperationProgressState["status"]) {
+  if (status === "running") return "Running Homebrew operation";
+  if (status === "success") return "Operation completed";
+  if (status === "cancelled") return "Operation cancelled";
+  if (status === "timed_out") return "Operation timed out";
+  return "Operation failed";
+}
+
+function formatTimeout(seconds: number) {
+  if (!seconds) return "Pending";
+  return `${Math.floor(seconds / 60)} min`;
+}
+
+function formatStatus(status: OperationProgressState["status"]) {
+  return status === "timed_out" ? "timed out" : status;
 }
 
 function parseQueuedPackageCount(text: string, progress: OperationProgressState) {

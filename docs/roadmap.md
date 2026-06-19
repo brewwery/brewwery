@@ -278,6 +278,20 @@ Status: implemented.
 - Known issues split into external release constraints and engineering follow-ups
 - No new Homebrew commands or IPC channels
 
+## v0.9.4 Operation Safety
+
+Status: implemented.
+
+- Confirmation-gated cancellation for streaming install, uninstall, and upgrade operations
+- Cancellation scoped to an active operation ID owned by the requesting renderer
+- Fixed 15-minute uninstall timeout and 45-minute install/upgrade timeout
+- SIGTERM with a bounded SIGKILL fallback for Brewwery-owned child processes
+- Concurrent streaming mutations blocked per renderer
+- Active process terminated when its owner window is destroyed
+- Cancelled and timed-out progress states
+- Cancelled operation entries and filters in local History
+- No PID access or generic process-control IPC exposed to renderer
+
 ## Later
 
 - Signed and notarized macOS builds

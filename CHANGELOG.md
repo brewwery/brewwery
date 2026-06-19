@@ -2,6 +2,26 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.9.4 - Operation Safety
+
+### Added
+
+- Confirmation-gated cancellation for active install, uninstall, and upgrade operations.
+- Fixed safety timeouts: 15 minutes for uninstall and 45 minutes for install/upgrade.
+- Dedicated cancelled and timed-out progress states with readable status messaging.
+- Cancelled operation status, filter, count, and neutral toast in History.
+
+### Changed
+
+- Only one streaming mutating Homebrew operation can run per renderer at a time.
+- Active child processes are stopped if their owner window is destroyed.
+- Cancel requests are scoped to an active operation ID owned by the requesting renderer.
+
+### Security
+
+- Cancellation does not expose PID access, arbitrary signals, or generic process control to the renderer.
+- Existing `shell: false`, command allowlists, validation, and confirmation requirements remain intact.
+
 ## v0.9.3 - Stability & Error Recovery
 
 ### Added

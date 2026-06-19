@@ -23,7 +23,7 @@ type SortKey = "name" | "version" | "status";
 export function PackagesPage() {
   const { packages, loading, error, refreshAll: refreshPackages } = usePackages("formula");
   const { refresh: refreshSystem } = useSystem();
-  const { clearProgress, loading: actionLoading, progress, uninstall } = usePackageActions();
+  const { cancelProgress, clearProgress, loading: actionLoading, progress, progressCancelling, uninstall } = usePackageActions();
   const favorites = useFavoritesStore((state) => state.favorites);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<FormulaFilter>("all");
@@ -104,7 +104,7 @@ export function PackagesPage() {
         />
       ) : null}
 
-      <OperationProgressPanel progress={progress} onClear={clearProgress} />
+      <OperationProgressPanel progress={progress} cancelling={progressCancelling} onCancel={(operationId) => void cancelProgress(operationId)} onClear={clearProgress} />
 
       {!loading && !error && rows.length === 0 ? <StatePanel title="No formulae installed" /> : null}
       {!loading && !error && rows.length > 0 && visibleRows.length === 0 ? <StatePanel title="No formulae match your search" /> : null}

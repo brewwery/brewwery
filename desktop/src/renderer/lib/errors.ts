@@ -21,6 +21,9 @@ const friendlyMessages: Partial<Record<IpcError["code"], string>> = {
   PACKAGE_INSTALL_FAILED: "Homebrew could not install this package.",
   PACKAGE_UNINSTALL_FAILED: "Homebrew could not uninstall this package.",
   INVALID_CASK_TOKEN: "This cask token contains unsupported characters.",
+  OPERATION_CANCELLED: "The Homebrew operation was cancelled.",
+  OPERATION_IN_PROGRESS: "Another Homebrew operation is already running. Wait for it to finish or cancel it first.",
+  OPERATION_TIMEOUT: "The Homebrew operation exceeded its safety timeout and was stopped.",
   UNKNOWN_ERROR: "Something unexpected happened. The details may help diagnose it."
 };
 

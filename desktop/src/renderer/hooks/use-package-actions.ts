@@ -47,8 +47,8 @@ export function usePackageActions() {
 
             useHistoryStore.getState().addEntry({
               kind: action,
-              status: "failed",
-              title: `Failed to ${action} ${request.name}`,
+              status: actionError.code === "OPERATION_CANCELLED" ? "cancelled" : "failed",
+              title: operationFailureTitle(action, request.name, actionError),
               command,
               target: request.name,
               error: actionError,
@@ -99,6 +99,8 @@ export function usePackageActions() {
     error,
     progress: progressOperation.progress,
     clearProgress: progressOperation.clear,
+    cancelProgress: progressOperation.cancel,
+    progressCancelling: progressOperation.cancelling,
     install: (request: PackageActionRequest) => runAction("install", request),
     uninstall: (request: PackageActionRequest) => runAction("uninstall", request),
     refreshInstalled
@@ -115,4 +117,10 @@ export function commandFor(action: PackageAction, request: PackageActionRequest)
 
 function capitalize(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function operationFailureTitle(action: PackageAction, name: string, error: IpcError) {
+  if (error.code === "OPERATION_CANCELLED") return `Cancelled ${action} of ${name}`;
+  if (error.code === "OPERATION_TIMEOUT") return `Timed out while running ${action} for ${name}`;
+  return `Failed to ${action} ${name}`;
 }

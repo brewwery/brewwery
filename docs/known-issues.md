@@ -1,6 +1,6 @@
 # Known Issues
 
-Known issues and release-candidate decisions for Brewwery v0.9.3.
+Known issues and release-candidate decisions for Brewwery v0.9.4.
 
 ## External Release Constraints
 
@@ -15,8 +15,6 @@ Known issues and release-candidate decisions for Brewwery v0.9.3.
 | Item | Priority | Plan |
 | --- | --- | --- |
 | Cleanup and service actions do not stream live output | Non-blocking | Services are normally short; cleanup shows preview and final results. Move unified streaming to a post-v1.0 release unless QA finds UI blocking. |
-| Long-running operations cannot be cancelled from the UI | Medium | Add an allowlisted cancel IPC tied to active operation IDs; never expose arbitrary process control. |
-| Command timeouts are not enforced | Medium | Add operation-specific timeouts and a friendly timeout error without interrupting normal long Homebrew installs. |
 | Automatic app updates are not implemented | Post-v1.0 | Add only after signing/notarization and release feed decisions are complete. |
 | Accessibility full pass is pending | Pre-v1.0 QA | Verify keyboard navigation, focus visibility, VoiceOver labels, and light/dark contrast. |
 
@@ -26,6 +24,14 @@ Known issues and release-candidate decisions for Brewwery v0.9.3.
 - Formulae, casks, updates, services, cleanup, and doctor parser behavior has Rust regression coverage.
 - Formula, cask, search, upgrade, and service identifier validation has regression coverage.
 - Common read/diagnostics error states provide a direct Retry action.
+
+## Closed in v0.9.4
+
+- Streaming install, uninstall, and upgrade operations can be cancelled after confirmation.
+- Cancel requests are limited to active operation IDs owned by the requesting renderer.
+- Install and upgrade use a 45-minute safety timeout; uninstall uses 15 minutes.
+- A renderer cannot start conflicting concurrent streaming mutations.
+- History distinguishes cancelled operations from failures.
 
 ## Existing Intentional Constraints
 

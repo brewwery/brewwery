@@ -48,6 +48,7 @@ const api: BrewweryApi = {
     read: (path) => ipcRenderer.invoke("brewfile:read", path)
   },
   progress: {
+    cancel: (operationId) => ipcRenderer.invoke("operation:cancel", operationId),
     onEvent: (callback) => {
       const listener = (_event: Electron.IpcRendererEvent, payload: unknown) => callback(payload as ProgressEvent);
       ipcRenderer.on("operation:progress", listener);

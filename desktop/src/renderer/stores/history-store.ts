@@ -4,7 +4,7 @@ import type { IpcError } from "@brewwery/shared-types";
 import { useToastStore } from "./toast-store";
 
 export type OperationKind = "install" | "uninstall" | "upgrade" | "brew_update" | "service" | "cleanup" | "doctor" | "brewfile_export";
-export type OperationStatus = "success" | "failed";
+export type OperationStatus = "success" | "failed" | "cancelled";
 
 export interface OperationLogEntry {
   id: string;
@@ -50,7 +50,7 @@ export const useHistoryStore = create<HistoryState>()(
           ].slice(0, maxEntries)
         }));
         useToastStore.getState().showToast({
-          tone: safeEntry.status === "success" ? "success" : "error",
+          tone: safeEntry.status === "success" ? "success" : safeEntry.status === "cancelled" ? "info" : "error",
           title: safeEntry.title,
           description: safeEntry.command
         });

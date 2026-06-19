@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.9.3 Release Candidate / feature freeze.
+Current status: v0.9.4 Release Candidate / feature freeze.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -33,6 +33,8 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - Inspect discovered package metadata, including homepage, latest version, dependencies, caveats, and install command.
 - Install and uninstall formulae/casks after explicit confirmation, with operation history and result toasts.
 - Stream progress output for install, uninstall, and upgrade operations.
+- Cancel an active install, uninstall, or upgrade after explicit confirmation.
+- Stop streaming operations with fixed safety timeouts and prevent conflicting concurrent operations.
 - Package unsigned macOS release-candidate builds as DMG and ZIP artifacts.
 - Use a first-launch onboarding screen, tray menu, keyboard shortcuts, and a basic Settings/About page.
 - Switch between System, Dark, and warm Light themes.
@@ -198,7 +200,7 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Favorites and Discover are local UI features and do not add shell commands, accounts, telemetry, or cloud sync. Mutating operations in v0.9.3 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Favorites and Discover are local UI features and do not add shell commands, accounts, telemetry, or cloud sync. Mutating operations in v0.9.4 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, monetization, donation, or support logic is included.
 

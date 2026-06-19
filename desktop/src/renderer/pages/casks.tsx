@@ -22,7 +22,7 @@ type SortKey = "name" | "version" | "status";
 export function CasksPage() {
   const { packages, loading, error, refreshAll: refreshPackages } = usePackages("cask");
   const { refresh: refreshSystem } = useSystem();
-  const { clearProgress, loading: actionLoading, progress, uninstall } = usePackageActions();
+  const { cancelProgress, clearProgress, loading: actionLoading, progress, progressCancelling, uninstall } = usePackageActions();
   const favorites = useFavoritesStore((state) => state.favorites);
   const [query, setQuery] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");
@@ -89,7 +89,7 @@ export function CasksPage() {
         />
       ) : null}
 
-      <OperationProgressPanel progress={progress} onClear={clearProgress} />
+      <OperationProgressPanel progress={progress} cancelling={progressCancelling} onCancel={(operationId) => void cancelProgress(operationId)} onClear={clearProgress} />
 
       {!loading && !error && rows.length === 0 ? <StatePanel title="No casks installed" /> : null}
       {!loading && !error && rows.length > 0 && visibleRows.length === 0 ? <StatePanel title="No casks match your search" /> : null}

@@ -18,10 +18,12 @@ export function UpdatesPage() {
     updates,
     loading,
     actionLoading,
+    cancelProgress,
     clearProgress,
     error,
     lastChecked,
     progress,
+    progressCancelling,
     refresh,
     updateMetadata,
     upgradePackage,
@@ -99,7 +101,7 @@ export function UpdatesPage() {
       ) : null}
       {!loading && !error && updates.length === 0 ? <StatePanel title="Everything is up to date" /> : null}
 
-      <OperationProgressPanel progress={progress} onClear={clearProgress} />
+      <OperationProgressPanel progress={progress} cancelling={progressCancelling} onCancel={(operationId) => void cancelProgress(operationId)} onClear={clearProgress} />
 
       {!loading && !error && updates.length > 0 ? (
         <Card className="overflow-hidden">

@@ -22,7 +22,7 @@ export function SearchPage() {
   const setQuery = useUiStore((state) => state.setSearchQuery);
   const { debouncedQuery, error, hydrateInfo, installedLoaded, invalidQuery, loading, results } = usePackageDiscovery(query);
   const { clearInfo, error: infoError, info, loadInfo, loading: infoLoading } = usePackageInfo();
-  const { clearProgress, error: actionError, install, loading: actionLoading, progress, uninstall } = usePackageActions();
+  const { cancelProgress, clearProgress, error: actionError, install, loading: actionLoading, progress, progressCancelling, uninstall } = usePackageActions();
   const favorites = useFavoritesStore((state) => state.favorites);
   const [pendingAction, setPendingAction] = useState<PendingAction | undefined>();
   const detailInfo = hydrateInfo(info);
@@ -82,7 +82,7 @@ export function SearchPage() {
       ) : null}
       {!loading && !invalidQuery && !visibleError && debouncedQuery && results.length === 0 ? <StatePanel title="No packages found" /> : null}
 
-      <OperationProgressPanel progress={progress} onClear={clearProgress} />
+      <OperationProgressPanel progress={progress} cancelling={progressCancelling} onCancel={(operationId) => void cancelProgress(operationId)} onClear={clearProgress} />
 
       {!loading && !invalidQuery && !visibleError && results.length > 0 ? (
         <Card className="overflow-hidden">

@@ -13,7 +13,8 @@ export interface OperationProgressState {
   kind: ProgressOperationKind;
   command: string;
   target?: string;
-  status: "running" | "success" | "failed";
+  timeoutSeconds: number;
+  status: "running" | "success" | "failed" | "cancelled" | "timed_out";
   stdout: string;
   stderr: string;
   lines: OperationProgressLine[];
@@ -25,6 +26,7 @@ const OUTPUT_TRIM_MARKER = "\n\n[Brewwery trimmed earlier live output.]\n\n";
 
 export function useProgressOperation() {
   const [progress, setProgress] = useState<OperationProgressState | undefined>();
+  const [cancelling, setCancelling] = useState(false);
   const resolvers = useRef(new Map<string, (event: ProgressEvent) => void>());
 
   useEffect(() => {
@@ -32,6 +34,7 @@ export function useProgressOperation() {
       setProgress((current) => reduceProgress(current, event));
 
       if (event.type === "completed" || event.type === "failed") {
+        setCancelling(false);
         const resolve = resolvers.current.get(event.operationId);
         if (resolve) {
           resolvers.current.delete(event.operationId);
@@ -47,6 +50,7 @@ export function useProgressOperation() {
       kind: start.kind,
       command: start.command,
       target: start.target,
+      timeoutSeconds: start.timeoutSeconds,
       status: "running",
       stdout: "",
       stderr: "",
@@ -64,7 +68,19 @@ export function useProgressOperation() {
 
   const clear = useCallback(() => setProgress(undefined), []);
 
-  return { progress, track, waitForCompletion, clear };
+  const cancel = useCallback(async (operationId: string) => {
+    setCancelling(true);
+    try {
+      const response = await api.progress.cancel(operationId);
+      if (!response.ok || !response.data?.cancellationRequested) {
+        setCancelling(false);
+      }
+    } catch {
+      setCancelling(false);
+    }
+  }, []);
+
+  return { progress, track, waitForCompletion, clear, cancel, cancelling };
 }
 
 function reduceProgress(current: OperationProgressState | undefined, event: ProgressEvent): OperationProgressState {
@@ -76,6 +92,7 @@ function reduceProgress(current: OperationProgressState | undefined, event: Prog
           kind: event.kind,
           command: event.command,
           target: event.target,
+          timeoutSeconds: 0,
           status: "running" as const,
           stdout: "",
           stderr: "",
@@ -102,9 +119,10 @@ function reduceProgress(current: OperationProgressState | undefined, event: Prog
   }
 
   if (event.type === "failed") {
+    const status = event.error?.code === "OPERATION_CANCELLED" ? "cancelled" : event.error?.code === "OPERATION_TIMEOUT" ? "timed_out" : "failed";
     return {
       ...base,
-      status: "failed",
+      status,
       stdout: event.stdout ?? base.stdout,
       stderr: event.stderr ?? base.stderr,
       error: event.error

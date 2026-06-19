@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { spawn } from "node:child_process";
+import type { ChildProcessWithoutNullStreams } from "node:child_process";
 import type { IpcMainInvokeEvent, WebContents } from "electron";
 import { ipcMain } from "electron";
 import type {
@@ -9,6 +10,7 @@ import type {
   PackageActionResult,
   ProgressEvent,
   ProgressOperationKind,
+  ProgressOperationCancelResult,
   ProgressOperationStart,
   UpgradeRequest,
   UpgradeResult
@@ -34,8 +36,31 @@ type ProgressPlan =
 
 const MAX_CAPTURED_OUTPUT_CHARS = 200_000;
 const OUTPUT_TRIM_MARKER = "\n\n[Brewwery trimmed earlier live output.]\n\n";
+const FORCE_KILL_DELAY_MS = 5_000;
+const OPERATION_TIMEOUT_MS: Record<ProgressOperationKind, number> = {
+  install: 45 * 60 * 1_000,
+  uninstall: 15 * 60 * 1_000,
+  upgrade: 45 * 60 * 1_000
+};
+
+type TerminationReason = "cancelled" | "timeout";
+
+interface ActiveOperation {
+  child: ChildProcessWithoutNullStreams;
+  ownerWebContentsId: number;
+  timeout: NodeJS.Timeout;
+  forceKill?: NodeJS.Timeout;
+  terminationReason?: TerminationReason;
+}
+
+const activeOperations = new Map<string, ActiveOperation>();
 
 export function registerOperationProgressHandlers(): void {
+  ipcMain.handle(
+    "operation:cancel",
+    async (event, operationId: string): Promise<IpcResponse<ProgressOperationCancelResult>> =>
+      toIpcResponse(() => cancelOperation(event, operationId))
+  );
   ipcMain.handle(
     "packages:installProgress",
     async (event, request: PackageActionRequest): Promise<IpcResponse<ProgressOperationStart>> =>
@@ -100,6 +125,13 @@ async function startUpgradeOperation(
 }
 
 async function startBrewProgress(webContents: WebContents, plan: ProgressPlan): Promise<ProgressOperationStart> {
+  if ([...activeOperations.values()].some((operation) => operation.ownerWebContentsId === webContents.id)) {
+    throw new BrewweryIpcError(
+      "OPERATION_IN_PROGRESS",
+      "Another Homebrew operation is already running."
+    );
+  }
+
   const core = await getNativeCore();
   const detection = core.detectHomebrew();
   if (!detection.found || !detection.path) {
@@ -111,11 +143,13 @@ async function startBrewProgress(webContents: WebContents, plan: ProgressPlan): 
   }
 
   const operationId = randomUUID();
+  const timeoutMs = OPERATION_TIMEOUT_MS[plan.kind];
   const started: ProgressOperationStart = {
     operationId,
     kind: plan.kind,
     command: plan.command,
-    target: plan.target
+    target: plan.target,
+    timeoutSeconds: Math.floor(timeoutMs / 1_000)
   };
   const startedAt = new Date().toISOString();
   let stdout = "";
@@ -138,6 +172,24 @@ async function startBrewProgress(webContents: WebContents, plan: ProgressPlan): 
       HOMEBREW_NO_ANALYTICS: "1"
     }
   });
+  let finalized = false;
+  const timeout = setTimeout(() => terminateOperation(operationId, "timeout"), timeoutMs);
+  const activeOperation: ActiveOperation = {
+    child,
+    ownerWebContentsId: webContents.id,
+    timeout
+  };
+  activeOperations.set(operationId, activeOperation);
+  const handleOwnerDestroyed = () => terminateOperation(operationId, "cancelled");
+  webContents.once("destroyed", handleOwnerDestroyed);
+
+  const finalize = (event: ProgressEvent) => {
+    if (finalized) return;
+    finalized = true;
+    webContents.removeListener("destroyed", handleOwnerDestroyed);
+    clearActiveOperation(operationId);
+    emitProgress(webContents, event);
+  };
 
   child.stdout.on("data", (chunk: Buffer) => {
     const text = chunk.toString();
@@ -153,7 +205,7 @@ async function startBrewProgress(webContents: WebContents, plan: ProgressPlan): 
 
   child.on("error", (error) => {
     const ipcError = normalizeIpcError(error);
-    emitProgress(webContents, {
+    finalize({
       operationId,
       kind: plan.kind,
       type: "failed",
@@ -167,9 +219,33 @@ async function startBrewProgress(webContents: WebContents, plan: ProgressPlan): 
   });
 
   child.on("close", (statusCode) => {
+    if (activeOperation.terminationReason) {
+      const timedOut = activeOperation.terminationReason === "timeout";
+      const ipcError: IpcError = {
+        code: timedOut ? "OPERATION_TIMEOUT" : "OPERATION_CANCELLED",
+        message: timedOut
+          ? `${plan.command} exceeded its ${formatTimeout(timeoutMs)} safety timeout.`
+          : `${plan.command} was cancelled.`,
+        raw: [stdout.trim(), stderr.trim()].filter(Boolean).join("\n") || undefined
+      };
+      finalize({
+        operationId,
+        kind: plan.kind,
+        type: "failed",
+        command: plan.command,
+        target: plan.target,
+        timestamp: new Date().toISOString(),
+        stdout: stdout.trim(),
+        stderr: stderr.trim(),
+        statusCode: statusCode ?? undefined,
+        error: ipcError
+      });
+      return;
+    }
+
     const success = statusCode === 0;
     if (success) {
-      emitProgress(webContents, {
+      finalize({
         operationId,
         kind: plan.kind,
         type: "completed",
@@ -184,7 +260,7 @@ async function startBrewProgress(webContents: WebContents, plan: ProgressPlan): 
       return;
     }
 
-    emitProgress(webContents, {
+    finalize({
       operationId,
       kind: plan.kind,
       type: "failed",
@@ -199,6 +275,49 @@ async function startBrewProgress(webContents: WebContents, plan: ProgressPlan): 
   });
 
   return started;
+}
+
+function cancelOperation(event: IpcMainInvokeEvent, operationId: string): ProgressOperationCancelResult {
+  if (typeof operationId !== "string" || !/^[0-9a-f-]{36}$/i.test(operationId)) {
+    return { operationId: String(operationId ?? ""), cancellationRequested: false };
+  }
+
+  const operation = activeOperations.get(operationId);
+  if (!operation || operation.ownerWebContentsId !== event.sender.id) {
+    return { operationId, cancellationRequested: false };
+  }
+
+  return { operationId, cancellationRequested: terminateOperation(operationId, "cancelled") };
+}
+
+function terminateOperation(operationId: string, reason: TerminationReason): boolean {
+  const operation = activeOperations.get(operationId);
+  if (!operation || operation.terminationReason || operation.child.exitCode !== null || operation.child.signalCode !== null) return false;
+
+  operation.terminationReason = reason;
+  if (!operation.child.kill("SIGTERM")) {
+    operation.terminationReason = undefined;
+    return false;
+  }
+  operation.forceKill = setTimeout(() => {
+    if (activeOperations.has(operationId) && operation.child.exitCode === null && operation.child.signalCode === null) {
+      operation.child.kill("SIGKILL");
+    }
+  }, FORCE_KILL_DELAY_MS);
+  return true;
+}
+
+function clearActiveOperation(operationId: string) {
+  const operation = activeOperations.get(operationId);
+  if (!operation) return;
+  clearTimeout(operation.timeout);
+  if (operation.forceKill) clearTimeout(operation.forceKill);
+  activeOperations.delete(operationId);
+}
+
+function formatTimeout(timeoutMs: number) {
+  const minutes = Math.floor(timeoutMs / 60_000);
+  return `${minutes}-minute`;
 }
 
 function emitProgress(webContents: WebContents, event: ProgressEvent) {

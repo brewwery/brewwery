@@ -15,6 +15,12 @@ export interface ProgressOperationStart {
   kind: ProgressOperationKind;
   command: string;
   target?: string;
+  timeoutSeconds: number;
+}
+
+export interface ProgressOperationCancelResult {
+  operationId: string;
+  cancellationRequested: boolean;
 }
 
 export interface ProgressEvent {
@@ -54,6 +60,9 @@ export type IpcErrorCode =
   | "BREWFILE_EXPORT_FAILED"
   | "BREWFILE_READ_FAILED"
   | "INVALID_FILE_PATH"
+  | "OPERATION_CANCELLED"
+  | "OPERATION_IN_PROGRESS"
+  | "OPERATION_TIMEOUT"
   | "UNKNOWN_ERROR";
 
 export interface IpcError {
@@ -115,6 +124,7 @@ export interface BrewweryApi {
     read(path: string): Promise<IpcResponse<BrewfileReadResult>>;
   };
   progress: {
+    cancel(operationId: string): Promise<IpcResponse<ProgressOperationCancelResult>>;
     onEvent(callback: (event: ProgressEvent) => void): () => void;
   };
   app: {
@@ -143,6 +153,7 @@ export type IpcChannel =
   | "updates:upgradeAll"
   | "updates:upgradePackageProgress"
   | "updates:upgradeAllProgress"
+  | "operation:cancel"
   | "services:list"
   | "services:start"
   | "services:stop"

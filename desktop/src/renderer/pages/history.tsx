@@ -10,11 +10,12 @@ import { cn } from "@/lib/cn";
 import type { OperationKind, OperationLogEntry } from "@/stores/history-store";
 import { useHistoryStore } from "@/stores/history-store";
 
-type HistoryFilter = "all" | "failed" | OperationKind;
+type HistoryFilter = "all" | "failed" | "cancelled" | OperationKind;
 
 const filters: Array<{ value: HistoryFilter; label: string }> = [
   { value: "all", label: "All" },
   { value: "failed", label: "Failed" },
+  { value: "cancelled", label: "Cancelled" },
   { value: "install", label: "Installs" },
   { value: "uninstall", label: "Uninstalls" },
   { value: "upgrade", label: "Upgrades" },
@@ -35,7 +36,8 @@ export function HistoryPage() {
     () =>
       entries.filter((entry) => {
         if (filter === "failed" && entry.status !== "failed") return false;
-        if (filter !== "all" && filter !== "failed" && entry.kind !== filter) return false;
+        if (filter === "cancelled" && entry.status !== "cancelled") return false;
+        if (filter !== "all" && filter !== "failed" && filter !== "cancelled" && entry.kind !== filter) return false;
         const normalizedQuery = query.trim().toLowerCase();
         if (!normalizedQuery) return true;
 
@@ -55,7 +57,8 @@ export function HistoryPage() {
   );
 
   const successCount = entries.filter((entry) => entry.status === "success").length;
-  const failedCount = entries.length - successCount;
+  const failedCount = entries.filter((entry) => entry.status === "failed").length;
+  const cancelledCount = entries.filter((entry) => entry.status === "cancelled").length;
   const displayedEntries = visibleEntries.slice(0, visibleLimit);
 
   return (
@@ -77,10 +80,11 @@ export function HistoryPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-4 gap-4">
         <SummaryCard label="Operations" value={entries.length} />
         <SummaryCard label="Succeeded" value={successCount} />
         <SummaryCard label="Failed" value={failedCount} />
+        <SummaryCard label="Cancelled" value={cancelledCount} />
       </div>
 
       <div className="flex items-center justify-between gap-3">
@@ -189,7 +193,8 @@ function StatusBadge({ status }: { status: OperationLogEntry["status"] }) {
     <Badge
       className={cn(
         status === "success" && "border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]",
-        status === "failed" && "border-[color:var(--brewwery-danger-border)] bg-[var(--brewwery-danger-bg)] text-[var(--brewwery-danger)]"
+        status === "failed" && "border-[color:var(--brewwery-danger-border)] bg-[var(--brewwery-danger-bg)] text-[var(--brewwery-danger)]",
+        status === "cancelled" && "border-[color:var(--brewwery-warning-border)] bg-[var(--brewwery-warning-bg)] text-accent"
       )}
     >
       {status}
