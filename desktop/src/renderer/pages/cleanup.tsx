@@ -5,12 +5,25 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
+import { OperationProgressPanel } from "@/components/ui/operation-progress-panel";
 import { ErrorDescription, StatePanel } from "@/components/ui/state-panel";
 import { Table, Td, Th } from "@/components/ui/table";
 import { useCleanup } from "@/hooks/use-cleanup";
 
 export function CleanupPage() {
-  const { preview, result, loading, running, error, previewCleanup, runCleanup } = useCleanup();
+  const {
+    preview,
+    result,
+    loading,
+    running,
+    error,
+    progress,
+    clearProgress,
+    cancelProgress,
+    progressCancelling,
+    previewCleanup,
+    runCleanup
+  } = useCleanup();
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const canRunCleanup = Boolean(preview && preview.items.length > 0);
@@ -56,6 +69,12 @@ export function CleanupPage() {
           action={<Button variant="secondary" onClick={() => void previewCleanup()}>Retry preview</Button>}
         />
       ) : null}
+      <OperationProgressPanel
+        progress={progress}
+        cancelling={progressCancelling}
+        onCancel={(operationId) => void cancelProgress(operationId)}
+        onClear={clearProgress}
+      />
 
       {!loading && !error && result ? (
         <StatePanel

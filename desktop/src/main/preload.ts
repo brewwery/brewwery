@@ -34,11 +34,15 @@ const api: BrewweryApi = {
     list: () => ipcRenderer.invoke("services:list"),
     start: (request) => ipcRenderer.invoke("services:start", request),
     stop: (request) => ipcRenderer.invoke("services:stop", request),
-    restart: (request) => ipcRenderer.invoke("services:restart", request)
+    restart: (request) => ipcRenderer.invoke("services:restart", request),
+    startWithProgress: (request) => ipcRenderer.invoke("services:startProgress", request),
+    stopWithProgress: (request) => ipcRenderer.invoke("services:stopProgress", request),
+    restartWithProgress: (request) => ipcRenderer.invoke("services:restartProgress", request)
   },
   cleanup: {
     preview: () => ipcRenderer.invoke("cleanup:preview"),
-    run: () => ipcRenderer.invoke("cleanup:run")
+    run: () => ipcRenderer.invoke("cleanup:run"),
+    runWithProgress: () => ipcRenderer.invoke("cleanup:runProgress")
   },
   doctor: {
     run: () => ipcRenderer.invoke("doctor:run")

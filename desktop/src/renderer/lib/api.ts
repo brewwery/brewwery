@@ -45,11 +45,15 @@ const browserFallbackApi: BrewweryApi = {
     list: () => unsupported(),
     start: () => unsupported(),
     stop: () => unsupported(),
-    restart: () => unsupported()
+    restart: () => unsupported(),
+    startWithProgress: () => unsupported(),
+    stopWithProgress: () => unsupported(),
+    restartWithProgress: () => unsupported()
   },
   cleanup: {
     preview: () => unsupported(),
-    run: () => unsupported()
+    run: () => unsupported(),
+    runWithProgress: () => unsupported()
   },
   doctor: {
     run: () => unsupported()

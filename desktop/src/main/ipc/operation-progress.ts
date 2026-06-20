@@ -6,12 +6,15 @@ import { ipcMain } from "electron";
 import type {
   IpcError,
   IpcResponse,
+  CleanupResult,
   PackageActionRequest,
   PackageActionResult,
   ProgressEvent,
   ProgressOperationKind,
   ProgressOperationCancelResult,
   ProgressOperationStart,
+  ServiceActionRequest,
+  ServiceActionResult,
   UpgradeRequest,
   UpgradeResult
 } from "@brewwery/shared-types";
@@ -32,6 +35,19 @@ type ProgressPlan =
       command: string;
       target?: string;
       request?: UpgradeRequest;
+    }
+  | {
+      kind: "service";
+      args: string[];
+      command: string;
+      target: string;
+      action: "start" | "stop" | "restart";
+    }
+  | {
+      kind: "cleanup";
+      args: ["cleanup"];
+      command: "brew cleanup";
+      target?: undefined;
     };
 
 const MAX_CAPTURED_OUTPUT_CHARS = 200_000;
@@ -40,7 +56,9 @@ const FORCE_KILL_DELAY_MS = 5_000;
 const OPERATION_TIMEOUT_MS: Record<ProgressOperationKind, number> = {
   install: 45 * 60 * 1_000,
   uninstall: 15 * 60 * 1_000,
-  upgrade: 45 * 60 * 1_000
+  upgrade: 45 * 60 * 1_000,
+  service: 5 * 60 * 1_000,
+  cleanup: 30 * 60 * 1_000
 };
 
 type TerminationReason = "cancelled" | "timeout";
@@ -78,6 +96,22 @@ export function registerOperationProgressHandlers(): void {
   );
   ipcMain.handle("updates:upgradeAllProgress", async (event): Promise<IpcResponse<ProgressOperationStart>> =>
     toIpcResponse(() => startUpgradeOperation(event))
+  );
+  for (const action of ["start", "stop", "restart"] as const) {
+    ipcMain.handle(
+      `services:${action}Progress`,
+      async (event, request: ServiceActionRequest): Promise<IpcResponse<ProgressOperationStart>> =>
+        toIpcResponse(() => startServiceOperation(event, action, request))
+    );
+  }
+  ipcMain.handle("cleanup:runProgress", async (event): Promise<IpcResponse<ProgressOperationStart>> =>
+    toIpcResponse(() =>
+      startBrewProgress(event.sender, {
+        kind: "cleanup",
+        args: ["cleanup"],
+        command: "brew cleanup"
+      })
+    )
   );
 }
 
@@ -121,6 +155,22 @@ async function startUpgradeOperation(
     command: `brew ${args.join(" ")}`,
     target: normalized.name,
     request: normalized
+  });
+}
+
+async function startServiceOperation(
+  event: IpcMainInvokeEvent,
+  action: "start" | "stop" | "restart",
+  request: ServiceActionRequest
+): Promise<ProgressOperationStart> {
+  validateServiceName(request.name);
+  const args = ["services", action, request.name];
+  return startBrewProgress(event.sender, {
+    kind: "service",
+    args,
+    command: `brew ${args.join(" ")}`,
+    target: request.name,
+    action
   });
 }
 
@@ -343,7 +393,32 @@ function progressChunk(
   };
 }
 
-function resultFor(plan: ProgressPlan, success: boolean, stdout: string, stderr: string): PackageActionResult | UpgradeResult {
+function resultFor(
+  plan: ProgressPlan,
+  success: boolean,
+  stdout: string,
+  stderr: string
+): PackageActionResult | UpgradeResult | ServiceActionResult | CleanupResult {
+  if (plan.kind === "cleanup") {
+    return {
+      success,
+      removedItems: countCleanupItems(stdout),
+      freedSpace: findCleanupTotal(stdout),
+      stdout,
+      stderr
+    };
+  }
+
+  if (plan.kind === "service") {
+    return {
+      name: plan.target,
+      action: plan.action,
+      success,
+      stdout,
+      stderr
+    };
+  }
+
   if (plan.kind === "upgrade") {
     return {
       name: plan.request?.name,
@@ -369,7 +444,11 @@ function errorFor(plan: ProgressPlan, output: string, statusCode: number | null)
       ? "PACKAGE_INSTALL_FAILED"
       : plan.kind === "uninstall"
         ? "PACKAGE_UNINSTALL_FAILED"
-        : "BREW_COMMAND_FAILED";
+        : plan.kind === "service"
+          ? "SERVICE_COMMAND_FAILED"
+          : plan.kind === "cleanup"
+            ? "CLEANUP_RUN_FAILED"
+            : "BREW_COMMAND_FAILED";
 
   return {
     code,
@@ -418,6 +497,34 @@ function validateCaskToken(value: string) {
   if (!value || value.length > 120 || !/^[A-Za-z0-9@_.+-]+$/.test(value)) {
     throw new Error("invalid cask token");
   }
+}
+
+function validateServiceName(value: string) {
+  if (!value || value.length > 120 || !/^[A-Za-z0-9@_.+-]+$/.test(value)) {
+    throw new Error("invalid service name");
+  }
+}
+
+function countCleanupItems(output: string) {
+  return output
+    .split("\n")
+    .filter((line) => line.startsWith("Removing:") || line.startsWith("Pruned ")).length;
+}
+
+function findCleanupTotal(output: string) {
+  const marker = "freed ";
+  const line = output
+    .split("\n")
+    .find((candidate) => candidate.toLowerCase().includes(marker));
+  if (!line) return undefined;
+  const index = line.toLowerCase().lastIndexOf(marker);
+  const value = line
+    .slice(index + marker.length)
+    .replace(/^approximately\s+/i, "")
+    .replace(/\s+of disk space\.?$/i, "")
+    .replace(/\.$/, "")
+    .trim();
+  return value || undefined;
 }
 
 function appendBoundedOutput(current: string, chunk: string): string {

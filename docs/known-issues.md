@@ -1,6 +1,6 @@
 # Known Issues
 
-Known issues and release-candidate decisions for Brewwery v0.9.4.
+Known issues and release-candidate decisions for Brewwery v0.9.5.
 
 ## External Release Constraints
 
@@ -14,7 +14,6 @@ Known issues and release-candidate decisions for Brewwery v0.9.4.
 
 | Item | Priority | Plan |
 | --- | --- | --- |
-| Cleanup and service actions do not stream live output | Non-blocking | Services are normally short; cleanup shows preview and final results. Move unified streaming to a post-v1.0 release unless QA finds UI blocking. |
 | Automatic app updates are not implemented | Post-v1.0 | Add only after signing/notarization and release feed decisions are complete. |
 | Accessibility full pass is pending | Pre-v1.0 QA | Verify keyboard navigation, focus visibility, VoiceOver labels, and light/dark contrast. |
 
@@ -32,6 +31,13 @@ Known issues and release-candidate decisions for Brewwery v0.9.4.
 - Install and upgrade use a 45-minute safety timeout; uninstall uses 15 minutes.
 - A renderer cannot start conflicting concurrent streaming mutations.
 - History distinguishes cancelled operations from failures.
+
+## Closed in v0.9.5
+
+- Service start, stop, and restart actions use the shared live progress panel.
+- Confirmed cleanup runs use the shared live progress panel while preserving preview-first safety.
+- Services use a fixed five-minute safety timeout; cleanup uses thirty minutes.
+- Service and cleanup operations support confirmation-gated cancellation.
 
 ## Existing Intentional Constraints
 

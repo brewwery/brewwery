@@ -292,6 +292,20 @@ Status: implemented.
 - Cancelled operation entries and filters in local History
 - No PID access or generic process-control IPC exposed to renderer
 
+## v0.9.5 Cleanup & Services Streaming
+
+Status: implemented.
+
+- Shared live progress panel for service start, stop, and restart
+- Shared live progress panel for confirmed cleanup execution
+- Five-minute service safety timeout
+- Thirty-minute cleanup safety timeout
+- Cancellation after explicit confirmation
+- Context-aware service and cleanup progress summaries
+- Streamed stdout/stderr stored in local History
+- Cleanup preview remains mandatory in the UI before execution
+- Strict service-name validation and fixed cleanup arguments
+
 ## Later
 
 - Signed and notarized macOS builds

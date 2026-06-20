@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
+import { OperationProgressPanel } from "@/components/ui/operation-progress-panel";
 import { ErrorDescription, StatePanel } from "@/components/ui/state-panel";
 import { Table, Td, Th } from "@/components/ui/table";
 import { useServices } from "@/hooks/use-services";
@@ -14,7 +15,18 @@ type ServiceAction = "start" | "stop" | "restart";
 type PendingServiceAction = { service: BrewService; action: ServiceAction };
 
 export function ServicesPage() {
-  const { services, loading, actionLoading, error, refresh, runAction } = useServices();
+  const {
+    services,
+    loading,
+    actionLoading,
+    error,
+    progress,
+    clearProgress,
+    cancelProgress,
+    progressCancelling,
+    refresh,
+    runAction
+  } = useServices();
   const [pendingAction, setPendingAction] = useState<PendingServiceAction | undefined>();
 
   const counts = useMemo(
@@ -63,6 +75,12 @@ export function ServicesPage() {
           action={<Button variant="secondary" onClick={() => void refresh()}>Retry</Button>}
         />
       ) : null}
+      <OperationProgressPanel
+        progress={progress}
+        cancelling={progressCancelling}
+        onCancel={(operationId) => void cancelProgress(operationId)}
+        onClear={clearProgress}
+      />
       {!loading && !error && services.length === 0 ? <StatePanel title="No Homebrew services found" /> : null}
 
       {!loading && !error && services.length > 0 ? (

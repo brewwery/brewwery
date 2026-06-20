@@ -6,7 +6,7 @@ import type { BrewService, ServiceActionRequest, ServiceActionResult } from "./s
 import type { BrewDetectionResult, BrewInfo, BrewPathValidationResult } from "./system";
 import type { BrewUpdateResult, OutdatedPackage, UpgradeRequest, UpgradeResult } from "./update";
 
-export type ProgressOperationKind = "install" | "uninstall" | "upgrade";
+export type ProgressOperationKind = "install" | "uninstall" | "upgrade" | "service" | "cleanup";
 export type ProgressEventType = "started" | "stdout" | "stderr" | "completed" | "failed";
 export type AppShortcut = "search" | "refresh" | "settings" | "updates" | "doctor";
 
@@ -34,7 +34,7 @@ export interface ProgressEvent {
   stdout?: string;
   stderr?: string;
   statusCode?: number;
-  result?: PackageActionResult | UpgradeResult;
+  result?: PackageActionResult | UpgradeResult | ServiceActionResult | CleanupResult;
   error?: IpcError;
 }
 
@@ -111,10 +111,14 @@ export interface BrewweryApi {
     start(request: ServiceActionRequest): Promise<IpcResponse<ServiceActionResult>>;
     stop(request: ServiceActionRequest): Promise<IpcResponse<ServiceActionResult>>;
     restart(request: ServiceActionRequest): Promise<IpcResponse<ServiceActionResult>>;
+    startWithProgress(request: ServiceActionRequest): Promise<IpcResponse<ProgressOperationStart>>;
+    stopWithProgress(request: ServiceActionRequest): Promise<IpcResponse<ProgressOperationStart>>;
+    restartWithProgress(request: ServiceActionRequest): Promise<IpcResponse<ProgressOperationStart>>;
   };
   cleanup: {
     preview(): Promise<IpcResponse<CleanupPreview>>;
     run(): Promise<IpcResponse<CleanupResult>>;
+    runWithProgress(): Promise<IpcResponse<ProgressOperationStart>>;
   };
   doctor: {
     run(): Promise<IpcResponse<DoctorResult>>;
@@ -158,8 +162,12 @@ export type IpcChannel =
   | "services:start"
   | "services:stop"
   | "services:restart"
+  | "services:startProgress"
+  | "services:stopProgress"
+  | "services:restartProgress"
   | "cleanup:preview"
   | "cleanup:run"
+  | "cleanup:runProgress"
   | "doctor:run"
   | "brewfile:export"
   | "brewfile:read";

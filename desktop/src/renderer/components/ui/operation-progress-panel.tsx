@@ -59,7 +59,7 @@ export function OperationProgressPanel({ progress, onClear, onCancel, cancelling
             <div className="text-muted-foreground">Target</div>
             <div className="mt-1 truncate font-medium text-foreground">{progress.target ?? progress.command}</div>
           </div>
-          <Meta label="Packages" value={summary.packageLabel} />
+          <Meta label="Work" value={summary.workLabel} />
           <Meta label="Safety timeout" value={formatTimeout(progress.timeoutSeconds)} />
           <Meta label="Operation ID" value={shortOperationId(progress.operationId)} mono />
         </div>
@@ -136,28 +136,50 @@ function Meta({ label, mono, value }: { label: string; mono?: boolean; value: st
 function progressSummary(progress: OperationProgressState) {
   const text = `${progress.stdout}\n${progress.stderr}`;
   const total = parseQueuedPackageCount(text, progress);
-  const packageLabel = total === 1 ? "1 package queued" : `${total} packages queued`;
+  const workLabel =
+    progress.kind === "service"
+      ? "Service action"
+      : progress.kind === "cleanup"
+        ? "Cleanup run"
+        : total === 1
+          ? "1 package queued"
+          : `${total} packages queued`;
 
   if (progress.status === "success") {
-    return { packageLabel, percent: 100, statusLabel: total === 1 ? "1 of 1 package completed" : `${total} packages completed` };
+    const statusLabel =
+      progress.kind === "service"
+        ? "Service action completed"
+        : progress.kind === "cleanup"
+          ? "Cleanup completed"
+          : total === 1
+            ? "1 of 1 package completed"
+            : `${total} packages completed`;
+    return { workLabel, percent: 100, statusLabel };
   }
 
   if (progress.status === "failed") {
-    return { packageLabel, percent: 100, statusLabel: "Stopped with an error" };
+    return { workLabel, percent: 100, statusLabel: "Stopped with an error" };
   }
 
   if (progress.status === "cancelled") {
-    return { packageLabel, percent: 100, statusLabel: "Cancelled by user" };
+    return { workLabel, percent: 100, statusLabel: "Cancelled by user" };
   }
 
   if (progress.status === "timed_out") {
-    return { packageLabel, percent: 100, statusLabel: "Stopped by safety timeout" };
+    return { workLabel, percent: 100, statusLabel: "Stopped by safety timeout" };
   }
 
   const phaseCount = (text.match(/^==>/gm) ?? []).length;
   const percent = Math.min(85, Math.max(12, phaseCount * 12));
-  const statusLabel = total === 1 ? "Processing 1 package" : `Processing ${total} packages`;
-  return { packageLabel, percent, statusLabel };
+  const statusLabel =
+    progress.kind === "service"
+      ? "Running service action"
+      : progress.kind === "cleanup"
+        ? "Running Homebrew cleanup"
+        : total === 1
+          ? "Processing 1 package"
+          : `Processing ${total} packages`;
+  return { workLabel, percent, statusLabel };
 }
 
 function progressTitle(status: OperationProgressState["status"]) {

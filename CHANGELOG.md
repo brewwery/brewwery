@@ -2,6 +2,27 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.9.5 - Cleanup & Services Streaming
+
+### Added
+
+- Live stdout/stderr progress for service start, stop, and restart actions.
+- Live stdout/stderr progress for confirmed Homebrew cleanup runs.
+- Cancellation and timeout controls for service and cleanup operations.
+- Context-aware progress summaries for package, service, and cleanup work.
+
+### Changed
+
+- Services now use a 5-minute fixed safety timeout.
+- Cleanup now uses a 30-minute fixed safety timeout and still requires preview plus confirmation.
+- Service and cleanup history entries use final streamed output and distinguish cancellation from failure.
+
+### Security
+
+- Service names remain strictly validated before reaching the streaming runner.
+- Cleanup streaming exposes only the fixed `brew cleanup` operation.
+- No generic command, arbitrary argument, PID, signal, or timeout input is exposed to renderer code.
+
 ## v0.9.4 - Operation Safety
 
 ### Added
