@@ -55,6 +55,32 @@ export const discoverCollections: DiscoverCollection[] = [
     ]
   },
   {
+    id: "backend",
+    title: "Backend",
+    description: "Tools and runtimes for building and running backend services.",
+    items: [
+      { name: "node", kind: "formula", description: "JavaScript runtime." },
+      { name: "go", kind: "formula", description: "Go programming language." },
+      { name: "redis", kind: "formula", description: "In-memory data structure store." },
+      { name: "postgresql@16", kind: "formula", description: "Object-relational database system." },
+      { name: "docker", kind: "cask", description: "Container runtime and tooling." },
+      { name: "httpie", kind: "formula", description: "Friendly command-line HTTP client." }
+    ]
+  },
+  {
+    id: "frontend",
+    title: "Frontend",
+    description: "Essentials for modern frontend and web development.",
+    items: [
+      { name: "node", kind: "formula", description: "JavaScript runtime." },
+      { name: "pnpm", kind: "formula", description: "Fast, disk-efficient package manager." },
+      { name: "deno", kind: "formula", description: "Secure runtime for JavaScript and TypeScript." },
+      { name: "visual-studio-code", kind: "cask", description: "Code editor from Microsoft." },
+      { name: "google-chrome", kind: "cask", description: "Browser with developer tools." },
+      { name: "figma", kind: "cask", description: "Collaborative interface design tool." }
+    ]
+  },
+  {
     id: "databases",
     title: "Databases",
     description: "Popular local databases and data tools.",
@@ -64,6 +90,18 @@ export const discoverCollections: DiscoverCollection[] = [
       { name: "redis", kind: "formula", description: "In-memory data structure store." },
       { name: "sqlite", kind: "formula", description: "Lightweight SQL database engine." },
       { name: "mongodb-community", kind: "formula", description: "MongoDB community server." }
+    ]
+  },
+  {
+    id: "ai-tools",
+    title: "AI Tools",
+    description: "Command-line tools and apps for working with AI models.",
+    items: [
+      { name: "ollama", kind: "formula", description: "Run large language models locally." },
+      { name: "llm", kind: "formula", description: "CLI for interacting with language models." },
+      { name: "huggingface-cli", kind: "formula", description: "Hugging Face Hub command-line interface." },
+      { name: "chatgpt", kind: "cask", description: "Official ChatGPT desktop app." },
+      { name: "lm-studio", kind: "cask", description: "Discover and run local LLMs." }
     ]
   },
   {

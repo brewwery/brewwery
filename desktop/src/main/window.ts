@@ -2,12 +2,13 @@ import { BrowserWindow, app, nativeImage, screen, shell } from "electron";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import icon from "../../assets/brewwery-icon.png?asset";
+import { isAllowedExternalUrl } from "./external-links";
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const appIcon = nativeImage.createFromPath(icon);
 const defaultWindowSize = {
   width: 1180,
-  height: 880
+  height: 920
 };
 const minimumWindowSize = {
   width: 960,
@@ -70,7 +71,9 @@ export function createMainWindow(): BrowserWindow {
   });
 
   window.webContents.setWindowOpenHandler(({ url }) => {
-    void shell.openExternal(url);
+    if (isAllowedExternalUrl(url)) {
+      void shell.openExternal(url);
+    }
     return { action: "deny" };
   });
 

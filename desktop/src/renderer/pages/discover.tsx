@@ -61,7 +61,7 @@ export function DiscoverPage() {
     <section className="space-y-5">
       <div>
         <h1 className="text-2xl font-semibold tracking-normal">Discover</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Discover useful Homebrew packages and casks.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Curated collections of useful Homebrew packages and casks.</p>
       </div>
 
       <div className="flex flex-wrap gap-2">

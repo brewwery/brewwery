@@ -2,6 +2,27 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.9.6 - Accessibility & Docs Consistency
+
+### Added
+
+- Shared keyboard focus ring for buttons, inputs, and tabs.
+- Dialog semantics for confirmation modals with labeled title and description.
+- Escape-to-close behavior for confirmation modals when no operation is running.
+- Dialog semantics and Escape-to-close behavior for package detail drawers.
+- Package-specific accessible label for package detail drawer close actions.
+
+### Changed
+
+- README known limitations now reflect that service and cleanup actions use the shared live progress panel.
+- Known issues now separate external release constraints from the remaining manual accessibility QA work.
+- Roadmap now tracks the v0.9.6 Release Candidate hardening layer.
+
+### Security
+
+- No new Homebrew commands, shell surface, telemetry, cloud sync, or paid logic was added.
+- Existing confirmation gates and allowlisted operation model remain unchanged.
+
 ## v0.9.5 - Cleanup & Services Streaming
 
 ### Added

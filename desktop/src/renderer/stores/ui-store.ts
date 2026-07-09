@@ -12,6 +12,7 @@ export type PageId =
   | "cleanup"
   | "doctor"
   | "brewfile"
+  | "commands"
   | "history"
   | "settings";
 

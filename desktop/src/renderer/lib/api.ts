@@ -15,7 +15,8 @@ function unsupported<T>(): Promise<IpcResponse<T>> {
 const browserFallbackApi: BrewweryApi = {
   system: {
     detectHomebrew: () => unsupported(),
-    getBrewInfo: () => unsupported()
+    getBrewInfo: () => unsupported(),
+    openExternal: () => unsupported()
   },
   settings: {
     getHomebrewPath: () => unsupported(),

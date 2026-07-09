@@ -1,5 +1,6 @@
 import { Copy, ExternalLink, PackagePlus, PackageX, Star, Upload } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useEffect, useId } from "react";
 import type { Cask, Formula, PackageActionRequest, PackageInfo } from "@brewwery/shared-types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,21 @@ interface PackageDetailDrawerProps {
 export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall, onUninstall, onUpgrade }: PackageDetailDrawerProps) {
   const favorites = useFavoritesStore((state) => state.favorites);
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
+  const titleId = useId();
+  const descriptionId = useId();
+
+  useEffect(() => {
+    if (!detail) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [detail, onClose]);
 
   if (!detail) return null;
 
@@ -45,15 +61,19 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
   return (
     <div className="fixed inset-0 z-40 flex justify-end bg-[var(--brewwery-overlay)]" onClick={onClose}>
       <aside
+        aria-describedby={descriptionId}
+        aria-labelledby={titleId}
+        aria-modal="true"
         className="flex h-full w-[420px] flex-col border-l border-border bg-[var(--brewwery-app-panel)] shadow-panel"
         onClick={(event) => event.stopPropagation()}
+        role="dialog"
       >
         <div className="flex h-14 shrink-0 items-center justify-between border-b border-border px-5">
           <div>
-            <div className="text-sm font-semibold">{model.title}</div>
-            <div className="text-xs text-muted-foreground">{model.subtitle}</div>
+            <div id={titleId} className="text-sm font-semibold">{model.title}</div>
+            <div id={descriptionId} className="text-xs text-muted-foreground">{model.subtitle}</div>
           </div>
-          <Button variant="ghost" className="h-8 px-2" onClick={onClose}>
+          <Button variant="ghost" className="h-8 px-2" onClick={onClose} aria-label={`Close details for ${model.title}`}>
             Close
           </Button>
         </div>

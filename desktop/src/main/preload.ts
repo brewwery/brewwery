@@ -4,7 +4,8 @@ import type { AppShortcut, BrewweryApi, ProgressEvent } from "@brewwery/shared-t
 const api: BrewweryApi = {
   system: {
     detectHomebrew: () => ipcRenderer.invoke("system:detectHomebrew"),
-    getBrewInfo: () => ipcRenderer.invoke("system:getBrewInfo")
+    getBrewInfo: () => ipcRenderer.invoke("system:getBrewInfo"),
+    openExternal: (url) => ipcRenderer.invoke("system:openExternal", url)
   },
   settings: {
     getHomebrewPath: () => ipcRenderer.invoke("settings:getHomebrewPath"),

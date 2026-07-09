@@ -4,6 +4,7 @@ import { FirstLaunchOnboarding } from "./components/onboarding/first-launch-onbo
 import { BrewfilePage } from "./pages/brewfile";
 import { CasksPage } from "./pages/casks";
 import { CleanupPage } from "./pages/cleanup";
+import { CommandsPage } from "./pages/commands";
 import { DashboardPage } from "./pages/dashboard";
 import { DiscoverPage } from "./pages/discover";
 import { DoctorPage } from "./pages/doctor";
@@ -30,6 +31,7 @@ const pages = {
   cleanup: <CleanupPage />,
   doctor: <DoctorPage />,
   brewfile: <BrewfilePage />,
+  commands: <CommandsPage />,
   history: <HistoryPage />,
   settings: <SettingsPage />
 };

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ErrorDescription, StatePanel } from "@/components/ui/state-panel";
 import { useBrewfile } from "@/hooks/use-brewfile";
+import { starterBrewfiles, type StarterBrewfile } from "@/lib/starter-brewfiles";
 
 const groups: Array<{ kind: BrewfileEntryKind; label: string }> = [
   { kind: "tap", label: "Taps" },
@@ -64,6 +65,8 @@ export function BrewfilePage() {
           </Button>
         </CardContent>
       </Card>
+
+      <StarterBrewfiles />
 
       {loading ? <StatePanel kind="loading" title="Exporting Brewfile..." /> : null}
       {!loading && error?.code === "HOMEBREW_NOT_FOUND" ? <HomebrewNotFound /> : null}
@@ -162,5 +165,54 @@ function HomebrewNotFound() {
         </>
       }
     />
+  );
+}
+
+function StarterBrewfiles() {
+  return (
+    <Card>
+      <CardHeader>
+        <div>
+          <h2 className="text-sm font-semibold">Starter Brewfiles</h2>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Local, open-source templates you can copy and adapt. Nothing is installed automatically.
+          </p>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {starterBrewfiles.map((starter) => (
+            <StarterBrewfileCard key={starter.id} starter={starter} />
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function StarterBrewfileCard({ starter }: { starter: StarterBrewfile }) {
+  const [copied, setCopied] = useState(false);
+
+  const copy = () => {
+    void navigator.clipboard.writeText(starter.content);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1600);
+  };
+
+  return (
+    <div className="flex flex-col rounded-lg border border-border bg-[var(--brewwery-pre)] p-3">
+      <div className="mb-1 flex items-start justify-between gap-2">
+        <div className="text-sm font-medium text-foreground">{starter.title}</div>
+        <Badge>{starter.content.split("\n").filter(Boolean).length} entries</Badge>
+      </div>
+      <p className="mb-2 text-xs leading-5 text-muted-foreground">{starter.description}</p>
+      <pre className="mb-3 max-h-40 overflow-auto rounded-md border border-border bg-[var(--brewwery-card)] p-2 text-xs leading-5 text-muted-foreground">
+        {starter.content}
+      </pre>
+      <Button variant="secondary" className="mt-auto h-8" onClick={copy}>
+        <Clipboard className="h-4 w-4" />
+        {copied ? "Copied" : "Copy Brewfile"}
+      </Button>
+    </div>
   );
 }

@@ -44,6 +44,7 @@ export type IpcErrorCode =
   | "BREW_JSON_PARSE_FAILED"
   | "PERMISSION_DENIED"
   | "UNSUPPORTED_PLATFORM"
+  | "BLOCKED_EXTERNAL_URL"
   | "SERVICE_COMMAND_FAILED"
   | "UPDATES_PARSE_FAILED"
   | "BREW_UPDATE_FAILED"
@@ -81,6 +82,7 @@ export interface BrewweryApi {
   system: {
     detectHomebrew(): Promise<IpcResponse<BrewDetectionResult>>;
     getBrewInfo(): Promise<IpcResponse<BrewInfo>>;
+    openExternal(url: string): Promise<IpcResponse<undefined>>;
   };
   settings: {
     getHomebrewPath(): Promise<IpcResponse<string | undefined>>;
@@ -139,6 +141,7 @@ export interface BrewweryApi {
 export type IpcChannel =
   | "system:detectHomebrew"
   | "system:getBrewInfo"
+  | "system:openExternal"
   | "settings:getHomebrewPath"
   | "settings:validateHomebrewPath"
   | "settings:setHomebrewPath"

@@ -1,6 +1,6 @@
 # Known Issues
 
-Known issues and release-candidate decisions for Brewwery v0.9.5.
+Known issues and release-candidate decisions for Brewwery v0.9.6.
 
 ## External Release Constraints
 
@@ -15,7 +15,7 @@ Known issues and release-candidate decisions for Brewwery v0.9.5.
 | Item | Priority | Plan |
 | --- | --- | --- |
 | Automatic app updates are not implemented | Post-v1.0 | Add only after signing/notarization and release feed decisions are complete. |
-| Accessibility full pass is pending | Pre-v1.0 QA | Verify keyboard navigation, focus visibility, VoiceOver labels, and light/dark contrast. |
+| Accessibility full pass is pending | Pre-v1.0 QA | Initial focus, dialog, drawer, and docs pass landed in v0.9.6. Continue with manual VoiceOver and contrast QA before v1.0. |
 
 ## Closed in v0.9.3
 
@@ -38,6 +38,13 @@ Known issues and release-candidate decisions for Brewwery v0.9.5.
 - Confirmed cleanup runs use the shared live progress panel while preserving preview-first safety.
 - Services use a fixed five-minute safety timeout; cleanup uses thirty minutes.
 - Service and cleanup operations support confirmation-gated cancellation.
+
+## Improved in v0.9.6
+
+- Keyboard focus visibility is stronger and consistent for shared buttons, inputs, and tabs.
+- Confirmation dialogs expose dialog semantics and close with Escape when not busy.
+- Package detail drawers expose dialog semantics, labeled title/description, and Escape-to-close behavior.
+- Release Candidate docs no longer list service and cleanup streaming progress as an open limitation.
 
 ## Existing Intentional Constraints
 

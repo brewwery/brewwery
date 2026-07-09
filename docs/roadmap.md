@@ -306,6 +306,18 @@ Status: implemented.
 - Cleanup preview remains mandatory in the UI before execution
 - Strict service-name validation and fixed cleanup arguments
 
+## v0.9.6 Accessibility & Docs Consistency
+
+Status: implemented.
+
+- Shared keyboard focus ring for buttons, inputs, and tabs
+- Confirmation dialogs expose `role="dialog"`, `aria-modal`, and labeled title/description semantics
+- Confirmation dialogs can close with Escape when no operation is running
+- Package detail drawer exposes dialog semantics and Escape-to-close behavior
+- Package detail drawer close action has a package-specific accessible label
+- README and known issues updated to reflect completed cleanup/service streaming progress
+- Release Candidate limitations narrowed to external signing/notarization, local DMG, Intel validation, app updates, and remaining manual accessibility QA
+
 ## Later
 
 - Signed and notarized macOS builds

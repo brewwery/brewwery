@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.9.5 Release Candidate / feature freeze.
+Current status: v0.9.6 Release Candidate / feature freeze.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -33,7 +33,7 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - Inspect discovered package metadata, including homepage, latest version, dependencies, caveats, and install command.
 - Install and uninstall formulae/casks after explicit confirmation, with operation history and result toasts.
 - Stream progress output for install, uninstall, upgrade, service, and cleanup operations.
-- Cancel an active install, uninstall, or upgrade after explicit confirmation.
+- Cancel an active install, uninstall, upgrade, service, or cleanup operation after explicit confirmation.
 - Stop streaming operations with fixed safety timeouts and prevent conflicting concurrent operations.
 - Package unsigned macOS release-candidate builds as DMG and ZIP artifacts.
 - Use a first-launch onboarding screen, tray menu, keyboard shortcuts, and a basic Settings/About page.
@@ -200,9 +200,20 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Favorites and Discover are local UI features and do not add shell commands, accounts, telemetry, or cloud sync. Mutating operations in v0.9.5 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Favorites and Discover are local UI features and do not add shell commands, accounts, telemetry, or cloud sync. Mutating operations in v0.9.6 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, monetization, donation, or support logic is included.
+
+## Learn Homebrew
+
+New to Homebrew, or want a refresher? These guides explain what runs underneath Brewwery:
+
+- [What is Homebrew?](https://docs.brewwery.com/what-is-homebrew) — a plain-English introduction to the macOS package manager.
+- [Common brew commands](https://docs.brewwery.com/brew-commands) — install, update, search, services, cleanup, and Brewfile.
+- [Security model](https://docs.brewwery.com/security) — how Brewwery runs commands safely and locally.
+- [Troubleshooting](https://docs.brewwery.com/troubleshooting) — fixes for common Homebrew and Brewwery issues.
+
+The same reference is available in the app under **Commands**, and online at [brewwery.com](https://www.brewwery.com).
 
 ## Screenshots
 
@@ -217,8 +228,8 @@ No authentication, telemetry, cloud sync, monetization, donation, or support log
 - Builds are unsigned and not notarized during the Release Candidate.
 - Local DMG creation may fail on some machines because of the APFS `hdiutil` issue; use `.app`/ZIP locally and GitHub Actions for release DMG artifacts.
 - Apple Silicon is the recommended v1.0 target; Intel and universal builds move to v1.1 validation if needed.
-- Progress output is shown for package install/uninstall/upgrade, but cleanup and service actions still show final operation output only.
 - Package path and package-detail Terminal shortcuts are hidden until they can be implemented safely.
+- Accessibility polish is in progress for keyboard navigation, focus visibility, VoiceOver labels, and contrast.
 - Discovery search accepts only ASCII Homebrew package-name characters.
 - Updates are based on local Homebrew metadata. Use `Check for updates` on the Updates page or `Check Homebrew` in Settings to run `brew update`, then refresh outdated package counts.
 - No sudo or arbitrary shell command is implemented.

@@ -52,7 +52,7 @@ Formula identifiers accepted by install/uninstall/upgrade may use ASCII letters,
 
 Streaming progress operations still use fixed argv arrays and `shell: false`; the renderer receives progress events only and cannot provide arbitrary commands.
 
-The v0.9.5 Settings page can save a custom Homebrew path only after Rust validates that it is an absolute executable file and can run `brew --version`. The saved path is stored locally in Electron `userData` settings and is applied to both the Rust runner and streaming progress runner before falling back to default Homebrew detection paths.
+The v0.9.6 Settings page can save a custom Homebrew path only after Rust validates that it is an absolute executable file and can run `brew --version`. The saved path is stored locally in Electron `userData` settings and is applied to both the Rust runner and streaming progress runner before falling back to default Homebrew detection paths.
 
 Discovery search queries are validated in both the renderer and Rust core. Only ASCII package-name characters (`a-z`, `A-Z`, `0-9`, `@`, `-`, `_`, `.`, `+`) are accepted before an allowlisted `brew search` operation is run.
 
