@@ -3,10 +3,9 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "types": ["node", "vite/client"],
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/renderer/*"],
-      "@main/*": ["src/main/*"],
+      "@/*": ["./src/renderer/*"],
+      "@main/*": ["./src/main/*"],
       "@brewwery/shared-types": ["../packages/shared-types/src"]
     }
   },
