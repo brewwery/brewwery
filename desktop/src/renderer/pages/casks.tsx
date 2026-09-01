@@ -9,8 +9,8 @@ import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { Input } from "@/components/ui/input";
 import { OperationProgressPanel } from "@/components/ui/operation-progress-panel";
 import { ErrorDescription, StatePanel } from "@/components/ui/state-panel";
-import { Table, Td, Th } from "@/components/ui/table";
 import { Tab, Tabs } from "@/components/ui/tabs";
+import { VirtualizedDataTable } from "@/components/ui/virtualized-data-table";
 import { commandFor, usePackageActions } from "@/hooks/use-package-actions";
 import { usePackages } from "@/hooks/use-packages";
 import { useSystem } from "@/hooks/use-system";
@@ -96,52 +96,21 @@ export function CasksPage() {
 
       {!loading && !error && visibleRows.length > 0 ? (
         <Card className="overflow-hidden">
-          <Table>
-            <thead>
-              <tr>
-                <Th>Cask</Th>
-                <Th className="w-40">Version</Th>
-                <Th className="w-28">Kind</Th>
-                <Th>Description</Th>
-                <Th className="w-32">Status</Th>
-                <Th className="w-24 text-right">Actions</Th>
-              </tr>
-            </thead>
-            <tbody>
-              {visibleRows.map((pkg) => (
-                <tr key={pkg.token} className="cursor-pointer hover:bg-[var(--brewwery-card-hover)]" onClick={() => setSelected(pkg)}>
-                  <Td>
-                    <div className="flex items-center gap-2 font-medium">
-                      {pkg.name?.[0] ?? pkg.token}
-                      {isFavoritePackage(favorites, pkg.token, "cask") ? <Star className="h-3.5 w-3.5 fill-accent text-accent" /> : null}
-                    </div>
-                    <div className="mt-1 text-xs text-muted-foreground">{pkg.token}</div>
-                  </Td>
-                  <Td className="text-muted-foreground">{pkg.installedVersion ?? "Unknown"}</Td>
-                  <Td>
-                    <Badge className="border-purple-500/25 bg-purple-500/10 text-purple-300">cask</Badge>
-                  </Td>
-                  <Td className="max-w-md truncate text-muted-foreground">{pkg.description ?? "Installed Homebrew cask"}</Td>
-                  <Td>
-                    <Badge className="border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]">Installed</Badge>
-                  </Td>
-                  <Td className="text-right">
-                    <Button
-                      variant="ghost"
-                      className="h-7 w-7 px-0"
-                      aria-label={`Actions for ${pkg.name?.[0] ?? pkg.token}`}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        setSelected(pkg);
-                      }}
-                    >
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </Td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <VirtualizedDataTable
+            ariaLabel="Installed casks"
+            items={visibleRows}
+            getKey={(pkg) => pkg.token}
+            gridTemplateColumns="minmax(180px,1.35fr) 120px 88px minmax(180px,2fr) 130px 64px"
+            onActivate={setSelected}
+            columns={[
+              { header: "Cask", render: (pkg) => <><div className="flex items-center gap-2 font-medium">{pkg.name?.[0] ?? pkg.token}{isFavoritePackage(favorites, pkg.token, "cask") ? <Star className="h-3.5 w-3.5 fill-accent text-accent" /> : null}</div><div className="mt-1 truncate text-xs text-muted-foreground">{pkg.token}</div></> },
+              { header: "Version", className: "text-muted-foreground", render: (pkg) => pkg.installedVersion ?? "Unknown" },
+              { header: "Kind", render: () => <Badge className="border-purple-500/25 bg-purple-500/10 text-purple-300">cask</Badge> },
+              { header: "Description", className: "truncate text-muted-foreground", render: (pkg) => pkg.description ?? "Installed Homebrew cask" },
+              { header: "Status", render: () => <Badge className="border-[color:var(--brewwery-success-border)] bg-[var(--brewwery-success-bg)] text-[var(--brewwery-success)]">Installed</Badge> },
+              { header: "Actions", className: "text-right", render: (pkg) => <Button variant="ghost" className="h-7 w-7 px-0" aria-label={`Actions for ${pkg.name?.[0] ?? pkg.token}`} onClick={(event) => { event.stopPropagation(); setSelected(pkg); }}><MoreHorizontal className="h-4 w-4" /></Button> }
+            ]}
+          />
         </Card>
       ) : null}
 

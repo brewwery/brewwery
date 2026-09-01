@@ -46,6 +46,7 @@ pub struct PackageInfo {
     pub latestVersion: Option<String>,
     pub installedVersion: Option<String>,
     pub dependencies: Option<Vec<String>>,
+    pub dependents: Option<Vec<String>>,
     pub caveats: Option<String>,
     pub installed: bool,
     pub rawJson: Option<String>,
@@ -206,6 +207,21 @@ pub fn list_installed_formulae() -> napi::Result<Vec<Formula>> {
 #[napi]
 pub fn list_installed_casks() -> napi::Result<Vec<Cask>> {
     list_casks()
+}
+
+#[napi]
+pub fn list_leaves() -> napi::Result<Vec<String>> {
+    let output =
+        run_brew(&["leaves"]).map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    Ok(parse_name_lines(&output))
+}
+
+#[napi]
+pub fn list_dependents(name: String) -> napi::Result<Vec<String>> {
+    validate_formula_name(&name, "invalid package name")?;
+    let output = run_brew(&["uses", "--installed", name.as_str()])
+        .map_err(|error| napi::Error::from_reason(error.to_string()))?;
+    Ok(parse_name_lines(&output))
 }
 
 #[napi]
@@ -399,6 +415,15 @@ fn parse_search_lines(output: &str, kind: &str) -> Vec<PackageSearchResult> {
         .collect()
 }
 
+fn parse_name_lines(output: &str) -> Vec<String> {
+    output
+        .lines()
+        .map(str::trim)
+        .filter(|line| !line.is_empty() && !line.starts_with("==>"))
+        .map(ToString::to_string)
+        .collect()
+}
+
 fn normalize_formula_info(formula: RawInfoFormula, raw_json: Option<String>) -> PackageInfo {
     let name = formula
         .name
@@ -420,6 +445,7 @@ fn normalize_formula_info(formula: RawInfoFormula, raw_json: Option<String>) -> 
         latestVersion: formula.versions.and_then(|versions| versions.stable),
         installedVersion: installed_version.clone(),
         dependencies,
+        dependents: None,
         caveats: formula.caveats,
         installed: installed_version.is_some(),
         rawJson: raw_json,
@@ -455,6 +481,7 @@ fn normalize_cask_info(cask: RawInfoCask, raw_json: Option<String>) -> PackageIn
         latestVersion: cask.version,
         installedVersion: installed_version.clone(),
         dependencies,
+        dependents: None,
         caveats: cask.caveats,
         installed: installed_version.is_some(),
         rawJson: raw_json,
@@ -590,6 +617,14 @@ mod tests {
         assert_eq!(results.len(), 2);
         assert_eq!(results[0].name, "redis");
         assert_eq!(results[1].name, "redis@6.2");
+    }
+
+    #[test]
+    fn parses_leaves_and_dependents_output() {
+        assert_eq!(
+            parse_name_lines("redis\npostgresql@17\n"),
+            vec!["redis", "postgresql@17"]
+        );
     }
 
     #[test]

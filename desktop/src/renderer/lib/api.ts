@@ -27,12 +27,19 @@ const browserFallbackApi: BrewweryApi = {
   packages: {
     listFormulae: () => unsupported(),
     listCasks: () => unsupported(),
+    listLeaves: () => unsupported(),
+    listDependents: () => unsupported(),
     search: () => unsupported(),
     info: () => unsupported(),
     install: () => unsupported(),
     uninstall: () => unsupported(),
     installWithProgress: () => unsupported(),
     uninstallWithProgress: () => unsupported()
+  },
+  taps: {
+    list: () => unsupported(),
+    add: () => unsupported(),
+    remove: () => unsupported()
   },
   updates: {
     list: () => unsupported(),

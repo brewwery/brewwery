@@ -19,6 +19,8 @@ const filters: Array<{ value: HistoryFilter; label: string }> = [
   { value: "install", label: "Installs" },
   { value: "uninstall", label: "Uninstalls" },
   { value: "upgrade", label: "Upgrades" },
+  { value: "brew_update", label: "Metadata" },
+  { value: "tap", label: "Taps" },
   { value: "service", label: "Services" },
   { value: "cleanup", label: "Cleanup" },
   { value: "doctor", label: "Doctor" },

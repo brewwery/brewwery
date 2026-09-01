@@ -14,6 +14,10 @@ import { BrewweryIpcError, toIpcResponse } from "./errors";
 export function registerPackageHandlers(): void {
   ipcMain.handle("packages:listFormulae", async (): Promise<IpcResponse<Formula[]>> => toIpcResponse(listFormulae));
   ipcMain.handle("packages:listCasks", async (): Promise<IpcResponse<Cask[]>> => toIpcResponse(listCasks));
+  ipcMain.handle("packages:listLeaves", async (): Promise<IpcResponse<string[]>> => toIpcResponse(listLeaves));
+  ipcMain.handle("packages:listDependents", async (_event, name: string): Promise<IpcResponse<string[]>> =>
+    toIpcResponse(() => listDependents(name))
+  );
   ipcMain.handle("packages:search", async (_event, query: string): Promise<IpcResponse<PackageSearchResult[]>> =>
     toIpcResponse(() => searchPackages(query))
   );
@@ -26,6 +30,24 @@ export function registerPackageHandlers(): void {
   ipcMain.handle("packages:uninstall", async (_event, request: PackageActionRequest): Promise<IpcResponse<PackageActionResult>> =>
     toIpcResponse(() => uninstallPackage(request))
   );
+}
+
+async function listLeaves(): Promise<string[]> {
+  const core = await getNativeCore();
+  const detection = core.detectHomebrew();
+  if (!detection.found) throw homebrewNotFound(detection);
+  return core.listLeaves();
+}
+
+async function listDependents(name: string): Promise<string[]> {
+  const core = await getNativeCore();
+  const detection = core.detectHomebrew();
+  if (!detection.found) throw homebrewNotFound(detection);
+  try {
+    return core.listDependents(name);
+  } catch (error) {
+    throw mapPackageError(error, "info");
+  }
 }
 
 async function listFormulae(): Promise<Formula[]> {

@@ -4,6 +4,7 @@ import type { Cask, Formula, PackageActionRequest, PackageActionResult, PackageI
 import type { DoctorResult } from "./doctor";
 import type { BrewService, ServiceActionRequest, ServiceActionResult } from "./service";
 import type { BrewDetectionResult, BrewInfo, BrewPathValidationResult } from "./system";
+import type { BrewTap, TapActionRequest, TapActionResult } from "./tap";
 import type { BrewUpdateResult, OutdatedPackage, UpgradeRequest, UpgradeResult } from "./update";
 
 export type ProgressOperationKind = "install" | "uninstall" | "upgrade" | "service" | "cleanup";
@@ -50,6 +51,8 @@ export type IpcErrorCode =
   | "BREW_UPDATE_FAILED"
   | "INVALID_PACKAGE_NAME"
   | "INVALID_CASK_TOKEN"
+  | "INVALID_TAP_NAME"
+  | "TAP_COMMAND_FAILED"
   | "PACKAGE_SEARCH_FAILED"
   | "PACKAGE_INFO_FAILED"
   | "PACKAGE_INSTALL_FAILED"
@@ -93,12 +96,19 @@ export interface BrewweryApi {
   packages: {
     listFormulae(): Promise<IpcResponse<Formula[]>>;
     listCasks(): Promise<IpcResponse<Cask[]>>;
+    listLeaves(): Promise<IpcResponse<string[]>>;
+    listDependents(name: string): Promise<IpcResponse<string[]>>;
     search(query: string): Promise<IpcResponse<PackageSearchResult[]>>;
     info(request: PackageActionRequest): Promise<IpcResponse<PackageInfo>>;
     install(request: PackageActionRequest): Promise<IpcResponse<PackageActionResult>>;
     uninstall(request: PackageActionRequest): Promise<IpcResponse<PackageActionResult>>;
     installWithProgress(request: PackageActionRequest): Promise<IpcResponse<ProgressOperationStart>>;
     uninstallWithProgress(request: PackageActionRequest): Promise<IpcResponse<ProgressOperationStart>>;
+  };
+  taps: {
+    list(): Promise<IpcResponse<BrewTap[]>>;
+    add(request: TapActionRequest): Promise<IpcResponse<TapActionResult>>;
+    remove(request: TapActionRequest): Promise<IpcResponse<TapActionResult>>;
   };
   updates: {
     list(): Promise<IpcResponse<OutdatedPackage[]>>;
@@ -148,12 +158,17 @@ export type IpcChannel =
   | "settings:clearHomebrewPath"
   | "packages:listFormulae"
   | "packages:listCasks"
+  | "packages:listLeaves"
+  | "packages:listDependents"
   | "packages:search"
   | "packages:info"
   | "packages:install"
   | "packages:uninstall"
   | "packages:installProgress"
   | "packages:uninstallProgress"
+  | "taps:list"
+  | "taps:add"
+  | "taps:remove"
   | "updates:list"
   | "updates:updateMetadata"
   | "updates:upgradePackage"

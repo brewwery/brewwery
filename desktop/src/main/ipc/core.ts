@@ -16,6 +16,8 @@ import type {
   PackageActionResult,
   PackageInfo,
   PackageSearchResult,
+  BrewTap,
+  TapActionResult,
   ServiceActionRequest,
   ServiceActionResult,
   UpgradeRequest,
@@ -32,12 +34,17 @@ interface NativeBrewweryCore {
   clearCustomBrewPath(): void;
   listFormulae(): Formula[];
   listCasks(): Cask[];
+  listLeaves(): string[];
+  listDependents(name: string): string[];
   searchPackages(query: string): PackageSearchResult[];
   getPackageInfo(request: PackageActionRequest): PackageInfo;
   installFormula(name: string): PackageActionResult;
   installCask(name: string): PackageActionResult;
   uninstallFormula(name: string): PackageActionResult;
   uninstallCask(name: string): PackageActionResult;
+  listTaps(): BrewTap[];
+  addTap(name: string): TapActionResult;
+  removeTap(name: string): TapActionResult;
   listOutdated(): OutdatedPackage[];
   updateHomebrewMetadata(): BrewUpdateResult;
   upgradePackage(request: UpgradeRequest): UpgradeResult;

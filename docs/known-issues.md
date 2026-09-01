@@ -1,6 +1,6 @@
 # Known Issues
 
-Known issues and release-candidate decisions for Brewwery v0.9.6.
+Known issues and release-candidate decisions for Brewwery v0.9.7.
 
 ## External Release Constraints
 
@@ -16,6 +16,12 @@ Known issues and release-candidate decisions for Brewwery v0.9.6.
 | --- | --- | --- |
 | Automatic app updates are not implemented | Post-v1.0 | Add only after signing/notarization and release feed decisions are complete. |
 | Accessibility full pass is pending | Pre-v1.0 QA | Initial focus, dialog, drawer, and docs pass landed in v0.9.6. Continue with manual VoiceOver and contrast QA before v1.0. |
+
+## Improved in v0.9.7
+
+- Packages and Casks now virtualize large lists and support keyboard row navigation.
+- Homebrew Leaves and installed dependents are visible without introducing generic command execution.
+- Background outdated checks update the Dock badge without automatically refreshing metadata or mutating Homebrew state.
 
 ## Closed in v0.9.3
 

@@ -16,12 +16,19 @@ const api: BrewweryApi = {
   packages: {
     listFormulae: () => ipcRenderer.invoke("packages:listFormulae"),
     listCasks: () => ipcRenderer.invoke("packages:listCasks"),
+    listLeaves: () => ipcRenderer.invoke("packages:listLeaves"),
+    listDependents: (name) => ipcRenderer.invoke("packages:listDependents", name),
     search: (query) => ipcRenderer.invoke("packages:search", query),
     info: (request) => ipcRenderer.invoke("packages:info", request),
     install: (request) => ipcRenderer.invoke("packages:install", request),
     uninstall: (request) => ipcRenderer.invoke("packages:uninstall", request),
     installWithProgress: (request) => ipcRenderer.invoke("packages:installProgress", request),
     uninstallWithProgress: (request) => ipcRenderer.invoke("packages:uninstallProgress", request)
+  },
+  taps: {
+    list: () => ipcRenderer.invoke("taps:list"),
+    add: (request) => ipcRenderer.invoke("taps:add", request),
+    remove: (request) => ipcRenderer.invoke("taps:remove", request)
   },
   updates: {
     list: () => ipcRenderer.invoke("updates:list"),

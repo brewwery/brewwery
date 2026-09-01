@@ -2,6 +2,7 @@ import { ipcMain } from "electron";
 import type { BrewUpdateResult, IpcResponse, OutdatedPackage, UpgradeRequest, UpgradeResult } from "@brewwery/shared-types";
 import { getNativeCore } from "./core";
 import { BrewweryIpcError, toIpcResponse } from "./errors";
+import { setUpdateBadge } from "../update-badge";
 
 export function registerUpdateHandlers(): void {
   ipcMain.handle("updates:list", async (): Promise<IpcResponse<OutdatedPackage[]>> => toIpcResponse(listUpdates));
@@ -30,7 +31,9 @@ async function listUpdates(): Promise<OutdatedPackage[]> {
   assertHomebrew(core.detectHomebrew());
 
   try {
-    return core.listOutdated();
+    const updates = core.listOutdated();
+    setUpdateBadge(updates.length);
+    return updates;
   } catch (error) {
     throw mapUpdateError(error, "list");
   }

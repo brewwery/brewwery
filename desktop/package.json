@@ -1,6 +1,6 @@
 {
   "name": "@brewwery/desktop",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "private": true,
   "productName": "Brewwery",
   "description": "Brewwery desktop app",
@@ -23,6 +23,7 @@
   "dependencies": {
     "@brewwery/brewwery-core": "workspace:*",
     "@brewwery/shared-types": "workspace:*",
+    "@tanstack/react-virtual": "^3.14.10",
     "clsx": "2.1.1",
     "electron-updater": "6.8.9",
     "lucide-react": "1.30.0",

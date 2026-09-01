@@ -43,20 +43,26 @@ The only mutating v0.9 operations are:
 - `brew services stop <service>`
 - `brew services restart <service>`
 - `brew cleanup`
+- `brew tap <owner/repository>`
+- `brew untap <owner/repository>`
 
 Cleanup is never run automatically and is only enabled after `brew cleanup -n` preview plus explicit confirmation.
 
 Package names, service names, and Brewfile read paths are validated before being passed to Homebrew or the filesystem.
 
+Tap names must contain exactly one slash and use a strict ASCII `owner/repository` format. Both tap mutations require confirmation in the renderer and are executed as fixed argument arrays by the Rust core.
+
 Formula identifiers accepted by install/uninstall/upgrade may use ASCII letters, digits, `@`, `-`, `_`, `.`, `+`, and slash-separated tap names such as `mongodb/brew/mongodb-community`. Cask tokens remain limited to ASCII letters, digits, `@`, `-`, `_`, `.`, and `+`. Spaces, shell metacharacters, redirection characters, leading/trailing slashes, repeated slashes, and newlines are rejected before Homebrew is invoked.
 
 Streaming progress operations still use fixed argv arrays and `shell: false`; the renderer receives progress events only and cannot provide arbitrary commands.
 
-The v0.9.6 Settings page can save a custom Homebrew path only after Rust validates that it is an absolute executable file and can run `brew --version`. The saved path is stored locally in Electron `userData` settings and is applied to both the Rust runner and streaming progress runner before falling back to default Homebrew detection paths.
+The v0.9.7 Settings page can save a custom Homebrew path only after Rust validates that it is an absolute executable file and can run `brew --version`. The saved path is stored locally in Electron `userData` settings and is applied to both the Rust runner and streaming progress runner before falling back to default Homebrew detection paths.
 
 Discovery search queries are validated in both the renderer and Rust core. Only ASCII package-name characters (`a-z`, `A-Z`, `0-9`, `@`, `-`, `_`, `.`, `+`) are accepted before an allowlisted `brew search` operation is run.
 
 Homebrew metadata refresh is explicit. Brewwery does not run `brew update` automatically on startup or page load; the Updates and Settings pages require user confirmation before running the allowlisted `brew update` operation.
+
+The background update indicator is read-only. It periodically runs `brew outdated --json=v2` and updates the macOS Dock badge. It does not refresh Homebrew metadata or mutate packages.
 
 Streaming operation cancellation is scoped to the random active operation ID created by Electron main. The requesting renderer must own that operation. Renderer code cannot supply a PID, signal, executable, timeout, or command. Electron main uses fixed timeout policies and only signals child processes that Brewwery started itself.
 

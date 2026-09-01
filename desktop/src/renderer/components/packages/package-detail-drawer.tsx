@@ -1,10 +1,11 @@
 import { Copy, ExternalLink, PackagePlus, PackageX, Star, Upload } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useEffect, useId } from "react";
+import { useEffect, useId, useState } from "react";
 import type { Cask, Formula, PackageActionRequest, PackageInfo } from "@brewwery/shared-types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
+import { api } from "@/lib/api";
 import { isFavoritePackage, useFavoritesStore } from "@/stores/favorites-store";
 
 type PackageDetail =
@@ -35,6 +36,8 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
   const titleId = useId();
   const descriptionId = useId();
+  const [dependents, setDependents] = useState<string[]>([]);
+  const [dependentsLoading, setDependentsLoading] = useState(false);
 
   useEffect(() => {
     if (!detail) return;
@@ -48,6 +51,28 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [detail, onClose]);
+
+  useEffect(() => {
+    const target = detail?.kind === "formula"
+      ? detail.item.name
+      : detail?.kind === "info" && detail.item.kind === "formula" && detail.item.installed
+        ? detail.item.name
+        : undefined;
+
+    setDependents([]);
+    if (!target) return;
+
+    let active = true;
+    setDependentsLoading(true);
+    void api.packages.listDependents(target).then((response) => {
+      if (!active) return;
+      if (response.ok) setDependents(response.data ?? []);
+      setDependentsLoading(false);
+    });
+    return () => {
+      active = false;
+    };
+  }, [detail]);
 
   if (!detail) return null;
 
@@ -115,6 +140,7 @@ export function PackageDetailDrawer({ actionLoading, detail, onClose, onInstall,
           ) : null}
 
           <Dependencies dependencies={model.dependencies ?? []} />
+          {model.kind === "formula" && model.installed ? <Dependents dependents={dependents} loading={dependentsLoading} /> : null}
           {model.caveats ? <Info label="Caveats" value={model.caveats} /> : null}
 
           <div className="space-y-2 border-t border-border pt-5">
@@ -172,6 +198,23 @@ function Dependencies({ dependencies }: { dependencies: string[] }) {
         </div>
       ) : (
         <div className="rounded-md border border-border bg-[var(--brewwery-pre)] p-3 text-sm text-muted-foreground">No dependencies listed.</div>
+      )}
+    </div>
+  );
+}
+
+function Dependents({ dependents, loading }: { dependents: string[]; loading: boolean }) {
+  return (
+    <div>
+      <div className="mb-2 text-xs text-muted-foreground">Installed dependents</div>
+      {loading ? (
+        <div className="rounded-md border border-border bg-[var(--brewwery-pre)] p-3 text-sm text-muted-foreground">Checking dependents...</div>
+      ) : dependents.length > 0 ? (
+        <div className="flex flex-wrap gap-2">
+          {dependents.map((dependent) => <Badge key={dependent}>{dependent}</Badge>)}
+        </div>
+      ) : (
+        <div className="rounded-md border border-border bg-[var(--brewwery-pre)] p-3 text-sm text-muted-foreground">No installed packages depend on this formula.</div>
       )}
     </div>
   );

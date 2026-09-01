@@ -15,6 +15,7 @@ import { SearchPage } from "./pages/search";
 import { ServicesPage } from "./pages/services";
 import { SettingsPage } from "./pages/settings";
 import { UpdatesPage } from "./pages/updates";
+import { TapsPage } from "./pages/taps";
 import { api } from "./lib/api";
 import { useSettingsStore } from "./stores/settings-store";
 import { useUiStore } from "./stores/ui-store";
@@ -27,6 +28,7 @@ const pages = {
   packages: <PackagesPage />,
   updates: <UpdatesPage />,
   casks: <CasksPage />,
+  taps: <TapsPage />,
   services: <ServicesPage />,
   cleanup: <CleanupPage />,
   doctor: <DoctorPage />,

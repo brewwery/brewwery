@@ -2,7 +2,7 @@
 
 Brewwery is a clean macOS desktop app to manage Homebrew packages, casks, services, updates, cleanup, diagnostics, and Brewfiles in one place.
 
-Current status: v0.9.6 Release Candidate / feature freeze.
+Current status: v0.9.7 Release Candidate / feature freeze.
 
 The project is open source, MIT licensed, and targets macOS first, with Apple Silicon as the primary platform.
 
@@ -18,8 +18,12 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - Discover curated Homebrew formulae and casks from a local bundled registry.
 - Save favorite formulae and casks locally.
 - Search, sort, refresh, and inspect installed formulae and casks.
+- Filter installed formulae to Homebrew Leaves and inspect installed dependents in package details.
+- Manage Homebrew taps through a dedicated confirmation-gated Taps page.
+- Virtualize large Packages and Casks lists with arrow-key navigation and Enter-to-open details.
 - Copy package names and brew install commands from a read-only detail drawer.
 - Show outdated formulae and casks from Homebrew.
+- Check outdated package state in the background and show the count in the macOS Dock badge without running `brew update` automatically.
 - Upgrade one package or all outdated packages after explicit confirmation.
 - Show Homebrew services and run start, stop, or restart after explicit confirmation.
 - Preview Homebrew cleanup output and run cleanup only after confirmation.
@@ -59,6 +63,9 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - `brew config`
 - `brew list --formula --json=v2`
 - `brew list --cask --json=v2`
+- `brew leaves`
+- `brew uses --installed <formula>`
+- `brew tap`
 - `brew outdated --json=v2`
 - `brew update`
 - `brew upgrade <formula>`
@@ -80,6 +87,8 @@ See [CHANGELOG.md](CHANGELOG.md) for completed release notes.
 - `brew install --cask <cask>`
 - `brew uninstall <formula>`
 - `brew uninstall --cask <cask>`
+- `brew tap <owner/repository>`
+- `brew untap <owner/repository>`
 
 Homebrew 5 may reject `--json=v2` for `brew list`; Brewwery then falls back to `brew list --formula --versions --json` or `brew list --cask --versions --json`.
 
@@ -200,7 +209,7 @@ rm -rf "$HOME/Library/Saved Application State/com.brewwery.app.savedState"
 
 ## Security Model
 
-Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Favorites and Discover are local UI features and do not add shell commands, accounts, telemetry, or cloud sync. Mutating operations in v0.9.6 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
+Brewwery uses typed, allowlisted Homebrew commands and disables Homebrew auto-update and analytics in app-launched command environments. Favorites and Discover are local UI features and do not add shell commands, accounts, telemetry, or cloud sync. Mutating operations in v0.9.7 are limited to package install/uninstall, package upgrades, Homebrew metadata refresh, Homebrew tap add/remove, Homebrew service start/stop/restart, and cleanup after preview. Every mutating operation requires explicit confirmation. The renderer runs with context isolation, sandboxing, no Node integration, and a narrow preload API.
 
 No authentication, telemetry, cloud sync, monetization, donation, or support logic is included.
 

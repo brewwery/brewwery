@@ -84,6 +84,22 @@ function mapServiceError(error: unknown) {
     return new BrewweryIpcError("INVALID_SERVICE_NAME", "The service name is not valid.", message);
   }
 
+  if (lower.includes("undefined method 'stop_timeout'")) {
+    return new BrewweryIpcError(
+      "SERVICE_COMMAND_FAILED",
+      "Homebrew services is incompatible with the current Homebrew metadata. Update Homebrew, then retry.",
+      message
+    );
+  }
+
+  if (lower.includes("could not resolve host") || lower.includes("formulae.brew.sh")) {
+    return new BrewweryIpcError(
+      "SERVICE_COMMAND_FAILED",
+      "Homebrew could not reach its package metadata service. Check your connection, then retry.",
+      message
+    );
+  }
+
   if (lower.includes("parse")) {
     return new BrewweryIpcError("BREW_JSON_PARSE_FAILED", "Brewwery could not parse Homebrew services output.", message);
   }

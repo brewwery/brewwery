@@ -10,6 +10,7 @@ export function usePackages(kind: "formula" | "cask" = "formula") {
   const setCasks = usePackageStore((state) => state.setCasks);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<IpcError | undefined>();
+  const [leaves, setLeaves] = useState<string[]>([]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -23,6 +24,10 @@ export function usePackages(kind: "formula" | "cask" = "formula") {
       if (response.ok) {
         if (kind === "formula") setFormulae(response.data as Formula[]);
         else setCasks(response.data as Cask[]);
+        if (kind === "formula") {
+          const leavesResponse = await api.packages.listLeaves();
+          if (leavesResponse.ok) setLeaves(leavesResponse.data ?? []);
+        }
       } else {
         setError(response.error);
       }
@@ -46,6 +51,8 @@ export function usePackages(kind: "formula" | "cask" = "formula") {
 
       if (formulaResponse.ok) {
         setFormulae(formulaResponse.data ?? []);
+        const leavesResponse = await api.packages.listLeaves();
+        if (leavesResponse.ok) setLeaves(leavesResponse.data ?? []);
       } else if (kind === "formula") {
         setError(formulaResponse.error);
       }
@@ -72,5 +79,5 @@ export function usePackages(kind: "formula" | "cask" = "formula") {
 
 
   const packages: BrewPackage[] = kind === "formula" ? formulae : casks;
-  return { packages, loading, error, refresh: load, refreshAll: loadAll };
+  return { packages, leaves, loading, error, refresh: load, refreshAll: loadAll };
 }

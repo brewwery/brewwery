@@ -26,6 +26,10 @@ pnpm dev
 pnpm build
 ```
 
+Package data follows the Rust core → typed IPC → preload wrapper → renderer flow. Taps, Leaves, and dependents must stay on this path; renderer components must not import Electron APIs directly.
+
+Packages and Casks use `@tanstack/react-virtual`. Keep row heights stable when editing those lists so keyboard navigation and scroll positioning remain deterministic.
+
 Build only the Rust native core:
 
 ```bash

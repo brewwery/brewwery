@@ -122,7 +122,7 @@ export function DashboardPage() {
               <ServicePill label="Stopped" value={stoppedServices.length} tone="stopped" />
               <ServicePill label="Errors" value={errorServices.length} tone="error" />
             </div>
-            {servicesError ? <InlineError message="Failed to load services" /> : null}
+            {servicesError ? <InlineError message={servicesError.message || "Failed to load services"} /> : null}
             {!servicesError && !servicesLoading && services.length === 0 ? <EmptyLine text="No Homebrew services found" /> : null}
             {servicesLoading && services.length === 0 ? <SkeletonRows count={4} /> : null}
             {previewServices.map((service) => (

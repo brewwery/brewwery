@@ -326,3 +326,14 @@ Status: implemented.
 - Contributor-friendly test fixtures
 
 Linux and Windows support are intentionally out of scope for now.
+
+## v0.9.7 Package Intelligence & Taps
+
+Status: implemented, pending packaged-app QA.
+
+- Homebrew taps list with confirmation-gated add and remove actions
+- Homebrew Leaves filter on Packages
+- Installed dependents in formula details
+- Read-only background outdated checks with a macOS Dock badge
+- Virtualized Packages and Casks lists
+- Arrow-key row navigation with Enter/Space detail activation

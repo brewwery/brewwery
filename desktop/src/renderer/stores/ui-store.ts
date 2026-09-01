@@ -8,6 +8,7 @@ export type PageId =
   | "packages"
   | "updates"
   | "casks"
+  | "taps"
   | "services"
   | "cleanup"
   | "doctor"

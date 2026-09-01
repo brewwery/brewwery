@@ -37,6 +37,7 @@ export interface PackageInfo {
   latestVersion?: string;
   installedVersion?: string;
   dependencies?: string[];
+  dependents?: string[];
   caveats?: string;
   installed: boolean;
   rawJson?: string;

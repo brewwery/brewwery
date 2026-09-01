@@ -2,6 +2,26 @@
 
 All notable changes to Brewwery will be documented in this file.
 
+## v0.9.7 - Package Intelligence & Taps
+
+### Added
+
+- Dedicated Taps page for listing, adding, and removing Homebrew taps.
+- Leaves filter for installed formulae and installed dependents in package details.
+- Background read-only outdated check with macOS Dock badge count.
+- Virtualized Packages and Casks lists with Arrow, Home, End, Enter, and Space keyboard controls.
+
+### Changed
+
+- Large package lists render only visible rows plus a small overscan buffer.
+- Tap and untap results are recorded in local History.
+
+### Security
+
+- Tap names are restricted to a single `owner/repository` identifier using ASCII letters, digits, dot, underscore, and hyphen.
+- Add/remove tap actions require explicit confirmation and use fixed argv arrays without a shell.
+- Background checks run only `brew outdated --json=v2`; they never run `brew update`, install, uninstall, upgrade, or cleanup.
+
 ## v0.9.6 - Accessibility & Docs Consistency
 
 ### Added

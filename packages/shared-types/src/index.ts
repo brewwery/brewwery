@@ -5,4 +5,5 @@ export * from "./ipc";
 export * from "./package";
 export * from "./service";
 export * from "./system";
+export * from "./tap";
 export * from "./update";

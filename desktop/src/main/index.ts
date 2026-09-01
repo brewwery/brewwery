@@ -3,6 +3,7 @@ import { createAppMenu } from "./menu";
 import { registerIpcHandlers } from "./ipc";
 import { createMainWindow } from "./window";
 import { createTray } from "./tray";
+import { startBackgroundUpdateCheck } from "./update-badge";
 
 app.setName("Brewwery");
 let mainWindow: BrowserWindow | undefined;
@@ -25,6 +26,7 @@ app.whenReady().then(() => {
   registerIpcHandlers();
   mainWindow = createMainWindow();
   createTray(getOrCreateMainWindow);
+  startBackgroundUpdateCheck();
 
   app.on("activate", () => {
     getOrCreateMainWindow();

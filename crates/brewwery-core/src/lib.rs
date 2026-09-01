@@ -11,6 +11,7 @@ mod permissions;
 mod runner;
 mod services;
 mod system;
+mod taps;
 mod updates;
 
 pub use brewfile::{
@@ -21,9 +22,9 @@ pub use doctor::{DoctorDiagnostic, DoctorResult, run_doctor};
 pub use errors::{BrewweryError, BrewweryResult};
 pub use packages::{
     Cask, Formula, PackageActionRequest, PackageActionResult, PackageInfo, PackageSearchResult,
-    get_package_info, install_cask, install_formula, list_casks, list_formulae,
-    list_installed_casks, list_installed_formulae, parse_casks_json, parse_formulae_json,
-    search_packages, uninstall_cask, uninstall_formula,
+    get_package_info, install_cask, install_formula, list_casks, list_dependents, list_formulae,
+    list_installed_casks, list_installed_formulae, list_leaves, parse_casks_json,
+    parse_formulae_json, search_packages, uninstall_cask, uninstall_formula,
 };
 pub use services::{
     BrewService, ServiceActionRequest, ServiceActionResult, list_services, restart_service,
@@ -33,6 +34,7 @@ pub use system::{
     BrewDetectionResult, BrewInfo, BrewPathValidationResult, IpcError, clear_custom_brew_path,
     detect_homebrew, get_brew_info, set_custom_brew_path, validate_brew_path,
 };
+pub use taps::{BrewTap, TapActionResult, add_tap, list_taps, remove_tap};
 pub use updates::{
     BrewUpdateResult, OutdatedPackage, UpgradeRequest, UpgradeResult, list_outdated,
     update_homebrew_metadata, upgrade_all, upgrade_package,
