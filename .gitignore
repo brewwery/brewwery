@@ -1,0 +1,27 @@
+.DS_Store
+
+# Local editor and assistant state
+.claude/
+.vscode/
+.idea/
+
+# SwiftPM and Xcode
+.build/
+.swiftpm/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+
+# Release output (Scripts/make-app.sh, Scripts/release.sh)
+dist/
+*.dmg
+*.zip
+*.dSYM/
+
+# Signing and update keys never belong in the repository
+*.key
+*.p12
+*.pem
+*.mobileprovision
+.env
+.env.*

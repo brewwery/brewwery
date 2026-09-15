@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+	  Brewwery is distributed outside the Mac App Store and is deliberately not sandboxed: its
+	  purpose is to run the user's own `brew`, which writes to the Homebrew prefix.
+
+	  The hardened runtime applies with no exceptions. Homebrew runs as a separate process with
+	  its own signature, so none of Homebrew's needs (Ruby, JIT, dylib loading) are inherited
+	  from these entitlements, and Sparkle.framework is signed with the same team.
+	-->
+</dict>
+</plist>

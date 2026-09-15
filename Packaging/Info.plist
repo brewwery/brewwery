@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleName</key>
+	<string>Brewwery</string>
+	<key>CFBundleDisplayName</key>
+	<string>Brewwery</string>
+	<key>CFBundleExecutable</key>
+	<string>Brewwery</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.brewwery.app</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
+	<key>CFBundleVersion</key>
+	<string>100</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>MIT License. Made by Made Büro.</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSSupportsAutomaticTermination</key>
+	<false/>
+	<key>NSSupportsSuddenTermination</key>
+	<false/>
+	<!-- Sparkle application updates. Unrelated to Homebrew package updates. -->
+	<key>SUFeedURL</key>
+	<string>https://www.brewwery.com/appcast.xml</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<!-- EdDSA public key. The private key lives in the login keychain under the Sparkle
+	     account "brewwery" (Scripts/release.sh signs with it). -->
+	<key>SUPublicEDKey</key>
+	<string>W/v1FuP4W4mQDhlPQReyZMHXhzss7KEnphSH8/suhsw=</string>
+</dict>
+</plist>
