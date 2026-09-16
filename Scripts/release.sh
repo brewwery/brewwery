@@ -7,6 +7,7 @@
 #   3. wraps it in a signed DMG with an Applications link
 #   4. notarises and staples the DMG
 #   5. signs the DMG for Sparkle and regenerates appcast.xml
+#   6. optionally copies the DMG and appcast into the website's public directory
 #
 # Credentials never appear here: signing uses the Developer ID certificate in the keychain,
 # notarisation a stored `notarytool` keychain profile, and the Sparkle signature the EdDSA key
@@ -14,7 +15,8 @@
 #
 # Usage:
 #   Scripts/release.sh --sign "Developer ID Application: …" \
-#       [--notary-profile NAME (default: Brewwery)] [--download-url-prefix URL] [--channel beta]
+#       [--notary-profile NAME (default: Brewwery)] [--download-url-prefix URL] [--channel beta] \
+#       [--site-public DIR]   # e.g. "../landing draft/public" → download/brewwery.dmg + appcast.xml
 #
 set -euo pipefail
 
@@ -22,6 +24,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 IDENTITY=""
 PROFILE="${NOTARY_PROFILE:-Brewwery}"
 CHANNEL=""
+SITE_PUBLIC=""
 VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$ROOT/Packaging/Info.plist")
 DOWNLOAD_PREFIX="https://github.com/brewwery/brewwery/releases/download/v$VERSION/"
 
@@ -31,6 +34,7 @@ while [[ $# -gt 0 ]]; do
     --notary-profile) PROFILE="$2"; shift 2 ;;
     --download-url-prefix) DOWNLOAD_PREFIX="$2"; shift 2 ;;
     --channel) CHANNEL="$2"; shift 2 ;;
+    --site-public) SITE_PUBLIC="$2"; shift 2 ;;
     *) echo "unknown argument: $1" >&2; exit 1 ;;
   esac
 done
@@ -84,6 +88,13 @@ CHANNEL_ARGS=()
   --download-url-prefix "$DOWNLOAD_PREFIX" \
   ${CHANNEL_ARGS[@]+"${CHANNEL_ARGS[@]}"} \
   "$APPCAST_DIR"
+
+if [[ -n "$SITE_PUBLIC" ]]; then
+  echo "==> Copying into the website"
+  mkdir -p "$SITE_PUBLIC/download"
+  cp "$DMG" "$SITE_PUBLIC/download/brewwery.dmg"
+  cp "$APPCAST_DIR/appcast.xml" "$SITE_PUBLIC/appcast.xml"
+fi
 
 shasum -a 256 "$DMG"
 echo "==> Done"

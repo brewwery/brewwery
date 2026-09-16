@@ -5,7 +5,15 @@ import SwiftUI
 @main
 struct BrewweryApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @State private var environment = AppEnvironment()
+    @State private var environment = BrewweryApp.makeEnvironment()
+
+    @MainActor
+    private static func makeEnvironment() -> AppEnvironment {
+        #if DEBUG
+        if let demo = DemoLaunch.current { return demo.makeEnvironment() }
+        #endif
+        return AppEnvironment()
+    }
 
     var body: some Scene {
         Window(AppInfo.name, id: "main") {

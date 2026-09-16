@@ -62,6 +62,16 @@ staples it, wraps it in a signed DMG, notarises and staples that, and regenerate
 1. upload `dist/appcast/Brewwery-<version>.dmg` to the GitHub release for the tag;
 2. publish `dist/appcast/appcast.xml` at the `SUFeedURL` in `Packaging/Info.plist`.
 
+Pass `--site-public "<website>/public"` to also copy the DMG to `download/brewwery.dmg` and the
+appcast to `appcast.xml` in the website, ready to deploy.
+
+Website and documentation screenshots come from the app itself, in demo mode against a scripted
+Homebrew, so they never show a real machine's data:
+
+```bash
+Scripts/screenshots.sh dist/screenshots
+```
+
 Sparkle signs updates with the EdDSA key stored in the login keychain under the account
 `brewwery`. Back it up — without it no update can reach installed copies:
 

@@ -12,6 +12,11 @@ final class SystemModel {
 
     private let client: HomebrewClient
 
+    #if DEBUG
+    /// Screenshot runs show a conventional executable path instead of the demo script's.
+    var displayedExecutableOverride: String?
+    #endif
+
     init(client: HomebrewClient) {
         self.client = client
     }
@@ -38,5 +43,13 @@ final class SystemModel {
         } catch {
             self.error = error
         }
+
+        #if DEBUG
+        if let displayedExecutableOverride {
+            self.detection?.path = displayedExecutableOverride
+            self.detection?.checkedPaths = HomebrewDetector.standardPaths + ["PATH"]
+            info?.path = displayedExecutableOverride
+        }
+        #endif
     }
 }

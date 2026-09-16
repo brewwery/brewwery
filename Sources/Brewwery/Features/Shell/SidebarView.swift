@@ -47,9 +47,9 @@ struct SidebarView: View {
     }
 
     private var navigation: some View {
-        VStack(alignment: .leading, spacing: Metrics.sectionSpacing) {
+        VStack(alignment: .leading, spacing: Metrics.cardSpacing) {
             ForEach(Page.sections) { section in
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(section.title.uppercased())
                         .font(BrewweryFont.sidebarSection)
                         .tracking(0.88)
@@ -109,6 +109,10 @@ struct SidebarView: View {
 }
 
 private struct SidebarItem: View {
+    /// 32 pt rather than the 36 pt of other controls, so all fifteen destinations fit above
+    /// the Homebrew card at the default window height without scrolling.
+    static let rowHeight: CGFloat = 32
+
     let page: Page
     let isSelected: Bool
     let action: () -> Void
@@ -127,7 +131,7 @@ private struct SidebarItem: View {
             }
             .foregroundStyle(foreground)
             .padding(.horizontal, Metrics.tightSpacing)
-            .frame(height: Metrics.controlHeight)
+            .frame(height: SidebarItem.rowHeight)
             .background(background)
             .clipShape(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
             .contentShape(Rectangle())

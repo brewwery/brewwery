@@ -31,7 +31,8 @@ final class AppEnvironment {
         client: HomebrewClient = HomebrewClient(),
         settings: SettingsStore = SettingsStore(),
         history: HistoryStore = HistoryStore(),
-        favorites: FavoritesStore = FavoritesStore()
+        favorites: FavoritesStore = FavoritesStore(),
+        updateDriver: (any AppUpdateDriver)? = SparkleUpdateDriver.makeIfConfigured()
     ) {
         let state = AppState()
 
@@ -49,7 +50,7 @@ final class AppEnvironment {
         self.cleanup = CleanupModel(client: client)
         self.doctor = DoctorModel(client: client)
         self.brewfile = BrewfileModel(client: client)
-        self.updater = AppUpdateController(settings: settings)
+        self.updater = AppUpdateController(settings: settings, driver: updateDriver)
     }
 
     /// Applies the stored custom Homebrew path before the first query runs, so a user who
@@ -62,6 +63,9 @@ final class AppEnvironment {
             settings.resetCustomHomebrewPath()
         }
         await system.load()
+        // The status bar and every "Installed" badge read the installed lists, so they load at
+        // launch rather than waiting for a page that happens to request them.
+        if !system.isHomebrewMissing { await library.loadAll() }
     }
 
     // MARK: - Shared operation plumbing
