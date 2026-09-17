@@ -28,7 +28,7 @@ struct UpdatesView: View {
             summary
             content
         }
-        .task { if updates.updates.isEmpty { await updates.refresh() } }
+        .task { if updates.lastChecked == nil { await updates.refresh() } }
         .confirmation($confirmation, isWorking: brewwery.operations.isRunning) { _ in
             Task { await confirm() }
         }
@@ -65,16 +65,32 @@ struct UpdatesView: View {
         }
     }
 
+    /// The Dock badge, the sidebar and the status bar all show `updates.count`, so the
+    /// header names the command behind it and when it last ran. Kept to one short line —
+    /// a long subtitle squeezes the actions on the right.
     private var subtitle: String {
-        updates.lastChecked.map { "Last checked \($0.formatted(date: .omitted, time: .standard))" }
-            ?? "Check installed formulae and casks for updates."
+        guard let checked = updates.lastChecked else {
+            return "Check installed formulae and casks for updates."
+        }
+        let time = checked.formatted(date: .omitted, time: .shortened)
+        let summary = updates.count == 0 ? "Up to date" : "\(updates.count) outdated"
+        return "\(summary) · checked \(time)"
     }
 
     private var summary: some View {
-        HStack(spacing: Metrics.cardSpacing) {
-            SummaryCard(label: "Total updates", value: updates.updates.count)
-            SummaryCard(label: "Formulae", value: updates.formulaeCount)
-            SummaryCard(label: "Casks", value: updates.casksCount)
+        VStack(alignment: .leading, spacing: Metrics.rowSpacing) {
+            HStack(spacing: Metrics.cardSpacing) {
+                SummaryCard(label: "Total updates", value: updates.updates.count)
+                SummaryCard(label: "Formulae", value: updates.formulaeCount)
+                SummaryCard(label: "Casks", value: updates.casksCount)
+            }
+
+            // Answers "where is that number on the Dock coming from?" in the one place a
+            // user goes looking for it.
+            Text("The Dock badge, the sidebar and the status bar show this same total. Brewwery re-reads it in the background every 30 minutes and never upgrades anything on its own.")
+                .font(BrewweryFont.caption)
+                .foregroundStyle(BrewweryColor.mutedForeground)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 

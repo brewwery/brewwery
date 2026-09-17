@@ -9,12 +9,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var environment: AppEnvironment?
     private var statusItem: NSStatusItem?
     private var badgeTask: Task<Void, Never>?
+    private var updatesMenuItem: NSMenuItem?
     private var keyMonitor: Any?
     private var aboutPanelOptions: [NSApplication.AboutPanelOptionKey: Any] = [:]
 
-    /// Background outdated check (`update-badge.ts`): first run after 15 s, then every
-    /// 30 min. It is read-only — it never refreshes Homebrew metadata or mutates packages.
-    static let badgeInitialDelay = Duration.seconds(15)
+    /// Background outdated check (`update-badge.ts`): every 30 min, on top of the load
+    /// `AppEnvironment.prepare()` already does at launch. It is read-only — it never
+    /// refreshes Homebrew metadata or mutates packages.
     static let badgeInterval = Duration.seconds(30 * 60)
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -38,7 +39,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         installStatusItem()
         installWindowCenteringShortcut()
-        startBackgroundBadgeRefresh()
+        startBackgroundOutdatedRefresh()
+        observeOutdatedCount()
         configureMainWindow()
     }
 
@@ -66,6 +68,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func configureMainWindow() {
         guard let window = NSApp.windows.first else { return }
         window.title = AppInfo.name
+        #if DEBUG
+        // Demo builds name the window after the page they were asked to show, so
+        // Scripts/screenshots.sh can prove it captured the right one.
+        if let demo = DemoLaunch.current { window.title = "\(AppInfo.name) · \(demo.page.rawValue)" }
+        #endif
         // `trafficLightPosition: { x: 16, y: 18 }` — the legacy inset.
         window.titlebarAppearsTransparent = true
         window.isMovableByWindowBackground = false
@@ -117,7 +124,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let menu = NSMenu()
         menu.addItem(menuItem("Open Brewwery", page: nil))
-        menu.addItem(menuItem("Check for updates", page: .updates))
+        let updates = menuItem(Self.updatesMenuTitle(count: environment?.updates.count ?? 0), page: .updates)
+        updatesMenuItem = updates
+        menu.addItem(updates)
         menu.addItem(menuItem("Run doctor", page: .doctor))
         menu.addItem(menuItem("Settings", page: .settings))
         menu.addItem(.separator())
@@ -146,26 +155,54 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         presentMainWindow(page: (sender.representedObject as? String).flatMap(Page.init))
     }
 
-    // MARK: - Dock badge
+    // MARK: - Outdated count
 
-    private func startBackgroundBadgeRefresh() {
+    /// Re-reads the outdated list periodically. It writes into `UpdatesModel`, which every
+    /// visible counter also reads, so the Dock badge cannot drift away from the window.
+    private func startBackgroundOutdatedRefresh() {
         badgeTask = Task { [weak self] in
-            try? await Task.sleep(for: Self.badgeInitialDelay)
             while !Task.isCancelled {
-                await self?.refreshBadge()
                 try? await Task.sleep(for: Self.badgeInterval)
+                await self?.refreshOutdatedQuietly()
             }
         }
     }
 
-    private func refreshBadge() async {
-        guard let environment else { return }
-        // Best effort: a background check must never interrupt the app.
-        let outdated = (try? await environment.client.outdated()) ?? []
-        setBadge(count: outdated.count)
+    private func refreshOutdatedQuietly() async {
+        guard let environment,
+              !environment.system.isHomebrewMissing,
+              // Mid-upgrade the list is about to change anyway, and the operation's own
+              // refresh will report the result.
+              !environment.operations.isRunning
+        else { return }
+
+        await environment.updates.refresh(silently: true)
     }
 
-    func setBadge(count: Int) {
-        NSApp.dockTile.badgeLabel = count > 0 ? String(count) : nil
+    /// Mirrors the count into the Dock and the menu bar whenever it — or the preference
+    /// that hides it — changes. Observation re-arms after every change.
+    private func observeOutdatedCount() {
+        withObservationTracking {
+            applyOutdatedCount()
+        } onChange: { [weak self] in
+            Task { @MainActor in self?.observeOutdatedCount() }
+        }
+    }
+
+    private func applyOutdatedCount() {
+        guard let environment else { return }
+        let count = environment.updates.count
+        NSApp.dockTile.badgeLabel = Self.badgeLabel(count: count, enabled: environment.settings.showDockBadge)
+        updatesMenuItem?.title = Self.updatesMenuTitle(count: count)
+    }
+
+    /// Pure so the rule — hidden when disabled, hidden at zero — can be tested without a Dock.
+    static func badgeLabel(count: Int, enabled: Bool) -> String? {
+        guard enabled, count > 0 else { return nil }
+        return String(count)
+    }
+
+    static func updatesMenuTitle(count: Int) -> String {
+        count > 0 ? "Check for updates (\(count))" : "Check for updates"
     }
 }

@@ -58,7 +58,11 @@ struct SidebarView: View {
                         .padding(.bottom, 4)
 
                     ForEach(section.pages) { page in
-                        SidebarItem(page: page, isSelected: brewwery.state.page == page) {
+                        SidebarItem(
+                            page: page,
+                            isSelected: brewwery.state.page == page,
+                            badge: page == .updates ? brewwery.updates.count : 0
+                        ) {
                             brewwery.state.select(page)
                         }
                     }
@@ -115,6 +119,8 @@ private struct SidebarItem: View {
 
     let page: Page
     let isSelected: Bool
+    /// Outdated packages, on the Updates row only. Zero renders nothing.
+    let badge: Int
     let action: () -> Void
 
     @State private var isHovering = false
@@ -128,6 +134,16 @@ private struct SidebarItem: View {
                 Text(page.title)
                     .font(BrewweryFont.body)
                 Spacer(minLength: 0)
+                if badge > 0 {
+                    Text("\(badge)")
+                        .font(BrewweryFont.caption)
+                        .monospacedDigit()
+                        .foregroundStyle(BrewweryColor.background)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 1)
+                        .background(BrewweryColor.accent, in: Capsule())
+                        .accessibilityLabel("\(badge) updates available")
+                }
             }
             .foregroundStyle(foreground)
             .padding(.horizontal, Metrics.tightSpacing)

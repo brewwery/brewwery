@@ -63,9 +63,16 @@ final class AppEnvironment {
             settings.resetCustomHomebrewPath()
         }
         await system.load()
-        // The status bar and every "Installed" badge read the installed lists, so they load at
-        // launch rather than waiting for a page that happens to request them.
-        if !system.isHomebrewMissing { await library.loadAll() }
+        guard !system.isHomebrewMissing else { return }
+
+        // The status bar and every "Installed" badge read the installed lists, and the Dock
+        // badge, the sidebar and the menu bar all read the outdated list, so both load at
+        // launch rather than waiting for a page that happens to request them. Without this
+        // the Dock could claim four updates while the window showed nothing at all.
+        await withTaskGroup { group in
+            group.addTask { await self.library.loadAll() }
+            group.addTask { await self.updates.refresh(silently: true) }
+        }
     }
 
     // MARK: - Shared operation plumbing

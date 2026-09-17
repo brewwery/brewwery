@@ -23,6 +23,7 @@ struct SettingsView: View {
 
             homebrewCard
             appearanceCard
+            dockCard
             updatesCard
             historyCard
             aboutCard
@@ -161,6 +162,37 @@ struct SettingsView: View {
     }
 
     /// Application updates, kept visually and functionally separate from Homebrew updates.
+    /// The Dock badge counts *Homebrew* updates, so it belongs next to the Homebrew
+    /// settings rather than in "Application updates" — and it can be switched off.
+    private var dockCard: some View {
+        BrewweryHeaderCard {
+            Text("Dock").font(BrewweryFont.controlLabel)
+        } content: {
+            VStack(alignment: .leading, spacing: Metrics.rowSpacing) {
+                Toggle(
+                    "Show outdated package count on the Dock icon",
+                    isOn: Binding(
+                        get: { settings.showDockBadge },
+                        set: { settings.showDockBadge = $0 }
+                    )
+                )
+                .toggleStyle(.switch)
+                .font(BrewweryFont.body)
+
+                Text(dockCaption)
+                    .font(BrewweryFont.caption)
+                    .foregroundStyle(BrewweryColor.mutedForeground)
+            }
+        }
+    }
+
+    private var dockCaption: String {
+        let count = brewwery.updates.count
+        let source = "The badge shows the same number as Updates in the sidebar, read from brew outdated in the background every 30 minutes."
+        guard let checked = brewwery.updates.lastChecked else { return source }
+        return "\(source) Currently \(count), checked at \(checked.formatted(date: .omitted, time: .standard))."
+    }
+
     private var updatesCard: some View {
         BrewweryHeaderCard {
             Text("Application updates").font(BrewweryFont.controlLabel)

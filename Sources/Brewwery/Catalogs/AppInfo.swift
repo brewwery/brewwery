@@ -11,13 +11,16 @@ enum AppInfo {
     /// Read from the bundle when the app is packaged, with the source of truth in
     /// `Sources/Brewwery/Resources/Info.plist`.
     static let version: String = {
-        guard Bundle.main.bundleIdentifier == bundleIdentifier,
+        // `com.brewwery.app.screenshots` counts too: the demo bundle Scripts/screenshots.sh
+        // builds carries the same Info.plist, and its captures should show the real version.
+        guard Bundle.main.bundleIdentifier?.hasPrefix(bundleIdentifier) == true,
               let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         else { return fallbackVersion }
         return version
     }()
     /// Used by `swift run` and tests, where the main bundle is not Brewwery's.
-    static let fallbackVersion = "1.0.0"
+    /// `VersionTests` keeps it equal to `Packaging/Info.plist`.
+    static let fallbackVersion = "1.0.1"
     static let channel = "Stable"
 
     static let githubURL = "https://github.com/brewwery/brewwery"

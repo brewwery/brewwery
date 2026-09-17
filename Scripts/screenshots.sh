@@ -41,12 +41,21 @@ cat > "$WORK/window-id.swift" <<'SWIFT'
 import CoreGraphics
 import Foundation
 let pid = Int32(CommandLine.arguments[1])!
+// The page the caller asked for. Demo builds put it in the window title, so a window that
+// is showing something else — a leftover instance, a page that failed to open — is not
+// mistaken for the right one.
+let expectedPage = CommandLine.arguments.count > 2 ? CommandLine.arguments[2] : nil
 let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly], kCGNullWindowID) as? [[String: Any]] ?? []
 for window in windows where (window[kCGWindowOwnerPID as String] as? Int32) == pid {
-    if let bounds = window[kCGWindowBounds as String] as? [String: Any], (bounds["Height"] as? Double ?? 0) > 400 {
-        print(window[kCGWindowNumber as String]!)
-        exit(0)
+    guard let bounds = window[kCGWindowBounds as String] as? [String: Any],
+          (bounds["Height"] as? Double ?? 0) > 400
+    else { continue }
+    if let expectedPage {
+        let name = window[kCGWindowName as String] as? String ?? ""
+        guard name.hasSuffix("· \(expectedPage)") else { continue }
     }
+    print(window[kCGWindowNumber as String]!)
+    exit(0)
 }
 exit(1)
 SWIFT
@@ -68,11 +77,11 @@ capture() {
   done
   [[ -n "$pid" ]] || { echo "error: app did not launch for $name" >&2; exit 1; }
   for _ in $(seq 1 50); do
-    id=$("$WORK/window-id" "$pid" 2>/dev/null || true)
+    id=$("$WORK/window-id" "$pid" "$page" 2>/dev/null || true)
     [[ -n "$id" ]] && break
     sleep 0.2
   done
-  [[ -n "$id" ]] || { echo "error: no window for $name" >&2; kill "$pid"; exit 1; }
+  [[ -n "$id" ]] || { echo "error: no $page window for $name" >&2; kill "$pid"; exit 1; }
 
   sleep 4  # let data load and the debounced search settle
 

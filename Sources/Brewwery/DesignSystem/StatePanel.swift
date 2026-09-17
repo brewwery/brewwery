@@ -209,6 +209,10 @@ struct PageHeader<Actions: View>: View {
                 }
                 SettingsButton()
             }
+            // The controls keep their intrinsic width: a long subtitle wraps onto a second
+            // line instead of squeezing "Check for updates" into "Check for up...".
+            .fixedSize()
+            .layoutPriority(1)
             // Nudged so the controls sit on the page title's optical centre rather than its
             // frame top.
             .padding(.top, 2)

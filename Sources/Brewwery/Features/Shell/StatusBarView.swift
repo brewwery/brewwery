@@ -20,6 +20,10 @@ struct StatusBarView: View {
             Text(brewwery.system.info?.architecture.rawValue ?? "unknown")
             Text("\(brewwery.library.formulae.count) formulae")
             Text("\(brewwery.library.casks.count) casks")
+            if brewwery.updates.count > 0 {
+                Text("\(brewwery.updates.count) updates")
+                    .foregroundStyle(BrewweryColor.accent)
+            }
 
             Spacer(minLength: Metrics.rowSpacing)
 

@@ -12,6 +12,9 @@ public struct FakeBrew: Sendable {
     public let executable: URL
     /// Written by the long-running subcommand with the PID of the child it forked.
     public let grandchildPIDFile: URL
+    /// Present only when a test asks for outdated packages. Without it `brew outdated`
+    /// fails, which is what the error-path tests rely on.
+    public let outdatedFile: URL
 
     public init() throws {
         directory = FileManager.default.temporaryDirectory
@@ -19,6 +22,7 @@ public struct FakeBrew: Sendable {
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         executable = directory.appendingPathComponent("brew")
         grandchildPIDFile = directory.appendingPathComponent("grandchild.pid")
+        outdatedFile = directory.appendingPathComponent("outdated.json")
 
         let script = """
         #!/bin/sh
@@ -56,6 +60,10 @@ public struct FakeBrew: Sendable {
             exit 1
             ;;
           outdated)
+            if [ -f "\(outdatedFile.path)" ]; then
+              cat "\(outdatedFile.path)"
+              exit 0
+            fi
             echo "boom: could not reach formulae.brew.sh" >&2
             exit 2
             ;;
@@ -121,6 +129,22 @@ public struct FakeBrew: Sendable {
 
         try script.write(to: executable, atomically: true, encoding: .utf8)
         try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: executable.path)
+    }
+
+    /// Makes `brew outdated` succeed with `formulae` outdated formulae and `casks` outdated
+    /// casks, until `clearOutdated()` empties it again.
+    public func setOutdated(formulae: [String] = [], casks: [String] = []) throws {
+        func entries(_ names: [String]) -> String {
+            names
+                .map { #"{"name":"\#($0)","installed_versions":["1.0.0"],"current_version":"1.1.0","pinned":false}"# }
+                .joined(separator: ",")
+        }
+        let json = #"{"formulae":[\#(entries(formulae))],"casks":[\#(entries(casks))]}"#
+        try json.write(to: outdatedFile, atomically: true, encoding: .utf8)
+    }
+
+    public func clearOutdated() {
+        try? FileManager.default.removeItem(at: outdatedFile)
     }
 
     public func cleanUp() {

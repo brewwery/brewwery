@@ -28,6 +28,7 @@ struct BrewweryApp: App {
                     appDelegate.configure(with: environment)
                     await environment.prepare()
                 }
+
         }
         .defaultSize(Metrics.defaultWindowSize)
         // `titleBarStyle: "hiddenInset"` in the legacy window options.
