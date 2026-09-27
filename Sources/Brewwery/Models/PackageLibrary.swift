@@ -12,6 +12,8 @@ final class PackageLibrary {
     private(set) var formulae: [Formula] = []
     private(set) var casks: [Cask] = []
     private(set) var leaves: Set<String> = []
+    /// Formulae held with `brew pin`, lower-cased.
+    private(set) var pinned: Set<String> = []
 
     private(set) var formulaeError: BrewweryError?
     private(set) var casksError: BrewweryError?
@@ -44,9 +46,23 @@ final class PackageLibrary {
             // Leaves only make sense once the formula list loaded; a failure here is not
             // worth failing the page over, so it degrades the filter rather than the list.
             leaves = Set((try? await client.leaves())?.map { $0.lowercased() } ?? [])
+            pinned = Set((try? await client.pinnedFormulae())?.map { $0.lowercased() } ?? [])
         } catch {
             formulaeError = error
         }
+    }
+
+    func isPinned(_ formula: Formula) -> Bool {
+        pinned.contains(formula.name.lowercased()) || formula.fullName.map { pinned.contains($0.lowercased()) } == true
+    }
+
+    func isPinned(name: String) -> Bool {
+        pinned.contains(name.lowercased())
+    }
+
+    /// Re-reads only the pinned list, after a pin or unpin.
+    func reloadPinned() async {
+        pinned = Set((try? await client.pinnedFormulae())?.map { $0.lowercased() } ?? [])
     }
 
     func loadCasks() async {

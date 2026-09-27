@@ -41,6 +41,8 @@ struct PackageDetailDrawer: View {
     var onInstall: ((PackageReference) -> Void)?
     var onUninstall: ((PackageReference) -> Void)?
     var onUpgrade: ((PackageReference) -> Void)?
+    /// Pin (`true`) or unpin (`false`). Installed formulae only.
+    var onSetPinned: ((String, Bool) -> Void)?
 
     private var model: DetailModel { DetailModel(detail: detail) }
 
@@ -203,6 +205,19 @@ struct PackageDetailDrawer: View {
             } else {
                 DrawerAction(title: "Install", systemImage: "arrow.down.circle", isEnabled: onInstall != nil && !isWorking) {
                     onInstall?(model.reference)
+                }
+            }
+
+            if model.installed, model.reference.kind == .formula, let onSetPinned {
+                let pinned = brewwery.library.isPinned(name: model.reference.name)
+                DrawerAction(
+                    title: pinned ? "Unpin version" : "Pin version",
+                    systemImage: pinned ? "pin.slash" : "pin",
+                    tint: pinned ? BrewweryColor.accent : nil,
+                    isEnabled: !isWorking,
+                    help: pinned ? "Let Upgrade all upgrade it again" : "Keep this version when upgrading"
+                ) {
+                    onSetPinned(model.reference.name, !pinned)
                 }
             }
 

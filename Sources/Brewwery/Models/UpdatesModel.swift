@@ -19,7 +19,11 @@ final class UpdatesModel {
 
     /// The number the Dock badge, the sidebar, the status bar and the menu bar all show.
     /// Keeping them on one property is what stops them from disagreeing.
-    var count: Int { updates.count }
+    ///
+    /// Pinned formulae are left out: pinning says "leave this alone", and a badge that
+    /// counts them could never reach zero.
+    var count: Int { updates.count { $0.pinned != true } }
+    var pinnedCount: Int { updates.count { $0.pinned == true } }
     var formulaeCount: Int { updates.count { $0.kind == .formula } }
     var casksCount: Int { updates.count { $0.kind == .cask } }
 

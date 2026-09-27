@@ -136,3 +136,23 @@ extension View {
         }
     }
 }
+
+extension ConfirmationRequest {
+    static func pin(_ formula: String, pinned: Bool) -> ConfirmationRequest {
+        pinned
+            ? ConfirmationRequest(
+                title: "Pin \(formula)?",
+                message: "Brewwery will run",
+                command: HomebrewCommand.pin(formula: formula).displayCommand(),
+                note: "Upgrade all and brew upgrade will leave \(formula) at its current version until you unpin it. It stops counting towards the outdated total.",
+                confirmLabel: "Pin"
+            )
+            : ConfirmationRequest(
+                title: "Unpin \(formula)?",
+                message: "Brewwery will run",
+                command: HomebrewCommand.unpin(formula: formula).displayCommand(),
+                note: "\(formula) will be upgraded again with everything else.",
+                confirmLabel: "Unpin"
+            )
+    }
+}

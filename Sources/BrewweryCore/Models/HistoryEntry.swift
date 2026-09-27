@@ -13,6 +13,7 @@ public enum HistoryOperationKind: String, Codable, Sendable, Hashable, CaseItera
     case brewfileExport = "brewfile_export"
     case brewfileInstall = "brewfile_install"
     case tap
+    case pin
 
     /// The History page renders `kind.replace("_", " ")`.
     public var displayName: String { rawValue.replacingOccurrences(of: "_", with: " ") }

@@ -14,6 +14,7 @@ struct UpdatesView: View {
         case upgradeOne(PackageReference)
         case upgradeAll
         case metadata
+        case unpin(String)
     }
 
     @State private var confirmation: ConfirmationRequest?
@@ -58,10 +59,11 @@ struct UpdatesView: View {
                 confirmation = ConfirmationRequest(
                     title: "Upgrade all packages?",
                     message: "Brewwery will run Homebrew's allowlisted upgrade command for all outdated packages.",
+                    note: updates.pinnedCount > 0 ? "Pinned formulae are skipped." : nil,
                     confirmLabel: "Upgrade"
                 )
             }
-            .disabled(isBusy || updates.updates.isEmpty)
+            .disabled(isBusy || updates.count == 0)
         }
     }
 
@@ -77,17 +79,26 @@ struct UpdatesView: View {
         return "\(summary) · checked \(time)"
     }
 
+    private var summaryCaption: String {
+        var text = "The Dock badge, the sidebar and the status bar show this same total. Brewwery re-reads it in the background every 30 minutes and never upgrades anything on its own."
+        let pinned = updates.pinnedCount
+        if pinned > 0 {
+            text += " \(pinned) pinned \(pinned == 1 ? "formula is" : "formulae are") listed below but not counted."
+        }
+        return text
+    }
+
     private var summary: some View {
         VStack(alignment: .leading, spacing: Metrics.rowSpacing) {
             HStack(spacing: Metrics.cardSpacing) {
-                SummaryCard(label: "Total updates", value: updates.updates.count)
+                SummaryCard(label: "Total updates", value: updates.count)
                 SummaryCard(label: "Formulae", value: updates.formulaeCount)
                 SummaryCard(label: "Casks", value: updates.casksCount)
             }
 
             // Answers "where is that number on the Dock coming from?" in the one place a
             // user goes looking for it.
-            Text("The Dock badge, the sidebar and the status bar show this same total. Brewwery re-reads it in the background every 30 minutes and never upgrades anything on its own.")
+            Text(summaryCaption)
                 .font(BrewweryFont.caption)
                 .foregroundStyle(BrewweryColor.mutedForeground)
                 .fixedSize(horizontal: false, vertical: true)
@@ -158,19 +169,34 @@ struct UpdatesView: View {
                     BrewweryBadge.kind(update.kind)
                 },
                 TableColumnSpec("Status", width: .fixed(112)) { update in
-                    BrewweryBadge(text: update.pinned == true ? "Pinned" : "Outdated", tone: .warning)
+                    if update.pinned == true {
+                        BrewweryBadge(text: "Pinned", tone: .neutral)
+                            .help("Held with brew pin — not counted, and skipped by Upgrade all")
+                    } else {
+                        BrewweryBadge(text: "Outdated", tone: .warning)
+                    }
                 },
                 TableColumnSpec("Actions", width: .fixed(128), alignment: .trailing) { update in
-                    Button("Upgrade") {
-                        request(upgrade: update)
+                    // Homebrew refuses to upgrade a pinned formula, so offer what does work.
+                    if update.pinned == true {
+                        Button("Unpin") {
+                            pending = .unpin(update.name)
+                            confirmation = .pin(update.name, pinned: false)
+                        }
+                        .brewweryButton(.ghost, height: Metrics.compactControlHeight)
+                        .disabled(brewwery.operations.isRunning)
+                    } else {
+                        Button("Upgrade") {
+                            request(upgrade: update)
+                        }
+                        .brewweryButton(.secondary, height: Metrics.compactControlHeight)
+                        .disabled(brewwery.operations.isRunning)
                     }
-                    .brewweryButton(.secondary, height: Metrics.compactControlHeight)
-                    .disabled(brewwery.operations.isRunning)
                 }
             ],
             rowHeight: 64,
             maxHeight: 560,
-            onActivate: { request(upgrade: $0) }
+            onActivate: { if $0.pinned != true { request(upgrade: $0) } }
         )
     }
 
@@ -190,6 +216,7 @@ struct UpdatesView: View {
         case .upgradeOne(let reference): await brewwery.upgradePackage(reference)
         case .upgradeAll: await brewwery.upgradeAllPackages()
         case .metadata: await brewwery.refreshHomebrewMetadata()
+        case .unpin(let name): await brewwery.setPinned(false, formula: name)
         case nil: break
         }
         pending = nil

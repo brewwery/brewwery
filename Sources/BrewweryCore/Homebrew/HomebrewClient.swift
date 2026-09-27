@@ -74,6 +74,23 @@ public actor HomebrewClient {
         return PackageParser.parseNameLines(try await runner.run(.leaves).stdout)
     }
 
+    /// Formulae held at their current version. `brew upgrade` leaves these alone.
+    public func pinnedFormulae() async throws(BrewweryError) -> [String] {
+        try await requireHomebrew()
+        return PackageParser.parseNameLines(try await runner.run(.listPinned).stdout)
+    }
+
+    /// `brew pin` or `brew unpin` one formula.
+    @discardableResult
+    public func setPinned(_ pinned: Bool, formula: String) async throws(BrewweryError) -> ProcessOutput {
+        try await requireHomebrew()
+        do {
+            return try await runner.run(pinned ? .pin(formula: formula) : .unpin(formula: formula))
+        } catch {
+            throw error.mapped(to: .brewCommandFailed, phase: pinned ? "pin" : "unpin")
+        }
+    }
+
     public func dependents(of formula: String) async throws(BrewweryError) -> [String] {
         try await requireHomebrew()
         do {

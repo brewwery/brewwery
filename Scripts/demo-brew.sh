@@ -19,6 +19,10 @@ macOS: 26.0-arm64
 OUT
     ;;
   list)
+    if [[ "$*" == *"--pinned"* ]]; then
+      echo "postgresql@17"
+      exit 0
+    fi
     if [[ "$*" == *"--cask"* ]]; then
       cat <<'OUT'
 {"casks":[

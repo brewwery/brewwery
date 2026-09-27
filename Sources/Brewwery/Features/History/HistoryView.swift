@@ -23,6 +23,7 @@ struct HistoryView: View {
                 case .upgrade: "Upgrades"
                 case .brewUpdate: "Metadata"
                 case .tap: "Taps"
+                case .pin: "Pins"
                 case .service: "Services"
                 case .cleanup: "Cleanup"
                 case .doctor: "Doctor"
@@ -35,7 +36,7 @@ struct HistoryView: View {
     private static let filters: [Filter] = [
         .all, .failed, .cancelled,
         .kind(.install), .kind(.uninstall), .kind(.upgrade), .kind(.brewUpdate),
-        .kind(.tap), .kind(.service), .kind(.cleanup), .kind(.doctor), .kind(.brewfileExport)
+        .kind(.tap), .kind(.pin), .kind(.service), .kind(.cleanup), .kind(.doctor), .kind(.brewfileExport)
     ]
 
     private static func family(_ kind: HistoryOperationKind) -> HistoryOperationKind {

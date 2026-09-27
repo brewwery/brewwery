@@ -40,6 +40,10 @@ public struct FakeBrew: Sendable {
             ;;
           list)
             case "$*" in
+              *--pinned*)
+                [ -f "\(directory.path)/pinned" ] && cat "\(directory.path)/pinned"
+                exit 0
+                ;;
               *--json=v2*)
                 echo "Error: invalid option: --json=v2 (needless argument)" >&2
                 exit 1
@@ -49,6 +53,17 @@ public struct FakeBrew: Sendable {
                 exit 0
                 ;;
             esac
+            ;;
+          pin)
+            echo "$2" >> "\(directory.path)/pinned"
+            exit 0
+            ;;
+          unpin)
+            if [ -f "\(directory.path)/pinned" ]; then
+              grep -vx "$2" "\(directory.path)/pinned" > "\(directory.path)/pinned.new" || true
+              mv "\(directory.path)/pinned.new" "\(directory.path)/pinned"
+            fi
+            exit 0
             ;;
           leaves)
             printf '  redis  \\npostgresql@17\\n\\n'
@@ -133,10 +148,10 @@ public struct FakeBrew: Sendable {
 
     /// Makes `brew outdated` succeed with `formulae` outdated formulae and `casks` outdated
     /// casks, until `clearOutdated()` empties it again.
-    public func setOutdated(formulae: [String] = [], casks: [String] = []) throws {
+    public func setOutdated(formulae: [String] = [], casks: [String] = [], pinned: Set<String> = []) throws {
         func entries(_ names: [String]) -> String {
             names
-                .map { #"{"name":"\#($0)","installed_versions":["1.0.0"],"current_version":"1.1.0","pinned":false}"# }
+                .map { #"{"name":"\#($0)","installed_versions":["1.0.0"],"current_version":"1.1.0","pinned":\#(pinned.contains($0))}"# }
                 .joined(separator: ",")
         }
         let json = #"{"formulae":[\#(entries(formulae))],"casks":[\#(entries(casks))]}"#

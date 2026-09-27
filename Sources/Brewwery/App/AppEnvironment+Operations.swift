@@ -251,6 +251,49 @@ extension AppEnvironment {
         record(await brewfile.export())
     }
 
+    /// `brew pin` or `brew unpin` one formula.
+    ///
+    /// Quick, so it runs without the progress panel, but it is still a change to Homebrew:
+    /// it waits for any running operation, is confirmed by the caller, and lands in History.
+    func setPinned(_ pinned: Bool, formula: String) async {
+        guard !operations.isRunning else {
+            state.show(Toast(tone: .error, title: "Another Homebrew operation is running", description: "Try again when it finishes."))
+            return
+        }
+        let command = pinned ? HomebrewCommand.pin(formula: formula) : HomebrewCommand.unpin(formula: formula)
+
+        do {
+            let output = try await client.setPinned(pinned, formula: formula)
+            record(
+                HistoryEntry(
+                    kind: .pin,
+                    status: .success,
+                    title: pinned ? "Pinned \(formula)" : "Unpinned \(formula)",
+                    command: command.displayCommand(),
+                    target: formula,
+                    stdout: output.stdout.nilIfBlank,
+                    stderr: output.stderr.nilIfBlank
+                )
+            )
+        } catch {
+            record(
+                HistoryEntry(
+                    kind: .pin,
+                    status: .failed,
+                    title: pinned ? "Failed to pin \(formula)" : "Failed to unpin \(formula)",
+                    command: command.displayCommand(),
+                    target: formula,
+                    stderr: error.raw,
+                    error: error
+                )
+            )
+        }
+
+        await library.reloadPinned()
+        // `brew outdated` reports the pinned flag, and the count leaves pinned formulae out.
+        await updates.refresh(silently: true)
+    }
+
     /// Compares the open Brewfile with this Mac.
     func checkBrewfile() async {
         if library.formulae.isEmpty, library.casks.isEmpty { await library.loadAll() }

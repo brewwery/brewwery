@@ -23,6 +23,8 @@ public enum HomebrewCommand: Hashable, Sendable {
     case listTaps
     case listServices
     case cleanupPreview
+    /// `brew list --pinned` — formulae held at their current version.
+    case listPinned
     case doctor
     case brewfileDump(path: String)
 
@@ -39,6 +41,9 @@ public enum HomebrewCommand: Hashable, Sendable {
     /// `brew bundle install --no-upgrade` on a file `BrewfilePlan` wrote. Never on a
     /// user's own Brewfile — see `BrewfilePlan`.
     case bundleInstall(path: String)
+    /// `brew pin` / `brew unpin`. Only formulae can be pinned; casks cannot.
+    case pin(formula: String)
+    case unpin(formula: String)
 
     /// Validates the embedded arguments and returns the argv Homebrew is given.
     ///
@@ -83,6 +88,8 @@ public enum HomebrewCommand: Hashable, Sendable {
             return ["services", "list", "--json"]
         case .cleanupPreview:
             return ["cleanup", "-n"]
+        case .listPinned:
+            return ["list", "--pinned"]
         case .doctor:
             return ["doctor"]
         case .brewfileDump(let path):
@@ -118,6 +125,12 @@ public enum HomebrewCommand: Hashable, Sendable {
         case .bundleInstall(let path):
             try Self.validateBundleInstallFile(path)
             return ["bundle", "install", "--no-upgrade", "--file=\(path)"]
+        case .pin(let formula):
+            try HomebrewIdentifier.validateFormulaName(formula)
+            return ["pin", formula]
+        case .unpin(let formula):
+            try HomebrewIdentifier.validateFormulaName(formula)
+            return ["unpin", formula]
         }
     }
 

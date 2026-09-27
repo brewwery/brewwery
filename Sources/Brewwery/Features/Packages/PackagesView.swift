@@ -23,6 +23,7 @@ struct PackagesView: View {
     @State private var sort: PackageSortKey = .name
     @State private var selection: Formula?
     @State private var confirmation: ConfirmationRequest?
+    @State private var pendingPin: (name: String, pinned: Bool)?
     @State private var pendingUninstall: PackageReference?
 
     private var library: PackageLibrary { brewwery.library }
@@ -62,6 +63,11 @@ struct PackagesView: View {
         .task { if rows.isEmpty { await refresh() } }
         .overlay { drawer }
         .confirmation($confirmation) { _ in
+            if let (name, pinned) = pendingPin {
+                pendingPin = nil
+                Task { await brewwery.setPinned(pinned, formula: name) }
+                return
+            }
             guard let reference = pendingUninstall else { return }
             Task { await uninstall(reference) }
         }
@@ -156,7 +162,13 @@ struct PackagesView: View {
                 },
                 TableColumnSpec("Status", width: .fixed(190)) { formula in
                     HStack(spacing: Metrics.tightSpacing) {
-                        BrewweryBadge(text: "Installed", tone: .success)
+                        // Every row here is installed, so a pin takes the Installed slot.
+                        if library.isPinned(formula) {
+                            BrewweryBadge(text: "Pinned", tone: .accent)
+                                .help("Held at this version with brew pin")
+                        } else {
+                            BrewweryBadge(text: "Installed", tone: .success)
+                        }
                         if let onRequest = formula.installedOnRequest {
                             BrewweryBadge(text: onRequest ? "On request" : "Dependency")
                         }
@@ -180,12 +192,18 @@ struct PackagesView: View {
                 detail: .formula(formula),
                 isWorking: brewwery.operations.isRunning,
                 onClose: { selection = nil },
-                onUninstall: requestUninstall
+                onUninstall: requestUninstall,
+                onSetPinned: { name, pinned in
+                    pendingUninstall = nil
+                    pendingPin = (name, pinned)
+                    confirmation = .pin(name, pinned: pinned)
+                }
             )
         }
     }
 
     private func requestUninstall(_ reference: PackageReference) {
+        pendingPin = nil
         pendingUninstall = reference
         confirmation = .uninstall(reference)
     }
