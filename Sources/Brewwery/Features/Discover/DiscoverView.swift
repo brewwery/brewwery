@@ -161,29 +161,11 @@ private struct DiscoverCard: View {
 
             BrewweryBadge.installed(isInstalled)
 
-            HStack(spacing: Metrics.tightSpacing) {
-                ActionButton(title: "Details", systemImage: "info.circle", height: Metrics.compactControlHeight, action: onDetails)
-                    .frame(maxWidth: .infinity)
-
-                if !isInstalled {
-                    ActionButton(
-                        title: "Install",
-                        systemImage: "arrow.down.circle",
-                        variant: .primary,
-                        height: Metrics.compactControlHeight,
-                        action: onInstall
-                    )
-                    .frame(maxWidth: .infinity)
-                }
-
-                IconButton(
-                    isFavorite ? "Remove \(item.name) from favorites" : "Add \(item.name) to favorites",
-                    systemImage: isFavorite ? "star.fill" : "star",
-                    variant: isFavorite ? .secondary : .ghost,
-                    height: Metrics.compactControlHeight,
-                    tint: isFavorite ? BrewweryColor.accent : BrewweryColor.mutedForeground,
-                    action: onToggleFavorite
-                )
+            // A card is a third of the page wide. When a translation does not fit —
+            // "Installieren" — Details gives up its label before Install is cut short.
+            ViewThatFits(in: .horizontal) {
+                buttons(compactDetails: false)
+                buttons(compactDetails: true)
             }
             .padding(.top, 4)
         }
@@ -195,5 +177,35 @@ private struct DiscoverCard: View {
             RoundedRectangle(cornerRadius: Metrics.cardRadius, style: .continuous)
                 .strokeBorder(BrewweryColor.border, lineWidth: 1)
         )
+    }
+    private func buttons(compactDetails: Bool) -> some View {
+        HStack(spacing: Metrics.tightSpacing) {
+            if compactDetails {
+                IconButton("Details", systemImage: "info.circle", variant: .secondary, height: Metrics.compactControlHeight, action: onDetails)
+            } else {
+                ActionButton(title: "Details", systemImage: "info.circle", height: Metrics.compactControlHeight, action: onDetails)
+                    .frame(maxWidth: .infinity)
+            }
+
+            if !isInstalled {
+                ActionButton(
+                    title: "Install",
+                    systemImage: "arrow.down.circle",
+                    variant: .primary,
+                    height: Metrics.compactControlHeight,
+                    action: onInstall
+                )
+                .frame(maxWidth: .infinity)
+            }
+
+            IconButton(
+                isFavorite ? "Remove \(item.name) from favorites" : "Add \(item.name) to favorites",
+                systemImage: isFavorite ? "star.fill" : "star",
+                variant: isFavorite ? .secondary : .ghost,
+                height: Metrics.compactControlHeight,
+                tint: isFavorite ? BrewweryColor.accent : BrewweryColor.mutedForeground,
+                action: onToggleFavorite
+            )
+        }
     }
 }

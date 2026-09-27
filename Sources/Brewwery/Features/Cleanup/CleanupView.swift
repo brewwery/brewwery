@@ -43,11 +43,7 @@ struct CleanupView: View {
 
     private var policyNote: some View {
         BrewweryCard {
-            (
-                Text("Brewwery always runs ")
-                    + Text("brew cleanup -n").font(BrewweryFont.mono).foregroundColor(BrewweryColor.foreground)
-                    + Text(" first. The actual cleanup command is only available after a preview and requires confirmation.")
-            )
+            Text("Brewwery always runs \(Text(verbatim: "brew cleanup -n").font(BrewweryFont.mono).foregroundColor(BrewweryColor.foreground)) first. The actual cleanup command is only available after a preview and requires confirmation.")
             .font(BrewweryFont.body)
             .foregroundStyle(BrewweryColor.mutedForeground)
             .lineSpacing(4)
@@ -122,21 +118,21 @@ struct CleanupView: View {
                         items: preview.items,
                         columns: [
                             TableColumnSpec("Item", width: .flexible(minimum: 160, weight: 1.4)) { item in
-                                Text(item.name ?? "Unknown item")
+                                Text(item.name ?? String(localized: "Unknown item"))
                                     .font(BrewweryFont.controlLabel)
                                     .foregroundStyle(BrewweryColor.foreground)
                                     .lineLimit(1)
                             },
                             TableColumnSpec("Kind", width: .fixed(128)) { item in
-                                BrewweryBadge(text: item.kind?.displayName ?? "unknown")
+                                BrewweryBadge(text: item.kind?.label ?? "unknown")
                             },
                             TableColumnSpec("Size", width: .fixed(128)) { item in
-                                Text(item.size ?? "Unknown")
+                                Text(item.size ?? String(localized: "Unknown"))
                                     .font(BrewweryFont.body)
                                     .foregroundStyle(BrewweryColor.mutedForeground)
                             },
                             TableColumnSpec("Path", width: .flexible(minimum: 220, weight: 2)) { item in
-                                Text(item.path ?? "Unknown path")
+                                Text(item.path ?? String(localized: "Unknown path"))
                                     .font(BrewweryFont.body)
                                     .foregroundStyle(BrewweryColor.mutedForeground)
                                     .lineLimit(1)

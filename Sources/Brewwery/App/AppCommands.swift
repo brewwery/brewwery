@@ -39,11 +39,13 @@ struct AppCommands: Commands {
         // Every page, so the menu doubles as a map; the first nine carry ⌘1…⌘9.
         CommandMenu("Go") {
             ForEach(Page.sections) { section in
-                Section(section.title) {
+                Section {
                     ForEach(section.pages) { page in
-                        Button(page.title) { environment.state.select(page) }
+                        Button { environment.state.select(page) } label: { Text(page.title) }
                             .keyboardShortcut(page.keyboardShortcut)
                     }
+                } header: {
+                    Text(section.title)
                 }
             }
         }

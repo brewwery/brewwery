@@ -50,7 +50,7 @@ struct SidebarView: View {
         VStack(alignment: .leading, spacing: Metrics.cardSpacing) {
             ForEach(Page.sections) { section in
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(section.title.uppercased())
+                    Text(String(localized: section.title).uppercased())
                         .font(BrewweryFont.sidebarSection)
                         .tracking(0.88)
                         .foregroundStyle(BrewweryColor.mutedForeground)
@@ -106,9 +106,10 @@ struct SidebarView: View {
         )
     }
 
-    private var statusDetail: String {
+    private var statusDetail: LocalizedStringResource {
         if brewwery.system.isLoading { return "Loading Homebrew..." }
-        return brewwery.system.info?.version ?? "Homebrew not found"
+        guard let version = brewwery.system.info?.version else { return "Homebrew not found" }
+        return "\(version)"
     }
 }
 
@@ -153,7 +154,7 @@ private struct SidebarItem: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .help(page.shortcutNumber.map { "\(page.title)  ⌘\($0)" } ?? page.title)
+        .help(Text(page.title) + Text(verbatim: page.shortcutNumber.map { "  ⌘\($0)" } ?? ""))
         .onHover { isHovering = $0 }
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }

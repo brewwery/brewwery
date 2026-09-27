@@ -82,10 +82,10 @@ struct OperationProgressPanel: View {
 
     private func metadata(_ progress: OperationProgress) -> some View {
         HStack(alignment: .top, spacing: Metrics.cardSpacing) {
-            MetaColumn(label: "Target", value: progress.target ?? progress.command)
-            MetaColumn(label: "Work", value: summary(progress).work)
-            MetaColumn(label: "Safety timeout", value: "\(progress.timeoutSeconds / 60) min")
-            MetaColumn(label: "Operation ID", value: shortID(progress.id), monospaced: true)
+            MetaColumn(label: "Target", value: Text(verbatim: progress.target ?? progress.command))
+            MetaColumn(label: "Work", value: Text(summary(progress).work))
+            MetaColumn(label: "Safety timeout", value: Text("\(progress.timeoutSeconds / 60) min"))
+            MetaColumn(label: "Operation ID", value: Text(verbatim: shortID(progress.id)), monospaced: true)
         }
         .padding(Metrics.rowSpacing)
         .background(BrewweryColor.background.opacity(0.45))
@@ -101,7 +101,7 @@ struct OperationProgressPanel: View {
             HStack {
                 Text(summary(progress).status)
                 Spacer()
-                Text(progress.status.displayName)
+                Text(progress.status.label)
             }
             .font(BrewweryFont.caption)
             .foregroundStyle(BrewweryColor.mutedForeground)
@@ -161,7 +161,7 @@ struct OperationProgressPanel: View {
 
     // MARK: - Presentation helpers
 
-    private func title(for status: OperationStatus) -> String {
+    private func title(for status: OperationStatus) -> LocalizedStringResource {
         switch status {
         case .running: "Running Homebrew operation"
         case .success: "Operation completed"
@@ -190,18 +190,18 @@ struct OperationProgressPanel: View {
         return min(0.85, max(0.12, Double(phases) * 0.12))
     }
 
-    private func summary(_ progress: OperationProgress) -> (work: String, status: String) {
+    private func summary(_ progress: OperationProgress) -> (work: LocalizedStringResource, status: LocalizedStringResource) {
         let text = progress.stdout + "\n" + progress.stderr
         let queued = queuedPackageCount(in: text)
 
-        let work = switch progress.kind {
+        let work: LocalizedStringResource = switch progress.kind {
         case .service: "Service action"
         case .cleanup: "Cleanup run"
         case .bundle: "Brewfile install"
         default: queued == 1 ? "1 package queued" : "\(queued) packages queued"
         }
 
-        let status: String = switch progress.status {
+        let status: LocalizedStringResource = switch progress.status {
         case .success:
             switch progress.kind {
             case .service: "Service action completed"
@@ -275,8 +275,8 @@ private struct StatusGlyph: View {
 }
 
 private struct MetaColumn: View {
-    let label: String
-    let value: String
+    let label: LocalizedStringResource
+    let value: Text
     var monospaced = false
 
     var body: some View {
@@ -284,7 +284,7 @@ private struct MetaColumn: View {
             Text(label)
                 .font(BrewweryFont.caption)
                 .foregroundStyle(BrewweryColor.mutedForeground)
-            Text(value)
+            value
                 .font(monospaced ? BrewweryFont.monoCaption : BrewweryFont.captionEmphasis)
                 .foregroundStyle(BrewweryColor.foreground)
                 .lineLimit(1)

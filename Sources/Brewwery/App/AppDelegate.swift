@@ -26,7 +26,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             .applicationName: AppInfo.name,
             .applicationVersion: AppInfo.version,
             .credits: NSAttributedString(
-                string: "\(AppInfo.tagline)\n\(AppInfo.copyright)",
+                string: "\(String(localized: AppInfo.tagline))\n\(AppInfo.copyright)",
                 attributes: [.font: NSFont.systemFont(ofSize: 11)]
             )
         ]
@@ -123,19 +123,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         item.button?.toolTip = AppInfo.name
 
         let menu = NSMenu()
-        menu.addItem(menuItem("Open Brewwery", page: nil))
+        menu.addItem(menuItem(String(localized: "Open Brewwery"), page: nil))
         let updates = menuItem(Self.updatesMenuTitle(count: environment?.updates.count ?? 0), page: .updates)
         updatesMenuItem = updates
         menu.addItem(updates)
-        menu.addItem(menuItem("Run doctor", page: .doctor))
-        menu.addItem(menuItem("Settings", page: .settings))
-        let report = NSMenuItem(title: "Report a problem…", action: #selector(reportFromStatusItem), keyEquivalent: "")
+        menu.addItem(menuItem(String(localized: "Run doctor"), page: .doctor))
+        menu.addItem(menuItem(String(localized: "Settings"), page: .settings))
+        let report = NSMenuItem(title: String(localized: "Report a problem…"), action: #selector(reportFromStatusItem), keyEquivalent: "")
         report.target = self
         menu.addItem(report)
         menu.addItem(.separator())
         // A custom selector rather than `terminate:`: macOS attaches a symbol to menu items that
         // use the standard quit action, and the status menu is text-only.
-        let quit = NSMenuItem(title: "Quit", action: #selector(quitFromStatusItem), keyEquivalent: "")
+        let quit = NSMenuItem(title: String(localized: "Quit"), action: #selector(quitFromStatusItem), keyEquivalent: "")
         quit.target = self
         menu.addItem(quit)
 
@@ -211,6 +211,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     static func updatesMenuTitle(count: Int) -> String {
-        count > 0 ? "Check for updates (\(count))" : "Check for updates"
+        count > 0 ? String(localized: "Check for updates (\(count))") : String(localized: "Check for updates")
     }
 }

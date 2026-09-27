@@ -86,7 +86,7 @@ struct CommandsView: View {
                         .foregroundStyle(BrewweryColor.mutedForeground)
                 }
                 Spacer()
-                BrewweryBadge(text: String(section.commands.count))
+                BrewweryBadge(verbatim: String(section.commands.count))
             }
         } content: {
             VStack(spacing: Metrics.tightSpacing) {

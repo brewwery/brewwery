@@ -9,7 +9,7 @@ enum Page: String, CaseIterable, Identifiable, Hashable {
 
     var id: String { rawValue }
 
-    var title: String {
+    var title: LocalizedStringResource {
         switch self {
         case .dashboard: "Dashboard"
         case .discover: "Discover"
@@ -51,15 +51,15 @@ enum Page: String, CaseIterable, Identifiable, Hashable {
     }
 
     struct Section: Identifiable {
-        let title: String
+        let id: String
+        let title: LocalizedStringResource
         let pages: [Page]
-        var id: String { title }
     }
 
     static let sections: [Section] = [
-        Section(title: "Library", pages: [.dashboard, .discover, .search, .favorites, .packages, .casks, .taps, .updates]),
-        Section(title: "System", pages: [.services, .cleanup, .doctor, .brewfile, .commands]),
-        Section(title: "App", pages: [.history, .settings])
+        Section(id: "library", title: "Library", pages: [.dashboard, .discover, .search, .favorites, .packages, .casks, .taps, .updates]),
+        Section(id: "system", title: "System", pages: [.services, .cleanup, .doctor, .brewfile, .commands]),
+        Section(id: "app", title: "App", pages: [.history, .settings])
     ]
 
     /// Every page, top to bottom as the sidebar shows them.
@@ -88,8 +88,10 @@ struct Toast: Identifiable, Equatable {
 
     let id = UUID()
     let tone: Tone
-    let title: String
-    let description: String?
+    let title: LocalizedStringResource
+    let description: LocalizedStringResource?
+
+    static func == (lhs: Toast, rhs: Toast) -> Bool { lhs.id == rhs.id }
 }
 
 /// Navigation and other transient UI state.
@@ -156,6 +158,7 @@ final class AppState {
         case .cancelled: .info
         case .failed: .error
         }
-        show(Toast(tone: tone, title: entry.title, description: entry.command))
+        // Already translated when the entry was recorded; the command is never translated.
+        show(Toast(tone: tone, title: "\(entry.title)", description: entry.command.map { "\($0)" }))
     }
 }

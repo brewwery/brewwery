@@ -1,0 +1,7418 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@"
+          }
+        }
+      }
+    },
+    "%@ will be upgraded again with everything else.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ wird wieder zusammen mit allem anderen aktualisiert."
+          }
+        }
+      }
+    },
+    "%lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld"
+          }
+        }
+      }
+    },
+    "%lld available": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld verfügbar"
+          }
+        }
+      }
+    },
+    "%lld available updates": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld verfügbares Update"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld verfügbare Updates"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld available update"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld available updates"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld casks": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Cask"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Casks"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld cask"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld casks"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld diagnostics": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Hinweis"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Hinweise"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld diagnostic"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld diagnostics"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld entries": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Eintrag"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Einträge"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld entry"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld entries"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld favorites": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Favorit"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Favoriten"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld favorite"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld favorites"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld formulae": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Formula"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Formulae"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld formula"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld formulae"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld installed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld installiert"
+          }
+        }
+      }
+    },
+    "%lld lines": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Zeile"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Zeilen"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld line"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lines"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld local operation entries stored on this Mac.": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lokaler Eintrag auf diesem Mac gespeichert."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lokale Einträge auf diesem Mac gespeichert."
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld local operation entry stored on this Mac."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld local operation entries stored on this Mac."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld min": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Min."
+          }
+        }
+      }
+    },
+    "%lld of %lld installed casks": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld von %lld installierten Casks"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$lld of %2$lld installed casks"
+          }
+        }
+      }
+    },
+    "%lld of %lld installed formulae": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld von %lld installierten Formulae"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$lld of %2$lld installed formulae"
+          }
+        }
+      }
+    },
+    "%lld of %lld items are missing on this Mac.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld von %lld Einträgen fehlen auf diesem Mac."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$lld of %2$lld items are missing on this Mac."
+          }
+        }
+      }
+    },
+    "%lld outdated · checked %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld veraltet · geprüft um %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$lld outdated · checked %2$@"
+          }
+        }
+      }
+    },
+    "%lld packages": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Paket"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Pakete"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld package"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld packages"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld packages completed": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Paket fertig"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Pakete fertig"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld package completed"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld packages completed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld packages queued": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Paket in der Warteschlange"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Pakete in der Warteschlange"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld package queued"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld packages queued"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld pinned formulae are listed below but not counted.": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld fixierte Formula ist unten aufgeführt, wird aber nicht mitgezählt."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld fixierte Formulae sind unten aufgeführt, werden aber nicht mitgezählt."
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld pinned formula is listed below but not counted."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld pinned formulae are listed below but not counted."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld removal operations reported.": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Löschvorgang gemeldet."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Löschvorgänge gemeldet."
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld removal operation reported."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld removal operations reported."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld running, %lld stopped": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld aktiv, %lld gestoppt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$lld running, %2$lld stopped"
+          }
+        }
+      }
+    },
+    "%lld updates": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Update"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Updates"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld update"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld updates"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld updates available": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Update verfügbar"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Updates verfügbar"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld update available"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld updates available"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "+%lld more": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%lld weitere"
+          }
+        }
+      }
+    },
+    "/absolute/path/to/Brewfile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "/absoluter/pfad/zum/Brewfile"
+          }
+        }
+      }
+    },
+    "/opt/homebrew/bin/brew": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "/opt/homebrew/bin/brew"
+          }
+        }
+      }
+    },
+    "1 of 1 package completed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 von 1 Paket fertig"
+          }
+        }
+      }
+    },
+    "1 package queued": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Paket in der Warteschlange"
+          }
+        }
+      }
+    },
+    "A Python toolchain with version and environment management.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine Python-Toolchain mit Versions- und Umgebungsverwaltung."
+          }
+        }
+      }
+    },
+    "A plain-English guide to the macOS package manager.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine verständliche Einführung in den Paketmanager für macOS."
+          }
+        }
+      }
+    },
+    "A quick read on this Mac's Homebrew installation. Last refreshed %@.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein schneller Blick auf die Homebrew-Installation dieses Macs. Zuletzt aktualisiert um %@."
+          }
+        }
+      }
+    },
+    "A quick read on this Mac's Homebrew installation. Live data ready.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein schneller Blick auf die Homebrew-Installation dieses Macs. Live-Daten bereit."
+          }
+        }
+      }
+    },
+    "A quick read on this Mac's Homebrew installation. Refreshing...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein schneller Blick auf die Homebrew-Installation dieses Macs. Wird aktualisiert …"
+          }
+        }
+      }
+    },
+    "A reference of common Homebrew commands. Brewwery runs the same logic for you — nothing here is hidden.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine Übersicht gängiger Homebrew-Befehle. Brewwery führt genau diese für dich aus — nichts davon ist versteckt."
+          }
+        }
+      }
+    },
+    "AI / ML Developer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "KI- / ML-Entwicklung"
+          }
+        }
+      }
+    },
+    "AI Tools": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "KI-Werkzeuge"
+          }
+        }
+      }
+    },
+    "About %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Über %@"
+          }
+        }
+      }
+    },
+    "About Brewwery": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Über Brewwery"
+          }
+        }
+      }
+    },
+    "Actions": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktionen"
+          }
+        }
+      }
+    },
+    "Actions for %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktionen für %@"
+          }
+        }
+      }
+    },
+    "Add %@ to favorites": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ zu den Favoriten hinzufügen"
+          }
+        }
+      }
+    },
+    "Add %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ hinzufügen?"
+          }
+        }
+      }
+    },
+    "Add a tap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap hinzufügen"
+          }
+        }
+      }
+    },
+    "Add packages from Search, Discover, Packages, or Casks.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Füge Pakete über Suche, Entdecken, Pakete oder Casks hinzu."
+          }
+        }
+      }
+    },
+    "Add tap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap hinzufügen"
+          }
+        }
+      }
+    },
+    "Add to Favorites": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu Favoriten hinzufügen"
+          }
+        }
+      }
+    },
+    "Added tap %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap %@ hinzugefügt"
+          }
+        }
+      }
+    },
+    "All": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle"
+          }
+        }
+      }
+    },
+    "All casks": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle Casks"
+          }
+        }
+      }
+    },
+    "All formulae": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle Formulae"
+          }
+        }
+      }
+    },
+    "Another Homebrew operation is already running. Wait for it to finish or cancel it first.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Es läuft bereits ein anderer Homebrew-Vorgang. Warte, bis er fertig ist, oder brich ihn zuerst ab."
+          }
+        }
+      }
+    },
+    "Another Homebrew operation is running": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein anderer Homebrew-Vorgang läuft"
+          }
+        }
+      }
+    },
+    "Anything that helps: what you were doing, whether it happens every time.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles, was hilft: was du gemacht hast und ob es jedes Mal passiert."
+          }
+        }
+      }
+    },
+    "App": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App"
+          }
+        }
+      }
+    },
+    "Appearance": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erscheinungsbild"
+          }
+        }
+      }
+    },
+    "Application updates": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Updates"
+          }
+        }
+      }
+    },
+    "Architecture": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Architektur"
+          }
+        }
+      }
+    },
+    "Audio and video conversion toolkit.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Werkzeugkasten zur Audio- und Videokonvertierung."
+          }
+        }
+      }
+    },
+    "Auto-detect": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatisch erkennen"
+          }
+        }
+      }
+    },
+    "Available": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verfügbar"
+          }
+        }
+      }
+    },
+    "Backend": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backend"
+          }
+        }
+      }
+    },
+    "Backend Developer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backend-Entwicklung"
+          }
+        }
+      }
+    },
+    "Brew Commands": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brew-Befehle"
+          }
+        }
+      }
+    },
+    "Brewfile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile"
+          }
+        }
+      }
+    },
+    "Brewfile contents": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inhalt des Brewfiles"
+          }
+        }
+      }
+    },
+    "Brewfile copied": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile kopiert"
+          }
+        }
+      }
+    },
+    "Brewfile export": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile-Export"
+          }
+        }
+      }
+    },
+    "Brewfile export failed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile-Export fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Brewfile exported": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile exportiert"
+          }
+        }
+      }
+    },
+    "Brewfile install": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile-Installation"
+          }
+        }
+      }
+    },
+    "Brewfile install completed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile-Installation abgeschlossen"
+          }
+        }
+      }
+    },
+    "Brewfile install failed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile-Installation fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Brewfile install timed out": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitüberschreitung bei der Brewfile-Installation"
+          }
+        }
+      }
+    },
+    "Brewwery Documentation": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery-Dokumentation"
+          }
+        }
+      }
+    },
+    "Brewwery always runs %@ first. The actual cleanup command is only available after a preview and requires confirmation.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery führt immer zuerst %@ aus. Die eigentliche Bereinigung ist erst nach einer Vorschau verfügbar und muss bestätigt werden."
+          }
+        }
+      }
+    },
+    "Brewwery application updates are unrelated to Homebrew package updates.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Updates von Brewwery haben nichts mit Updates von Homebrew-Paketen zu tun."
+          }
+        }
+      }
+    },
+    "Brewwery could not export the Brewfile.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery konnte das Brewfile nicht exportieren."
+          }
+        }
+      }
+    },
+    "Brewwery could not find Homebrew at:": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery konnte Homebrew hier nicht finden:"
+          }
+        }
+      }
+    },
+    "Brewwery could not find Homebrew. Install Homebrew or set a custom path in Settings.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery konnte Homebrew nicht finden. Installiere Homebrew oder lege in den Einstellungen einen eigenen Pfad fest."
+          }
+        }
+      }
+    },
+    "Brewwery could not load package details.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery konnte die Paketdetails nicht laden."
+          }
+        }
+      }
+    },
+    "Brewwery could not preview cleanup results.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery konnte keine Vorschau der Bereinigung erstellen."
+          }
+        }
+      }
+    },
+    "Brewwery could not read Homebrew's JSON output. Updating Homebrew may fix this.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery konnte die JSON-Ausgabe von Homebrew nicht lesen. Ein Update von Homebrew kann helfen."
+          }
+        }
+      }
+    },
+    "Brewwery could not read the outdated package list from Homebrew.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery konnte die Liste veralteter Pakete von Homebrew nicht lesen."
+          }
+        }
+      }
+    },
+    "Brewwery could not read this Brewfile.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery konnte dieses Brewfile nicht lesen."
+          }
+        }
+      }
+    },
+    "Brewwery currently supports macOS only.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery unterstützt derzeit nur macOS."
+          }
+        }
+      }
+    },
+    "Brewwery does not have permission to access this path or command.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery hat keine Berechtigung für diesen Pfad oder Befehl."
+          }
+        }
+      }
+    },
+    "Brewwery only opens links to its own sites, Homebrew and its GitHub repository.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery öffnet nur Links zu den eigenen Seiten, zu Homebrew und zum eigenen GitHub-Repository."
+          }
+        }
+      }
+    },
+    "Brewwery site": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery-Website"
+          }
+        }
+      }
+    },
+    "Brewwery will run": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery führt aus:"
+          }
+        }
+      }
+    },
+    "Brewwery will run %@.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery führt %@ aus."
+          }
+        }
+      }
+    },
+    "Brewwery will run Homebrew's allowlisted upgrade command for all outdated packages.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery führt den freigegebenen Upgrade-Befehl von Homebrew für alle veralteten Pakete aus."
+          }
+        }
+      }
+    },
+    "Brewwery will stop the active Homebrew process. The package may require a retry or Homebrew cleanup afterward.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery stoppt den laufenden Homebrew-Prozess. Danach muss das Paket eventuell erneut installiert oder Homebrew bereinigt werden."
+          }
+        }
+      }
+    },
+    "Brewwery will then refresh Homebrew information. This may use the network and can take a little while.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Danach aktualisiert Brewwery die Homebrew-Informationen. Das nutzt eventuell das Netzwerk und kann etwas dauern."
+          }
+        }
+      }
+    },
+    "Brewwery will then refresh outdated packages. This may use the network and can take a little while.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Danach aktualisiert Brewwery die Liste veralteter Pakete. Das nutzt eventuell das Netzwerk und kann etwas dauern."
+          }
+        }
+      }
+    },
+    "Browser with developer tools.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browser mit Entwicklerwerkzeugen."
+          }
+        }
+      }
+    },
+    "Browsers": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browser"
+          }
+        }
+      }
+    },
+    "Build tools and developer workflow essentials.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Build-Werkzeuge und Grundausstattung für Entwickler."
+          }
+        }
+      }
+    },
+    "CLI for interacting with language models.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kommandozeilenwerkzeug für Sprachmodelle."
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbrechen"
+          }
+        }
+      }
+    },
+    "Cancel operation": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorgang abbrechen"
+          }
+        }
+      }
+    },
+    "Cancel this Homebrew operation?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diesen Homebrew-Vorgang abbrechen?"
+          }
+        }
+      }
+    },
+    "Cancelled": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abgebrochen"
+          }
+        }
+      }
+    },
+    "Cancelled Brewfile install": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile-Installation abgebrochen"
+          }
+        }
+      }
+    },
+    "Cancelled by user": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vom Benutzer abgebrochen"
+          }
+        }
+      }
+    },
+    "Cancelled install of %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installation von %@ abgebrochen"
+          }
+        }
+      }
+    },
+    "Cancelled restarting %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neustart von %@ abgebrochen"
+          }
+        }
+      }
+    },
+    "Cancelled starting %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start von %@ abgebrochen"
+          }
+        }
+      }
+    },
+    "Cancelled stopping %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stoppen von %@ abgebrochen"
+          }
+        }
+      }
+    },
+    "Cancelled uninstall of %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deinstallation von %@ abgebrochen"
+          }
+        }
+      }
+    },
+    "Cancelled upgrade of %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrade von %@ abgebrochen"
+          }
+        }
+      }
+    },
+    "Cancelled upgrade of all packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrade aller Pakete abgebrochen"
+          }
+        }
+      }
+    },
+    "Cancelling...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird abgebrochen …"
+          }
+        }
+      }
+    },
+    "Cask": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cask"
+          }
+        }
+      }
+    },
+    "Casks": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Casks"
+          }
+        }
+      }
+    },
+    "Cat clone with syntax highlighting.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "cat-Klon mit Syntaxhervorhebung."
+          }
+        }
+      }
+    },
+    "Caveats": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hinweise"
+          }
+        }
+      }
+    },
+    "Channel": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kanal"
+          }
+        }
+      }
+    },
+    "Check Homebrew": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew prüfen"
+          }
+        }
+      }
+    },
+    "Check Homebrew for updates?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew auf Updates prüfen?"
+          }
+        }
+      }
+    },
+    "Check for Brewwery updates automatically": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatisch nach Brewwery-Updates suchen"
+          }
+        }
+      }
+    },
+    "Check for Homebrew updates?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach Homebrew-Updates suchen?"
+          }
+        }
+      }
+    },
+    "Check for Updates…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach Updates suchen …"
+          }
+        }
+      }
+    },
+    "Check for updates": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach Updates suchen"
+          }
+        }
+      }
+    },
+    "Check for updates (%lld)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach Updates suchen (%lld)"
+          }
+        }
+      }
+    },
+    "Check for updates now": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jetzt nach Updates suchen"
+          }
+        }
+      }
+    },
+    "Check installed formulae and casks for updates.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierte Formulae und Casks auf Updates prüfen."
+          }
+        }
+      }
+    },
+    "Check the health of your Homebrew installation.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Den Zustand deiner Homebrew-Installation prüfen."
+          }
+        }
+      }
+    },
+    "Checked paths": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geprüfte Pfade"
+          }
+        }
+      }
+    },
+    "Checking Homebrew...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew wird geprüft …"
+          }
+        }
+      }
+    },
+    "Checking dependents...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abhängige Pakete werden geprüft …"
+          }
+        }
+      }
+    },
+    "Checking outdated packages...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veraltete Pakete werden geprüft …"
+          }
+        }
+      }
+    },
+    "Checking what is installed...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierte Pakete werden geprüft …"
+          }
+        }
+      }
+    },
+    "Checking...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird geprüft …"
+          }
+        }
+      }
+    },
+    "Choose...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswählen …"
+          }
+        }
+      }
+    },
+    "Cleanup": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereinigung"
+          }
+        }
+      }
+    },
+    "Cleanup cancelled": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereinigung abgebrochen"
+          }
+        }
+      }
+    },
+    "Cleanup completed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereinigung abgeschlossen"
+          }
+        }
+      }
+    },
+    "Cleanup failed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereinigung fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Cleanup preview": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschau der Bereinigung"
+          }
+        }
+      }
+    },
+    "Cleanup run": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereinigungslauf"
+          }
+        }
+      }
+    },
+    "Cleanup timed out": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitüberschreitung bei der Bereinigung"
+          }
+        }
+      }
+    },
+    "Clear": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leeren"
+          }
+        }
+      }
+    },
+    "Clear history": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verlauf leeren"
+          }
+        }
+      }
+    },
+    "Clear search": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suche löschen"
+          }
+        }
+      }
+    },
+    "Close": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schließen"
+          }
+        }
+      }
+    },
+    "Close details for %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details zu %@ schließen"
+          }
+        }
+      }
+    },
+    "Code editor from Microsoft.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code-Editor von Microsoft."
+          }
+        }
+      }
+    },
+    "Collaborative interface design tool.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kollaboratives Werkzeug für Interface-Design."
+          }
+        }
+      }
+    },
+    "Command-line fuzzy finder.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unscharfe Suche für die Kommandozeile."
+          }
+        }
+      }
+    },
+    "Command-line tools and apps for working with AI models.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kommandozeilenwerkzeuge und Apps für die Arbeit mit KI-Modellen."
+          }
+        }
+      }
+    },
+    "Commands": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehle"
+          }
+        }
+      }
+    },
+    "Common browsers available through Homebrew casks.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verbreitete Browser, erhältlich als Homebrew-Casks."
+          }
+        }
+      }
+    },
+    "Compare this starter with what is installed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Vorlage mit den installierten Paketen vergleichen"
+          }
+        }
+      }
+    },
+    "Compared with this Mac": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verglichen mit diesem Mac"
+          }
+        }
+      }
+    },
+    "Container runtime and tooling.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Container-Laufzeit und Werkzeuge."
+          }
+        }
+      }
+    },
+    "Containers and Linux machines on macOS.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Container und Linux-Maschinen auf macOS."
+          }
+        }
+      }
+    },
+    "Copied": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopiert"
+          }
+        }
+      }
+    },
+    "Copy": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopieren"
+          }
+        }
+      }
+    },
+    "Copy Brewfile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile kopieren"
+          }
+        }
+      }
+    },
+    "Copy command: %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehl kopieren: %@"
+          }
+        }
+      }
+    },
+    "Copy diagnostics": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diagnose kopieren"
+          }
+        }
+      }
+    },
+    "Copy install command": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installationsbefehl kopieren"
+          }
+        }
+      }
+    },
+    "Copy package name": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paketnamen kopieren"
+          }
+        }
+      }
+    },
+    "Copy the report as Markdown": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bericht als Markdown kopieren"
+          }
+        }
+      }
+    },
+    "Copy uninstall command": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deinstallationsbefehl kopieren"
+          }
+        }
+      }
+    },
+    "Copy upgrade command": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrade-Befehl kopieren"
+          }
+        }
+      }
+    },
+    "Could not prepare the install": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installation konnte nicht vorbereitet werden"
+          }
+        }
+      }
+    },
+    "Cross-platform build system.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plattformübergreifendes Build-System."
+          }
+        }
+      }
+    },
+    "Cryptography and SSL/TLS toolkit.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Werkzeugkasten für Kryptografie und SSL/TLS."
+          }
+        }
+      }
+    },
+    "Curated Homebrew package.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgewähltes Homebrew-Paket."
+          }
+        }
+      }
+    },
+    "Curated collections of useful Homebrew packages and casks.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgewählte Sammlungen nützlicher Homebrew-Pakete und Casks."
+          }
+        }
+      }
+    },
+    "Current": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktuell"
+          }
+        }
+      }
+    },
+    "Currently %lld, checked at %@.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Derzeit %lld, geprüft um %@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Currently %1$lld, checked at %2$@."
+          }
+        }
+      }
+    },
+    "Custom": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eigener"
+          }
+        }
+      }
+    },
+    "Custom Homebrew path": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eigener Homebrew-Pfad"
+          }
+        }
+      }
+    },
+    "Dashboard": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dashboard"
+          }
+        }
+      }
+    },
+    "Databases": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datenbanken"
+          }
+        }
+      }
+    },
+    "Dependencies": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abhängigkeiten"
+          }
+        }
+      }
+    },
+    "Dependency": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abhängigkeit"
+          }
+        }
+      }
+    },
+    "Describe and reproduce your setup as a file.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dein Setup als Datei beschreiben und reproduzieren."
+          }
+        }
+      }
+    },
+    "Description": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beschreibung"
+          }
+        }
+      }
+    },
+    "Details": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details"
+          }
+        }
+      }
+    },
+    "Details for %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details zu %@"
+          }
+        }
+      }
+    },
+    "Detected": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erkannt"
+          }
+        }
+      }
+    },
+    "Development": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entwicklung"
+          }
+        }
+      }
+    },
+    "Discover": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entdecken"
+          }
+        }
+      }
+    },
+    "Discover Homebrew formulae and casks, inspect details, then install safely.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew-Formulae und Casks finden, Details prüfen und dann sicher installieren."
+          }
+        }
+      }
+    },
+    "Discover and run local LLMs.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lokale LLMs entdecken und ausführen."
+          }
+        }
+      }
+    },
+    "Dismiss": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schließen"
+          }
+        }
+      }
+    },
+    "Display directories as trees.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verzeichnisse als Baum anzeigen."
+          }
+        }
+      }
+    },
+    "Distributed version control system.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verteiltes Versionskontrollsystem."
+          }
+        }
+      }
+    },
+    "Dock": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock"
+          }
+        }
+      }
+    },
+    "Doctor": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doctor"
+          }
+        }
+      }
+    },
+    "Doctor completed with diagnostics": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doctor mit Hinweisen abgeschlossen"
+          }
+        }
+      }
+    },
+    "Doctor completed: healthy": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doctor abgeschlossen: alles in Ordnung"
+          }
+        }
+      }
+    },
+    "Doctor failed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doctor fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Doctor finished": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doctor abgeschlossen"
+          }
+        }
+      }
+    },
+    "Documentation": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokumentation"
+          }
+        }
+      }
+    },
+    "Email…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "E-Mail …"
+          }
+        }
+      }
+    },
+    "Entries": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einträge"
+          }
+        }
+      }
+    },
+    "Errors": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehler"
+          }
+        }
+      }
+    },
+    "Essential CLI": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wichtige CLI-Tools"
+          }
+        }
+      }
+    },
+    "Essentials for modern frontend and web development.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grundausstattung für modernes Frontend und Webentwicklung."
+          }
+        }
+      }
+    },
+    "Everything is up to date": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles ist auf dem neuesten Stand"
+          }
+        }
+      }
+    },
+    "Everything this Brewfile lists is installed.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles aus diesem Brewfile ist installiert."
+          }
+        }
+      }
+    },
+    "Executable": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Programm"
+          }
+        }
+      }
+    },
+    "Executable path": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfad zum Programm"
+          }
+        }
+      }
+    },
+    "Export Brewfile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile exportieren"
+          }
+        }
+      }
+    },
+    "Export JSON": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "JSON exportieren"
+          }
+        }
+      }
+    },
+    "Export history JSON": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verlauf als JSON exportieren"
+          }
+        }
+      }
+    },
+    "Export this Mac's setup, choose a Brewfile, or open one of the starters below.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportiere das Setup dieses Macs, wähle ein Brewfile oder öffne eine der Vorlagen unten."
+          }
+        }
+      }
+    },
+    "Export your setup, open a Brewfile, and install what it lists that this Mac is missing.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportiere dein Setup, öffne ein Brewfile und installiere, was diesem Mac daraus fehlt."
+          }
+        }
+      }
+    },
+    "Exporting Brewfile...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile wird exportiert …"
+          }
+        }
+      }
+    },
+    "Failed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Failed to add tap %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap %@ konnte nicht hinzugefügt werden"
+          }
+        }
+      }
+    },
+    "Failed to export Brewfile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile konnte nicht exportiert werden"
+          }
+        }
+      }
+    },
+    "Failed to install %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ konnte nicht installiert werden"
+          }
+        }
+      }
+    },
+    "Failed to load casks": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Casks konnten nicht geladen werden"
+          }
+        }
+      }
+    },
+    "Failed to load formulae": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Formulae konnten nicht geladen werden"
+          }
+        }
+      }
+    },
+    "Failed to load package details": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paketdetails konnten nicht geladen werden"
+          }
+        }
+      }
+    },
+    "Failed to load services": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dienste konnten nicht geladen werden"
+          }
+        }
+      }
+    },
+    "Failed to load updates": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates konnten nicht geladen werden"
+          }
+        }
+      }
+    },
+    "Failed to parse Homebrew output": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew-Ausgabe konnte nicht gelesen werden"
+          }
+        }
+      }
+    },
+    "Failed to parse Homebrew updates": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew-Updates konnten nicht gelesen werden"
+          }
+        }
+      }
+    },
+    "Failed to pin %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ konnte nicht fixiert werden"
+          }
+        }
+      }
+    },
+    "Failed to preview cleanup": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschau der Bereinigung fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Failed to read Brewfile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile konnte nicht gelesen werden"
+          }
+        }
+      }
+    },
+    "Failed to remove tap %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap %@ konnte nicht entfernt werden"
+          }
+        }
+      }
+    },
+    "Failed to restart %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ konnte nicht neu gestartet werden"
+          }
+        }
+      }
+    },
+    "Failed to run brew doctor": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "brew doctor konnte nicht ausgeführt werden"
+          }
+        }
+      }
+    },
+    "Failed to search packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paketsuche fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Failed to start %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ konnte nicht gestartet werden"
+          }
+        }
+      }
+    },
+    "Failed to stop %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ konnte nicht gestoppt werden"
+          }
+        }
+      }
+    },
+    "Failed to uninstall %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ konnte nicht deinstalliert werden"
+          }
+        }
+      }
+    },
+    "Failed to unpin %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixierung von %@ konnte nicht aufgehoben werden"
+          }
+        }
+      }
+    },
+    "Failed to update Homebrew metadata": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew-Metadaten konnten nicht aktualisiert werden"
+          }
+        }
+      }
+    },
+    "Failed to upgrade %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrade von %@ fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Failed to upgrade all packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrade aller Pakete fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Fast recursive search tool.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schnelles rekursives Suchwerkzeug."
+          }
+        }
+      }
+    },
+    "Fast, disk-efficient package manager.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schneller, platzsparender Paketmanager."
+          }
+        }
+      }
+    },
+    "Favorite": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favorit"
+          }
+        }
+      }
+    },
+    "Favorite packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lieblingspakete"
+          }
+        }
+      }
+    },
+    "Favorites": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoriten"
+          }
+        }
+      }
+    },
+    "Fetch the latest package metadata from Homebrew.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die neuesten Paketinformationen von Homebrew abrufen."
+          }
+        }
+      }
+    },
+    "File": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ablage"
+          }
+        }
+      }
+    },
+    "Filter casks...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Casks filtern …"
+          }
+        }
+      }
+    },
+    "Filter formulae...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Formulae filtern …"
+          }
+        }
+      }
+    },
+    "Filter history...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verlauf filtern …"
+          }
+        }
+      }
+    },
+    "Filter...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtern …"
+          }
+        }
+      }
+    },
+    "Fixes for common Homebrew and Brewwery issues.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lösungen für häufige Probleme mit Homebrew und Brewwery."
+          }
+        }
+      }
+    },
+    "Formulae": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Formulae"
+          }
+        }
+      }
+    },
+    "Formulae / Casks": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Formulae / Casks"
+          }
+        }
+      }
+    },
+    "Freed space: %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Freigegebener Speicher: %@"
+          }
+        }
+      }
+    },
+    "Friendly command-line HTTP client.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Freundlicher HTTP-Client für die Kommandozeile."
+          }
+        }
+      }
+    },
+    "Frontend": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frontend"
+          }
+        }
+      }
+    },
+    "Frontend Developer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frontend-Entwicklung"
+          }
+        }
+      }
+    },
+    "GNU Privacy Guard.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GNU Privacy Guard."
+          }
+        }
+      }
+    },
+    "Generated Brewfile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erzeugtes Brewfile"
+          }
+        }
+      }
+    },
+    "Getting Started": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erste Schritte"
+          }
+        }
+      }
+    },
+    "Git extension for large files.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Git-Erweiterung für große Dateien."
+          }
+        }
+      }
+    },
+    "GitHub command-line tool.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub-Kommandozeilenwerkzeug."
+          }
+        }
+      }
+    },
+    "Go": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gehe zu"
+          }
+        }
+      }
+    },
+    "Go programming language.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Programmiersprache Go."
+          }
+        }
+      }
+    },
+    "Google Chrome browser.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browser Google Chrome."
+          }
+        }
+      }
+    },
+    "Health status": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zustand"
+          }
+        }
+      }
+    },
+    "Held at this version with brew pin": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit brew pin auf dieser Version gehalten"
+          }
+        }
+      }
+    },
+    "Held with brew pin — not counted, and skipped by Upgrade all": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit brew pin fixiert — wird nicht gezählt und von „Alle aktualisieren“ übersprungen"
+          }
+        }
+      }
+    },
+    "History": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verlauf"
+          }
+        }
+      }
+    },
+    "Homebrew": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew"
+          }
+        }
+      }
+    },
+    "Homebrew Website": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew-Website"
+          }
+        }
+      }
+    },
+    "Homebrew can still use its built-in repositories.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew kann weiterhin seine eingebauten Repositorys nutzen."
+          }
+        }
+      }
+    },
+    "Homebrew cleanup did not complete.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Homebrew-Bereinigung wurde nicht abgeschlossen."
+          }
+        }
+      }
+    },
+    "Homebrew could not change this tap.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew konnte diesen Tap nicht ändern."
+          }
+        }
+      }
+    },
+    "Homebrew could not complete the service action.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew konnte die Dienstaktion nicht abschließen."
+          }
+        }
+      }
+    },
+    "Homebrew could not complete this command. Review the details or try again from Terminal.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew konnte diesen Befehl nicht ausführen. Sieh dir die Details an oder versuche es im Terminal erneut."
+          }
+        }
+      }
+    },
+    "Homebrew could not install this package.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew konnte dieses Paket nicht installieren."
+          }
+        }
+      }
+    },
+    "Homebrew could not uninstall this package.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew konnte dieses Paket nicht deinstallieren."
+          }
+        }
+      }
+    },
+    "Homebrew could not update its package information.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew konnte seine Paketinformationen nicht aktualisieren."
+          }
+        }
+      }
+    },
+    "Homebrew not found": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew nicht gefunden"
+          }
+        }
+      }
+    },
+    "Homebrew package search supports letters, numbers, @, -, _, ., and +.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Homebrew-Paketsuche unterstützt Buchstaben, Ziffern, @, -, _, . und +."
+          }
+        }
+      }
+    },
+    "Homebrew running": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew aktiv"
+          }
+        }
+      }
+    },
+    "Homebrew search did not complete.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Homebrew-Suche wurde nicht abgeschlossen."
+          }
+        }
+      }
+    },
+    "Homebrew service": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew-Dienst"
+          }
+        }
+      }
+    },
+    "Homebrew services": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew-Dienste"
+          }
+        }
+      }
+    },
+    "Homebrew tap operation failed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap-Vorgang von Homebrew fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Homebrew, without the terminal.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew, ohne Terminal."
+          }
+        }
+      }
+    },
+    "Homepage": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Website"
+          }
+        }
+      }
+    },
+    "How Brewwery runs commands safely and locally.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wie Brewwery Befehle sicher und lokal ausführt."
+          }
+        }
+      }
+    },
+    "Hugging Face Hub command-line interface.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kommandozeilenwerkzeug für den Hugging Face Hub."
+          }
+        }
+      }
+    },
+    "In-memory data structure store.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In-Memory-Datenspeicher."
+          }
+        }
+      }
+    },
+    "Include environment details — versions, Mac model, package counts": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Umgebungsdetails anhängen — Versionen, Mac-Modell, Paketanzahl"
+          }
+        }
+      }
+    },
+    "Include pre-release versions": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorabversionen einschließen"
+          }
+        }
+      }
+    },
+    "Include the last %lld lines of Homebrew output": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Die letzte Zeile der Homebrew-Ausgabe anhängen"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Die letzten %lld Zeilen der Homebrew-Ausgabe anhängen"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Include the last line of Homebrew output"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Include the last %lld lines of Homebrew output"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Inspect and manage Homebrew services with explicit confirmation.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew-Dienste ansehen und mit ausdrücklicher Bestätigung verwalten."
+          }
+        }
+      }
+    },
+    "Install": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installieren"
+          }
+        }
+      }
+    },
+    "Install %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ installieren?"
+          }
+        }
+      }
+    },
+    "Install %lld items from this Brewfile?": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Eintrag aus diesem Brewfile installieren?"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Einträge aus diesem Brewfile installieren?"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Install %lld item from this Brewfile?"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Install %lld items from this Brewfile?"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Install %lld missing items": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld fehlenden Eintrag installieren"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld fehlende Einträge installieren"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Install %lld missing item"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Install %lld missing items"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Install 1 item from this Brewfile?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Eintrag aus diesem Brewfile installieren?"
+          }
+        }
+      }
+    },
+    "Install 1 missing item": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 fehlenden Eintrag installieren"
+          }
+        }
+      }
+    },
+    "Install Homebrew or set a custom path in Settings.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installiere Homebrew oder lege in den Einstellungen einen eigenen Pfad fest."
+          }
+        }
+      }
+    },
+    "Install a command-line formula.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine Formula für die Kommandozeile installieren."
+          }
+        }
+      }
+    },
+    "Install a macOS application distributed as a cask.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine als Cask verteilte macOS-App installieren."
+          }
+        }
+      }
+    },
+    "Install and manage macOS applications.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS-Apps installieren und verwalten."
+          }
+        }
+      }
+    },
+    "Install everything listed in a Brewfile.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles aus einem Brewfile installieren."
+          }
+        }
+      }
+    },
+    "Install, inspect, and remove command-line formulae.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Formulae für die Kommandozeile installieren, ansehen und entfernen."
+          }
+        }
+      }
+    },
+    "Installed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installiert"
+          }
+        }
+      }
+    },
+    "Installed %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ installiert"
+          }
+        }
+      }
+    },
+    "Installed %lld items from Brewfile": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Eintrag aus dem Brewfile installiert"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Einträge aus dem Brewfile installiert"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Installed %lld item from Brewfile"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Installed %lld items from Brewfile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Installed Homebrew cask": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierter Homebrew-Cask"
+          }
+        }
+      }
+    },
+    "Installed Homebrew formula": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierte Homebrew-Formula"
+          }
+        }
+      }
+    },
+    "Installed Homebrew tap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierter Homebrew-Tap"
+          }
+        }
+      }
+    },
+    "Installed casks": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierte Casks"
+          }
+        }
+      }
+    },
+    "Installed dependents": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierte abhängige Pakete"
+          }
+        }
+      }
+    },
+    "Installed formulae": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierte Formulae"
+          }
+        }
+      }
+    },
+    "Installed version": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierte Version"
+          }
+        }
+      }
+    },
+    "Installing adds only these. Nothing already installed is upgraded, and options on Brewfile lines — restart_service, args, link — are not applied.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installiert wird nur das hier. Bereits Installiertes wird nicht aktualisiert, und Optionen im Brewfile — restart_service, args, link — werden nicht übernommen."
+          }
+        }
+      }
+    },
+    "Installing from Brewfile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installation aus dem Brewfile"
+          }
+        }
+      }
+    },
+    "Installs": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installationen"
+          }
+        }
+      }
+    },
+    "Interactive process viewer.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interaktive Prozessanzeige."
+          }
+        }
+      }
+    },
+    "Internet file retriever.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dateien aus dem Internet laden."
+          }
+        }
+      }
+    },
+    "It installs from a list Brewwery writes containing only these: %@. Your Brewfile itself is never run, and nothing already installed is upgraded.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installiert wird aus einer Liste, die Brewwery selbst schreibt und die nur Folgendes enthält: %@. Dein Brewfile wird nie ausgeführt, und bereits Installiertes wird nicht aktualisiert."
+          }
+        }
+      }
+    },
+    "Item": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eintrag"
+          }
+        }
+      }
+    },
+    "JavaScript runtime.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "JavaScript-Laufzeit."
+          }
+        }
+      }
+    },
+    "Keep this version when upgrading": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Version bei Upgrades beibehalten"
+          }
+        }
+      }
+    },
+    "Kind": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Art"
+          }
+        }
+      }
+    },
+    "Languages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sprachen"
+          }
+        }
+      }
+    },
+    "Latest": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neueste"
+          }
+        }
+      }
+    },
+    "Latest version": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neueste Version"
+          }
+        }
+      }
+    },
+    "Launcher and productivity command center.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launcher und Kommandozentrale für mehr Produktivität."
+          }
+        }
+      }
+    },
+    "Launchers, window management, and note-taking for daily use.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launcher, Fensterverwaltung und Notizen für den Alltag."
+          }
+        }
+      }
+    },
+    "Leaves": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leaves"
+          }
+        }
+      }
+    },
+    "Let Upgrade all upgrade it again": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wieder mit „Alle aktualisieren“ aktualisieren"
+          }
+        }
+      }
+    },
+    "Library": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bibliothek"
+          }
+        }
+      }
+    },
+    "License": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lizenz"
+          }
+        }
+      }
+    },
+    "Lightweight JSON processor.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlanker JSON-Prozessor."
+          }
+        }
+      }
+    },
+    "Lightweight SQL database engine.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlanke SQL-Datenbank."
+          }
+        }
+      }
+    },
+    "List installed casks.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierte Casks auflisten."
+          }
+        }
+      }
+    },
+    "List installed formulae.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierte Formulae auflisten."
+          }
+        }
+      }
+    },
+    "List installed packages that have newer versions.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierte Pakete mit neueren Versionen auflisten."
+          }
+        }
+      }
+    },
+    "Live data": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live-Daten"
+          }
+        }
+      }
+    },
+    "Loading Homebrew...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew wird geladen …"
+          }
+        }
+      }
+    },
+    "Loading cleanup preview...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschau der Bereinigung wird geladen …"
+          }
+        }
+      }
+    },
+    "Loading packages...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pakete werden geladen …"
+          }
+        }
+      }
+    },
+    "Loading services...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dienste werden geladen …"
+          }
+        }
+      }
+    },
+    "Loading taps...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taps werden geladen …"
+          }
+        }
+      }
+    },
+    "Loading updates...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates werden geladen …"
+          }
+        }
+      }
+    },
+    "Local model runtimes and notebooks for AI and ML work.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lokale Modell-Laufzeiten und Notebooks für KI und ML."
+          }
+        }
+      }
+    },
+    "Local operation log with command summaries, output details, and timestamps.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lokales Protokoll aller Vorgänge mit Befehlen, Ausgaben und Zeitstempeln."
+          }
+        }
+      }
+    },
+    "Local preferences and app information.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lokale Einstellungen und App-Informationen."
+          }
+        }
+      }
+    },
+    "Local, open-source templates. Open one to see what this Mac is missing, or copy it to adapt.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lokale Open-Source-Vorlagen. Öffne eine, um zu sehen, was diesem Mac fehlt, oder kopiere sie zum Anpassen."
+          }
+        }
+      }
+    },
+    "Local-first markdown notes app.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lokale Markdown-Notizen-App."
+          }
+        }
+      }
+    },
+    "Mac App Store command-line interface.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kommandozeilenwerkzeug für den Mac App Store."
+          }
+        }
+      }
+    },
+    "Manage additional Homebrew formula and cask repositories.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zusätzliche Repositorys für Homebrew-Formulae und -Casks verwalten."
+          }
+        }
+      }
+    },
+    "Manage background processes like databases.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hintergrundprozesse wie Datenbanken verwalten."
+          }
+        }
+      }
+    },
+    "Media": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medien"
+          }
+        }
+      }
+    },
+    "Media playback, recording, and conversion tools.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Werkzeuge für Wiedergabe, Aufnahme und Konvertierung von Medien."
+          }
+        }
+      }
+    },
+    "Media player.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mediaplayer."
+          }
+        }
+      }
+    },
+    "Metadata": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metadaten"
+          }
+        }
+      }
+    },
+    "Modern JavaScript tooling, a browser, and a design app.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modernes JavaScript-Tooling, ein Browser und eine Design-App."
+          }
+        }
+      }
+    },
+    "Modern browser for macOS.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moderner Browser für macOS."
+          }
+        }
+      }
+    },
+    "MongoDB community server.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MongoDB Community Server."
+          }
+        }
+      }
+    },
+    "Mozilla Firefox browser.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browser Mozilla Firefox."
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        }
+      }
+    },
+    "Navigation": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Navigation"
+          }
+        }
+      }
+    },
+    "Network protocol analyzer.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analyse von Netzwerkprotokollen."
+          }
+        }
+      }
+    },
+    "No Brewfile open yet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch kein Brewfile geöffnet"
+          }
+        }
+      }
+    },
+    "No Homebrew services found": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Homebrew-Dienste gefunden"
+          }
+        }
+      }
+    },
+    "No additional taps installed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine zusätzlichen Taps installiert"
+          }
+        }
+      }
+    },
+    "No casks installed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Casks installiert"
+          }
+        }
+      }
+    },
+    "No casks match your search": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Casks passen zu deiner Suche"
+          }
+        }
+      }
+    },
+    "No cleanup preview yet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Vorschau der Bereinigung"
+          }
+        }
+      }
+    },
+    "No dependencies listed.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Abhängigkeiten angegeben."
+          }
+        }
+      }
+    },
+    "No description available.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Beschreibung verfügbar."
+          }
+        }
+      }
+    },
+    "No doctor run yet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doctor wurde noch nicht ausgeführt"
+          }
+        }
+      }
+    },
+    "No favorites yet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Favoriten"
+          }
+        }
+      }
+    },
+    "No formulae installed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Formulae installiert"
+          }
+        }
+      }
+    },
+    "No formulae match your search": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Formulae passen zu deiner Suche"
+          }
+        }
+      }
+    },
+    "No installed packages depend on this formula.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein installiertes Paket hängt von dieser Formula ab."
+          }
+        }
+      }
+    },
+    "No launch agent file": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Launch-Agent-Datei"
+          }
+        }
+      }
+    },
+    "No operations match this filter": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Vorgänge passen zu diesem Filter"
+          }
+        }
+      }
+    },
+    "No operations yet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Vorgänge"
+          }
+        }
+      }
+    },
+    "No packages found": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Pakete gefunden"
+          }
+        }
+      }
+    },
+    "No prefix detected": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein Präfix erkannt"
+          }
+        }
+      }
+    },
+    "None": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine"
+          }
+        }
+      }
+    },
+    "Not detected": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht erkannt"
+          }
+        }
+      }
+    },
+    "Not found": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht gefunden"
+          }
+        }
+      }
+    },
+    "Not handled here — Mac App Store apps, editor extensions and similar. Use brew bundle in Terminal for these: %@.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird hier nicht behandelt — Mac-App-Store-Apps, Editor-Erweiterungen und Ähnliches. Nutze dafür brew bundle im Terminal: %@."
+          }
+        }
+      }
+    },
+    "Not installed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht installiert"
+          }
+        }
+      }
+    },
+    "Nothing in this Brewfile is something Brewwery can install.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery kann nichts aus diesem Brewfile installieren."
+          }
+        }
+      }
+    },
+    "Nothing is sent automatically. Review the report, then open it as a GitHub issue or an email — you press Send.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nichts wird automatisch gesendet. Prüfe den Bericht und öffne ihn dann als GitHub-Issue oder E-Mail — senden tust du selbst."
+          }
+        }
+      }
+    },
+    "Nothing to clean": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nichts zu bereinigen"
+          }
+        }
+      }
+    },
+    "Object-relational database system.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objektrelationales Datenbanksystem."
+          }
+        }
+      }
+    },
+    "Official": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offiziell"
+          }
+        }
+      }
+    },
+    "Official ChatGPT desktop app.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offizielle ChatGPT-Desktop-App."
+          }
+        }
+      }
+    },
+    "On request": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf Wunsch"
+          }
+        }
+      }
+    },
+    "Open": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnen"
+          }
+        }
+      }
+    },
+    "Open Brewwery": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery öffnen"
+          }
+        }
+      }
+    },
+    "Open GitHub issue": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub-Issue öffnen"
+          }
+        }
+      }
+    },
+    "Open a bug report on GitHub.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einen Fehlerbericht auf GitHub eröffnen."
+          }
+        }
+      }
+    },
+    "Open a new message to %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neue Nachricht an %@ öffnen"
+          }
+        }
+      }
+    },
+    "Open homepage": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Website öffnen"
+          }
+        }
+      }
+    },
+    "Open-source relational database.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Relationale Open-Source-Datenbank."
+          }
+        }
+      }
+    },
+    "Opened in Mail": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Mail geöffnet"
+          }
+        }
+      }
+    },
+    "Opened on GitHub": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf GitHub geöffnet"
+          }
+        }
+      }
+    },
+    "Opens a pre-filled issue in your browser (⌘↩)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnet ein vorausgefülltes Issue in deinem Browser (⌘↩)"
+          }
+        }
+      }
+    },
+    "Operation ID": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorgangs-ID"
+          }
+        }
+      }
+    },
+    "Operation cancelled": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorgang abgebrochen"
+          }
+        }
+      }
+    },
+    "Operation completed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorgang abgeschlossen"
+          }
+        }
+      }
+    },
+    "Operation failed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorgang fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Operation progress": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fortschritt des Vorgangs"
+          }
+        }
+      }
+    },
+    "Operation timed out": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitüberschreitung beim Vorgang"
+          }
+        }
+      }
+    },
+    "Operations": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorgänge"
+          }
+        }
+      }
+    },
+    "Outdated": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veraltet"
+          }
+        }
+      }
+    },
+    "Outdated packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veraltete Pakete"
+          }
+        }
+      }
+    },
+    "PHP scripting language.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skriptsprache PHP."
+          }
+        }
+      }
+    },
+    "Package": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paket"
+          }
+        }
+      }
+    },
+    "Packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pakete"
+          }
+        }
+      }
+    },
+    "Paste it into an issue, an email, or a message.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Füge ihn in ein Issue, eine E-Mail oder eine Nachricht ein."
+          }
+        }
+      }
+    },
+    "Path": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfad"
+          }
+        }
+      }
+    },
+    "Paths in your home folder appear as ~": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfade in deinem Benutzerordner erscheinen als ~"
+          }
+        }
+      }
+    },
+    "Pin": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixieren"
+          }
+        }
+      }
+    },
+    "Pin %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ fixieren?"
+          }
+        }
+      }
+    },
+    "Pin version": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version fixieren"
+          }
+        }
+      }
+    },
+    "Pinned": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixiert"
+          }
+        }
+      }
+    },
+    "Pinned %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ fixiert"
+          }
+        }
+      }
+    },
+    "Pinned formulae are skipped.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixierte Formulae werden übersprungen."
+          }
+        }
+      }
+    },
+    "Pins": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixierungen"
+          }
+        }
+      }
+    },
+    "Platform": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plattform"
+          }
+        }
+      }
+    },
+    "Popular local databases and data tools.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beliebte lokale Datenbanken und Datenwerkzeuge."
+          }
+        }
+      }
+    },
+    "Popular runtimes and language toolchains.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beliebte Laufzeiten und Sprach-Toolchains."
+          }
+        }
+      }
+    },
+    "Prefix": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Präfix"
+          }
+        }
+      }
+    },
+    "Prefix pending": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Präfix ausstehend"
+          }
+        }
+      }
+    },
+    "Prevent your Mac from sleeping.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verhindert, dass dein Mac in den Ruhezustand wechselt."
+          }
+        }
+      }
+    },
+    "Preview": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschau"
+          }
+        }
+      }
+    },
+    "Preview Results": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ergebnis der Vorschau"
+          }
+        }
+      }
+    },
+    "Preview cleanup": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereinigung vorab ansehen"
+          }
+        }
+      }
+    },
+    "Preview removable Homebrew caches and old versions before running cleanup.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vor der Bereinigung ansehen, welche Homebrew-Caches und alten Versionen entfernt werden können."
+          }
+        }
+      }
+    },
+    "Preview what Homebrew can remove without deleting anything.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ansehen, was Homebrew entfernen kann, ohne etwas zu löschen."
+          }
+        }
+      }
+    },
+    "Privacy-focused Chromium browser.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chromium-Browser mit Fokus auf Datenschutz."
+          }
+        }
+      }
+    },
+    "Processing %lld packages": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Paket wird verarbeitet"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Pakete werden verarbeitet"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Processing %lld package"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Processing %lld packages"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Processing 1 package": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Paket wird verarbeitet"
+          }
+        }
+      }
+    },
+    "Productivity": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Produktivität"
+          }
+        }
+      }
+    },
+    "Python Developer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Python-Entwicklung"
+          }
+        }
+      }
+    },
+    "Python programming language.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Programmiersprache Python."
+          }
+        }
+      }
+    },
+    "Quit": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beenden"
+          }
+        }
+      }
+    },
+    "Read Brewfile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile lesen"
+          }
+        }
+      }
+    },
+    "Reclaim disk space from old versions and caches.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speicherplatz von alten Versionen und Caches zurückgewinnen."
+          }
+        }
+      }
+    },
+    "Recording and streaming studio.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Studio für Aufnahme und Streaming."
+          }
+        }
+      }
+    },
+    "Refresh": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neu laden"
+          }
+        }
+      }
+    },
+    "Refresh Current Page": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktuelle Seite neu laden"
+          }
+        }
+      }
+    },
+    "Refresh data": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daten neu laden"
+          }
+        }
+      }
+    },
+    "Refresh list": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liste neu laden"
+          }
+        }
+      }
+    },
+    "Refresh metadata and upgrade installed packages.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metadaten aktualisieren und installierte Pakete aktualisieren."
+          }
+        }
+      }
+    },
+    "Release notes": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versionshinweise"
+          }
+        }
+      }
+    },
+    "Reloads current Homebrew data without running brew update": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lädt die aktuellen Homebrew-Daten neu, ohne brew update auszuführen"
+          }
+        }
+      }
+    },
+    "Remove %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ entfernen"
+          }
+        }
+      }
+    },
+    "Remove %@ from favorites": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ aus den Favoriten entfernen"
+          }
+        }
+      }
+    },
+    "Remove %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ entfernen?"
+          }
+        }
+      }
+    },
+    "Remove an installed cask.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einen installierten Cask entfernen."
+          }
+        }
+      }
+    },
+    "Remove an installed formula.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine installierte Formula entfernen."
+          }
+        }
+      }
+    },
+    "Remove from Favorites": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aus Favoriten entfernen"
+          }
+        }
+      }
+    },
+    "Remove old versions and stale downloads.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alte Versionen und veraltete Downloads entfernen."
+          }
+        }
+      }
+    },
+    "Remove tap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap entfernen"
+          }
+        }
+      }
+    },
+    "Removed tap %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap %@ entfernt"
+          }
+        }
+      }
+    },
+    "Removing a tap can make its installed formulae unavailable for future upgrades.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn du einen Tap entfernst, erhalten seine installierten Formulae eventuell keine Upgrades mehr."
+          }
+        }
+      }
+    },
+    "Report": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melden"
+          }
+        }
+      }
+    },
+    "Report Issue": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problem melden"
+          }
+        }
+      }
+    },
+    "Report a Problem…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problem melden …"
+          }
+        }
+      }
+    },
+    "Report a problem": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problem melden"
+          }
+        }
+      }
+    },
+    "Report a problem…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problem melden …"
+          }
+        }
+      }
+    },
+    "Report common problems. It only diagnoses — it changes nothing.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meldet häufige Probleme. Es diagnostiziert nur — es ändert nichts."
+          }
+        }
+      }
+    },
+    "Report copied": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bericht kopiert"
+          }
+        }
+      }
+    },
+    "Report preview": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschau des Berichts"
+          }
+        }
+      }
+    },
+    "Report this failure": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diesen Fehler melden"
+          }
+        }
+      }
+    },
+    "Report this failure on GitHub or by email": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diesen Fehler auf GitHub oder per E-Mail melden"
+          }
+        }
+      }
+    },
+    "Reset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurücksetzen"
+          }
+        }
+      }
+    },
+    "Restart": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neu starten"
+          }
+        }
+      }
+    },
+    "Restart %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ neu starten?"
+          }
+        }
+      }
+    },
+    "Restart a service.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einen Dienst neu starten."
+          }
+        }
+      }
+    },
+    "Restarted %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ neu gestartet"
+          }
+        }
+      }
+    },
+    "Restarting %@ timed out": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitüberschreitung beim Neustart von %@"
+          }
+        }
+      }
+    },
+    "Retry": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erneut versuchen"
+          }
+        }
+      }
+    },
+    "Retry preview": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschau erneut versuchen"
+          }
+        }
+      }
+    },
+    "Review it there and press Send.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prüfe sie dort und klicke auf Senden."
+          }
+        }
+      }
+    },
+    "Review the issue there and press Submit.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prüfe das Issue dort und klicke auf Submit."
+          }
+        }
+      }
+    },
+    "Ruby programming language.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Programmiersprache Ruby."
+          }
+        }
+      }
+    },
+    "Run Homebrew cleanup?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew bereinigen?"
+          }
+        }
+      }
+    },
+    "Run brew doctor and review diagnostics without leaving Brewwery.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "brew doctor ausführen und die Hinweise ansehen, ohne Brewwery zu verlassen."
+          }
+        }
+      }
+    },
+    "Run cleanup": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereinigen"
+          }
+        }
+      }
+    },
+    "Run commands repeatedly.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehle wiederholt ausführen."
+          }
+        }
+      }
+    },
+    "Run doctor": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doctor ausführen"
+          }
+        }
+      }
+    },
+    "Run large language models locally.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Große Sprachmodelle lokal ausführen."
+          }
+        }
+      }
+    },
+    "Running": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiv"
+          }
+        }
+      }
+    },
+    "Running Homebrew cleanup": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew wird bereinigt"
+          }
+        }
+      }
+    },
+    "Running Homebrew operation": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew-Vorgang läuft"
+          }
+        }
+      }
+    },
+    "Running brew doctor...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "brew doctor wird ausgeführt …"
+          }
+        }
+      }
+    },
+    "Running service action": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dienstaktion läuft"
+          }
+        }
+      }
+    },
+    "Runtimes, a database, and container tooling for backend work.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laufzeiten, eine Datenbank und Container-Werkzeuge für Backend-Arbeit."
+          }
+        }
+      }
+    },
+    "Rust toolchain.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rust-Toolchain."
+          }
+        }
+      }
+    },
+    "Safety timeout": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sicherheits-Timeout"
+          }
+        }
+      }
+    },
+    "Save": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sichern"
+          }
+        }
+      }
+    },
+    "Saved Homebrew packages and casks.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemerkte Homebrew-Pakete und Casks."
+          }
+        }
+      }
+    },
+    "Saved paths are validated before use and applied to every Homebrew command, including streaming progress operations.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gespeicherte Pfade werden vor der Verwendung geprüft und für jeden Homebrew-Befehl genutzt, auch für laufende Vorgänge."
+          }
+        }
+      }
+    },
+    "Search": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suche"
+          }
+        }
+      }
+    },
+    "Search Homebrew packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew-Pakete suchen"
+          }
+        }
+      }
+    },
+    "Search Packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pakete suchen"
+          }
+        }
+      }
+    },
+    "Search packages...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pakete suchen …"
+          }
+        }
+      }
+    },
+    "Search results": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suchergebnisse"
+          }
+        }
+      }
+    },
+    "Searching Homebrew...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew wird durchsucht …"
+          }
+        }
+      }
+    },
+    "Secure runtime for JavaScript and TypeScript.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sichere Laufzeit für JavaScript und TypeScript."
+          }
+        }
+      }
+    },
+    "Security": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sicherheit"
+          }
+        }
+      }
+    },
+    "Security Model": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sicherheitsmodell"
+          }
+        }
+      }
+    },
+    "Security and privacy tools for local development.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Werkzeuge für Sicherheit und Datenschutz in der lokalen Entwicklung."
+          }
+        }
+      }
+    },
+    "Service": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dienst"
+          }
+        }
+      }
+    },
+    "Service action": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dienstaktion"
+          }
+        }
+      }
+    },
+    "Service action completed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dienstaktion abgeschlossen"
+          }
+        }
+      }
+    },
+    "Services": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dienste"
+          }
+        }
+      }
+    },
+    "Set up Brewwery and connect your Homebrew install.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery einrichten und mit deiner Homebrew-Installation verbinden."
+          }
+        }
+      }
+    },
+    "Settings": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen"
+          }
+        }
+      }
+    },
+    "Settings…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen …"
+          }
+        }
+      }
+    },
+    "Show %lld more": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld weiteren anzeigen"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld weitere anzeigen"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Show %lld more"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Show %lld more"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Show details": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details anzeigen"
+          }
+        }
+      }
+    },
+    "Show details for a cask.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details zu einem Cask anzeigen."
+          }
+        }
+      }
+    },
+    "Show details, dependencies, and caveats for a formula.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details, Abhängigkeiten und Hinweise zu einer Formula anzeigen."
+          }
+        }
+      }
+    },
+    "Show outdated package count on the Dock icon": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anzahl veralteter Pakete im Dock-Symbol anzeigen"
+          }
+        }
+      }
+    },
+    "Show output details": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgabe anzeigen"
+          }
+        }
+      }
+    },
+    "Show raw JSON": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rohes JSON anzeigen"
+          }
+        }
+      }
+    },
+    "Show raw output": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rohe Ausgabe anzeigen"
+          }
+        }
+      }
+    },
+    "Show the status of all managed services.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status aller verwalteten Dienste anzeigen."
+          }
+        }
+      }
+    },
+    "Simple file encryption tool.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einfaches Werkzeug zur Dateiverschlüsselung."
+          }
+        }
+      }
+    },
+    "Simple, fast alternative to find.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einfache, schnelle Alternative zu find."
+          }
+        }
+      }
+    },
+    "Size": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Größe"
+          }
+        }
+      }
+    },
+    "Skipped because the name is not a valid Homebrew name: %@.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Übersprungen, weil der Name kein gültiger Homebrew-Name ist: %@."
+          }
+        }
+      }
+    },
+    "Small tools that make macOS workflows smoother.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kleine Werkzeuge für reibungslosere Abläufe unter macOS."
+          }
+        }
+      }
+    },
+    "Something unexpected happened. The details may help diagnose it.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etwas Unerwartetes ist passiert. Die Details können bei der Ursachensuche helfen."
+          }
+        }
+      }
+    },
+    "Start": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starten"
+          }
+        }
+      }
+    },
+    "Start %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ starten?"
+          }
+        }
+      }
+    },
+    "Start a service and launch it at login.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einen Dienst starten und bei der Anmeldung automatisch starten."
+          }
+        }
+      }
+    },
+    "Started": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gestartet"
+          }
+        }
+      }
+    },
+    "Started %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ gestartet"
+          }
+        }
+      }
+    },
+    "Starter Brewfiles": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewfile-Vorlagen"
+          }
+        }
+      }
+    },
+    "Starter contents": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inhalt der Vorlage"
+          }
+        }
+      }
+    },
+    "Starter: %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorlage: %@"
+          }
+        }
+      }
+    },
+    "Starting %@ timed out": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitüberschreitung beim Start von %@"
+          }
+        }
+      }
+    },
+    "Status": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status"
+          }
+        }
+      }
+    },
+    "Stop": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stoppen"
+          }
+        }
+      }
+    },
+    "Stop %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ stoppen?"
+          }
+        }
+      }
+    },
+    "Stop a running service.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einen laufenden Dienst stoppen."
+          }
+        }
+      }
+    },
+    "Stopped": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gestoppt"
+          }
+        }
+      }
+    },
+    "Stopped %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ gestoppt"
+          }
+        }
+      }
+    },
+    "Stopped by safety timeout": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durch Sicherheits-Timeout gestoppt"
+          }
+        }
+      }
+    },
+    "Stopped with an error": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit einem Fehler beendet"
+          }
+        }
+      }
+    },
+    "Stopping %@ timed out": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitüberschreitung beim Stoppen von %@"
+          }
+        }
+      }
+    },
+    "Succeeded": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erfolgreich"
+          }
+        }
+      }
+    },
+    "System": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        }
+      }
+    },
+    "System follows macOS appearance. Light uses a warm macOS utility palette.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„System“ folgt dem Erscheinungsbild von macOS. „Hell“ nutzt eine warme Farbpalette."
+          }
+        }
+      }
+    },
+    "Tap name": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap-Name"
+          }
+        }
+      }
+    },
+    "Tap names must look like owner/repository.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap-Namen müssen die Form owner/repository haben."
+          }
+        }
+      }
+    },
+    "Taps": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taps"
+          }
+        }
+      }
+    },
+    "Target": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ziel"
+          }
+        }
+      }
+    },
+    "Target: %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ziel: %@"
+          }
+        }
+      }
+    },
+    "Terminal emulator for macOS.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminal-Emulator für macOS."
+          }
+        }
+      }
+    },
+    "The Dock badge, the sidebar and the status bar show this same total. Brewwery re-reads it in the background every 30 minutes and never upgrades anything on its own.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock-Kennzeichen, Seitenleiste und Statusleiste zeigen dieselbe Summe. Brewwery liest sie alle 30 Minuten im Hintergrund neu und aktualisiert nie etwas von selbst."
+          }
+        }
+      }
+    },
+    "The Homebrew operation exceeded its safety timeout and was stopped.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Homebrew-Vorgang hat sein Sicherheits-Timeout überschritten und wurde gestoppt."
+          }
+        }
+      }
+    },
+    "The Homebrew operation was cancelled.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Homebrew-Vorgang wurde abgebrochen."
+          }
+        }
+      }
+    },
+    "The badge shows the same number as Updates in the sidebar, read from brew outdated in the background every 30 minutes.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Kennzeichen zeigt dieselbe Zahl wie „Updates“ in der Seitenleiste, alle 30 Minuten im Hintergrund aus brew outdated gelesen."
+          }
+        }
+      }
+    },
+    "The full Homebrew command reference.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die vollständige Referenz der Homebrew-Befehle."
+          }
+        }
+      }
+    },
+    "The report was too long for a link, so its output was shortened. The full report is on your clipboard.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Bericht war für einen Link zu lang, daher wurde die Ausgabe gekürzt. Der vollständige Bericht liegt in deiner Zwischenablage."
+          }
+        }
+      }
+    },
+    "Third-party": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drittanbieter"
+          }
+        }
+      }
+    },
+    "This Brewfile also contains Ruby — if, end, variables. Brewwery never runs it, and lists every tap, brew and cask line whatever the conditions say, so check the list above before installing.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieses Brewfile enthält auch Ruby — if, end, Variablen. Brewwery führt es nie aus und listet jede tap-, brew- und cask-Zeile unabhängig von Bedingungen. Prüfe die Liste oben daher vor der Installation."
+          }
+        }
+      }
+    },
+    "This Mac's current setup": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktuelles Setup dieses Macs"
+          }
+        }
+      }
+    },
+    "This can remove old versions, caches, logs, and broken links listed in the preview.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dabei können alte Versionen, Caches, Logs und defekte Links aus der Vorschau entfernt werden."
+          }
+        }
+      }
+    },
+    "This cask token contains unsupported characters.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Cask-Name enthält nicht unterstützte Zeichen."
+          }
+        }
+      }
+    },
+    "This file path is not valid for this operation.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Dateipfad ist für diesen Vorgang ungültig."
+          }
+        }
+      }
+    },
+    "This may remove the selected cask from your Homebrew environment. Dependencies are not automatically removed unless Homebrew does it.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dadurch kann der ausgewählte Cask aus deiner Homebrew-Umgebung entfernt werden. Abhängigkeiten werden nur entfernt, wenn Homebrew das selbst tut."
+          }
+        }
+      }
+    },
+    "This may remove the selected package from your Homebrew environment. Dependencies are not automatically removed unless Homebrew does it.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dadurch kann das ausgewählte Paket aus deiner Homebrew-Umgebung entfernt werden. Abhängigkeiten werden nur entfernt, wenn Homebrew das selbst tut."
+          }
+        }
+      }
+    },
+    "This package name contains unsupported characters.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Paketname enthält nicht unterstützte Zeichen."
+          }
+        }
+      }
+    },
+    "This service name contains unsupported characters.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Dienstname enthält nicht unterstützte Zeichen."
+          }
+        }
+      }
+    },
+    "Timed out while running install for %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitüberschreitung bei der Installation von %@"
+          }
+        }
+      }
+    },
+    "Timed out while running uninstall for %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitüberschreitung bei der Deinstallation von %@"
+          }
+        }
+      }
+    },
+    "Tools and runtimes for building and running backend services.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Werkzeuge und Laufzeiten zum Entwickeln und Betreiben von Backend-Diensten."
+          }
+        }
+      }
+    },
+    "Total services": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dienste gesamt"
+          }
+        }
+      }
+    },
+    "Total updates": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates gesamt"
+          }
+        }
+      }
+    },
+    "Troubleshooting": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehlerbehebung"
+          }
+        }
+      }
+    },
+    "Try again when it finishes.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versuche es erneut, wenn er fertig ist."
+          }
+        }
+      }
+    },
+    "Type a package or app name to search formulae and casks.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gib einen Paket- oder App-Namen ein, um Formulae und Casks zu suchen."
+          }
+        }
+      }
+    },
+    "Uninstall": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deinstallieren"
+          }
+        }
+      }
+    },
+    "Uninstall %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ deinstallieren?"
+          }
+        }
+      }
+    },
+    "Uninstalled %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ deinstalliert"
+          }
+        }
+      }
+    },
+    "Uninstalls": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deinstallationen"
+          }
+        }
+      }
+    },
+    "Unknown": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unbekannt"
+          }
+        }
+      }
+    },
+    "Unknown item": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unbekannter Eintrag"
+          }
+        }
+      }
+    },
+    "Unknown path": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unbekannter Pfad"
+          }
+        }
+      }
+    },
+    "Unpin": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lösen"
+          }
+        }
+      }
+    },
+    "Unpin %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixierung von %@ lösen?"
+          }
+        }
+      }
+    },
+    "Unpin version": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixierung lösen"
+          }
+        }
+      }
+    },
+    "Unpinned %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixierung von %@ gelöst"
+          }
+        }
+      }
+    },
+    "Up to date · checked %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf dem neuesten Stand · geprüft um %@"
+          }
+        }
+      }
+    },
+    "Updated Homebrew metadata": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew-Metadaten aktualisiert"
+          }
+        }
+      }
+    },
+    "Updates": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates"
+          }
+        }
+      }
+    },
+    "Updating": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird aktualisiert"
+          }
+        }
+      }
+    },
+    "Upgrade": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktualisieren"
+          }
+        }
+      }
+    },
+    "Upgrade %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ aktualisieren?"
+          }
+        }
+      }
+    },
+    "Upgrade a single package.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein einzelnes Paket aktualisieren."
+          }
+        }
+      }
+    },
+    "Upgrade all": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle aktualisieren"
+          }
+        }
+      }
+    },
+    "Upgrade all and brew upgrade will leave %@ at its current version until you unpin it. It stops counting towards the outdated total.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„Alle aktualisieren“ und brew upgrade lassen %@ auf der aktuellen Version, bis du die Fixierung löst. Es zählt dann nicht mehr zu den veralteten Paketen."
+          }
+        }
+      }
+    },
+    "Upgrade all outdated formulae and casks.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle veralteten Formulae und Casks aktualisieren."
+          }
+        }
+      }
+    },
+    "Upgrade all packages?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle Pakete aktualisieren?"
+          }
+        }
+      }
+    },
+    "Upgrade timed out for %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitüberschreitung beim Upgrade von %@"
+          }
+        }
+      }
+    },
+    "Upgrade timed out for all packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitüberschreitung beim Upgrade aller Pakete"
+          }
+        }
+      }
+    },
+    "Upgraded %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ aktualisiert"
+          }
+        }
+      }
+    },
+    "Upgraded all outdated packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle veralteten Pakete aktualisiert"
+          }
+        }
+      }
+    },
+    "Upgrades": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrades"
+          }
+        }
+      }
+    },
+    "Use Latin characters to search Homebrew packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nutze lateinische Buchstaben, um Homebrew-Pakete zu suchen"
+          }
+        }
+      }
+    },
+    "Use Updates page": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seite „Updates“ verwenden"
+          }
+        }
+      }
+    },
+    "Use the owner/repository format, for example user/homebrew-tools.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nutze das Format owner/repository, zum Beispiel user/homebrew-tools."
+          }
+        }
+      }
+    },
+    "Useful command-line tools for everyday development.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nützliche Kommandozeilenwerkzeuge für die tägliche Entwicklung."
+          }
+        }
+      }
+    },
+    "Useful system and desktop utilities.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nützliche System- und Desktop-Werkzeuge."
+          }
+        }
+      }
+    },
+    "User": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benutzer"
+          }
+        }
+      }
+    },
+    "Utilities": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dienstprogramme"
+          }
+        }
+      }
+    },
+    "Validate": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prüfen"
+          }
+        }
+      }
+    },
+    "Validated %@ at %@.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ unter %@ geprüft."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Validated %1$@ at %2$@."
+          }
+        }
+      }
+    },
+    "Validated Homebrew at %@.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homebrew unter %@ geprüft."
+          }
+        }
+      }
+    },
+    "Version": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        }
+      }
+    },
+    "Version pending": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version ausstehend"
+          }
+        }
+      }
+    },
+    "Video downloader.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video-Downloader."
+          }
+        }
+      }
+    },
+    "View all": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle anzeigen"
+          }
+        }
+      }
+    },
+    "Waiting for Homebrew output...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warten auf Ausgabe von Homebrew …"
+          }
+        }
+      }
+    },
+    "Warnings found": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warnungen gefunden"
+          }
+        }
+      }
+    },
+    "What happened?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Was ist passiert?"
+          }
+        }
+      }
+    },
+    "What is Homebrew?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Was ist Homebrew?"
+          }
+        }
+      }
+    },
+    "What you did, what you expected, and what happened instead.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Was du getan hast, was du erwartet hast und was stattdessen passiert ist."
+          }
+        }
+      }
+    },
+    "Window management for macOS.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fensterverwaltung für macOS."
+          }
+        }
+      }
+    },
+    "Work": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arbeit"
+          }
+        }
+      }
+    },
+    "Working...": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird ausgeführt …"
+          }
+        }
+      }
+    },
+    "Workspace notes and docs app.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App für Notizen und Dokumente im Team."
+          }
+        }
+      }
+    },
+    "Write your current setup to a Brewfile.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dein aktuelles Setup in ein Brewfile schreiben."
+          }
+        }
+      }
+    },
+    "Your Homebrew installation looks healthy": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Homebrew-Installation sieht gesund aus"
+          }
+        }
+      }
+    },
+    "and %lld more": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "und %lld weitere"
+          }
+        }
+      }
+    },
+    "arch pending": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Architektur ausstehend"
+          }
+        }
+      }
+    },
+    "brew doctor did not complete.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "brew doctor wurde nicht abgeschlossen."
+          }
+        }
+      }
+    },
+    "brew update": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "brew update"
+          }
+        }
+      }
+    },
+    "cache": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cache"
+          }
+        }
+      }
+    },
+    "cancelled": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "abgebrochen"
+          }
+        }
+      }
+    },
+    "cleanup": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereinigung"
+          }
+        }
+      }
+    },
+    "dark": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dunkel"
+          }
+        }
+      }
+    },
+    "doctor": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doctor"
+          }
+        }
+      }
+    },
+    "download": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download"
+          }
+        }
+      }
+    },
+    "error": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehler"
+          }
+        }
+      }
+    },
+    "failed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "info": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Info"
+          }
+        }
+      }
+    },
+    "install": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installation"
+          }
+        }
+      }
+    },
+    "light": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hell"
+          }
+        }
+      }
+    },
+    "loading": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "lädt"
+          }
+        }
+      }
+    },
+    "macOS Productivity": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Produktivität unter macOS"
+          }
+        }
+      }
+    },
+    "old version": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "alte Version"
+          }
+        }
+      }
+    },
+    "owner/repository": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "owner/repository"
+          }
+        }
+      }
+    },
+    "pin": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixierung"
+          }
+        }
+      }
+    },
+    "running": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "läuft"
+          }
+        }
+      }
+    },
+    "service": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dienst"
+          }
+        }
+      }
+    },
+    "started": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "gestartet"
+          }
+        }
+      }
+    },
+    "stopped": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "gestoppt"
+          }
+        }
+      }
+    },
+    "success": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "erfolgreich"
+          }
+        }
+      }
+    },
+    "system": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        }
+      }
+    },
+    "tap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap"
+          }
+        }
+      }
+    },
+    "timed out": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeitüberschreitung"
+          }
+        }
+      }
+    },
+    "uninstall": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deinstallation"
+          }
+        }
+      }
+    },
+    "unknown": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "unbekannt"
+          }
+        }
+      }
+    },
+    "upgrade": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrade"
+          }
+        }
+      }
+    },
+    "warning": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warnung"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

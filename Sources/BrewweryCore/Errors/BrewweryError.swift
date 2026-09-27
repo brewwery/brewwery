@@ -36,32 +36,39 @@ public extension BrewweryError {
         return message != friendlyMessage ? message : nil
     }
 
-    static let friendlyMessages: [BrewweryErrorCode: String] = [
-        .homebrewNotFound: "Brewwery could not find Homebrew. Install Homebrew or set a custom path in Settings.",
-        .brewCommandFailed: "Homebrew could not complete this command. Review the details or try again from Terminal.",
-        .brewJSONParseFailed: "Brewwery could not read Homebrew's JSON output. Updating Homebrew may fix this.",
-        .permissionDenied: "Brewwery does not have permission to access this path or command.",
-        .unsupportedPlatform: "Brewwery currently supports macOS only.",
-        .serviceCommandFailed: "Homebrew could not complete the service action.",
-        .updatesParseFailed: "Brewwery could not read the outdated package list from Homebrew.",
-        .invalidPackageName: "This package name contains unsupported characters.",
-        .invalidServiceName: "This service name contains unsupported characters.",
-        .cleanupPreviewFailed: "Brewwery could not preview cleanup results.",
-        .cleanupRunFailed: "Homebrew cleanup did not complete.",
-        .doctorFailed: "brew doctor did not complete.",
-        .brewfileExportFailed: "Brewwery could not export the Brewfile.",
-        .brewfileReadFailed: "Brewwery could not read this Brewfile.",
-        .invalidFilePath: "This file path is not valid for this operation.",
-        .packageSearchFailed: "Homebrew search did not complete.",
-        .packageInfoFailed: "Brewwery could not load package details.",
-        .packageInstallFailed: "Homebrew could not install this package.",
-        .packageUninstallFailed: "Homebrew could not uninstall this package.",
-        .invalidCaskToken: "This cask token contains unsupported characters.",
-        .operationCancelled: "The Homebrew operation was cancelled.",
-        .operationInProgress: "Another Homebrew operation is already running. Wait for it to finish or cancel it first.",
-        .operationTimeout: "The Homebrew operation exceeded its safety timeout and was stopped.",
-        .unknownError: "Something unexpected happened. The details may help diagnose it."
-    ]
+    /// Looked up at the moment it is shown, so it follows the app's language.
+    static var friendlyMessages: [BrewweryErrorCode: String] {
+        [
+            .homebrewNotFound: String(localized: "Brewwery could not find Homebrew. Install Homebrew or set a custom path in Settings."),
+            .brewCommandFailed: String(localized: "Homebrew could not complete this command. Review the details or try again from Terminal."),
+            .brewJSONParseFailed: String(localized: "Brewwery could not read Homebrew's JSON output. Updating Homebrew may fix this."),
+            .permissionDenied: String(localized: "Brewwery does not have permission to access this path or command."),
+            .unsupportedPlatform: String(localized: "Brewwery currently supports macOS only."),
+            .serviceCommandFailed: String(localized: "Homebrew could not complete the service action."),
+            .updatesParseFailed: String(localized: "Brewwery could not read the outdated package list from Homebrew."),
+            .invalidPackageName: String(localized: "This package name contains unsupported characters."),
+            .invalidServiceName: String(localized: "This service name contains unsupported characters."),
+            .cleanupPreviewFailed: String(localized: "Brewwery could not preview cleanup results."),
+            .cleanupRunFailed: String(localized: "Homebrew cleanup did not complete."),
+            .doctorFailed: String(localized: "brew doctor did not complete."),
+            .brewfileExportFailed: String(localized: "Brewwery could not export the Brewfile."),
+            .brewfileReadFailed: String(localized: "Brewwery could not read this Brewfile."),
+            .invalidFilePath: String(localized: "This file path is not valid for this operation."),
+            .packageSearchFailed: String(localized: "Homebrew search did not complete."),
+            .packageInfoFailed: String(localized: "Brewwery could not load package details."),
+            .packageInstallFailed: String(localized: "Homebrew could not install this package."),
+            .packageUninstallFailed: String(localized: "Homebrew could not uninstall this package."),
+            .invalidCaskToken: String(localized: "This cask token contains unsupported characters."),
+            .operationCancelled: String(localized: "The Homebrew operation was cancelled."),
+            .operationInProgress: String(localized: "Another Homebrew operation is already running. Wait for it to finish or cancel it first."),
+            .operationTimeout: String(localized: "The Homebrew operation exceeded its safety timeout and was stopped."),
+            .invalidTapName: String(localized: "Tap names must look like owner/repository."),
+            .tapCommandFailed: String(localized: "Homebrew could not change this tap."),
+            .brewUpdateFailed: String(localized: "Homebrew could not update its package information."),
+            .blockedExternalURL: String(localized: "Brewwery only opens links to its own sites, Homebrew and its GitHub repository."),
+            .unknownError: String(localized: "Something unexpected happened. The details may help diagnose it.")
+        ]
+    }
 }
 
 // MARK: - Constructors mirroring the legacy error sites

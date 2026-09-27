@@ -33,7 +33,7 @@ final class FeatureTests: XCTestCase {
         XCTAssertTrue(entry?.stderr?.contains("Warning") == true)
 
         XCTAssertEqual(app.state.toasts.first?.tone, .success)
-        XCTAssertEqual(app.state.toasts.first?.title, "Installed hello")
+        XCTAssertEqual(app.state.toasts.first.map { String(localized: $0.title) }, "Installed hello")
         XCTAssertEqual(app.operations.progress?.status, .success)
     }
 
@@ -166,7 +166,7 @@ final class FeatureTests: XCTestCase {
             app.state.show(Toast(tone: .info, title: "toast \(index)", description: nil))
         }
 
-        XCTAssertEqual(app.state.toasts.map(\.title), ["toast 4", "toast 3", "toast 2"])
+        XCTAssertEqual(app.state.toasts.map { String(localized: $0.title) }, ["toast 4", "toast 3", "toast 2"])
     }
 }
 

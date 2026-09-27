@@ -53,7 +53,7 @@ struct CasksView: View {
         }
     }
 
-    private var subtitle: String {
+    private var subtitle: LocalizedStringResource {
         library.isLoadingCasks ? "Loading packages..." : "\(visibleRows.count) of \(rows.count) installed casks"
     }
 
@@ -111,7 +111,7 @@ struct CasksView: View {
                     .lineLimit(1)
                 },
                 TableColumnSpec("Version", width: .fixed(120)) { cask in
-                    Text(cask.installedVersion ?? "Unknown")
+                    Text(cask.installedVersion ?? String(localized: "Unknown"))
                         .font(BrewweryFont.body)
                         .foregroundStyle(BrewweryColor.mutedForeground)
                         .lineLimit(1)
@@ -120,7 +120,7 @@ struct CasksView: View {
                     BrewweryBadge.kind(.cask)
                 },
                 TableColumnSpec("Description", width: .flexible(minimum: 180, weight: 2)) { cask in
-                    Text(cask.description ?? "Installed Homebrew cask")
+                    Text(cask.description ?? String(localized: "Installed Homebrew cask"))
                         .font(BrewweryFont.body)
                         .foregroundStyle(BrewweryColor.mutedForeground)
                         .lineLimit(1)
@@ -128,7 +128,7 @@ struct CasksView: View {
                 TableColumnSpec("Status", width: .fixed(130)) { _ in
                     BrewweryBadge(text: "Installed", tone: .success)
                 },
-                TableColumnSpec("Actions", width: .fixed(64), alignment: .trailing) { cask in
+                TableColumnSpec("Actions", width: .fixed(84), alignment: .trailing) { cask in
                     IconButton("Actions for \(cask.displayName)", systemImage: "ellipsis", height: 28) {
                         selection = cask
                     }

@@ -41,7 +41,7 @@ struct ReportProblemView: View {
         .onAppear { isEditingDescription = true }
         .onExitCommand(perform: onClose)
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(draft.heading)
+        .accessibilityLabel(Text(draft.heading))
     }
 
     // MARK: - Sections
@@ -194,7 +194,7 @@ struct ReportProblemView: View {
 
     /// Links have a length limit. When the report did not fit, the complete version goes
     /// on the clipboard so nothing the user saw in the preview is lost.
-    private func finish(truncated: Bool = false, title: String, description: String) {
+    private func finish(truncated: Bool = false, title: LocalizedStringResource, description: LocalizedStringResource) {
         if truncated {
             Clipboard.copy(draft.report.markdown())
             brewwery.state.show(Toast(

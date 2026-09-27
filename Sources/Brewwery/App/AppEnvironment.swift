@@ -89,8 +89,8 @@ final class AppEnvironment {
         kind: OperationKind,
         historyKind: HistoryOperationKind,
         target: String?,
-        successTitle: String,
-        failureTitle: @escaping (BrewweryError) -> String,
+        successTitle: LocalizedStringResource,
+        failureTitle: @escaping (BrewweryError) -> LocalizedStringResource,
         details: ((_ stdout: String) -> String?)? = nil
     ) async -> Bool {
         let displayCommand = command.displayCommand()
@@ -104,7 +104,7 @@ final class AppEnvironment {
                     HistoryEntry(
                         kind: historyKind,
                         status: .success,
-                        title: successTitle,
+                        title: String(localized: successTitle),
                         command: displayCommand,
                         target: target,
                         stdout: stdout,
@@ -119,7 +119,7 @@ final class AppEnvironment {
                     HistoryEntry(
                         kind: historyKind,
                         status: error.code == .operationCancelled ? .cancelled : .failed,
-                        title: failureTitle(error),
+                        title: String(localized: failureTitle(error)),
                         command: displayCommand,
                         target: target,
                         stdout: stdout,
@@ -134,7 +134,7 @@ final class AppEnvironment {
                 HistoryEntry(
                     kind: historyKind,
                     status: .failed,
-                    title: failureTitle(error),
+                    title: String(localized: failureTitle(error)),
                     command: displayCommand,
                     target: target,
                     stderr: error.raw,

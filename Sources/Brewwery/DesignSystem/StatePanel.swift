@@ -20,7 +20,7 @@ struct StatePanel<Description: View, Action: View>: View {
         }
     }
 
-    let title: String
+    let title: LocalizedStringResource
     var kind: Kind = .empty
     @ViewBuilder var description: Description
     @ViewBuilder var action: Action
@@ -62,13 +62,13 @@ struct StatePanel<Description: View, Action: View>: View {
 }
 
 extension StatePanel where Description == EmptyView, Action == EmptyView {
-    init(title: String, kind: Kind = .empty) {
+    init(title: LocalizedStringResource, kind: Kind = .empty) {
         self.init(title: title, kind: kind, description: { EmptyView() }, action: { EmptyView() })
     }
 }
 
 extension StatePanel where Action == EmptyView {
-    init(title: String, kind: Kind = .empty, @ViewBuilder description: () -> Description) {
+    init(title: LocalizedStringResource, kind: Kind = .empty, @ViewBuilder description: () -> Description) {
         self.init(title: title, kind: kind, description: description, action: { EmptyView() })
     }
 }
@@ -140,7 +140,7 @@ struct ErrorDescriptionView: View {
 
 /// The inline error strip used inside dashboard cards and the Settings page.
 struct InlineErrorView: View {
-    let message: String
+    let message: LocalizedStringResource
 
     var body: some View {
         Text(message)
@@ -165,11 +165,11 @@ struct InlineErrorView: View {
 struct PageHeader<Actions: View>: View {
     @Environment(AppEnvironment.self) private var brewwery
 
-    let title: String
-    var subtitle: String?
+    let title: LocalizedStringResource
+    var subtitle: LocalizedStringResource?
     /// When set, the header shows a filter for this page instead of the global search.
     var filter: Binding<String>?
-    var filterPlaceholder = "Filter..."
+    var filterPlaceholder: LocalizedStringResource = "Filter..."
     @ViewBuilder var actions: Actions
 
     /// The hairline only makes sense when there is something to separate the global
@@ -177,51 +177,71 @@ struct PageHeader<Actions: View>: View {
     private var hasActions: Bool { Actions.self != EmptyView.self }
 
     var body: some View {
-        HStack(alignment: .top, spacing: Metrics.cardSpacing) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(BrewweryFont.pageTitle)
-                    .foregroundStyle(BrewweryColor.foreground)
-                if let subtitle {
-                    Text(subtitle)
-                        .font(BrewweryFont.body)
-                        .foregroundStyle(BrewweryColor.mutedForeground)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
+        // Side by side while the title keeps a readable width; otherwise the controls move
+        // to their own row. Translations make the buttons wider — "Nach Updates suchen" —
+        // and a squeezed title would break mid-word ("Update / s").
+        ViewThatFits(in: .horizontal) {
+            HStack(alignment: .top, spacing: Metrics.cardSpacing) {
+                heading
+                    .frame(minWidth: 180, idealWidth: 180, maxWidth: .infinity, alignment: .leading)
+                controls
+                    // Nudged so the controls sit on the page title's optical centre rather
+                    // than its frame top.
+                    .padding(.top, 2)
             }
 
-            Spacer(minLength: Metrics.tightSpacing)
-
-            HStack(spacing: Metrics.tightSpacing) {
-                actions
-
-                if hasActions {
-                    Rectangle()
-                        .fill(BrewweryColor.border)
-                        .frame(width: 1, height: 20)
-                        .padding(.horizontal, 2)
+            VStack(alignment: .leading, spacing: Metrics.rowSpacing) {
+                heading
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                HStack {
+                    Spacer(minLength: 0)
+                    controls
                 }
-
-                if let filter {
-                    HeaderFilterField(placeholder: filterPlaceholder, text: filter)
-                } else {
-                    GlobalSearchField()
-                }
-                SettingsButton()
             }
-            // The controls keep their intrinsic width: a long subtitle wraps onto a second
-            // line instead of squeezing "Check for updates" into "Check for up...".
-            .fixedSize()
-            .layoutPriority(1)
-            // Nudged so the controls sit on the page title's optical centre rather than its
-            // frame top.
-            .padding(.top, 2)
         }
+    }
+
+    private var heading: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(BrewweryFont.pageTitle)
+                .foregroundStyle(BrewweryColor.foreground)
+                .lineLimit(1)
+            if let subtitle {
+                Text(subtitle)
+                    .font(BrewweryFont.body)
+                    .foregroundStyle(BrewweryColor.mutedForeground)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+
+    private var controls: some View {
+        HStack(spacing: Metrics.tightSpacing) {
+            actions
+
+            if hasActions {
+                Rectangle()
+                    .fill(BrewweryColor.border)
+                    .frame(width: 1, height: 20)
+                    .padding(.horizontal, 2)
+            }
+
+            if let filter {
+                HeaderFilterField(placeholder: filterPlaceholder, text: filter)
+            } else {
+                GlobalSearchField()
+            }
+            SettingsButton()
+        }
+        // The controls keep their intrinsic width: a long subtitle wraps onto a second
+        // line instead of squeezing "Check for updates" into "Check for up...".
+        .fixedSize()
     }
 }
 
 extension PageHeader where Actions == EmptyView {
-    init(title: String, subtitle: String? = nil, filter: Binding<String>? = nil, filterPlaceholder: String = "Filter...") {
+    init(title: LocalizedStringResource, subtitle: LocalizedStringResource? = nil, filter: Binding<String>? = nil, filterPlaceholder: LocalizedStringResource = "Filter...") {
         self.init(title: title, subtitle: subtitle, filter: filter, filterPlaceholder: filterPlaceholder, actions: { EmptyView() })
     }
 }

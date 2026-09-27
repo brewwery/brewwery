@@ -3,7 +3,7 @@ import Foundation
 /// `renderer/lib/constants.ts`.
 enum AppInfo {
     static let name = "Brewwery"
-    static let tagline = "Homebrew, without the terminal."
+    static let tagline: LocalizedStringResource = "Homebrew, without the terminal."
     static let bundleIdentifier = "com.brewwery.app"
     static let author = "Made Büro"
     static let copyright = "MIT License. Made by Made Büro."

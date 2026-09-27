@@ -53,11 +53,12 @@ struct DashboardView: View {
         }
     }
 
-    private var subtitle: String {
-        let suffix = isLoadingSomething
-            ? "Refreshing..."
-            : lastRefreshed.map { "Last refreshed \($0.formatted(date: .omitted, time: .standard))" } ?? "Live data ready"
-        return "A quick read on this Mac's Homebrew installation.  \(suffix)"
+    /// Whole sentences per state, so each translates as one.
+    private var subtitle: LocalizedStringResource {
+        if isLoadingSomething { return "A quick read on this Mac's Homebrew installation. Refreshing..." }
+        guard let lastRefreshed else { return "A quick read on this Mac's Homebrew installation. Live data ready." }
+        let time = lastRefreshed.formatted(date: .omitted, time: .standard)
+        return "A quick read on this Mac's Homebrew installation. Last refreshed \(time)."
     }
 
     private var statusStrip: some View {
@@ -68,9 +69,9 @@ struct DashboardView: View {
                     .frame(width: 10, height: 10)
                 Text(system.isLoading ? "Checking Homebrew..." : (system.detection?.found == true ? "Homebrew running" : "Homebrew not found"))
                     .foregroundStyle(BrewweryColor.foreground)
-                Text(system.info?.version ?? "Version pending")
-                Text(system.info?.prefix ?? "Prefix pending")
-                Text(system.info?.architecture.rawValue ?? "arch pending")
+                Text(system.info?.version ?? String(localized: "Version pending"))
+                Text(system.info?.prefix ?? String(localized: "Prefix pending"))
+                Text(system.info?.architecture.rawValue ?? String(localized: "arch pending"))
                 Spacer(minLength: Metrics.tightSpacing)
                 BrewweryBadge(text: isLoadingSomething ? "Updating" : "Live data")
             }
@@ -122,7 +123,7 @@ struct DashboardView: View {
                 // With Homebrew missing the panel at the top already says why; repeating it in
                 // every card only adds red.
                 if let error = services.error, !system.isHomebrewMissing {
-                    InlineErrorView(message: error.message.isEmpty ? "Failed to load services" : error.message)
+                    InlineErrorView(message: "\(error.friendlyMessage)")
                 } else if !services.isLoading, services.services.isEmpty {
                     EmptyLine(text: "No Homebrew services found")
                 } else if services.isLoading, services.services.isEmpty {
@@ -176,11 +177,11 @@ struct DashboardView: View {
                 columns: Array(repeating: GridItem(.flexible(), spacing: Metrics.cardSpacing), count: 3),
                 spacing: Metrics.cardSpacing
             ) {
-                InfoBox(label: "Status", value: system.isLoading ? "Checking..." : (system.detection?.found == true ? "Detected" : "Not detected"))
-                InfoBox(label: "Version", value: system.info?.version ?? "Unknown")
-                InfoBox(label: "Prefix", value: system.info?.prefix ?? "Unknown")
-                InfoBox(label: "Executable", value: system.info?.path ?? "Unknown")
-                InfoBox(label: "Architecture", value: system.info?.architecture.rawValue ?? "unknown")
+                InfoBox(label: "Status", value: system.isLoading ? String(localized: "Checking...") : (system.detection?.found == true ? String(localized: "Detected") : String(localized: "Not detected")))
+                InfoBox(label: "Version", value: system.info?.version ?? String(localized: "Unknown"))
+                InfoBox(label: "Prefix", value: system.info?.prefix ?? String(localized: "Unknown"))
+                InfoBox(label: "Executable", value: system.info?.path ?? String(localized: "Unknown"))
+                InfoBox(label: "Architecture", value: system.info?.architecture.rawValue ?? String(localized: "unknown"))
                 InfoBox(label: "Formulae / Casks", value: "\(library.formulae.count) / \(library.casks.count)")
             }
         }
@@ -203,7 +204,7 @@ struct DashboardView: View {
 // MARK: - Pieces
 
 private struct StatCard: View {
-    let label: String
+    let label: LocalizedStringResource
     let value: Int
     let isLoading: Bool
     let systemImage: String
@@ -226,13 +227,13 @@ private struct StatCard: View {
             }
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(label): \(isLoading ? "loading" : String(value))")
+        .accessibilityLabel(Text(label) + Text(verbatim: ": ") + (isLoading ? Text("loading") : Text(verbatim: String(value))))
     }
 }
 
 private struct PanelHeader: View {
-    let title: String
-    let subtitle: String
+    let title: LocalizedStringResource
+    let subtitle: LocalizedStringResource
     let viewAll: () -> Void
 
     var body: some View {
@@ -253,7 +254,7 @@ private struct PanelHeader: View {
 }
 
 private struct ServicePill: View {
-    let label: String
+    let label: LocalizedStringResource
     let value: Int
     let tone: BrewweryBadge.Tone
 
@@ -284,7 +285,7 @@ private struct ServiceSummaryRow: View {
                 Text(service.name)
                     .font(BrewweryFont.controlLabel)
                     .foregroundStyle(BrewweryColor.foreground)
-                Text(service.file ?? service.user ?? "Homebrew service")
+                Text(service.file ?? service.user ?? String(localized: "Homebrew service"))
                     .font(BrewweryFont.caption)
                     .foregroundStyle(BrewweryColor.mutedForeground)
             }
@@ -317,7 +318,7 @@ private struct UpdateSummaryRow: View {
                 Text(update.name)
                     .font(BrewweryFont.controlLabel)
                     .foregroundStyle(BrewweryColor.foreground)
-                Text("\(update.currentVersion ?? update.installedVersions.first ?? "unknown") -> \(update.latestVersion ?? "unknown")")
+                Text(verbatim: "\(update.currentVersion ?? update.installedVersions.first ?? "?") → \(update.latestVersion ?? "?")")
                     .font(BrewweryFont.caption)
                     .foregroundStyle(BrewweryColor.mutedForeground)
             }
@@ -419,7 +420,7 @@ struct ServiceStatusBadge: View {
     let status: ServiceStatus
 
     var body: some View {
-        BrewweryBadge(text: status.rawValue, tone: tone)
+        BrewweryBadge(text: status.label, tone: tone)
     }
 
     private var tone: BrewweryBadge.Tone {

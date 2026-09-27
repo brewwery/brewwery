@@ -70,22 +70,19 @@ struct UpdatesView: View {
     /// The Dock badge, the sidebar and the status bar all show `updates.count`, so the
     /// header names the command behind it and when it last ran. Kept to one short line —
     /// a long subtitle squeezes the actions on the right.
-    private var subtitle: String {
+    private var subtitle: LocalizedStringResource {
         guard let checked = updates.lastChecked else {
             return "Check installed formulae and casks for updates."
         }
         let time = checked.formatted(date: .omitted, time: .shortened)
-        let summary = updates.count == 0 ? "Up to date" : "\(updates.count) outdated"
-        return "\(summary) · checked \(time)"
+        return updates.count == 0 ? "Up to date · checked \(time)" : "\(updates.count) outdated · checked \(time)"
     }
 
-    private var summaryCaption: String {
-        var text = "The Dock badge, the sidebar and the status bar show this same total. Brewwery re-reads it in the background every 30 minutes and never upgrades anything on its own."
+    private var summaryCaption: Text {
+        let base = Text("The Dock badge, the sidebar and the status bar show this same total. Brewwery re-reads it in the background every 30 minutes and never upgrades anything on its own.")
         let pinned = updates.pinnedCount
-        if pinned > 0 {
-            text += " \(pinned) pinned \(pinned == 1 ? "formula is" : "formulae are") listed below but not counted."
-        }
-        return text
+        guard pinned > 0 else { return base }
+        return base + Text(verbatim: " ") + Text("\(pinned) pinned formulae are listed below but not counted.")
     }
 
     private var summary: some View {
@@ -98,7 +95,7 @@ struct UpdatesView: View {
 
             // Answers "where is that number on the Dock coming from?" in the one place a
             // user goes looking for it.
-            Text(summaryCaption)
+            summaryCaption
                 .font(BrewweryFont.caption)
                 .foregroundStyle(BrewweryColor.mutedForeground)
                 .fixedSize(horizontal: false, vertical: true)
@@ -153,14 +150,14 @@ struct UpdatesView: View {
                     }
                     .lineLimit(1)
                 },
-                TableColumnSpec("Current", width: .fixed(144)) { update in
-                    Text(update.currentVersion ?? update.installedVersions.first ?? "Unknown")
+                TableColumnSpec("Current", width: .fixed(128)) { update in
+                    Text(update.currentVersion ?? update.installedVersions.first ?? String(localized: "Unknown"))
                         .font(BrewweryFont.body)
                         .foregroundStyle(BrewweryColor.mutedForeground)
                         .lineLimit(1)
                 },
-                TableColumnSpec("Latest", width: .fixed(144)) { update in
-                    Text(update.latestVersion ?? "Unknown")
+                TableColumnSpec("Latest", width: .fixed(128)) { update in
+                    Text(update.latestVersion ?? String(localized: "Unknown"))
                         .font(BrewweryFont.body)
                         .foregroundStyle(BrewweryColor.foreground)
                         .lineLimit(1)
@@ -176,7 +173,7 @@ struct UpdatesView: View {
                         BrewweryBadge(text: "Outdated", tone: .warning)
                     }
                 },
-                TableColumnSpec("Actions", width: .fixed(128), alignment: .trailing) { update in
+                TableColumnSpec("Actions", width: .fixed(160), alignment: .trailing) { update in
                     // Homebrew refuses to upgrade a pinned formula, so offer what does work.
                     if update.pinned == true {
                         Button("Unpin") {

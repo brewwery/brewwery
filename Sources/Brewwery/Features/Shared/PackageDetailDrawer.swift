@@ -58,9 +58,9 @@ struct PackageDetailDrawer: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: Metrics.sectionSpacing) {
                         badges
-                        InfoRow(label: "Installed version", value: model.installedVersion ?? "Not installed")
-                        InfoRow(label: "Latest version", value: model.latestVersion ?? "Unknown")
-                        InfoRow(label: "Description", value: model.description ?? "No description available.")
+                        InfoRow(label: "Installed version", value: model.installedVersion ?? String(localized: "Not installed"))
+                        InfoRow(label: "Latest version", value: model.latestVersion ?? String(localized: "Unknown"))
+                        InfoRow(label: "Description", value: model.description ?? String(localized: "No description available."))
                         homepage
                         dependencies
                         dependentsSection
@@ -152,7 +152,7 @@ struct PackageDetailDrawer: View {
 
             if let dependencies = model.dependencies, !dependencies.isEmpty {
                 FlowLayout(spacing: Metrics.tightSpacing) {
-                    ForEach(dependencies, id: \.self) { BrewweryBadge(text: $0) }
+                    ForEach(dependencies, id: \.self) { BrewweryBadge(verbatim: $0) }
                 }
             } else {
                 PlaceholderBox(text: "No dependencies listed.")
@@ -174,7 +174,7 @@ struct PackageDetailDrawer: View {
                     PlaceholderBox(text: "No installed packages depend on this formula.")
                 } else {
                     FlowLayout(spacing: Metrics.tightSpacing) {
-                        ForEach(dependents, id: \.self) { BrewweryBadge(text: $0) }
+                        ForEach(dependents, id: \.self) { BrewweryBadge(verbatim: $0) }
                     }
                 }
             }
@@ -210,12 +210,17 @@ struct PackageDetailDrawer: View {
 
             if model.installed, model.reference.kind == .formula, let onSetPinned {
                 let pinned = brewwery.library.isPinned(name: model.reference.name)
+                // Typed up front: string extraction misses the second branch of a ternary
+                // that is converted to an optional.
+                let pinHelp: LocalizedStringResource = pinned
+                    ? "Let Upgrade all upgrade it again"
+                    : "Keep this version when upgrading"
                 DrawerAction(
                     title: pinned ? "Unpin version" : "Pin version",
                     systemImage: pinned ? "pin.slash" : "pin",
                     tint: pinned ? BrewweryColor.accent : nil,
                     isEnabled: !isWorking,
-                    help: pinned ? "Let Upgrade all upgrade it again" : "Keep this version when upgrading"
+                    help: pinHelp
                 ) {
                     onSetPinned(model.reference.name, !pinned)
                 }
@@ -332,7 +337,7 @@ private struct DetailModel {
 // MARK: - Pieces
 
 private struct InfoRow: View {
-    let label: String
+    let label: LocalizedStringResource
     let value: String
 
     var body: some View {
@@ -358,7 +363,7 @@ private struct InfoRow: View {
 }
 
 private struct PlaceholderBox: View {
-    let text: String
+    let text: LocalizedStringResource
 
     var body: some View {
         Text(text)
@@ -376,11 +381,11 @@ private struct PlaceholderBox: View {
 }
 
 private struct DrawerAction: View {
-    let title: String
+    let title: LocalizedStringResource
     let systemImage: String
     var tint: Color?
     var isEnabled = true
-    var help: String?
+    var help: LocalizedStringResource?
     let action: () -> Void
 
     var body: some View {
@@ -395,7 +400,7 @@ private struct DrawerAction: View {
         }
         .brewweryButton(.secondary, fullWidth: true, alignment: .leading)
         .disabled(!isEnabled)
-        .help(help ?? "")
+        .help(help.map { Text($0) } ?? Text(verbatim: ""))
     }
 }
 

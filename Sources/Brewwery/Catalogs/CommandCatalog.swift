@@ -5,10 +5,13 @@ import Foundation
 /// underlying terminal logic stays visible rather than hidden.
 struct BrewCommandEntry: Identifiable, Hashable {
     let command: String
-    let description: String
+    let description: LocalizedStringResource
     var id: String { command }
 
-    init(_ command: String, _ description: String) {
+    static func == (lhs: BrewCommandEntry, rhs: BrewCommandEntry) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
+
+    init(_ command: String, _ description: LocalizedStringResource) {
         self.command = command
         self.description = description
     }
@@ -16,16 +19,22 @@ struct BrewCommandEntry: Identifiable, Hashable {
 
 struct BrewCommandSection: Identifiable, Hashable {
     let id: String
-    let title: String
-    let description: String
+    let title: LocalizedStringResource
+    let description: LocalizedStringResource
     let commands: [BrewCommandEntry]
+
+    static func == (lhs: BrewCommandSection, rhs: BrewCommandSection) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 
 struct DocumentationLink: Identifiable, Hashable {
-    let label: String
-    let description: String
+    let label: LocalizedStringResource
+    let description: LocalizedStringResource
     let url: String
     var id: String { url }
+
+    static func == (lhs: DocumentationLink, rhs: DocumentationLink) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 
 enum CommandCatalog {

@@ -96,7 +96,7 @@ struct DoctorView: View {
                                 }
                             }
                             Spacer(minLength: Metrics.tightSpacing)
-                            BrewweryBadge(text: diagnostic.severity.rawValue, tone: tone(for: diagnostic.severity))
+                            BrewweryBadge(text: diagnostic.severity.label, tone: tone(for: diagnostic.severity))
                         }
                     }
                 }

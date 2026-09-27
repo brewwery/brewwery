@@ -47,11 +47,11 @@ struct SettingsView: View {
                     columns: Array(repeating: GridItem(.flexible(), spacing: Metrics.rowSpacing), count: 2),
                     spacing: Metrics.rowSpacing
                 ) {
-                    InfoBox(label: "Status", value: system.isLoading ? "Checking..." : (system.detection?.found == true ? "Detected" : "Not found"))
-                    InfoBox(label: "Executable path", value: system.info?.path ?? system.detection?.path ?? "Auto-detect")
-                    InfoBox(label: "Version", value: system.info?.version ?? "Unknown")
-                    InfoBox(label: "Prefix", value: system.info?.prefix ?? "Unknown")
-                    InfoBox(label: "Architecture", value: system.info?.architecture.rawValue ?? "Unknown")
+                    InfoBox(label: "Status", value: system.isLoading ? String(localized: "Checking...") : (system.detection?.found == true ? String(localized: "Detected") : String(localized: "Not found")))
+                    InfoBox(label: "Executable path", value: system.info?.path ?? system.detection?.path ?? String(localized: "Auto-detect"))
+                    InfoBox(label: "Version", value: system.info?.version ?? String(localized: "Unknown"))
+                    InfoBox(label: "Prefix", value: system.info?.prefix ?? String(localized: "Unknown"))
+                    InfoBox(label: "Architecture", value: system.info?.architecture.rawValue ?? String(localized: "Unknown"))
                     InfoBox(
                         label: "Checked paths",
                         value: (system.detection?.checkedPaths ?? HomebrewDetector.standardPaths).joined(separator: ", ")
@@ -59,7 +59,7 @@ struct SettingsView: View {
                 }
 
                 if let error = system.error {
-                    InlineErrorView(message: error.message)
+                    InlineErrorView(message: "\(error.friendlyMessage)")
                 }
 
                 customPathSection
@@ -123,13 +123,19 @@ struct SettingsView: View {
             }
 
             if pathValidation?.valid == true, let validation = pathValidation {
-                Text("Validated \(validation.version ?? "Homebrew") at \(validation.path).")
-                    .font(BrewweryFont.caption)
-                    .foregroundStyle(BrewweryColor.success)
+                Group {
+                    if let version = validation.version {
+                        Text("Validated \(version) at \(validation.path).")
+                    } else {
+                        Text("Validated Homebrew at \(validation.path).")
+                    }
+                }
+                .font(BrewweryFont.caption)
+                .foregroundStyle(BrewweryColor.success)
             }
 
             if let pathError {
-                Text(pathError.message)
+                Text(pathError.friendlyMessage)
                     .font(BrewweryFont.caption)
                     .foregroundStyle(BrewweryColor.danger)
             }
@@ -149,7 +155,7 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: Metrics.rowSpacing) {
                 HStack(spacing: Metrics.tightSpacing) {
                     ForEach(AppTheme.allCases) { option in
-                        Button(option.displayName) { settings.theme = option }
+                        Button { settings.theme = option } label: { Text(option.label) }
                             .brewweryButton(settings.theme == option ? .primary : .secondary)
                             .accessibilityAddTraits(settings.theme == option ? [.isSelected] : [])
                     }
@@ -179,18 +185,19 @@ struct SettingsView: View {
                 .toggleStyle(.switch)
                 .font(BrewweryFont.body)
 
-                Text(dockCaption)
+                dockCaption
                     .font(BrewweryFont.caption)
                     .foregroundStyle(BrewweryColor.mutedForeground)
             }
         }
     }
 
-    private var dockCaption: String {
+    private var dockCaption: Text {
         let count = brewwery.updates.count
-        let source = "The badge shows the same number as Updates in the sidebar, read from brew outdated in the background every 30 minutes."
+        let source = Text("The badge shows the same number as Updates in the sidebar, read from brew outdated in the background every 30 minutes.")
         guard let checked = brewwery.updates.lastChecked else { return source }
-        return "\(source) Currently \(count), checked at \(checked.formatted(date: .omitted, time: .standard))."
+        let time = checked.formatted(date: .omitted, time: .standard)
+        return source + Text(verbatim: " ") + Text("Currently \(count), checked at \(time).")
     }
 
     private var updatesCard: some View {
@@ -362,7 +369,7 @@ struct SettingsView: View {
 }
 
 private struct ExternalButton: View {
-    let label: String
+    let label: LocalizedStringResource
     let url: String
 
     var body: some View {

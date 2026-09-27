@@ -127,6 +127,11 @@ struct BrewfileView: View {
 
     // MARK: - Comparison
 
+    /// Up to five names, then an ellipsis. Punctuation only, so it reads the same in every language.
+    static func nameList(_ names: [String]) -> String {
+        names.prefix(5).joined(separator: ", ") + (names.count > 5 ? ", …" : "")
+    }
+
     private var comparisonCard: some View {
         BrewweryHeaderCard {
             HStack(alignment: .center, spacing: Metrics.rowSpacing) {
@@ -223,14 +228,14 @@ struct BrewfileView: View {
 
         return VStack(alignment: .leading, spacing: 4) {
             if !notHandled.isEmpty {
-                Text("\(notHandled.count) \(notHandled.count == 1 ? "entry is" : "entries are") not handled here — Mac App Store apps, editor extensions and similar. Use brew bundle in Terminal for those: \(notHandled.prefix(5).map(\.entry.name).joined(separator: ", "))\(notHandled.count > 5 ? ", …" : "").")
+                Text("Not handled here — Mac App Store apps, editor extensions and similar. Use brew bundle in Terminal for these: \(Self.nameList(notHandled.map(\.entry.name))).")
             }
             if !ruby.isEmpty {
                 Text("This Brewfile also contains Ruby — if, end, variables. Brewwery never runs it, and lists every tap, brew and cask line whatever the conditions say, so check the list above before installing.")
                     .foregroundStyle(BrewweryColor.warning)
             }
             if !invalid.isEmpty {
-                Text("Skipped because the name is not a valid Homebrew name: \(invalid.prefix(5).map(\.entry.name).joined(separator: ", ")).")
+                Text("Skipped because the name is not a valid Homebrew name: \(Self.nameList(invalid.map(\.entry.name))).")
                     .foregroundStyle(BrewweryColor.warning)
             }
         }
@@ -268,7 +273,7 @@ struct BrewfileView: View {
                             .font(BrewweryFont.panelTitle)
                             .foregroundStyle(BrewweryColor.foreground)
                         Spacer()
-                        BrewweryBadge(text: String(entries.count))
+                        BrewweryBadge(verbatim: String(entries.count))
                     }
                 } content: {
                     if entries.isEmpty {
@@ -394,12 +399,12 @@ extension ConfirmationRequest {
     static func brewfileInstall(_ plan: BrewfilePlan) -> ConfirmationRequest {
         let count = plan.missing.count
         let list = plan.missing.prefix(12).map { "\($0.kind.rawValue) \($0.name)" }.joined(separator: ", ")
-        let more = count > 12 ? " and \(count - 12) more" : ""
+            + (count > 12 ? ", …" : "")
         return ConfirmationRequest(
             title: count == 1 ? "Install 1 item from this Brewfile?" : "Install \(count) items from this Brewfile?",
             message: "Brewwery will run",
             command: "brew bundle install --no-upgrade",
-            note: "It installs from a list Brewwery writes containing only \(list)\(more). Your Brewfile itself is never run, and nothing already installed is upgraded.",
+            note: "It installs from a list Brewwery writes containing only these: \(list). Your Brewfile itself is never run, and nothing already installed is upgraded.",
             confirmLabel: "Install"
         )
     }

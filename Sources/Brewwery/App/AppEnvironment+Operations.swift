@@ -95,7 +95,7 @@ extension AppEnvironment {
                 HistoryEntry(
                     kind: .brewUpdate,
                     status: .success,
-                    title: "Updated Homebrew metadata",
+                    title: String(localized: "Updated Homebrew metadata"),
                     command: "brew update",
                     stdout: output.stdout.nilIfBlank,
                     stderr: output.stderr.nilIfBlank
@@ -107,7 +107,7 @@ extension AppEnvironment {
                 HistoryEntry(
                     kind: .brewUpdate,
                     status: .failed,
-                    title: "Failed to update Homebrew metadata",
+                    title: String(localized: "Failed to update Homebrew metadata"),
                     command: "brew update",
                     stderr: error.raw,
                     error: error
@@ -124,14 +124,8 @@ extension AppEnvironment {
             kind: .service,
             historyKind: .service,
             target: name,
-            successTitle: "\(action.rawValue.capitalized) \(name)",
-            failureTitle: { error in
-                switch error.code {
-                case .operationCancelled: "Cancelled \(action.rawValue) for \(name)"
-                case .operationTimeout: "Service \(action.rawValue) timed out for \(name)"
-                default: "Failed to \(action.rawValue) \(name)"
-                }
-            }
+            successTitle: action.successTitle(name),
+            failureTitle: { error in action.failureTitle(name, code: error.code) }
         )
         if succeeded { await services.refresh() }
     }
@@ -151,7 +145,7 @@ extension AppEnvironment {
                 HistoryEntry(
                     kind: .tap,
                     status: .success,
-                    title: action == .tap ? "Added tap \(name)" : "Removed tap \(name)",
+                    title: action == .tap ? String(localized: "Added tap \(name)") : String(localized: "Removed tap \(name)"),
                     command: command.displayCommand(),
                     target: name,
                     stdout: output.stdout.nilIfBlank,
@@ -163,7 +157,7 @@ extension AppEnvironment {
                 HistoryEntry(
                     kind: .tap,
                     status: .failed,
-                    title: action == .tap ? "Failed to add tap \(name)" : "Failed to remove tap \(name)",
+                    title: action == .tap ? String(localized: "Failed to add tap \(name)") : String(localized: "Failed to remove tap \(name)"),
                     command: command.displayCommand(),
                     target: name,
                     stderr: error.raw,
@@ -193,7 +187,7 @@ extension AppEnvironment {
                     HistoryEntry(
                         kind: .cleanup,
                         status: .success,
-                        title: "Cleanup completed",
+                        title: String(localized: "Cleanup completed"),
                         command: "brew cleanup",
                         stdout: result.stdout,
                         stderr: result.stderr,
@@ -210,9 +204,9 @@ extension AppEnvironment {
             case .failed(let error, let stdout, let stderr):
                 cleanup.applyFailure(error)
                 let title = switch error.code {
-                case .operationCancelled: "Cleanup cancelled"
-                case .operationTimeout: "Cleanup timed out"
-                default: "Cleanup failed"
+                case .operationCancelled: String(localized: "Cleanup cancelled")
+                case .operationTimeout: String(localized: "Cleanup timed out")
+                default: String(localized: "Cleanup failed")
                 }
                 record(
                     HistoryEntry(
@@ -232,7 +226,7 @@ extension AppEnvironment {
                 HistoryEntry(
                     kind: .cleanup,
                     status: .failed,
-                    title: "Cleanup failed",
+                    title: String(localized: "Cleanup failed"),
                     command: "brew cleanup",
                     stderr: error.raw,
                     error: error
@@ -268,7 +262,7 @@ extension AppEnvironment {
                 HistoryEntry(
                     kind: .pin,
                     status: .success,
-                    title: pinned ? "Pinned \(formula)" : "Unpinned \(formula)",
+                    title: pinned ? String(localized: "Pinned \(formula)") : String(localized: "Unpinned \(formula)"),
                     command: command.displayCommand(),
                     target: formula,
                     stdout: output.stdout.nilIfBlank,
@@ -280,7 +274,7 @@ extension AppEnvironment {
                 HistoryEntry(
                     kind: .pin,
                     status: .failed,
-                    title: pinned ? "Failed to pin \(formula)" : "Failed to unpin \(formula)",
+                    title: pinned ? String(localized: "Failed to pin \(formula)") : String(localized: "Failed to unpin \(formula)"),
                     command: command.displayCommand(),
                     target: formula,
                     stderr: error.raw,
@@ -311,19 +305,19 @@ extension AppEnvironment {
         do {
             path = try plan.writeInstallFile()
         } catch {
-            state.show(Toast(tone: .error, title: "Could not prepare the install", description: error.friendlyMessage))
+            state.show(Toast(tone: .error, title: "Could not prepare the install", description: "\(error.friendlyMessage)"))
             return
         }
         defer { try? FileManager.default.removeItem(atPath: path) }
 
         let count = plan.missing.count
-        let noun = count == 1 ? "item" : "items"
         let succeeded = await runOperation(
             .bundleInstall(path: path),
             kind: .bundle,
             historyKind: .brewfileInstall,
             target: plan.missing.map(\.name).joined(separator: ", "),
-            successTitle: "Installed \(count) \(noun) from Brewfile",
+            // A plural-aware key: the catalog carries one/few/many forms per language.
+            successTitle: "Installed \(count) items from Brewfile",
             failureTitle: { error in
                 switch error.code {
                 case .operationCancelled: "Cancelled Brewfile install"

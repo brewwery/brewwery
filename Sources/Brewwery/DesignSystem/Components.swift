@@ -90,16 +90,30 @@ struct BrewweryBadge: View {
         }
     }
 
-    let text: String
+    /// Already a `Text`, so a badge can carry either a translated label or verbatim data
+    /// such as a count or a version.
+    private let label: Text
     var tone: Tone = .neutral
     var systemImage: String?
+
+    init(text: LocalizedStringResource, tone: Tone = .neutral, systemImage: String? = nil) {
+        self.label = Text(text)
+        self.tone = tone
+        self.systemImage = systemImage
+    }
+
+    init(verbatim: String, tone: Tone = .neutral, systemImage: String? = nil) {
+        self.label = Text(verbatim: verbatim)
+        self.tone = tone
+        self.systemImage = systemImage
+    }
 
     var body: some View {
         HStack(spacing: 4) {
             if let systemImage {
                 Image(systemName: systemImage).font(.system(size: 9, weight: .semibold))
             }
-            Text(text)
+            label
         }
         .font(BrewweryFont.captionEmphasis)
         .foregroundStyle(tone.foreground)
@@ -115,7 +129,8 @@ struct BrewweryBadge: View {
 extension BrewweryBadge {
     /// Formula and cask badges are the most repeated pair in the UI.
     static func kind(_ kind: PackageKind) -> BrewweryBadge {
-        BrewweryBadge(text: kind.rawValue, tone: kind == .cask ? .cask : .accent)
+        // "formula" and "cask" are Homebrew's own terms and stay as Homebrew prints them.
+        BrewweryBadge(verbatim: kind.rawValue, tone: kind == .cask ? .cask : .accent)
     }
 
     static func installed(_ installed: Bool) -> BrewweryBadge {
@@ -195,7 +210,7 @@ extension View {
 
 /// A button whose label is an icon and a title, the shape used across every page header.
 struct ActionButton: View {
-    let title: String
+    let title: LocalizedStringResource
     var systemImage: String?
     var variant: BrewweryButtonStyle.Variant = .secondary
     var height: CGFloat = Metrics.controlHeight
@@ -228,7 +243,7 @@ struct ActionButton: View {
 /// VoiceOver reads `label`, and the same text appears as the hover tooltip. Every icon-only
 /// control in the app goes through this type — `AccessibilityLintTests` enforces it.
 struct IconButton: View {
-    let label: String
+    let label: LocalizedStringResource
     let systemImage: String
     var variant: BrewweryButtonStyle.Variant = .ghost
     var height: CGFloat = Metrics.controlHeight
@@ -236,7 +251,7 @@ struct IconButton: View {
     let action: () -> Void
 
     init(
-        _ label: String,
+        _ label: LocalizedStringResource,
         systemImage: String,
         variant: BrewweryButtonStyle.Variant = .ghost,
         height: CGFloat = Metrics.controlHeight,
@@ -260,8 +275,8 @@ struct IconButton: View {
             }
         }
         .brewweryButton(variant, height: height)
-        .help(label)
-        .accessibilityLabel(label)
+        .help(Text(label))
+        .accessibilityLabel(Text(label))
     }
 }
 
@@ -269,7 +284,7 @@ struct IconButton: View {
 
 /// `components/ui/input.tsx`.
 struct BrewweryTextField: View {
-    let placeholder: String
+    let placeholder: LocalizedStringResource
     @Binding var text: String
     var leadingSystemImage: String?
     var showsClearButton = false
@@ -288,7 +303,7 @@ struct BrewweryTextField: View {
                     .font(.system(size: 13))
                     .foregroundStyle(BrewweryColor.mutedForeground)
             }
-            TextField(placeholder, text: $text)
+            TextField(String(localized: placeholder), text: $text)
                 .textFieldStyle(.plain)
                 .font(BrewweryFont.body)
                 .foregroundStyle(BrewweryColor.foreground)
@@ -325,7 +340,7 @@ struct BrewweryTextField: View {
 /// `components/ui/tabs.tsx` — a bordered strip of pill buttons, not a system segmented
 /// control, because the legacy tabs carry per-page labels and variable counts.
 struct BrewweryTabs<Value: Hashable>: View {
-    let options: [(value: Value, label: String)]
+    let options: [(value: Value, label: LocalizedStringResource)]
     @Binding var selection: Value
 
     var body: some View {
@@ -367,7 +382,7 @@ struct BrewweryTabs<Value: Hashable>: View {
 /// The `<details><summary>Show details</summary><pre>…</pre></details>` pattern the legacy
 /// app used for raw command output and error details.
 struct OutputDisclosure: View {
-    let label: String
+    let label: LocalizedStringResource
     let content: String
     var maxHeight: CGFloat = 280
 
@@ -424,7 +439,7 @@ struct MonospacedOutputView: View {
 
 /// The bordered `label / value` box used on the Dashboard, Settings and the detail drawer.
 struct InfoBox: View {
-    let label: String
+    let label: LocalizedStringResource
     let value: String
     var monospaced = false
 
@@ -453,15 +468,15 @@ struct InfoBox: View {
 
 /// A summary tile: a caption over a large number. Used by Updates, Services and History.
 struct SummaryCard: View {
-    let label: String
+    let label: LocalizedStringResource
     let value: String
 
-    init(label: String, value: Int) {
+    init(label: LocalizedStringResource, value: Int) {
         self.label = label
         self.value = String(value)
     }
 
-    init(label: String, value: String) {
+    init(label: LocalizedStringResource, value: String) {
         self.label = label
         self.value = value
     }

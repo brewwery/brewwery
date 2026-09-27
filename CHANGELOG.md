@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- Report a problem: a report you review first, then open as a GitHub issue or an email and
+  send yourself. Nothing is sent automatically. It is available from Settings, the Help menu
+  and the menu bar, and for failed operations and failed History entries.
+- Brewfile: compare a Brewfile with this Mac and install only what is missing. Brewwery
+  writes its own install list, so Homebrew never runs Ruby from a file someone sent you.
+- Pin formulae: a pinned formula keeps its version, is skipped by Upgrade all and is not
+  counted as outdated.
+- A Go menu: ⌘1…⌘9 switch between the first nine pages.
+- German interface. French, Spanish and Portuguese are planned for the next version.
+
+### Changed
+- Page headers move their buttons onto a second row when a translation makes them too wide.
+
+### Fixed
+- Settings › About no longer lists Apple Silicon as the only primary platform.
+
 ## 1.0.1
 
 The outdated count had no home in the app: the Dock badge ran its own `brew outdated` every

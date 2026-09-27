@@ -7,15 +7,15 @@ enum BrewfileSource: Equatable {
     case file(String)
     case starter(String)
 
-    var displayName: String {
+    var displayName: LocalizedStringResource {
         switch self {
         case .exported: "This Mac's current setup"
-        case .file(let path): path
+        case .file(let path): "\(path)"
         case .starter(let title): "Starter: \(title)"
         }
     }
 
-    var contentsTitle: String {
+    var contentsTitle: LocalizedStringResource {
         switch self {
         case .exported: "Generated Brewfile"
         case .file: "Brewfile contents"
@@ -65,18 +65,18 @@ final class BrewfileModel {
             return HistoryEntry(
                 kind: .brewfileExport,
                 status: .success,
-                title: "Brewfile exported",
+                title: String(localized: "Brewfile exported"),
                 command: command,
                 target: document.path,
                 stdout: document.rawContent,
-                details: "\(document.entries.count) entries"
+                details: String(localized: "\(document.entries.count) entries")
             )
         } catch {
             self.error = error
             return HistoryEntry(
                 kind: .brewfileExport,
                 status: .failed,
-                title: "Brewfile export failed",
+                title: String(localized: "Brewfile export failed"),
                 command: command,
                 stderr: error.raw,
                 error: error
@@ -105,7 +105,7 @@ final class BrewfileModel {
     func open(starter: StarterBrewfile) {
         error = nil
         document = BrewfileDocument(path: nil, entries: BrewfileParser.parse(starter.content), rawContent: starter.content)
-        source = .starter(starter.title)
+        source = .starter(String(localized: starter.title))
         plan = nil
     }
 

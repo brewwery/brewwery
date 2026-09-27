@@ -3,14 +3,14 @@ import SwiftUI
 /// Column description for `BrewweryTable`.
 struct TableColumnSpec<Item: Identifiable>: Identifiable {
     let id = UUID()
-    let header: String
+    let header: LocalizedStringResource
     /// Mirrors the CSS `grid-template-columns` track for this column.
     let width: TableColumnWidth
     let alignment: Alignment
     let content: (Item) -> AnyView
 
     init(
-        _ header: String,
+        _ header: LocalizedStringResource,
         width: TableColumnWidth,
         alignment: Alignment = .leading,
         @ViewBuilder content: @escaping (Item) -> some View
@@ -36,7 +36,7 @@ enum TableColumnWidth {
 /// `@tanstack/react-virtual` table. Keyboard support matches the original: arrow keys and
 /// Home/End move the selection, Return activates it.
 struct BrewweryTable<Item: Identifiable & Hashable>: View {
-    let accessibilityLabel: String
+    let accessibilityLabel: LocalizedStringResource
     let items: [Item]
     let columns: [TableColumnSpec<Item>]
     var rowHeight: CGFloat = Metrics.virtualizedRowHeight

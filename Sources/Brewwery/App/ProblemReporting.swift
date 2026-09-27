@@ -6,7 +6,7 @@ import SwiftUI
 struct ProblemReportDraft: Identifiable {
     let id = UUID()
     /// "Report a problem" or "Report this failure".
-    let heading: String
+    let heading: LocalizedStringResource
     var report: ProblemReport
 }
 

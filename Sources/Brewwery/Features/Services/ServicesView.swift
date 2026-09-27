@@ -94,19 +94,19 @@ struct ServicesView: View {
                     ServiceStatusBadge(status: service.status)
                 },
                 TableColumnSpec("User", width: .fixed(120)) { service in
-                    Text(service.user ?? "Unknown")
+                    Text(service.user ?? String(localized: "Unknown"))
                         .font(BrewweryFont.body)
                         .foregroundStyle(BrewweryColor.mutedForeground)
                         .lineLimit(1)
                 },
                 TableColumnSpec("File", width: .flexible(minimum: 150, weight: 1.6)) { service in
-                    Text(service.file ?? "No launch agent file")
+                    Text(service.file ?? String(localized: "No launch agent file"))
                         .font(BrewweryFont.body)
                         .foregroundStyle(BrewweryColor.mutedForeground)
                         .lineLimit(1)
                         .truncationMode(.middle)
                 },
-                TableColumnSpec("Actions", width: .fixed(252), alignment: .trailing) { service in
+                TableColumnSpec("Actions", width: .fixed(328), alignment: .trailing) { service in
                     HStack(spacing: Metrics.tightSpacing) {
                         actionButton(.start, for: service, disabledWhen: service.status == .started)
                         actionButton(.stop, for: service, disabledWhen: service.status == .stopped)
@@ -125,14 +125,16 @@ struct ServicesView: View {
         for service: BrewService,
         disabledWhen isDisabled: Bool
     ) -> some View {
-        Button(action.rawValue.capitalized) {
+        Button {
             pending = (action, service.name)
             confirmation = ConfirmationRequest(
-                title: "\(action.rawValue.capitalized) \(service.name)?",
+                title: action.confirmationTitle(service.name),
                 message: "Brewwery will run",
                 command: HomebrewCommand.service(action: action, name: service.name).displayCommand(),
-                confirmLabel: action.rawValue.capitalized
+                confirmLabel: action.label
             )
+        } label: {
+            Text(action.label)
         }
         .brewweryButton(.secondary, height: Metrics.compactControlHeight)
         .disabled(isDisabled || brewwery.operations.isRunning)

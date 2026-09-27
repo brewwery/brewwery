@@ -27,17 +27,17 @@ final class DoctorModel {
             return HistoryEntry(
                 kind: .doctor,
                 status: .success,
-                title: result.healthy ? "Doctor completed: healthy" : "Doctor completed with diagnostics",
+                title: result.healthy ? String(localized: "Doctor completed: healthy") : String(localized: "Doctor completed with diagnostics"),
                 command: "brew doctor",
                 stdout: result.rawOutput,
-                details: "\(result.diagnostics.count) diagnostics"
+                details: String(localized: "\(result.diagnostics.count) diagnostics")
             )
         } catch {
             self.error = error
             return HistoryEntry(
                 kind: .doctor,
                 status: .failed,
-                title: "Doctor failed",
+                title: String(localized: "Doctor failed"),
                 command: "brew doctor",
                 stderr: error.raw,
                 error: error

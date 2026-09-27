@@ -49,7 +49,7 @@ struct GlobalSearchField: View {
 /// something already installed — Packages, Casks, History — so a page never shows two search
 /// boxes with different meanings.
 struct HeaderFilterField: View {
-    let placeholder: String
+    let placeholder: LocalizedStringResource
     @Binding var text: String
     @FocusState private var isFocused: Bool
 

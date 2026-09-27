@@ -6,12 +6,16 @@ import Foundation
 struct DiscoverItem: Identifiable, Hashable {
     let name: String
     let kind: PackageKind
-    let description: String?
+    /// Written for Brewwery, so translated — unlike Homebrew's own `desc`.
+    let description: LocalizedStringResource?
 
     var id: String { "\(kind.rawValue):\(name)" }
     var reference: PackageReference { PackageReference(name: name, kind: kind) }
 
-    init(_ name: String, _ kind: PackageKind, _ description: String) {
+    static func == (lhs: DiscoverItem, rhs: DiscoverItem) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
+
+    init(_ name: String, _ kind: PackageKind, _ description: LocalizedStringResource) {
         self.name = name
         self.kind = kind
         self.description = description
@@ -20,9 +24,12 @@ struct DiscoverItem: Identifiable, Hashable {
 
 struct DiscoverCollection: Identifiable, Hashable {
     let id: String
-    let title: String
-    let description: String
+    let title: LocalizedStringResource
+    let description: LocalizedStringResource
     let items: [DiscoverItem]
+
+    static func == (lhs: DiscoverCollection, rhs: DiscoverCollection) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 
 enum DiscoverCatalog {

@@ -4,9 +4,12 @@ import Foundation
 /// adapt. Brewwery never installs them automatically.
 struct StarterBrewfile: Identifiable, Hashable {
     let id: String
-    let title: String
-    let description: String
+    let title: LocalizedStringResource
+    let description: LocalizedStringResource
     let content: String
+
+    static func == (lhs: StarterBrewfile, rhs: StarterBrewfile) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 
     var entryCount: Int {
         content.split(separator: "\n").count { !$0.isEmpty }

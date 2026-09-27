@@ -8,7 +8,7 @@ struct PackagesView: View {
     enum Filter: String, CaseIterable {
         case all, leaves, request, dependency
 
-        var label: String {
+        var label: LocalizedStringResource {
             switch self {
             case .all: "All formulae"
             case .leaves: "Leaves"
@@ -73,7 +73,7 @@ struct PackagesView: View {
         }
     }
 
-    private var subtitle: String {
+    private var subtitle: LocalizedStringResource {
         library.isLoadingFormulae
             ? "Loading packages..."
             : "\(visibleRows.count) of \(rows.count) installed formulae"
@@ -146,7 +146,7 @@ struct PackagesView: View {
                     .lineLimit(1)
                 },
                 TableColumnSpec("Version", width: .fixed(120)) { formula in
-                    Text(formula.installedVersion ?? "Unknown")
+                    Text(formula.installedVersion ?? String(localized: "Unknown"))
                         .font(BrewweryFont.body)
                         .foregroundStyle(BrewweryColor.mutedForeground)
                         .lineLimit(1)
@@ -155,7 +155,7 @@ struct PackagesView: View {
                     BrewweryBadge.kind(.formula)
                 },
                 TableColumnSpec("Description", width: .flexible(minimum: 180, weight: 2)) { formula in
-                    Text(formula.description ?? "Installed Homebrew formula")
+                    Text(formula.description ?? String(localized: "Installed Homebrew formula"))
                         .font(BrewweryFont.body)
                         .foregroundStyle(BrewweryColor.mutedForeground)
                         .lineLimit(1)
@@ -174,7 +174,7 @@ struct PackagesView: View {
                         }
                     }
                 },
-                TableColumnSpec("Actions", width: .fixed(64), alignment: .trailing) { formula in
+                TableColumnSpec("Actions", width: .fixed(84), alignment: .trailing) { formula in
                     IconButton("Actions for \(formula.name)", systemImage: "ellipsis", height: 28) {
                         selection = formula
                     }
@@ -226,7 +226,13 @@ struct PackagesView: View {
 enum PackageSortKey: String, CaseIterable {
     case name, version, status
 
-    var label: String { rawValue.capitalized }
+    var label: LocalizedStringResource {
+        switch self {
+        case .name: "Name"
+        case .version: "Version"
+        case .status: "Status"
+        }
+    }
 
     /// `compareFormula` — version sorting is numeric-aware, matching `localeCompare` with
     /// `{ numeric: true }`.
@@ -271,7 +277,7 @@ extension ConfirmationRequest {
             title: "Uninstall \(reference.name)?",
             message: "Brewwery will run",
             command: HomebrewCommand.uninstall(reference).displayCommand(),
-            note: "This may remove the selected \(reference.kind == .cask ? "cask" : "package") from your Homebrew environment. Dependencies are not automatically removed unless Homebrew does it.",
+            note: uninstallNote(for: reference.kind),
             confirmLabel: "Uninstall"
         )
     }
@@ -284,4 +290,12 @@ extension ConfirmationRequest {
             confirmLabel: "Install"
         )
     }
+}
+
+/// Typed up front: string extraction misses the second branch of a ternary converted to an
+/// optional, and both sentences must be translated.
+private func uninstallNote(for kind: PackageKind) -> LocalizedStringResource {
+    kind == .cask
+        ? "This may remove the selected cask from your Homebrew environment. Dependencies are not automatically removed unless Homebrew does it."
+        : "This may remove the selected package from your Homebrew environment. Dependencies are not automatically removed unless Homebrew does it."
 }

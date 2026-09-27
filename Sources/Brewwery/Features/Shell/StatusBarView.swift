@@ -15,9 +15,9 @@ struct StatusBarView: View {
                 Text(statusText)
             }
 
-            Text(brewwery.system.info?.version ?? "unknown")
-            Text(brewwery.system.info?.prefix ?? "No prefix detected")
-            Text(brewwery.system.info?.architecture.rawValue ?? "unknown")
+            Text(brewwery.system.info?.version ?? String(localized: "unknown"))
+            Text(brewwery.system.info?.prefix ?? String(localized: "No prefix detected"))
+            Text(brewwery.system.info?.architecture.rawValue ?? String(localized: "unknown"))
             Text("\(brewwery.library.formulae.count) formulae")
             Text("\(brewwery.library.casks.count) casks")
             if brewwery.updates.count > 0 {
@@ -27,7 +27,7 @@ struct StatusBarView: View {
 
             Spacer(minLength: Metrics.rowSpacing)
 
-            Text("\(AppInfo.name) \(AppInfo.version)")
+            Text(verbatim: "\(AppInfo.name) \(AppInfo.version)")
         }
         .font(BrewweryFont.caption)
         .foregroundStyle(BrewweryColor.mutedForeground)
@@ -38,7 +38,7 @@ struct StatusBarView: View {
         .background(BrewweryColor.titlebar)
     }
 
-    private var statusText: String {
+    private var statusText: LocalizedStringResource {
         if brewwery.system.isLoading { return "Loading Homebrew..." }
         return brewwery.system.detection?.found == true ? "Homebrew running" : "Homebrew not found"
     }

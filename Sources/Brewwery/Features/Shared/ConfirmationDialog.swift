@@ -4,16 +4,24 @@ import SwiftUI
 /// A pending confirmation. Every mutating Homebrew operation goes through one of these.
 struct ConfirmationRequest: Identifiable, Equatable {
     let id = UUID()
-    let title: String
+    let title: LocalizedStringResource
     /// Leading prose shown before the command.
-    let message: String
-    /// The exact command Brewwery will run, rendered monospaced.
+    let message: LocalizedStringResource
+    /// The exact command Brewwery will run, rendered monospaced. Never translated.
     let command: String?
     /// Extra consequence text, e.g. the dependency note on uninstall.
-    let note: String?
-    let confirmLabel: String
+    let note: LocalizedStringResource?
+    let confirmLabel: LocalizedStringResource
 
-    init(title: String, message: String, command: String? = nil, note: String? = nil, confirmLabel: String) {
+    static func == (lhs: ConfirmationRequest, rhs: ConfirmationRequest) -> Bool { lhs.id == rhs.id }
+
+    init(
+        title: LocalizedStringResource,
+        message: LocalizedStringResource,
+        command: String? = nil,
+        note: LocalizedStringResource? = nil,
+        confirmLabel: LocalizedStringResource
+    ) {
         self.title = title
         self.message = message
         self.command = command
@@ -76,7 +84,7 @@ struct ConfirmationDialogView: View {
                         .brewweryButton(.secondary)
                         .keyboardShortcut(.cancelAction)
                         .disabled(isWorking)
-                    Button(isWorking ? "Working..." : request.confirmLabel, action: onConfirm)
+                    Button(action: onConfirm) { Text(isWorking ? "Working..." : request.confirmLabel) }
                         .brewweryButton(.primary)
                         .keyboardShortcut(.defaultAction)
                         .disabled(isWorking)
@@ -94,20 +102,19 @@ struct ConfirmationDialogView: View {
             .shadow(color: BrewweryColor.panelShadow, radius: 25, x: 0, y: 16)
         }
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(request.title)
+        .accessibilityLabel(Text(request.title))
     }
 
     /// "Brewwery will run `brew install redis`." with the command in monospace.
     @ViewBuilder
     private var commandSentence: some View {
         if let command = request.command {
-            (
-                Text(request.message + " ")
-                    + Text(command)
-                    .font(BrewweryFont.mono)
-                    .foregroundColor(BrewweryColor.foreground)
-                    + Text(".")
-            )
+            // One sentence with the command as a placeholder, so languages can put the verb
+            // where their grammar wants it ("Brewwery は … を実行します").
+            let commandText = Text(verbatim: command)
+                .font(BrewweryFont.mono)
+                .foregroundColor(BrewweryColor.foreground)
+            Text("Brewwery will run \(commandText).")
         } else {
             Text(request.message)
         }

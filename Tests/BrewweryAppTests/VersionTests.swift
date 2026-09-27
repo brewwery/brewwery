@@ -29,7 +29,8 @@ final class VersionTests: XCTestCase {
         let changelog = try String(contentsOf: repositoryRoot.appendingPathComponent("CHANGELOG.md"), encoding: .utf8)
         let firstRelease = changelog
             .split(separator: "\n")
-            .first { $0.hasPrefix("## ") }
+            // Work in progress collects under "## Unreleased" until the version is bumped.
+            .first { $0.hasPrefix("## ") && $0 != "## Unreleased" }
 
         XCTAssertEqual(firstRelease, "## \(AppInfo.fallbackVersion)", "the changelog must open with this release")
     }

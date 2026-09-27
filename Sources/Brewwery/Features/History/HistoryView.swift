@@ -11,7 +11,7 @@ struct HistoryView: View {
         case cancelled
         case kind(HistoryOperationKind)
 
-        var label: String {
+        var label: LocalizedStringResource {
             switch self {
             case .all: "All"
             case .failed: "Failed"
@@ -170,8 +170,8 @@ private struct HistoryCard: View {
                         }
 
                         HStack(spacing: Metrics.tightSpacing) {
-                            BrewweryBadge(text: entry.kind.displayName)
-                            BrewweryBadge(text: entry.status.rawValue, tone: tone)
+                            BrewweryBadge(text: entry.kind.label)
+                            BrewweryBadge(text: entry.status.label, tone: tone)
                             Text(entry.timestamp.formatted(date: .abbreviated, time: .standard))
                             if let target = entry.target {
                                 Text("Target: \(target)").lineLimit(1)

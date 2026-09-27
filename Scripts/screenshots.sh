@@ -28,12 +28,19 @@ swift build --package-path "$ROOT" >/dev/null
 # gives a newly launched app the key window — coloured traffic lights, active controls — when
 # LaunchServices starts it. A distinct bundle identifier keeps Sparkle from starting.
 APP="$WORK/Brewwery Screenshots.app"
-mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Frameworks"
+mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Frameworks" "$APP/Contents/Resources"
 cp "$ROOT/.build/debug/Brewwery" "$APP/Contents/MacOS/Brewwery"
 ditto "$ROOT/.build/debug/Sparkle.framework" "$APP/Contents/Frameworks/Sparkle.framework"
 cp "$ROOT/Packaging/Info.plist" "$APP/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.brewwery.app.screenshots" "$APP/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Delete :SUPublicEDKey" "$APP/Contents/Info.plist"
+# Images go where the packaged app has them (see make-app.sh). The resource bundle SwiftPM
+# generates is not found from inside an .app: newer SwiftPM builds no longer fall back to the
+# absolute build path, and Bundle.module then stops the app on its first sidebar render.
+for image in AppIcon MenuBarIcon WordmarkDark WordmarkLight; do
+  cp "$ROOT/Sources/Brewwery/Resources/$image.png" "$APP/Contents/Resources/$image.png"
+done
+"$ROOT/Scripts/localization.sh" compile "$APP/Contents/Resources"
 codesign --force --deep --sign - "$APP" >/dev/null 2>&1
 
 # Finds the on-screen window of the process just launched.
@@ -65,7 +72,11 @@ capture() {
   local page="$1" theme="$2" name="$3" search="${4:-}"
   # SHOTS_ONLY="Packages Search-Light" recaptures just those images.
   if [[ -n "${SHOTS_ONLY:-}" && " $SHOTS_ONLY " != *" $name "* ]]; then return 0; fi
-  local args=(-BrewweryDemoHomebrew "$WORK/brew" -BrewweryDemoPage "$page" -BrewweryDemoTheme "$theme")
+  # ApplePersistenceIgnoreState: never offer to restore windows from an earlier run.
+  local args=(-BrewweryDemoHomebrew "$WORK/brew" -BrewweryDemoPage "$page" -BrewweryDemoTheme "$theme"
+    -ApplePersistenceIgnoreState YES)
+  # SHOTS_LANGUAGE=de captures the German interface, for checking a translation.
+  [[ -n "${SHOTS_LANGUAGE:-}" ]] && args+=(-AppleLanguages "(${SHOTS_LANGUAGE})")
   [[ -n "$search" ]] && args+=(-BrewweryDemoSearch "$search")
 
   open -n "$APP" --args "${args[@]}"
@@ -77,6 +88,10 @@ capture() {
   done
   [[ -n "$pid" ]] || { echo "error: app did not launch for $name" >&2; exit 1; }
   for _ in $(seq 1 50); do
+    kill -0 "$pid" 2>/dev/null || {
+      echo "error: the app quit while opening $name — see ~/Library/Logs/DiagnosticReports" >&2
+      exit 1
+    }
     id=$("$WORK/window-id" "$pid" "$page" 2>/dev/null || true)
     [[ -n "$id" ]] && break
     sleep 0.2

@@ -45,6 +45,10 @@ for image in AppIcon MenuBarIcon WordmarkDark WordmarkLight; do
   cp "$ROOT/Sources/Brewwery/Resources/$image.png" "$CONTENTS/Resources/$image.png"
 done
 
+# Translations: the String Catalog compiles to <lang>.lproj folders. They live in the main
+# bundle, which is where SwiftUI and String(localized:) look by default.
+"$ROOT/Scripts/localization.sh" compile "$CONTENTS/Resources"
+
 echo "==> Building the icon set"
 ICONSET="$(mktemp -d)/AppIcon.iconset"
 mkdir -p "$ICONSET"
