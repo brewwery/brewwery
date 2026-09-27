@@ -36,6 +36,9 @@ public enum HomebrewCommand: Hashable, Sendable {
     case removeTap(name: String)
     case service(action: ServiceAction, name: String)
     case cleanup
+    /// `brew bundle install --no-upgrade` on a file `BrewfilePlan` wrote. Never on a
+    /// user's own Brewfile — see `BrewfilePlan`.
+    case bundleInstall(path: String)
 
     /// Validates the embedded arguments and returns the argv Homebrew is given.
     ///
@@ -112,7 +115,25 @@ public enum HomebrewCommand: Hashable, Sendable {
             return ["services", action.rawValue, name]
         case .cleanup:
             return ["cleanup"]
+        case .bundleInstall(let path):
+            try Self.validateBundleInstallFile(path)
+            return ["bundle", "install", "--no-upgrade", "--file=\(path)"]
         }
+    }
+
+    /// A Brewfile is Ruby, and `brew bundle` evaluates it. The only file this command will
+    /// hand over is one Brewwery wrote: inside `BrewfilePlan.installDirectory`, named
+    /// `*.brewfile`, and — read back right now — nothing but validated `tap`/`brew`/`cask`
+    /// lines.
+    static func validateBundleInstallFile(_ path: String) throws(BrewweryError) {
+        let url = URL(fileURLWithPath: path).standardizedFileURL.resolvingSymlinksInPath()
+        let directory = BrewfilePlan.installDirectory.standardizedFileURL.resolvingSymlinksInPath()
+
+        guard url.deletingLastPathComponent().path == directory.path,
+              url.pathExtension == "brewfile",
+              let content = try? String(contentsOf: url, encoding: .utf8),
+              BrewfilePlan.isInstallFileContent(content)
+        else { throw BrewweryError.invalidFilePath(path) }
     }
 
     /// Display-only rendering, e.g. `brew install --cask iterm2`. Never executed.

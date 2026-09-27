@@ -197,6 +197,7 @@ struct OperationProgressPanel: View {
         let work = switch progress.kind {
         case .service: "Service action"
         case .cleanup: "Cleanup run"
+        case .bundle: "Brewfile install"
         default: queued == 1 ? "1 package queued" : "\(queued) packages queued"
         }
 
@@ -205,6 +206,7 @@ struct OperationProgressPanel: View {
             switch progress.kind {
             case .service: "Service action completed"
             case .cleanup: "Cleanup completed"
+            case .bundle: "Brewfile install completed"
             default: queued == 1 ? "1 of 1 package completed" : "\(queued) packages completed"
             }
         case .failed: "Stopped with an error"
@@ -214,6 +216,7 @@ struct OperationProgressPanel: View {
             switch progress.kind {
             case .service: "Running service action"
             case .cleanup: "Running Homebrew cleanup"
+            case .bundle: "Installing from Brewfile"
             default: queued == 1 ? "Processing 1 package" : "Processing \(queued) packages"
             }
         }

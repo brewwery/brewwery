@@ -169,3 +169,34 @@ final class FeatureTests: XCTestCase {
         XCTAssertEqual(app.state.toasts.map(\.title), ["toast 4", "toast 3", "toast 2"])
     }
 }
+
+// MARK: - Brewfile install
+
+extension FeatureTests {
+    func testInstallingFromABrewfileRunsOnlyTheMissingItemsAndRecordsIt() async throws {
+        await app.library.loadAll()
+        app.brewfile.open(starter: StarterBrewfile(
+            id: "test",
+            title: "Test",
+            description: "",
+            content: "brew \"wget\"\nbrew \"jq\"\ncask \"rectangle\"\nmas \"Xcode\", id: 497799835\n"
+        ))
+        await app.checkBrewfile()
+
+        let plan = try XCTUnwrap(app.brewfile.plan)
+        XCTAssertEqual(plan.missing.map(\.name), ["jq", "rectangle"], "wget is installed in the double")
+        XCTAssertEqual(plan.skipped.count, 1)
+
+        await app.installMissingFromBrewfile()
+
+        let entry = try XCTUnwrap(app.history.entries.first)
+        XCTAssertEqual(entry.kind, .brewfileInstall)
+        XCTAssertEqual(entry.status, .success)
+        XCTAssertEqual(entry.title, "Installed 2 items from Brewfile")
+        XCTAssertTrue(entry.command?.hasPrefix("brew bundle install --no-upgrade --file=") == true, entry.command ?? "")
+
+        // The list Brewwery wrote is cleaned up afterwards.
+        let leftovers = (try? FileManager.default.contentsOfDirectory(atPath: BrewfilePlan.installDirectory.path)) ?? []
+        XCTAssertFalse(leftovers.contains { entry.command?.contains($0) == true })
+    }
+}

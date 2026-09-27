@@ -286,6 +286,7 @@ extension OperationKind {
         case .service: .serviceCommandFailed
         case .cleanup: .cleanupRunFailed
         case .upgrade: .brewCommandFailed
+        case .bundle: .packageInstallFailed
         }
     }
 }

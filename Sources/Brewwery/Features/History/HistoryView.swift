@@ -26,7 +26,7 @@ struct HistoryView: View {
                 case .service: "Services"
                 case .cleanup: "Cleanup"
                 case .doctor: "Doctor"
-                case .brewfileExport: "Brewfile"
+                case .brewfileExport, .brewfileInstall: "Brewfile"
                 }
             }
         }
@@ -37,6 +37,10 @@ struct HistoryView: View {
         .kind(.install), .kind(.uninstall), .kind(.upgrade), .kind(.brewUpdate),
         .kind(.tap), .kind(.service), .kind(.cleanup), .kind(.doctor), .kind(.brewfileExport)
     ]
+
+    private static func family(_ kind: HistoryOperationKind) -> HistoryOperationKind {
+        kind == .brewfileInstall ? .brewfileExport : kind
+    }
 
     @State private var filter: Filter = .all
     @State private var query = ""
@@ -51,7 +55,8 @@ struct HistoryView: View {
             switch filter {
             case .failed where entry.status != .failed: return false
             case .cancelled where entry.status != .cancelled: return false
-            case .kind(let kind) where entry.kind != kind: return false
+            // "Brewfile" covers both exporting one and installing from one.
+            case .kind(let kind) where Self.family(entry.kind) != Self.family(kind): return false
             default: break
             }
 

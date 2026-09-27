@@ -250,6 +250,52 @@ extension AppEnvironment {
     func exportBrewfile() async {
         record(await brewfile.export())
     }
+
+    /// Compares the open Brewfile with this Mac.
+    func checkBrewfile() async {
+        if library.formulae.isEmpty, library.casks.isEmpty { await library.loadAll() }
+        await brewfile.check(formulae: library.formulae, casks: library.casks)
+    }
+
+    /// Installs what the open Brewfile lists and this Mac lacks, as one streaming operation.
+    ///
+    /// Homebrew never sees the user's file: Brewwery writes the missing items, one validated
+    /// name per line, to its own list and installs from that. Nothing is upgraded.
+    func installMissingFromBrewfile() async {
+        guard let plan = brewfile.plan, !plan.missing.isEmpty else { return }
+
+        let path: String
+        do {
+            path = try plan.writeInstallFile()
+        } catch {
+            state.show(Toast(tone: .error, title: "Could not prepare the install", description: error.friendlyMessage))
+            return
+        }
+        defer { try? FileManager.default.removeItem(atPath: path) }
+
+        let count = plan.missing.count
+        let noun = count == 1 ? "item" : "items"
+        let succeeded = await runOperation(
+            .bundleInstall(path: path),
+            kind: .bundle,
+            historyKind: .brewfileInstall,
+            target: plan.missing.map(\.name).joined(separator: ", "),
+            successTitle: "Installed \(count) \(noun) from Brewfile",
+            failureTitle: { error in
+                switch error.code {
+                case .operationCancelled: "Cancelled Brewfile install"
+                case .operationTimeout: "Brewfile install timed out"
+                default: "Brewfile install failed"
+                }
+            }
+        )
+
+        // Even a failed run may have installed some of the list, so re-read either way.
+        await invalidateAfterPackageChange()
+        if plan.missing.contains(where: { $0.kind == .tap }) { await taps.refresh() }
+        await checkBrewfile()
+        _ = succeeded
+    }
 }
 
 extension String {

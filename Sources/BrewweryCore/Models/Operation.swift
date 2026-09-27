@@ -7,6 +7,8 @@ public enum OperationKind: String, Codable, Sendable, Hashable, CaseIterable {
     case upgrade
     case service
     case cleanup
+    /// Installing what a Brewfile lists — several packages in one run.
+    case bundle
 
     /// Fixed safety timeouts from `OPERATION_TIMEOUT_MS`.
     public var timeout: Duration {
@@ -16,11 +18,13 @@ public enum OperationKind: String, Codable, Sendable, Hashable, CaseIterable {
         case .upgrade: .seconds(45 * 60)
         case .service: .seconds(5 * 60)
         case .cleanup: .seconds(30 * 60)
+        case .bundle: .seconds(90 * 60)
         }
     }
 
     public var timeoutSeconds: Int {
         switch self {
+        case .bundle: 90 * 60
         case .install, .upgrade: 45 * 60
         case .uninstall: 15 * 60
         case .service: 5 * 60

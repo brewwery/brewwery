@@ -11,6 +11,7 @@ public enum HistoryOperationKind: String, Codable, Sendable, Hashable, CaseItera
     case cleanup
     case doctor
     case brewfileExport = "brewfile_export"
+    case brewfileInstall = "brewfile_install"
     case tap
 
     /// The History page renders `kind.replace("_", " ")`.

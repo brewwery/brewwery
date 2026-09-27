@@ -121,3 +121,17 @@ final class RenderingTests: XCTestCase {
         XCTAssertTrue(try harness.snapshot(window, named: "state-homebrew-not-found").hasVisibleContent)
     }
 }
+
+// MARK: - Brewfile comparison
+
+extension RenderingTests {
+    func testBrewfileComparisonRenders() async throws {
+        app.brewfile.open(starter: StarterBrewfileCatalog.all[0])
+        await app.checkBrewfile()
+        XCTAssertNotNil(app.brewfile.plan)
+        app.state.select(.brewfile)
+
+        let window = try await harness.host(RootView())
+        XCTAssertTrue(try harness.snapshot(window, named: "page-brewfile-comparison").hasVisibleContent)
+    }
+}
