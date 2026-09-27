@@ -3,9 +3,9 @@ import SwiftUI
 
 /// Menu bar commands.
 ///
-/// The shortcut set is exactly the legacy one — ⌘, ⌘K, ⌘R, ⌘W — with no additions during
-/// the parity phase. `Settings…` selects the in-app Settings page rather than opening a
-/// preferences window, because that is where 0.9.7 put every setting; see
+/// The legacy shortcuts — ⌘, ⌘K, ⌘R, ⌘W — plus, since 1.1, a Go menu with ⌘1…⌘9 for the
+/// first nine sidebar pages. `Settings…` selects the in-app Settings page rather than
+/// opening a preferences window, because that is where 0.9.7 put every setting; see
 /// `docs/ARCHITECTURE-DECISIONS.md`.
 struct AppCommands: Commands {
     let environment: AppEnvironment
@@ -34,6 +34,18 @@ struct AppCommands: Commands {
                 .keyboardShortcut("k", modifiers: .command)
             Button("Refresh Current Page") { environment.state.requestRefresh() }
                 .keyboardShortcut("r", modifiers: .command)
+        }
+
+        // Every page, so the menu doubles as a map; the first nine carry ⌘1…⌘9.
+        CommandMenu("Go") {
+            ForEach(Page.sections) { section in
+                Section(section.title) {
+                    ForEach(section.pages) { page in
+                        Button(page.title) { environment.state.select(page) }
+                            .keyboardShortcut(page.keyboardShortcut)
+                    }
+                }
+            }
         }
 
         CommandGroup(replacing: .help) {

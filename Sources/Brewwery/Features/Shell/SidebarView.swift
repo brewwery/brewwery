@@ -153,6 +153,7 @@ private struct SidebarItem: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .help(page.shortcutNumber.map { "\(page.title)  ⌘\($0)" } ?? page.title)
         .onHover { isHovering = $0 }
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }

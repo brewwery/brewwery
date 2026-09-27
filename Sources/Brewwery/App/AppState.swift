@@ -61,6 +61,21 @@ enum Page: String, CaseIterable, Identifiable, Hashable {
         Section(title: "System", pages: [.services, .cleanup, .doctor, .brewfile, .commands]),
         Section(title: "App", pages: [.history, .settings])
     ]
+
+    /// Every page, top to bottom as the sidebar shows them.
+    static let sidebarOrder: [Page] = sections.flatMap(\.pages)
+
+    /// ⌘1…⌘9 go to the first nine sidebar pages, the way Finder and Mail number theirs.
+    /// Settings keeps ⌘, rather than a number.
+    var shortcutNumber: Int? {
+        guard let index = Self.sidebarOrder.firstIndex(of: self), index < 9 else { return nil }
+        return index + 1
+    }
+
+    var keyboardShortcut: KeyboardShortcut? {
+        guard let number = shortcutNumber else { return nil }
+        return KeyboardShortcut(KeyEquivalent(Character(String(number))), modifiers: .command)
+    }
 }
 
 /// A transient notification (`toast-store`).

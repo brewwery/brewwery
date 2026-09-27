@@ -60,3 +60,19 @@ final class LayoutLogicTests: XCTestCase {
         XCTAssertEqual(widths[4], 252, "the Actions column was squeezed")
     }
 }
+
+// MARK: - Page shortcuts
+
+extension LayoutLogicTests {
+    func testCommandNumbersFollowTheSidebar() {
+        XCTAssertEqual(Page.dashboard.shortcutNumber, 1)
+        XCTAssertEqual(Page.updates.shortcutNumber, 8)
+        XCTAssertEqual(Page.services.shortcutNumber, 9)
+        XCTAssertNil(Page.cleanup.shortcutNumber, "only nine numbers exist")
+        XCTAssertNil(Page.settings.shortcutNumber, "Settings keeps ⌘,")
+
+        let numbers = Page.sidebarOrder.compactMap(\.shortcutNumber)
+        XCTAssertEqual(numbers, Array(1...9))
+        XCTAssertEqual(Page.sidebarOrder.count, Page.allCases.count, "every page is in the sidebar")
+    }
+}
