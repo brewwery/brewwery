@@ -285,11 +285,14 @@ struct SettingsView: View {
                     InfoBox(label: "Version", value: AppInfo.version)
                     InfoBox(label: "Channel", value: AppInfo.channel)
                     InfoBox(label: "License", value: "MIT")
-                    InfoBox(label: "Platform", value: "macOS first, Apple Silicon primary")
+                    InfoBox(label: "Platform", value: "macOS 14 or later · Apple Silicon and Intel")
                 }
 
                 HStack(spacing: Metrics.tightSpacing) {
-                    ActionButton(title: "Copy diagnostics", systemImage: "doc.on.clipboard", variant: .primary) {
+                    ActionButton(title: "Report a problem…", systemImage: "ladybug", variant: .primary) {
+                        brewwery.reportProblem()
+                    }
+                    ActionButton(title: "Copy diagnostics", systemImage: "doc.on.clipboard") {
                         Clipboard.copy(diagnosticsReport)
                     }
                     ExternalButton(label: "Brewwery site", url: AppInfo.websiteURL)
@@ -352,18 +355,9 @@ struct SettingsView: View {
     /// `diagnosticsText()` — app and Homebrew metadata plus local counts. No package
     /// history, and only ever written to the clipboard on an explicit click.
     private var diagnosticsReport: String {
-        [
-            "appVersion: \(AppInfo.version)",
-            "channel: \(AppInfo.channel)",
-            "brewVersion: \(system.info?.version ?? "unknown")",
-            "brewPath: \(system.info?.path ?? "unknown")",
-            "brewPrefix: \(system.info?.prefix ?? "unknown")",
-            "architecture: \(system.info?.architecture.rawValue ?? "unknown")",
-            "formulae: \(brewwery.library.formulae.count)",
-            "casks: \(brewwery.library.casks.count)",
-            "services: \(brewwery.services.services.count)",
-            "updates: \(brewwery.updates.updates.count)"
-        ].joined(separator: "\n")
+        brewwery.diagnosticItems
+            .map { "\($0.label): \(ProblemReport.redact($0.value))" }
+            .joined(separator: "\n")
     }
 }
 

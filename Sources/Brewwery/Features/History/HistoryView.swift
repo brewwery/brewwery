@@ -143,6 +143,7 @@ struct HistoryView: View {
 }
 
 private struct HistoryCard: View {
+    @Environment(AppEnvironment.self) private var brewwery
     let entry: HistoryEntry
 
     private var output: String { entry.combinedOutput }
@@ -200,10 +201,19 @@ private struct HistoryCard: View {
 
                     Spacer(minLength: Metrics.tightSpacing)
 
-                    ActionButton(title: "Copy", systemImage: "doc.on.clipboard", height: Metrics.compactControlHeight) {
-                        Clipboard.copy(output)
+                    VStack(alignment: .trailing, spacing: Metrics.tightSpacing) {
+                        ActionButton(title: "Copy", systemImage: "doc.on.clipboard", height: Metrics.compactControlHeight) {
+                            Clipboard.copy(output)
+                        }
+                        .disabled(output.isEmpty)
+
+                        if entry.status == .failed {
+                            ActionButton(title: "Report", systemImage: "ladybug", height: Metrics.compactControlHeight) {
+                                brewwery.reportFailure(of: entry)
+                            }
+                            .help("Report this failure on GitHub or by email")
+                        }
                     }
-                    .disabled(output.isEmpty)
                 }
 
                 if !output.isEmpty {

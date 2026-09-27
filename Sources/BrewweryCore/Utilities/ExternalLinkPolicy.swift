@@ -42,6 +42,14 @@ public enum ExternalLinkPolicy {
         }
     }
 
+    /// `mailto:` links are allowed to exactly one address — the one problem reports go to —
+    /// so no text in the app can turn into mail to somewhere else.
+    public static func isAllowedMail(_ url: URL) -> Bool {
+        guard url.scheme?.lowercased() == "mailto" else { return false }
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        return components?.path.lowercased() == ProblemReport.supportAddress
+    }
+
     /// Homepages reported by Homebrew are opened only when they are well-formed http(s)
     /// URLs with a host, so a malformed or `file:`/`javascript:` value can never be launched.
     public static func isSafeHomepage(_ rawURL: String) -> Bool {

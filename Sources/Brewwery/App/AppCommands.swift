@@ -41,6 +41,11 @@ struct AppCommands: Commands {
                 ExternalLink.open("https://docs.brewwery.com/getting-started")
             }
             Button("Homebrew Website") { ExternalLink.open(AppInfo.homebrewURL) }
+            Divider()
+            Button("Report a Problem…") {
+                (NSApp.delegate as? AppDelegate)?.presentMainWindow(page: nil)
+                environment.reportProblem()
+            }
         }
     }
 }
@@ -50,6 +55,15 @@ enum ExternalLink {
     static func open(_ rawURL: String) {
         guard ExternalLinkPolicy.isAllowed(rawURL), let url = URL(string: rawURL) else {
             Log.app.notice("Blocked an external URL that is not on the allowlist")
+            return
+        }
+        NSWorkspace.shared.open(url)
+    }
+
+    /// Mail goes only to the support address; anything else is refused.
+    static func openMail(_ url: URL) {
+        guard ExternalLinkPolicy.isAllowedMail(url) else {
+            Log.app.notice("Blocked a mail link to an address that is not the support address")
             return
         }
         NSWorkspace.shared.open(url)

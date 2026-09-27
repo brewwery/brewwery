@@ -1,0 +1,11 @@
+# Blank issues must stay enabled: Brewwery's "Report a problem" window opens
+# /issues/new with the title and body filled in, and GitHub drops that pre-filled
+# body if it has to send the visitor to the template chooser first.
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation and troubleshooting
+    url: https://docs.brewwery.com/troubleshooting
+    about: Fixes for the most common Homebrew and Brewwery problems.
+  - name: Security vulnerability
+    url: https://github.com/brewwery/brewwery/security/policy
+    about: Please report vulnerabilities privately, not in a public issue.

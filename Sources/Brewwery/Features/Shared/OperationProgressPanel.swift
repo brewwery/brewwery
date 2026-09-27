@@ -64,6 +64,16 @@ struct OperationProgressPanel: View {
                 }
                 .disabled(brewwery.operations.isCancelling)
             } else {
+                // A failure is the moment a report is most useful and the output is all here.
+                if progress.status == .failed || progress.status == .timedOut {
+                    ActionButton(
+                        title: "Report this failure",
+                        systemImage: "ladybug",
+                        height: Metrics.compactControlHeight
+                    ) {
+                        brewwery.reportFailure(of: progress)
+                    }
+                }
                 Button("Dismiss") { brewwery.operations.clear() }
                     .brewweryButton(.ghost, height: Metrics.compactControlHeight)
             }

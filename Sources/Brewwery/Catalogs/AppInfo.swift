@@ -23,10 +23,19 @@ enum AppInfo {
     static let fallbackVersion = "1.0.1"
     static let channel = "Stable"
 
+    /// `CFBundleVersion`, read under the same rule as `version`.
+    static let build: String = {
+        guard Bundle.main.bundleIdentifier?.hasPrefix(bundleIdentifier) == true,
+              let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+        else { return "dev" }
+        return build
+    }()
+
     static let githubURL = "https://github.com/brewwery/brewwery"
     static let websiteURL = "https://www.brewwery.com"
     static let issueURL = "https://github.com/brewwery/brewwery/issues"
-    static let releaseNotesURL = "https://github.com/brewwery/brewwery/releases/tag/v1.0.0"
+    /// The notes for the running version. 1.0.1 still pointed at 1.0.0's.
+    static var releaseNotesURL: String { "https://github.com/brewwery/brewwery/releases/tag/v\(version)" }
     static let homebrewURL = "https://brew.sh"
 
     /// Appcast the Sparkle updater subscribes to. Kept next to the other URLs so the

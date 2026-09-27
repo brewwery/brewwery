@@ -92,6 +92,8 @@ final class AppState {
     /// do: ⌘K also switches page, so the field that receives focus is a freshly built one
     /// that never saw the change.
     var pendingSearchFocus = false
+    /// The report the "Report a problem" window is showing, if it is open.
+    var problemReport: ProblemReportDraft?
 
     private(set) var toasts: [Toast] = []
     private var dismissTasks: [UUID: Task<Void, Never>] = [:]

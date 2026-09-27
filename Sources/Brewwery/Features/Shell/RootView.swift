@@ -9,6 +9,8 @@ import SwiftUI
 /// translucent sidebar Brewwery never had, so the shell is composed explicitly — see
 /// `docs/ARCHITECTURE-DECISIONS.md`.
 struct RootView: View {
+    @Environment(AppEnvironment.self) private var brewwery
+
     var body: some View {
         VStack(spacing: 0) {
             WindowTopStrip()
@@ -25,6 +27,7 @@ struct RootView: View {
         }
         .background(BrewweryColor.appPanel)
         .foregroundStyle(BrewweryColor.foreground)
+        .problemReportPresenter(brewwery)
         .overlay(alignment: .bottomTrailing) { ToastViewport() }
         // The window's hidden title bar still reserves a safe area; the shell draws under it
         // and `WindowTopStrip` provides the clearance instead.

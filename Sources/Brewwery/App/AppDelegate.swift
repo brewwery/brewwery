@@ -104,7 +104,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
     }
 
-    private func presentMainWindow(centered: Bool = false, page: Page? = nil) {
+    func presentMainWindow(centered: Bool = false, page: Page? = nil) {
         NSApp.activate(ignoringOtherApps: true)
         guard let window = NSApp.windows.first else { return }
         if window.isMiniaturized { window.deminiaturize(nil) }
@@ -129,6 +129,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(updates)
         menu.addItem(menuItem("Run doctor", page: .doctor))
         menu.addItem(menuItem("Settings", page: .settings))
+        let report = NSMenuItem(title: "Report a problem…", action: #selector(reportFromStatusItem), keyEquivalent: "")
+        report.target = self
+        menu.addItem(report)
         menu.addItem(.separator())
         // A custom selector rather than `terminate:`: macOS attaches a symbol to menu items that
         // use the standard quit action, and the status menu is text-only.
@@ -145,6 +148,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         item.target = self
         item.representedObject = page?.rawValue
         return item
+    }
+
+    @objc private func reportFromStatusItem() {
+        presentMainWindow(page: nil)
+        environment?.reportProblem()
     }
 
     @objc private func quitFromStatusItem() {
