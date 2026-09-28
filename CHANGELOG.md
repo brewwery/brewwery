@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 1.1.0
+
+Ways to act on what Brewwery shows: report a problem without leaving the app, install a
+Brewfile's missing packages, hold a formula at its version — and a German interface.
 
 ### Added
 - Report a problem: a report you review first, then open as a GitHub issue or an email and

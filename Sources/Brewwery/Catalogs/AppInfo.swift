@@ -20,7 +20,7 @@ enum AppInfo {
     }()
     /// Used by `swift run` and tests, where the main bundle is not Brewwery's.
     /// `VersionTests` keeps it equal to `Packaging/Info.plist`.
-    static let fallbackVersion = "1.0.1"
+    static let fallbackVersion = "1.1.0"
     static let channel = "Stable"
 
     /// `CFBundleVersion`, read under the same rule as `version`.
