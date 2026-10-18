@@ -32,7 +32,7 @@ Do not disable Gatekeeper globally. Only approve a downloaded app after verifyin
 ## Requirements
 
 * macOS 14 or later, Apple Silicon or Intel (see `docs/ARCHITECTURE-DECISIONS.md` §2)
-* Xcode 16 or later / a Swift 6 toolchain
+* Xcode 26.6 or later for universal packaging (Swift 6; isolated tests also pass with Xcode 16.4)
 * Homebrew, for the app to manage — Apple Silicon and Intel prefixes are both supported
 
 ## Build and run

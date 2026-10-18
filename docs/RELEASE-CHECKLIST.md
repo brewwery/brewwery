@@ -17,8 +17,11 @@ not change the supported Homebrew command set or publish a website/release autom
 4. Repeat `bash Scripts/verify-app.sh dist/Brewwery.app` after copying/unzipping the bundle.
    Its `--build-info` probe does not start the GUI, Sparkle or Homebrew.
 
-CI uses macos-15 / Xcode 16.4 from the
-[runner image inventory](https://github.com/actions/runner-images/blob/main/images/macos/macos-15-Readme.md).
+CI uses macos-26 / Xcode 26.6 from the
+[runner image inventory](https://github.com/actions/runner-images/blob/main/images/macos/macos-26-Readme.md).
+Isolated tests also pass with Xcode 16.4, but its multi-architecture SwiftPM build fails
+while generating the universal build graph. Use the newer toolchain for packaging;
+the application's minimum macOS version remains 14.0.
 It needs no signing secrets and never invokes the opt-in live tests. A successful workflow
 is a build/test result, not a notarized public release.
 
