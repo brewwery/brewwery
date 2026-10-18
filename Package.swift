@@ -51,7 +51,6 @@ let package = Package(
         .testTarget(
             name: "BrewweryCoreTests",
             dependencies: ["BrewweryCore", "BrewweryTestSupport"],
-            resources: [.process("Fixtures")],
             swiftSettings: [.swiftLanguageMode(.v6)]
         )
     ]
