@@ -105,10 +105,15 @@ Verified on 2026-10-18 after explicit approval to notarize and publish:
 
 - `Scripts/release.sh` completed, including a fresh run of all 218 isolated tests and
   16 offline appcast regression checks.
-- Final DMG: `dist/appcast/Brewwery-1.1.1.dmg`, 6,876,343 bytes (about 6.56 MiB).
-- SHA-256: `b56804950a590dd6b8d30e59b76eaec5225b86ca88ad12d1cfb63aaa611b126b`.
-- Apple accepted the app submission `fa22ffed-5483-48ec-b2cd-8c3af97e8ebe` and the DMG
-  submission `da7e6a59-c852-4e7b-a02c-bb2346339171`. Both tickets were stapled and validated.
+- Final DMG: `dist/appcast/Brewwery-1.1.1.dmg`, 6,876,575 bytes (about 6.56 MiB).
+- SHA-256: `f3666a7a059540cb07a24c52342d22a2a9c80e9e4e903afab74de500111550d1`.
+- A clean GitHub checkout exposed an unused empty test-resource declaration and SwiftUI
+  overloads unavailable in the Xcode 16.4 SDK. The declaration was removed; localized
+  labels now use `Text`, and AppKit image assets are explicitly main-actor isolated.
+  All 218 tests and the 16 appcast checks passed again after these changes. The final app
+  and DMG were rebuilt and notarized again; the earlier signed candidate was not published.
+- Apple accepted the final app submission `23b7ac73-4d38-4f93-8331-ff4c97e40f19` and DMG
+  submission `ead8c61d-01b7-438b-bf7c-f4d4d15f093d`. Both tickets were stapled and validated.
 - Gatekeeper accepted the app and DMG as `Notarized Developer ID`.
 - The final DMG mounted read-only. Its app passed `verify-app.sh`, including Mach-O UUID
   comparison with the release executable, version 1.1.1/build 111/Stable, both architectures,
@@ -119,10 +124,17 @@ Verified on 2026-10-18 after explicit approval to notarize and publish:
   with no delta entries. This supersedes the initial candidate's size/hash/signature.
 - The installed 1.1.0 bundle has build 110 and the same Sparkle public key/feed URL.
   The working application and its data were not replaced during artifact verification.
+- [Native CI run 39155925228](https://github.com/brewwery/brewwery/actions/runs/39155925228)
+  passed on commit `e5f2c03` with macOS 26 / Xcode 26.6: isolated tests, all 16 appcast
+  checks, universal packaging, headless bundle verification and QA ZIP artifact upload.
+  Xcode 16.4 also passed the isolated tests; its universal build graph failed, so the
+  packaging toolchain requirement is now documented separately from the minimum runtime OS.
+- The final website/docs commits passed production builds and 25 HTTP/content checks in
+  separate Hetzner staging directories, including DMG SHA-256, appcast metadata, localized
+  routes, static assets and documentation. Production promotion is recorded separately below.
 
 ## Not yet verified
 
-- GitHub Actions execution; the native workflow has been prepared locally only.
 - A fresh macOS account and native About-panel link interaction. Settings/About text and
   the link destination were inspected; no external page or license link was opened.
 - Real Intel hardware and macOS 14 compatibility. The local toolchain emits an x86_64
