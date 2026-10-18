@@ -23,12 +23,16 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-PRODUCTS="$ROOT/.build/apple/Products/Release"
 APP="$OUTPUT/Brewwery.app"
 CONTENTS="$APP/Contents"
+BUILD_ARGS=(--package-path "$ROOT" --configuration release --arch arm64 --arch x86_64)
 
 echo "==> Building universal release (arm64, x86_64)"
-swift build --package-path "$ROOT" --configuration release --arch arm64 --arch x86_64
+swift build "${BUILD_ARGS[@]}"
+# Swift toolchains use different product directories. Never guess or reuse an old one.
+PRODUCTS="$(swift build "${BUILD_ARGS[@]}" --show-bin-path)"
+test -x "$PRODUCTS/Brewwery"
+test -d "$PRODUCTS/Sparkle.framework"
 
 echo "==> Assembling $APP"
 rm -rf "$APP"
@@ -38,6 +42,8 @@ cp "$PRODUCTS/Brewwery" "$CONTENTS/MacOS/Brewwery"
 cp "$ROOT/Packaging/Info.plist" "$CONTENTS/Info.plist"
 printf 'APPL????' > "$CONTENTS/PkgInfo"
 ditto "$PRODUCTS/Sparkle.framework" "$CONTENTS/Frameworks/Sparkle.framework"
+cp "$ROOT/LICENSE" "$CONTENTS/Resources/LICENSE.txt"
+cp "$ROOT/.build/artifacts/sparkle/Sparkle/LICENSE" "$CONTENTS/Resources/Sparkle-LICENSE.txt"
 
 # Images go straight into Contents/Resources. SwiftPM's resource bundle is deliberately not
 # shipped: its generated accessor only looks beside the .app or at this machine's build path.
@@ -50,7 +56,9 @@ done
 "$ROOT/Scripts/localization.sh" compile "$CONTENTS/Resources"
 
 echo "==> Building the icon set"
-ICONSET="$(mktemp -d)/AppIcon.iconset"
+ICON_TEMP="$(mktemp -d)"
+trap 'rm -rf "$ICON_TEMP"' EXIT
+ICONSET="$ICON_TEMP/AppIcon.iconset"
 mkdir -p "$ICONSET"
 for size in 16 32 64 128 256 512; do
   sips -z $size $size "$ROOT/Sources/Brewwery/Resources/AppIcon.png" --out "$ICONSET/icon_${size}x${size}.png" >/dev/null
@@ -61,6 +69,7 @@ iconutil -c icns "$ICONSET" -o "$CONTENTS/Resources/AppIcon.icns"
 if [[ -z "$IDENTITY" ]]; then
   # An ad-hoc signature keeps a local build launchable; it cannot be notarised.
   codesign --force --sign - --deep "$APP" >/dev/null
+  bash "$ROOT/Scripts/verify-app.sh" "$APP" "$PRODUCTS/Brewwery"
   echo "==> Unsigned (ad-hoc) build: $APP"
   exit 0
 fi
@@ -77,4 +86,5 @@ sign "$CONTENTS/Frameworks/Sparkle.framework"
 sign --entitlements "$ROOT/Packaging/Brewwery.entitlements" "$APP"
 
 codesign --verify --deep --strict --verbose=2 "$APP"
+bash "$ROOT/Scripts/verify-app.sh" "$APP" "$PRODUCTS/Brewwery"
 echo "==> Signed: $APP"

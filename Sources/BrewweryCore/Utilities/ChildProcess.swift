@@ -180,8 +180,9 @@ final class ChildProcess: @unchecked Sendable {
     /// group is already gone.
     @discardableResult
     func signalGroup(_ signal: Int32) -> Bool {
-        guard !hasTerminated else { return false }
+        // A leader can exit while descendants still hold its output pipes open.
         if kill(-pid, signal) == 0 { return true }
+        guard !hasTerminated else { return false }
         return kill(pid, signal) == 0
     }
 }

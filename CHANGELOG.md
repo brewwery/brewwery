@@ -1,5 +1,49 @@
 # Changelog
 
+## 1.1.1
+
+Reliability fixes after the native-app audit. No new Homebrew commands.
+
+### Fixed
+- Packaging uses SwiftPM's actual product directory, not the obsolete `.build/apple` path.
+  The packaged executable reports its compiled version/build without starting the app.
+  Packaging verifies these against Info.plist, both architectures, resources, signatures and
+  the linked executable's Mach-O UUIDs.
+- Mutating operations reserve their slot before detection starts. Metadata updates, taps and
+  pin/unpin share the coordinator; the runner independently rejects overlapping mutations.
+- Buffered commands now support task cancellation, process-group termination, safety
+  timeouts and explicit output-size errors. Path-validation probes also have a deadline.
+- Streaming pipes no longer queue unlimited chunks. Slow consumers retain the terminal
+  result and bounded output; split UTF-8 characters are preserved. Cancelling the caller
+  waits for the process to exit before the operation slot is released.
+- Package and service lists refresh after failed or cancelled operations as well as success,
+  because Homebrew may have applied part of a change.
+- Option-shaped package, cask, service, tap and search arguments are rejected before spawn.
+- Detail drawers ignore stale package-info responses. Failed dependent checks show a retry
+  state instead of incorrectly claiming that no packages depend on a formula; Packages now
+  loads dependents too.
+- Sparkle appcasts use a release-specific directory containing only the current DMG,
+  with delta generation disabled. Old artifacts no longer acquire the newest release URL.
+  A public-key verifier checks version/build, minimum OS, enclosure URL, byte length and
+  the exact DMG's EdDSA signature before copying the feed to the website.
+- Favorites/History read and write failures are visible and retryable. Corrupt JSON is backed
+  up before replacement. JSON encoding, backup and atomic writes now run on a serial
+  background queue, with rapid changes coalesced to the latest pending snapshot per store.
+  Normal quit waits for persistence, warns if saving failed and is blocked during a mutation.
+
+### Changed
+- About and Settings credit [by Made Büro](https://github.com/madeburo).
+- Bundles include the project MIT license and Sparkle's third-party license notices.
+- README and security documentation describe the native app, Sparkle network activity and
+  local data storage. The original copyright holder is unchanged.
+- Native CI runs isolated tests and universal packaging verification without signing secrets
+  or release publication. The release script runs the isolated test suite before packaging.
+- `--qa-profile <name>` isolates Favorites, History and app preferences for packaged-app
+  clean-install/restart checks without replacing the working profile. QA disables Sparkle
+  and window-frame autosaving; it does not isolate or mutate Homebrew by itself.
+
+Local verification and remaining release gates: [1.1.1 QA](docs/QA-1.1.1.md).
+
 ## 1.1.0
 
 Ways to act on what Brewwery shows: report a problem without leaving the app, install a

@@ -22,7 +22,7 @@ final class RenderingTests: XCTestCase {
     }
 
     override func tearDown() async throws {
-        harness?.tearDown()
+        await harness?.tearDown()
     }
 
     func testEveryPageRendersInBothThemes() async throws {
@@ -34,6 +34,25 @@ final class RenderingTests: XCTestCase {
                 let image = try harness.snapshot(window, named: "page-\(page.rawValue)-\(theme)")
                 XCTAssertTrue(image.hasVisibleContent, "\(page.rawValue) rendered blank in \(theme)")
             }
+        }
+    }
+
+    func testSettingsCreditAndStorageErrorRenderInBothThemes() async throws {
+        for appearance in [NSAppearance.Name.darkAqua, .aqua] {
+            let theme = appearance == .darkAqua ? "dark" : "light"
+            let settings = try await harness.host(SettingsView().padding(24), size: CGSize(width: 1000, height: 2200), appearance: appearance)
+            XCTAssertTrue(try harness.snapshot(settings, named: "settings-full-\(theme)").hasVisibleContent)
+        }
+        // A regular file where a storage directory should be makes writes fail reliably.
+        let blocked = harness.fake.directory.appendingPathComponent("blocked-state")
+        try Data("blocked".utf8).write(to: blocked)
+        let favorites = FavoritesStore(directory: blocked)
+        favorites.add(name: "redis", kind: .formula)
+        let environment = AppEnvironment(client: app.client, settings: app.settings, history: app.history, favorites: favorites, updateDriver: nil)
+        for appearance in [NSAppearance.Name.darkAqua, .aqua] {
+            let theme = appearance == .darkAqua ? "dark" : "light"
+            let window = try await harness.host(RootView().environment(environment), appearance: appearance)
+            XCTAssertTrue(try harness.snapshot(window, named: "storage-error-\(theme)").hasVisibleContent)
         }
     }
 

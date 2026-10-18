@@ -93,22 +93,30 @@ final class PackageInfoModel {
     private(set) var error: BrewweryError?
     private(set) var dependents: [String] = []
     private(set) var isLoadingDependents = false
+    private(set) var dependentsError: BrewweryError?
 
     private let client: HomebrewClient
     private var dependentsTask: Task<Void, Never>?
+    private var requestID = UUID()
 
     init(client: HomebrewClient) {
         self.client = client
     }
 
     func load(_ reference: PackageReference) async {
+        let id = UUID()
+        requestID = id
         isLoading = true
+        info = nil
         error = nil
-        defer { isLoading = false }
+        defer { if requestID == id { isLoading = false } }
 
         do {
-            info = try await client.packageInfo(for: reference)
+            let result = try await client.packageInfo(for: reference)
+            guard requestID == id, !Task.isCancelled else { return }
+            info = result
         } catch {
+            guard requestID == id, !Task.isCancelled else { return }
             self.error = error
         }
     }
@@ -118,6 +126,7 @@ final class PackageInfoModel {
     func loadDependents(for reference: PackageReference?) {
         dependentsTask?.cancel()
         dependents = []
+        dependentsError = nil
 
         guard let reference, reference.kind == .formula else {
             isLoadingDependents = false
@@ -127,15 +136,23 @@ final class PackageInfoModel {
         isLoadingDependents = true
         dependentsTask = Task { [weak self] in
             guard let self else { return }
-            let found = (try? await client.dependents(of: reference.name)) ?? []
-            guard !Task.isCancelled else { return }
-            dependents = found
+            do {
+                let found = try await client.dependents(of: reference.name)
+                guard !Task.isCancelled else { return }
+                dependents = found
+            } catch {
+                guard !Task.isCancelled else { return }
+                dependentsError = error as? BrewweryError ?? BrewweryError(code: .packageInfoFailed, message: error.localizedDescription)
+            }
             isLoadingDependents = false
         }
     }
 
     func clear() {
+        requestID = UUID()
         dependentsTask?.cancel()
+        isLoading = false
+        dependentsError = nil
         info = nil
         error = nil
         dependents = []

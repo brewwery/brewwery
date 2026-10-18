@@ -43,8 +43,8 @@ public enum OperationOutcome: Sendable {
 
 /// Serialises mutating Homebrew operations and owns the progress state the UI renders.
 ///
-/// Homebrew itself refuses to run two mutating commands at once, and the legacy app enforced
-/// one streaming operation per window. The same rule is enforced here: a second request
+/// In addition to Homebrew's resource-specific locks, Brewwery allows one mutation at a time.
+/// A second request
 /// while one is running fails with `OPERATION_IN_PROGRESS` rather than queueing silently.
 /// Reads are unaffected — they never go through the coordinator.
 @MainActor
@@ -53,6 +53,7 @@ public final class OperationCoordinator {
     public private(set) var progress: OperationProgress?
     /// `true` between the user confirming a cancellation and the process actually exiting.
     public private(set) var isCancelling = false
+    public private(set) var isRunning = false
 
     private let client: HomebrewClient
     private var dismissTask: Task<Void, Never>?
@@ -65,7 +66,13 @@ public final class OperationCoordinator {
         self.successDismissDelay = successDismissDelay
     }
 
-    public var isRunning: Bool { progress?.status == .running }
+    /// Reserve the slot before detection or any other suspension point.
+    public func runBuffered(_ command: HomebrewCommand) async throws(BrewweryError) -> ProcessOutput {
+        guard !isRunning else { throw .operationInProgress }
+        isRunning = true
+        defer { isRunning = false }
+        return try await client.bufferedMutation(command)
+    }
 
     /// Runs one streaming operation to completion, publishing live output as it arrives.
     ///
@@ -77,6 +84,8 @@ public final class OperationCoordinator {
         target: String? = nil
     ) async throws(BrewweryError) -> OperationOutcome {
         guard !isRunning else { throw .operationInProgress }
+        isRunning = true
+        defer { isRunning = false; isCancelling = false }
 
         let id = UUID()
         let handle = OperationHandle(
@@ -94,6 +103,19 @@ public final class OperationCoordinator {
         progress = state
         isCancelling = false
 
+        // Keep consuming until the runner has drained and reaped the child. Cancelling the
+        // caller must request process cancellation, not abandon the terminal event.
+        let consumer = Task { await consume(events, state: state) }
+        let outcome = await withTaskCancellationHandler {
+            await consumer.value
+        } onCancel: {
+            Task { await self.cancel() }
+        }
+        if case .completed = outcome { scheduleDismissal(of: state.id) }
+        return outcome
+    }
+
+    private func consume(_ events: AsyncStream<OperationEvent>, state: OperationProgress) async -> OperationOutcome {
         var outcome: OperationOutcome = .failed(
             BrewweryError(code: .unknownError, message: "The Homebrew operation produced no result."),
             stdout: "",
@@ -127,8 +149,10 @@ public final class OperationCoordinator {
             }
         }
 
-        isCancelling = false
-        if case .completed = outcome { scheduleDismissal(of: state.id) }
+        if state.status == .running {
+            state.status = .failed
+            state.error = outcome.error
+        }
         return outcome
     }
 
@@ -151,7 +175,7 @@ public final class OperationCoordinator {
 
     /// Dismisses a finished operation's panel.
     public func clear() {
-        guard progress?.status != .running else { return }
+        guard !isRunning else { return }
         dismissTask?.cancel()
         progress = nil
         isCancelling = false

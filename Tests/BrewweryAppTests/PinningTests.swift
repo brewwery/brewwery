@@ -17,7 +17,7 @@ final class PinningTests: XCTestCase {
     }
 
     override func tearDown() async throws {
-        harness?.tearDown()
+        await harness?.tearDown()
     }
 
     func testPinCommandsAreValidatedLikeEveryOtherCommand() throws {

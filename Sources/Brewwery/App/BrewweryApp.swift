@@ -2,13 +2,13 @@ import AppKit
 import BrewweryCore
 import SwiftUI
 
-@main
 struct BrewweryApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @State private var environment = BrewweryApp.makeEnvironment()
 
     @MainActor
     private static func makeEnvironment() -> AppEnvironment {
+        if let qa = QALaunch.current { return qa.makeEnvironment() }
         #if DEBUG
         if let demo = DemoLaunch.current { return demo.makeEnvironment() }
         #endif

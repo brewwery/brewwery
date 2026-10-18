@@ -41,6 +41,9 @@ done
 
 [[ -n "$IDENTITY" ]] || { echo "error: --sign \"Developer ID Application: …\" is required" >&2; exit 1; }
 [[ -n "$PROFILE" ]] || { echo "error: --notary-profile (or NOTARY_PROFILE) is required" >&2; exit 1; }
+echo "==> Running isolated tests (no real Homebrew)"
+BREWWERY_LIVE=0 swift test --package-path "$ROOT" --skip BrewweryLiveTests
+swift "$ROOT/Scripts/test-appcast.swift" "$ROOT/Scripts/verify-appcast.swift"
 xcrun notarytool history --keychain-profile "$PROFILE" >/dev/null 2>&1 || {
   echo "error: no notarytool keychain profile named \"$PROFILE\"." >&2
   echo "       create one with: xcrun notarytool store-credentials \"$PROFILE\"" >&2
@@ -54,6 +57,12 @@ APP="$RELEASE/Brewwery.app"
 DMG="$APPCAST_DIR/Brewwery-$VERSION.dmg"
 SPARKLE_BIN="$ROOT/.build/artifacts/sparkle/Sparkle/bin"
 
+EXPECTED_KEY=$(/usr/libexec/PlistBuddy -c "Print :SUPublicEDKey" "$ROOT/Packaging/Info.plist")
+[[ "$("$SPARKLE_BIN/generate_keys" --account brewwery -p)" == "$EXPECTED_KEY" ]] || {
+  echo "error: the Sparkle signing key does not match SUPublicEDKey." >&2
+  exit 1
+}
+
 rm -rf "$RELEASE"
 mkdir -p "$RELEASE" "$APPCAST_DIR"
 
@@ -63,6 +72,8 @@ echo "==> Notarising the app"
 ditto -c -k --keepParent "$APP" "$RELEASE/Brewwery-notarize.zip"
 xcrun notarytool submit "$RELEASE/Brewwery-notarize.zip" --keychain-profile "$PROFILE" --wait
 xcrun stapler staple "$APP"
+xcrun stapler validate "$APP"
+spctl --assess --type execute --verbose=2 "$APP"
 rm "$RELEASE/Brewwery-notarize.zip"
 
 echo "==> Building the DMG"
@@ -78,16 +89,32 @@ codesign --force --timestamp --sign "$IDENTITY" "$DMG"
 echo "==> Notarising the DMG"
 xcrun notarytool submit "$DMG" --keychain-profile "$PROFILE" --wait
 xcrun stapler staple "$DMG"
+xcrun stapler validate "$DMG"
 spctl --assess --type open --context context:primary-signature --verbose=2 "$DMG"
 
 echo "==> Updating the Sparkle appcast"
+# Generate only this release: reusing the archive history with a new URL prefix rewrites
+# older enclosure URLs and can advertise delta files that were never uploaded.
+FEED_STAGING="$RELEASE/appcast"
+mkdir -p "$FEED_STAGING"
+cp "$DMG" "$FEED_STAGING/"
+NOTES="$ROOT/docs/release-notes/v$VERSION.html"
+if [[ -f "$NOTES" ]]; then
+  cp "$NOTES" "$FEED_STAGING/Brewwery-$VERSION.html"
+fi
 # macOS ships bash 3.2, where expanding an empty array under `set -u` is an error.
 CHANNEL_ARGS=()
 [[ -n "$CHANNEL" ]] && CHANNEL_ARGS=(--channel "$CHANNEL")
 "$SPARKLE_BIN/generate_appcast" --account brewwery \
   --download-url-prefix "$DOWNLOAD_PREFIX" \
+  --maximum-deltas 0 --maximum-versions 1 --embed-release-notes \
+  --full-release-notes-url "https://www.brewwery.com/changelog" \
+  --link "https://www.brewwery.com" \
   ${CHANNEL_ARGS[@]+"${CHANNEL_ARGS[@]}"} \
-  "$APPCAST_DIR"
+  "$FEED_STAGING"
+swift "$ROOT/Scripts/verify-appcast.swift" "$FEED_STAGING/appcast.xml" "$DMG" \
+  "$APP/Contents/Info.plist" "$DOWNLOAD_PREFIX"
+cp "$FEED_STAGING/appcast.xml" "$APPCAST_DIR/appcast.xml"
 
 if [[ -n "$SITE_PUBLIC" ]]; then
   echo "==> Copying into the website"

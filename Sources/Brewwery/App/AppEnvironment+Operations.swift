@@ -11,7 +11,7 @@ extension AppEnvironment {
     // MARK: - Packages
 
     func installPackage(_ reference: PackageReference) async {
-        let succeeded = await runOperation(
+        await runOperation(
             .install(reference),
             kind: .install,
             historyKind: .install,
@@ -25,11 +25,10 @@ extension AppEnvironment {
                 }
             }
         )
-        if succeeded { await invalidateAfterPackageChange() }
     }
 
     func uninstallPackage(_ reference: PackageReference) async {
-        let succeeded = await runOperation(
+        await runOperation(
             .uninstall(reference),
             kind: .uninstall,
             historyKind: .uninstall,
@@ -43,7 +42,6 @@ extension AppEnvironment {
                 }
             }
         )
-        if succeeded { await invalidateAfterPackageChange() }
     }
 
     // MARK: - Updates
@@ -51,7 +49,7 @@ extension AppEnvironment {
     /// Upgrades one package. Distinct from `refreshMetadata()`, which only updates
     /// Homebrew's own metadata.
     func upgradePackage(_ reference: PackageReference) async {
-        let succeeded = await runOperation(
+        await runOperation(
             .upgrade(reference),
             kind: .upgrade,
             historyKind: .upgrade,
@@ -65,11 +63,10 @@ extension AppEnvironment {
                 }
             }
         )
-        if succeeded { await invalidateAfterPackageChange() }
     }
 
     func upgradeAllPackages() async {
-        let succeeded = await runOperation(
+        await runOperation(
             .upgradeAll,
             kind: .upgrade,
             historyKind: .upgrade,
@@ -83,7 +80,6 @@ extension AppEnvironment {
                 }
             }
         )
-        if succeeded { await invalidateAfterPackageChange() }
     }
 
     /// `brew update` — refreshes Homebrew's metadata only. Never confused with upgrading
@@ -103,6 +99,7 @@ extension AppEnvironment {
             )
             await updates.refresh()
         case .failure(let error):
+            if error.code != .operationInProgress { await updates.refresh() }
             record(
                 HistoryEntry(
                     kind: .brewUpdate,
@@ -119,7 +116,7 @@ extension AppEnvironment {
     // MARK: - Services
 
     func performServiceAction(_ action: ServiceAction, on name: String) async {
-        let succeeded = await runOperation(
+        await runOperation(
             .service(action: action, name: name),
             kind: .service,
             historyKind: .service,
@@ -127,7 +124,6 @@ extension AppEnvironment {
             successTitle: action.successTitle(name),
             failureTitle: { error in action.failureTitle(name, code: error.code) }
         )
-        if succeeded { await services.refresh() }
     }
 
     // MARK: - Taps
@@ -257,7 +253,7 @@ extension AppEnvironment {
         let command = pinned ? HomebrewCommand.pin(formula: formula) : HomebrewCommand.unpin(formula: formula)
 
         do {
-            let output = try await client.setPinned(pinned, formula: formula)
+            let output = try await operations.runBuffered(command)
             record(
                 HistoryEntry(
                     kind: .pin,

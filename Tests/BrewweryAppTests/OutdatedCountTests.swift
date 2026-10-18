@@ -19,7 +19,7 @@ final class OutdatedCountTests: XCTestCase {
     }
 
     override func tearDown() async throws {
-        harness?.tearDown()
+        await harness?.tearDown()
     }
 
     func testLaunchLoadsTheOutdatedListSoTheDockAndTheWindowAgree() async throws {

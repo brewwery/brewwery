@@ -15,9 +15,9 @@ struct AppTestHarness {
     let directory: URL
     let suiteName: String
 
-    init() throws {
+    init(overrides: String = "") throws {
         _ = NSApplication.shared
-        fake = try FakeBrew()
+        fake = try FakeBrew(overrides: overrides)
         directory = fake.directory.appendingPathComponent("state", isDirectory: true)
         suiteName = "brewwery-app-tests-\(UUID().uuidString)"
         let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
@@ -42,7 +42,8 @@ struct AppTestHarness {
         XCTAssertEqual(detection.path, fake.executable.path, "tests must never reach the real Homebrew", file: file, line: line)
     }
 
-    func tearDown() {
+    func tearDown() async {
+        _ = await environment.flushPersistence()
         UserDefaults.standard.removePersistentDomain(forName: suiteName)
         fake.cleanUp()
     }

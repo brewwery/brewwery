@@ -109,12 +109,14 @@ struct FavoritesView: View {
 
     @ViewBuilder
     private var drawer: some View {
-        if let info, let detail = info.info {
+        if let info, let detail = info.hydrated(with: brewwery.library) {
             PackageDetailDrawer(
                 detail: .info(detail),
                 isWorking: info.isLoading,
                 dependents: info.dependents,
                 isLoadingDependents: info.isLoadingDependents,
+                dependentsError: info.dependentsError,
+                onRetryDependents: { info.loadDependents(for: PackageDetail.info(detail).reference) },
                 onClose: { info.clear() }
             )
         }

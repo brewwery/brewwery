@@ -103,5 +103,47 @@ final class OperationCoordinatorTests: XCTestCase {
         }
 
         XCTAssertNil(coordinator.progress)
+        XCTAssertFalse(coordinator.isRunning)
+    }
+
+    func testReservesTheSlotBeforeDetectionCompletes() async throws {
+        let fake = try FakeBrew(overrides: "if [ \"$1\" = --version ]; then /bin/sleep 0.2; fi")
+        defer { fake.cleanUp() }
+        let coordinator = OperationCoordinator(client: fake.makeClient())
+        let first = Task { try await coordinator.run(.cleanup, kind: .cleanup) }
+        while !coordinator.isRunning { await Task.yield() }
+        XCTAssertNil(coordinator.progress, "still detecting, no process has started")
+        do { _ = try await coordinator.run(.cleanup, kind: .cleanup); XCTFail("expected lock") }
+        catch { XCTAssertEqual(error.code, .operationInProgress) }
+        do { _ = try await coordinator.runBuffered(.pin(formula: "redis")); XCTFail("expected lock") }
+        catch { XCTAssertEqual(error.code, .operationInProgress) }
+        _ = try await first.value
+        XCTAssertFalse(coordinator.isRunning)
+    }
+
+    func testBufferedMutationReservesTheSameCoordinatorSlot() async throws {
+        let fake = try FakeBrew(overrides: "if [ \"$1\" = update ]; then /bin/sleep 0.4; fi")
+        defer { fake.cleanUp() }
+        let coordinator = OperationCoordinator(client: fake.makeClient())
+        let first = Task { try await coordinator.runBuffered(.update) }
+        while !coordinator.isRunning { await Task.yield() }
+        do { _ = try await coordinator.run(.cleanup, kind: .cleanup); XCTFail("expected lock") }
+        catch { XCTAssertEqual(error.code, .operationInProgress) }
+        _ = try await first.value
+        XCTAssertFalse(coordinator.isRunning)
+    }
+
+    func testCancellingTheCallerWaitsForTheTerminalEvent() async throws {
+        try startFakeHomebrew()
+        let task = Task { try await coordinator.run(.upgradeAll, kind: .upgrade) }
+        let reported = await fake.waitForGrandchildPID()
+        let pid = try XCTUnwrap(reported)
+        task.cancel()
+        let outcome = try await task.value
+        XCTAssertEqual(outcome.error?.code, .operationCancelled)
+        XCTAssertEqual(coordinator.progress?.status, .cancelled)
+        XCTAssertFalse(coordinator.isRunning)
+        let gone = await FakeBrew.waitUntilGone(pid)
+        XCTAssertTrue(gone)
     }
 }

@@ -14,6 +14,21 @@ struct RootView: View {
     var body: some View {
         VStack(spacing: 0) {
             WindowTopStrip()
+            if brewwery.favorites.persistenceError != nil || brewwery.history.persistenceError != nil {
+                HStack {
+                    Image(systemName: "exclamationmark.triangle")
+                    Text("Local data could not be loaded or saved. Keep Brewwery open and retry.")
+                    Spacer()
+                    Button("Retry") {
+                        brewwery.favorites.retryPersistence()
+                        brewwery.history.retryPersistence()
+                    }
+                    .brewweryButton(.secondary)
+                }
+                .font(BrewweryFont.caption)
+                .padding(Metrics.rowSpacing)
+                .accessibilityElement(children: .contain)
+            }
 
             HStack(spacing: 0) {
                 SidebarView()

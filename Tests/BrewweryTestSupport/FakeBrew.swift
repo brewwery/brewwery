@@ -16,7 +16,7 @@ public struct FakeBrew: Sendable {
     /// fails, which is what the error-path tests rely on.
     public let outdatedFile: URL
 
-    public init() throws {
+    public init(overrides: String = "") throws {
         directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("brewwery-tests-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -26,6 +26,7 @@ public struct FakeBrew: Sendable {
 
         let script = """
         #!/bin/sh
+        \(overrides)
         case "$1" in
           --version)
             echo "Homebrew 4.5.0-test"

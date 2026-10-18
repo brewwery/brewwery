@@ -12,6 +12,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var updatesMenuItem: NSMenuItem?
     private var keyMonitor: Any?
     private var aboutPanelOptions: [NSApplication.AboutPanelOptionKey: Any] = [:]
+    private var terminationTask: Task<Void, Never>?
 
     /// Background outdated check (`update-badge.ts`): every 30 min, on top of the load
     /// `AppEnvironment.prepare()` already does at launch. It is read-only — it never
@@ -22,13 +23,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.setActivationPolicy(.regular)
         NSApplication.shared.applicationIconImage = AppAssets.appIcon
 
+        let credits = NSMutableAttributedString(
+            string: "\(String(localized: AppInfo.tagline))\n\(AppInfo.authorCredit)\n\(AppInfo.copyright)",
+            attributes: [.font: NSFont.systemFont(ofSize: 11)]
+        )
+        credits.addAttribute(.link, value: AppInfo.authorURL,
+                             range: (credits.string as NSString).range(of: AppInfo.authorCredit))
+        for (title, resource) in [("MIT License", "LICENSE"), ("Sparkle licenses", "Sparkle-LICENSE")] {
+            if let url = Bundle.main.url(forResource: resource, withExtension: "txt") {
+                credits.append(NSAttributedString(string: "\n\(title)", attributes: [.link: url, .font: NSFont.systemFont(ofSize: 11)]))
+            }
+        }
         aboutPanelOptions = [
             .applicationName: AppInfo.name,
             .applicationVersion: AppInfo.version,
-            .credits: NSAttributedString(
-                string: "\(String(localized: AppInfo.tagline))\n\(AppInfo.copyright)",
-                attributes: [.font: NSFont.systemFont(ofSize: 11)]
-            )
+            .credits: credits
         ]
     }
 
@@ -46,6 +55,36 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         false
+    }
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        guard let environment else { return .terminateNow }
+        if environment.operations.isRunning {
+            let alert = NSAlert()
+            alert.messageText = String(localized: "Brewwery is still working")
+            alert.informativeText = String(localized: "Wait for the Homebrew operation to finish before quitting.")
+            alert.addButton(withTitle: String(localized: "OK"))
+            alert.runModal()
+            return .terminateCancel
+        }
+        guard terminationTask == nil else { return .terminateLater }
+        guard environment.history.hasUnsavedChanges || environment.favorites.hasUnsavedChanges else { return .terminateNow }
+        terminationTask = Task {
+            let saved = await environment.flushPersistence()
+            let shouldQuit = saved || confirmDiscardingUnsavedChanges()
+            terminationTask = nil
+            sender.reply(toApplicationShouldTerminate: shouldQuit)
+        }
+        return .terminateLater
+    }
+
+    private func confirmDiscardingUnsavedChanges() -> Bool {
+        let alert = NSAlert()
+        alert.messageText = String(localized: "Local changes have not been saved")
+        alert.informativeText = String(localized: "Retry saving before quitting, or discard the unsaved changes.")
+        alert.addButton(withTitle: String(localized: "Keep open"))
+        alert.addButton(withTitle: String(localized: "Quit without saving"))
+        return alert.runModal() == .alertSecondButtonReturn
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -68,6 +107,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func configureMainWindow() {
         guard let window = NSApp.windows.first else { return }
         window.title = AppInfo.name
+        if let qa = QALaunch.current {
+            window.title = "\(AppInfo.name) - QA (\(qa.name))"
+            // AppKit window frames otherwise use the main bundle's defaults, not the QA suite.
+            window.setFrameAutosaveName("")
+        }
         #if DEBUG
         // Demo builds name the window after the page they were asked to show, so
         // Scripts/screenshots.sh can prove it captured the right one.

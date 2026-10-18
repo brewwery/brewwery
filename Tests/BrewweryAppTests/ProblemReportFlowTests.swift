@@ -18,7 +18,7 @@ final class ProblemReportFlowTests: XCTestCase {
     }
 
     override func tearDown() async throws {
-        harness?.tearDown()
+        await harness?.tearDown()
     }
 
     func testAPlainReportCarriesTheEnvironmentAndNoFailure() throws {

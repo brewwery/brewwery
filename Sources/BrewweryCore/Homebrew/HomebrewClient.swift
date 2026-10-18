@@ -288,6 +288,18 @@ public actor HomebrewClient {
 
     // MARK: - Streaming operations
 
+    /// Short mutations share the same admission control as streaming operations.
+    public func bufferedMutation(_ command: HomebrewCommand) async throws(BrewweryError) -> ProcessOutput {
+        switch command {
+        case .update: try await updateMetadata()
+        case .addTap(let name): try await addTap(name)
+        case .removeTap(let name): try await removeTap(name)
+        case .pin(let formula): try await setPinned(true, formula: formula)
+        case .unpin(let formula): try await setPinned(false, formula: formula)
+        default: throw BrewweryError(code: .unknownError, message: "Unsupported buffered mutation.")
+        }
+    }
+
     public func stream(
         _ command: HomebrewCommand,
         kind: OperationKind,
@@ -310,7 +322,8 @@ private extension BrewweryError {
     /// else becomes the phase's failure code.
     func mapped(to code: BrewweryErrorCode, phase: String) -> BrewweryError {
         switch self.code {
-        case .invalidPackageName, .invalidCaskToken, .brewJSONParseFailed, .homebrewNotFound, .packageInfoFailed:
+        case .operationInProgress, .operationCancelled, .operationTimeout,
+             .invalidPackageName, .invalidCaskToken, .brewJSONParseFailed, .homebrewNotFound, .packageInfoFailed:
             self
         default:
             BrewweryError(code: code, message: "Package \(phase) failed.", raw: raw ?? message)
@@ -319,6 +332,7 @@ private extension BrewweryError {
 
     /// `mapTapError`.
     func mappedTap(action: String) -> BrewweryError {
+        if [.operationInProgress, .operationCancelled, .operationTimeout].contains(code) { return self }
         guard code != .invalidTapName, code != .homebrewNotFound else { return self }
         return BrewweryError(
             code: .tapCommandFailed,
@@ -330,6 +344,7 @@ private extension BrewweryError {
     /// `mapServiceError` — keeps the two specific recovery messages the legacy app added
     /// for a stale `brew services` and for an offline metadata host.
     func mappedService() -> BrewweryError {
+        if [.operationInProgress, .operationCancelled, .operationTimeout].contains(code) { return self }
         let text = (raw ?? message).lowercased()
 
         if code == .invalidServiceName || code == .homebrewNotFound { return self }

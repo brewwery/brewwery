@@ -23,6 +23,7 @@ final class VersionTests: XCTestCase {
             AppInfo.fallbackVersion,
             "bump AppInfo.fallbackVersion with Packaging/Info.plist"
         )
+        XCTAssertEqual(info["CFBundleVersion"] as? String, AppInfo.compiledBuild)
     }
 
     func testChangelogLeadsWithTheCurrentVersion() throws {

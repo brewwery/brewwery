@@ -1,6 +1,30 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "Could not check installed dependents.": {
+      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Installierte abhängige Pakete konnten nicht geprüft werden."}}}
+    },
+    "Local data could not be loaded or saved. Keep Brewwery open and retry.": {
+      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Lokale Daten konnten nicht geladen oder gespeichert werden. Brewwery geöffnet lassen und erneut versuchen."}}}
+    },
+    "Brewwery is still working": {
+      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Brewwery arbeitet noch"}}}
+    },
+    "Wait for the Homebrew operation to finish before quitting.": {
+      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Vor dem Beenden warten, bis der Homebrew-Vorgang abgeschlossen ist."}}}
+    },
+    "Local changes have not been saved": {
+      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Lokale Änderungen wurden nicht gespeichert"}}}
+    },
+    "Retry saving before quitting, or discard the unsaved changes.": {
+      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Vor dem Beenden das Speichern erneut versuchen oder die ungespeicherten Änderungen verwerfen."}}}
+    },
+    "Keep open": {
+      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Geöffnet lassen"}}}
+    },
+    "Quit without saving": {
+      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Ohne Speichern beenden"}}}
+    },
     "%@": {
       "localizations": {
         "de": {

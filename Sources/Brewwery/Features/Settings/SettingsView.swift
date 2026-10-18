@@ -283,6 +283,14 @@ struct SettingsView: View {
                     Text(AppInfo.tagline)
                         .font(BrewweryFont.body)
                         .foregroundStyle(BrewweryColor.mutedForeground)
+                    Button {
+                        ExternalLink.open(AppInfo.authorURL)
+                    } label: {
+                        Text(verbatim: AppInfo.authorCredit)
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(BrewweryColor.accent)
+                    .help(AppInfo.authorURL)
                 }
 
                 LazyVGrid(

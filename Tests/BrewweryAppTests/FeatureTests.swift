@@ -16,7 +16,7 @@ final class FeatureTests: XCTestCase {
     }
 
     override func tearDown() async throws {
-        harness?.tearDown()
+        await harness?.tearDown()
     }
 
     // MARK: - Operations

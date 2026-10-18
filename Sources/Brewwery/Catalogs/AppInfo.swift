@@ -6,10 +6,12 @@ enum AppInfo {
     static let tagline: LocalizedStringResource = "Homebrew, without the terminal."
     static let bundleIdentifier = "com.brewwery.app"
     static let author = "Made Büro"
-    static let copyright = "MIT License. Made by Made Büro."
+    static let copyright = "MIT License. Copyright (c) 2026 Brewwery contributors."
+    static let authorCredit = "by Made Büro"
+    static let authorURL = "https://github.com/madeburo"
 
     /// Read from the bundle when the app is packaged, with the source of truth in
-    /// `Sources/Brewwery/Resources/Info.plist`.
+    /// `Packaging/Info.plist`.
     static let version: String = {
         // `com.brewwery.app.screenshots` counts too: the demo bundle Scripts/screenshots.sh
         // builds carries the same Info.plist, and its captures should show the real version.
@@ -20,7 +22,8 @@ enum AppInfo {
     }()
     /// Used by `swift run` and tests, where the main bundle is not Brewwery's.
     /// `VersionTests` keeps it equal to `Packaging/Info.plist`.
-    static let fallbackVersion = "1.1.0"
+    static let fallbackVersion = "1.1.1"
+    static let compiledBuild = "111"
     static let channel = "Stable"
 
     /// `CFBundleVersion`, read under the same rule as `version`.

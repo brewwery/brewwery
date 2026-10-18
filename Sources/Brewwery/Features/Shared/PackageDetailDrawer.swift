@@ -37,6 +37,8 @@ struct PackageDetailDrawer: View {
     var isWorking = false
     var dependents: [String] = []
     var isLoadingDependents = false
+    var dependentsError: BrewweryError?
+    var onRetryDependents: (() -> Void)?
     var onClose: () -> Void
     var onInstall: ((PackageReference) -> Void)?
     var onUninstall: ((PackageReference) -> Void)?
@@ -170,6 +172,12 @@ struct PackageDetailDrawer: View {
 
                 if isLoadingDependents {
                     PlaceholderBox(text: "Checking dependents...")
+                } else if dependentsError != nil {
+                    Text("Could not check installed dependents.")
+                        .foregroundStyle(BrewweryColor.mutedForeground)
+                    if let onRetryDependents {
+                        ActionButton(title: "Retry", systemImage: "arrow.clockwise", action: onRetryDependents)
+                    }
                 } else if dependents.isEmpty {
                     PlaceholderBox(text: "No installed packages depend on this formula.")
                 } else {

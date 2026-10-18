@@ -35,18 +35,19 @@ final class AppEnvironment {
         updateDriver: (any AppUpdateDriver)? = SparkleUpdateDriver.makeIfConfigured()
     ) {
         let state = AppState()
+        let operations = OperationCoordinator(client: client)
 
         self.settings = settings
         self.client = client
         self.state = state
         self.history = history
         self.favorites = favorites
-        self.operations = OperationCoordinator(client: client)
+        self.operations = operations
         self.system = SystemModel(client: client)
         self.library = PackageLibrary(client: client)
-        self.updates = UpdatesModel(client: client)
+        self.updates = UpdatesModel(client: client, operations: operations)
         self.services = ServicesModel(client: client)
-        self.taps = TapsModel(client: client)
+        self.taps = TapsModel(client: client, operations: operations)
         self.cleanup = CleanupModel(client: client)
         self.doctor = DoctorModel(client: client)
         self.brewfile = BrewfileModel(client: client)
@@ -98,6 +99,7 @@ final class AppEnvironment {
         do {
             let outcome = try await operations.run(command, kind: kind, target: target)
 
+            let succeeded: Bool
             switch outcome {
             case .completed(let stdout, let stderr):
                 record(
@@ -112,7 +114,7 @@ final class AppEnvironment {
                         details: details?(stdout)
                     )
                 )
-                return true
+                succeeded = true
 
             case .failed(let error, let stdout, let stderr):
                 record(
@@ -127,8 +129,16 @@ final class AppEnvironment {
                         error: error
                     )
                 )
-                return false
+                succeeded = false
             }
+            // Record the result immediately; a cache refresh may itself be slow or fail.
+            // Failed and cancelled operations may already have changed Homebrew.
+            switch kind {
+            case .install, .uninstall, .upgrade: await invalidateAfterPackageChange()
+            case .service: await Task { await services.refresh() }.value
+            default: break
+            }
+            return succeeded
         } catch {
             record(
                 HistoryEntry(
@@ -151,9 +161,19 @@ final class AppEnvironment {
         state.show(historyEntry: stored)
     }
 
+    func flushPersistence() async -> Bool {
+        async let savedHistory = history.flushPersistence()
+        async let savedFavorites = favorites.flushPersistence()
+        let results = await (savedHistory, savedFavorites)
+        return results.0 && results.1
+    }
+
     /// Refreshes the caches that a package mutation invalidates.
     func invalidateAfterPackageChange() async {
-        await library.loadAll()
-        await updates.refresh()
+        // Reconcile partial changes even when the mutation's calling task was cancelled.
+        await Task {
+            await library.loadAll()
+            await updates.refresh()
+        }.value
     }
 }

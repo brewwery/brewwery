@@ -9,12 +9,15 @@ import Observation
 @Observable
 public final class FavoritesStore {
     public private(set) var favorites: [FavoritePackage] = []
+    public var persistenceError: String? { persistence.error }
+    public var hasUnsavedChanges: Bool { persistence.hasUnsavedChanges }
+    public var isSaving: Bool { persistence.isSaving }
 
-    private let store: JSONFileStore<[FavoritePackage]>
+    private let persistence: JSONPersistence<[FavoritePackage]>
 
     public init(fileName: String = "favorites.json", directory: URL? = nil) {
-        self.store = JSONFileStore(fileName: fileName, directory: directory ?? brewweryApplicationSupportDirectory())
-        self.favorites = store.load() ?? []
+        self.persistence = JSONPersistence(store: JSONFileStore(fileName: fileName, directory: directory ?? brewweryApplicationSupportDirectory()))
+        reload()
     }
 
     public func isFavorite(name: String, kind: PackageKind) -> Bool {
@@ -26,13 +29,13 @@ public final class FavoritesStore {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, !isFavorite(name: trimmed, kind: kind) else { return }
         favorites.append(FavoritePackage(name: trimmed, kind: kind))
-        store.save(favorites)
+        persist()
     }
 
     public func remove(name: String, kind: PackageKind) {
         let key = FavoritePackage.key(name: name, kind: kind)
         favorites.removeAll { FavoritePackage.key(name: $0.name, kind: $0.kind) == key }
-        store.save(favorites)
+        persist()
     }
 
     public func toggle(name: String, kind: PackageKind) {
@@ -41,6 +44,21 @@ public final class FavoritesStore {
 
     public func clear() {
         favorites = []
-        store.save(favorites)
+        persist()
     }
+
+    public func retryPersistence() {
+        if hasUnsavedChanges { persist() } else { reload() }
+    }
+
+    private func reload() {
+        let loaded = persistence.load()
+        if persistence.error == nil { favorites = loaded ?? [] }
+    }
+
+    private func persist() {
+        persistence.save(favorites)
+    }
+
+    public func flushPersistence() async -> Bool { await persistence.flush() }
 }

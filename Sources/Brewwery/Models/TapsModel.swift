@@ -12,9 +12,11 @@ final class TapsModel {
     private(set) var error: BrewweryError?
 
     private let client: HomebrewClient
+    private let operations: OperationCoordinator
 
-    init(client: HomebrewClient) {
+    init(client: HomebrewClient, operations: OperationCoordinator? = nil) {
         self.client = client
+        self.operations = operations ?? OperationCoordinator(client: client)
     }
 
     var sortedTaps: [BrewTap] {
@@ -35,18 +37,17 @@ final class TapsModel {
 
     /// Adds or removes a tap. Returns the command output on success.
     func perform(_ action: TapAction, name: String) async -> Result<ProcessOutput, BrewweryError> {
+        guard !isWorking else { return .failure(.operationInProgress) }
         isWorking = true
         error = nil
         defer { isWorking = false }
 
         do {
-            let output = switch action {
-            case .tap: try await client.addTap(name)
-            case .untap: try await client.removeTap(name)
-            }
+            let output = try await operations.runBuffered(action == .tap ? .addTap(name: name) : .removeTap(name: name))
             await refresh()
             return .success(output)
         } catch {
+            if error.code != .operationInProgress { await refresh() }
             self.error = error
             return .failure(error)
         }

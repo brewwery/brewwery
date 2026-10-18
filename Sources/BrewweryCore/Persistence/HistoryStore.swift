@@ -10,13 +10,16 @@ import Observation
 @Observable
 public final class HistoryStore {
     public private(set) var entries: [HistoryEntry] = []
+    public var persistenceError: String? { persistence.error }
+    public var hasUnsavedChanges: Bool { persistence.hasUnsavedChanges }
+    public var isSaving: Bool { persistence.isSaving }
 
     static let maximumEntries = 100
-    private let store: JSONFileStore<[HistoryEntry]>
+    private let persistence: JSONPersistence<[HistoryEntry]>
 
     public init(fileName: String = "history.json", directory: URL? = nil) {
-        self.store = JSONFileStore(fileName: fileName, directory: directory ?? brewweryApplicationSupportDirectory())
-        self.entries = store.load() ?? []
+        self.persistence = JSONPersistence(store: JSONFileStore(fileName: fileName, directory: directory ?? brewweryApplicationSupportDirectory()))
+        reload()
     }
 
     /// Records an operation and returns the stored entry so callers can surface a toast.
@@ -27,14 +30,29 @@ public final class HistoryStore {
         if entries.count > Self.maximumEntries {
             entries.removeLast(entries.count - Self.maximumEntries)
         }
-        store.save(entries)
+        persist()
         return compacted
     }
 
     public func clear() {
         entries = []
-        store.save(entries)
+        persist()
     }
+
+    public func retryPersistence() {
+        if hasUnsavedChanges { persist() } else { reload() }
+    }
+
+    private func reload() {
+        let loaded = persistence.load()
+        if persistence.error == nil { entries = Array((loaded ?? []).prefix(Self.maximumEntries)).map(compact) }
+    }
+
+    private func persist() {
+        persistence.save(entries)
+    }
+
+    public func flushPersistence() async -> Bool { await persistence.flush() }
 
     /// JSON payload for the "Export JSON" action, shaped like the legacy export.
     public func exportData() throws -> Data {

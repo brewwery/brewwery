@@ -34,6 +34,7 @@ public enum ExternalLinkPolicy {
     public static func isAllowed(_ rawURL: String) -> Bool {
         guard let url = URL(string: rawURL), let host = url.host() else { return false }
         guard url.scheme == "https" else { return false }
+        if host == "github.com", url.path() == "/madeburo", url.user == nil, url.password == nil { return true }
 
         return allowedTargets.contains { target in
             guard host == target.host else { return false }

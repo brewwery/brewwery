@@ -25,6 +25,7 @@ struct PackagesView: View {
     @State private var confirmation: ConfirmationRequest?
     @State private var pendingPin: (name: String, pinned: Bool)?
     @State private var pendingUninstall: PackageReference?
+    @State private var details: PackageInfoModel?
 
     private var library: PackageLibrary { brewwery.library }
     private var rows: [Formula] { library.formulae }
@@ -191,6 +192,10 @@ struct PackagesView: View {
             PackageDetailDrawer(
                 detail: .formula(formula),
                 isWorking: brewwery.operations.isRunning,
+                dependents: details?.dependents ?? [],
+                isLoadingDependents: details?.isLoadingDependents ?? true,
+                dependentsError: details?.dependentsError,
+                onRetryDependents: { details?.loadDependents(for: .init(name: formula.name, kind: .formula)) },
                 onClose: { selection = nil },
                 onUninstall: requestUninstall,
                 onSetPinned: { name, pinned in
@@ -199,6 +204,11 @@ struct PackagesView: View {
                     confirmation = .pin(name, pinned: pinned)
                 }
             )
+            .task(id: formula.id) {
+                if details == nil { details = PackageInfoModel(client: brewwery.client) }
+                details?.loadDependents(for: .init(name: formula.name, kind: .formula))
+            }
+            .onDisappear { details?.clear() }
         }
     }
 

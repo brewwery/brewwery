@@ -20,10 +20,20 @@ public actor HomebrewRunner {
     /// an unreachable network can be reproduced deliberately.
     private let environment: [String: String]
     private var activeChildren: [UUID: ChildProcess] = [:]
+    private var mutationID: UUID?
+    private let bufferedTimeout: Duration?
+    private let maximumBufferedBytes: Int
 
-    public init(detector: HomebrewDetector, environment: [String: String] = HomebrewEnvironment.values()) {
+    public init(
+        detector: HomebrewDetector,
+        environment: [String: String] = HomebrewEnvironment.values(),
+        bufferedTimeout: Duration? = nil,
+        maximumBufferedBytes: Int = 16_000_000
+    ) {
         self.detector = detector
         self.environment = environment
+        self.bufferedTimeout = bufferedTimeout
+        self.maximumBufferedBytes = maximumBufferedBytes
     }
 
     // MARK: - Buffered execution
@@ -45,7 +55,12 @@ public actor HomebrewRunner {
     /// (`run_brew_output_permissive`).
     public func runPermissive(_ command: HomebrewCommand) async throws(BrewweryError) -> ProcessOutput {
         let arguments = try command.arguments()
+        let id = UUID()
+        try reserve(command, id: id)
+        defer { forget(id) }
+        try checkCancellation()
         let executable = try await detector.executableURL()
+        try checkCancellation()
 
         Log.homebrew.debug("run brew \(arguments.first ?? "", privacy: .public)")
 
@@ -55,16 +70,35 @@ public actor HomebrewRunner {
             environment: environment
         )
 
-        async let outputText = Self.readToEnd(child.standardOutput)
-        async let errorText = Self.readToEnd(child.standardError)
-        let status = await child.waitForExit()
-
-        return ProcessOutput(
-            stdout: await outputText.trimmed,
-            stderr: await errorText.trimmed,
-            statusCode: status,
-            success: status == 0
-        )
+        activeChildren[id] = child
+        let deadline = bufferedTimeout ?? (command.isMutation ? .seconds(300) : .seconds(60))
+        let timeout = Task { [weak self] in
+            try? await Task.sleep(for: deadline)
+            guard !Task.isCancelled else { return }
+            await self?.terminate(id, reason: .timeout)
+        }
+        defer { timeout.cancel() }
+        let limit = maximumBufferedBytes
+        let captured = await withTaskCancellationHandler {
+            async let stdout = PipeReader.captureAsync(child.standardOutput, limit: limit) {
+                Task { await self.terminate(id, reason: .outputLimit) }
+            }
+            async let stderr = PipeReader.captureAsync(child.standardError, limit: limit) {
+                Task { await self.terminate(id, reason: .outputLimit) }
+            }
+            let status = await child.waitForExit()
+            return await (stdout, stderr, status)
+        } onCancel: {
+            Task { await self.terminate(id, reason: .cancelled) }
+        }
+        if captured.0.exceededLimit || captured.1.exceededLimit {
+            throw BrewweryError(code: .brewCommandFailed, message: "Homebrew output exceeded the safety limit. Narrow the query and try again.")
+        }
+        if terminationReasons[id] == .timeout {
+            throw BrewweryError(code: .operationTimeout, message: "The Homebrew command exceeded its safety timeout.")
+        }
+        if terminationReasons[id] == .cancelled || Task.isCancelled { throw Self.cancelledError }
+        return ProcessOutput(stdout: captured.0.text, stderr: captured.1.text, statusCode: captured.2, success: captured.2 == 0)
     }
 
     /// `run_brew_with_fallback` — retries with a second command only when Homebrew rejects
@@ -96,7 +130,12 @@ public actor HomebrewRunner {
         id: UUID
     ) async throws(BrewweryError) -> AsyncStream<OperationEvent> {
         let arguments = try command.arguments()
+        try reserve(command, id: id)
+        var started = false
+        defer { if !started { forget(id) } }
+        try checkCancellation()
         let executable = try await detector.executableURL()
+        try checkCancellation()
         let displayCommand = command.displayCommand()
 
         let child = try ChildProcess.spawn(
@@ -105,11 +144,12 @@ public actor HomebrewRunner {
             environment: environment
         )
         activeChildren[id] = child
+        started = true
         Log.process.info("Operation \(id.uuidString, privacy: .public) started: \(kind.rawValue, privacy: .public)")
 
         let collector = OutputCollector()
 
-        return AsyncStream(bufferingPolicy: .unbounded) { continuation in
+        return AsyncStream(bufferingPolicy: .bufferingNewest(128)) { continuation in
             continuation.yield(.started(at: Date()))
 
             let pump = Task.detached { [weak self] in
@@ -128,7 +168,7 @@ public actor HomebrewRunner {
                 _ = await (outputDone, errorDone)
 
                 let status = await child.waitForExit()
-                let captured = await collector.snapshot()
+                let captured = collector.snapshot()
                 let reason = await self?.terminationReason(for: id) ?? nil
                 await self?.forget(id)
 
@@ -179,6 +219,7 @@ public actor HomebrewRunner {
     enum TerminationReason: Sendable {
         case cancelled
         case timeout
+        case outputLimit
     }
 
     private var terminationReasons: [UUID: TerminationReason] = [:]
@@ -189,7 +230,7 @@ public actor HomebrewRunner {
 
     @discardableResult
     private func terminate(_ id: UUID, reason: TerminationReason) -> Bool {
-        guard let child = activeChildren[id], terminationReasons[id] == nil, !child.hasTerminated else {
+        guard let child = activeChildren[id], terminationReasons[id] == nil else {
             return false
         }
         terminationReasons[id] = reason
@@ -200,18 +241,31 @@ public actor HomebrewRunner {
         Log.process.notice("Operation \(id.uuidString, privacy: .public) terminating: \(String(describing: reason), privacy: .public)")
 
         // Escalate if the process group ignores SIGTERM.
-        Task.detached {
+        Task.detached { [weak self] in
             try? await Task.sleep(for: Self.forceKillDelay)
-            guard !child.hasTerminated else { return }
+            guard await self?.isRunning(id) == true else { return }
             child.signalGroup(SIGKILL)
         }
         return true
     }
 
     private func forget(_ id: UUID) {
+        if mutationID == id { mutationID = nil }
         activeChildren[id] = nil
         // The reason is read immediately before this call, so it can be released with it.
         terminationReasons[id] = nil
+    }
+
+    private func reserve(_ command: HomebrewCommand, id: UUID) throws(BrewweryError) {
+        guard command.isMutation else { return }
+        guard mutationID == nil else { throw .operationInProgress }
+        mutationID = id
+    }
+
+    private static let cancelledError = BrewweryError(code: .operationCancelled, message: "The Homebrew command was cancelled.")
+
+    private func checkCancellation() throws(BrewweryError) {
+        if Task.isCancelled { throw Self.cancelledError }
     }
 
     private static func terminalEvent(
@@ -259,17 +313,20 @@ public actor HomebrewRunner {
         collector: OutputCollector,
         continuation: AsyncStream<OperationEvent>.Continuation
     ) async {
-        for await chunk in handle.textChunks {
-            await collector.append(chunk, to: stream)
-            continuation.yield(.output(stream: stream, chunk: chunk, at: Date()))
-        }
-    }
-
-    private static func readToEnd(_ handle: FileHandle) async -> String {
-        await withCheckedContinuation { continuation in
+        await withCheckedContinuation { finished in
             DispatchQueue.global().async {
-                let data = handle.readDataToEndOfFile()
-                continuation.resume(returning: String(decoding: data, as: UTF8.self))
+                var decoder = PipeTextDecoder()
+                PipeReader.drain(handle) { data in
+                    let chunk = decoder.append(data)
+                    guard !chunk.isEmpty else { return }
+                    collector.append(chunk, to: stream)
+                    // The terminal event carries the complete bounded snapshot, even if
+                    // a slow UI drops intermediate display chunks.
+                    continuation.yield(.output(stream: stream, chunk: chunk, at: Date()))
+                }
+                let tail = decoder.finish()
+                if !tail.isEmpty { collector.append(tail, to: stream) }
+                finished.resume()
             }
         }
     }
@@ -292,11 +349,14 @@ extension OperationKind {
 }
 
 /// Accumulates bounded stdout/stderr for one streaming operation.
-private actor OutputCollector {
+private final class OutputCollector: @unchecked Sendable {
+    private let lock = NSLock()
     private var stdout = BoundedOutput(limit: BoundedOutput.operationLimit)
     private var stderr = BoundedOutput(limit: BoundedOutput.operationLimit)
 
     func append(_ chunk: String, to stream: OutputStream) {
+        lock.lock()
+        defer { lock.unlock() }
         switch stream {
         case .stdout: stdout.append(chunk)
         case .stderr: stderr.append(chunk)
@@ -304,27 +364,9 @@ private actor OutputCollector {
     }
 
     func snapshot() -> (stdout: String, stderr: String) {
-        (stdout.text, stderr.text)
-    }
-}
-
-extension FileHandle {
-    /// Chunks of decoded text as they arrive, finishing at EOF.
-    var textChunks: AsyncStream<String> {
-        AsyncStream(bufferingPolicy: .unbounded) { continuation in
-            readabilityHandler = { handle in
-                let data = handle.availableData
-                guard !data.isEmpty else {
-                    handle.readabilityHandler = nil
-                    continuation.finish()
-                    return
-                }
-                continuation.yield(String(decoding: data, as: UTF8.self))
-            }
-            continuation.onTermination = { [weak self] _ in
-                self?.readabilityHandler = nil
-            }
-        }
+        lock.lock()
+        defer { lock.unlock() }
+        return (stdout.text, stderr.text)
     }
 }
 

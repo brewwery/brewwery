@@ -158,4 +158,12 @@ public enum HomebrewCommand: Hashable, Sendable {
     /// `brew doctor` exits non-zero when it reports warnings, so its output must be accepted
     /// regardless of status. Matches `run_brew_output_permissive` usage in `doctor.rs`.
     public var toleratesNonZeroExit: Bool { self == .doctor }
+
+    var isMutation: Bool {
+        switch self {
+        case .update, .install, .uninstall, .upgrade, .upgradeAll, .addTap, .removeTap,
+             .service, .cleanup, .bundleInstall, .pin, .unpin: true
+        default: false
+        }
+    }
 }

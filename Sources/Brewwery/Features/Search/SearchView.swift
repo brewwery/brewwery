@@ -127,6 +127,8 @@ struct SearchView: View {
                 isWorking: brewwery.operations.isRunning || info.isLoading,
                 dependents: info.dependents,
                 isLoadingDependents: info.isLoadingDependents,
+                dependentsError: info.dependentsError,
+                onRetryDependents: { info.loadDependents(for: PackageDetail.info(detail).reference) },
                 onClose: { info.clear() },
                 onInstall: { request(.install, $0) },
                 onUninstall: { request(.uninstall, $0) }

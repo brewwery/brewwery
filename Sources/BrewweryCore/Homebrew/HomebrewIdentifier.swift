@@ -34,17 +34,18 @@ public enum HomebrewIdentifier {
     ///   The legacy core used different limits per module; both are preserved.
     public static func validateFormulaName(_ name: String, maxLength: Int = 120) throws(BrewweryError) {
         guard !name.isEmpty,
+              !name.hasPrefix("-"),
               name.count <= maxLength,
               !name.hasPrefix("/"),
               !name.hasSuffix("/"),
               !name.contains("//"),
-              !name.split(separator: "/", omittingEmptySubsequences: false).contains(".."),
+              !name.split(separator: "/", omittingEmptySubsequences: false).contains(where: { $0 == "." || $0 == ".." }),
               name.allSatisfy(isFormulaCharacter)
         else { throw .invalidPackageName(name) }
     }
 
     public static func validateCaskToken(_ token: String, maxLength: Int = 120) throws(BrewweryError) {
-        guard !token.isEmpty, token.count <= maxLength, token.allSatisfy(isTokenCharacter) else {
+        guard !token.isEmpty, !token.hasPrefix("-"), token != ".", token != "..", token.count <= maxLength, token.allSatisfy(isTokenCharacter) else {
             throw BrewweryError.invalidCaskToken(token)
         }
     }
@@ -58,7 +59,7 @@ public enum HomebrewIdentifier {
     }
 
     public static func validateServiceName(_ name: String) throws(BrewweryError) {
-        guard !name.isEmpty, name.count <= 120, name.allSatisfy(isTokenCharacter) else {
+        guard !name.isEmpty, !name.hasPrefix("-"), name != ".", name != "..", name.count <= 120, name.allSatisfy(isTokenCharacter) else {
             throw BrewweryError.invalidServiceName(name)
         }
     }
@@ -67,6 +68,7 @@ public enum HomebrewIdentifier {
     public static func validateTapName(_ name: String) throws(BrewweryError) {
         let parts = name.split(separator: "/", omittingEmptySubsequences: false)
         guard parts.count == 2,
+              parts.allSatisfy({ !$0.hasPrefix("-") && $0 != "." && $0 != ".." }),
               let owner = parts.first, !owner.isEmpty,
               let repository = parts.last, !repository.isEmpty,
               name.count <= 160,
@@ -79,6 +81,7 @@ public enum HomebrewIdentifier {
     /// Rejects non-Latin input before Homebrew is invoked.
     public static func validateSearchQuery(_ query: String) throws(BrewweryError) {
         guard !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !query.hasPrefix("-"),
               query.count <= 80,
               query.allSatisfy(isTokenCharacter)
         else { throw BrewweryError.invalidSearchQuery }

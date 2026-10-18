@@ -12,9 +12,11 @@ final class UpdatesModel {
     private(set) var lastChecked: Date?
 
     private let client: HomebrewClient
+    private let operations: OperationCoordinator
 
-    init(client: HomebrewClient) {
+    init(client: HomebrewClient, operations: OperationCoordinator? = nil) {
         self.client = client
+        self.operations = operations ?? OperationCoordinator(client: client)
     }
 
     /// The number the Dock badge, the sidebar, the status bar and the menu bar all show.
@@ -52,7 +54,7 @@ final class UpdatesModel {
     /// Returns the command output so the caller can log it.
     func updateMetadata() async -> Result<ProcessOutput, BrewweryError> {
         do {
-            let output = try await client.updateMetadata()
+            let output = try await operations.runBuffered(.update)
             return .success(output)
         } catch {
             self.error = error
