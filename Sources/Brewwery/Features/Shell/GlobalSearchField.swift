@@ -63,7 +63,7 @@ struct HeaderFilterField: View {
         )
         .frame(maxWidth: isFocused ? GlobalSearchField.focusedWidth : GlobalSearchField.restingWidth)
         .animation(.easeOut(duration: 0.18), value: isFocused)
-        .accessibilityLabel(placeholder)
+        .accessibilityLabel(Text(placeholder))
     }
 }
 

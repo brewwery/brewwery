@@ -4,6 +4,7 @@ import AppKit
 ///
 /// The wordmark ships in two variants because the original stylesheet swapped between two
 /// SVGs: white ink on the dark theme, near-black ink on the warm light theme.
+@MainActor
 enum AppAssets {
     static let appIcon = image(named: "AppIcon")
     static let wordmarkDark = image(named: "WordmarkDark")

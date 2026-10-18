@@ -118,7 +118,7 @@ struct OperationProgressPanel: View {
             .frame(height: 6)
             .accessibilityElement()
             .accessibilityLabel("Operation progress")
-            .accessibilityValue(summary(progress).status)
+            .accessibilityValue(Text(summary(progress).status))
         }
     }
 

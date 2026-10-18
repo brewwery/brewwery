@@ -59,7 +59,7 @@ struct BrewweryTable<Item: Identifiable & Hashable>: View {
                 .strokeBorder(BrewweryColor.border, lineWidth: 1)
         )
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(accessibilityLabel)
+        .accessibilityLabel(Text(accessibilityLabel))
     }
 
     private var header: some View {

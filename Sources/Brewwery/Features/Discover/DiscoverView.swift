@@ -49,7 +49,7 @@ struct DiscoverView: View {
     private var collectionPicker: some View {
         FlowLayout(spacing: Metrics.tightSpacing) {
             ForEach(DiscoverCatalog.collections) { item in
-                Button(item.title) { selectedCollectionID = item.id }
+                Button { selectedCollectionID = item.id } label: { Text(item.title) }
                     .brewweryButton(
                         item.id == collection.id ? .primary : .secondary,
                         height: Metrics.compactControlHeight
