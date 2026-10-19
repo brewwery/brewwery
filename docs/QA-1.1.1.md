@@ -1,6 +1,7 @@
 # Brewwery 1.1.1 QA
 
-Verified on 2026-10-18 with Apple Swift 6.4 on Apple Silicon, macOS 27.0.1.
+Local builds verified on 2026-10-18 with Apple Swift 6.4 on Apple Silicon, macOS 27.0.1.
+Public release, deployment and installed-app update discovery verified on 2026-10-19.
 The sections below distinguish local-profile QA, the initial candidate and final signed
 distribution checks. Feed verification does not imply an installed Sparkle update test.
 
@@ -133,6 +134,36 @@ Verified on 2026-10-18 after explicit approval to notarize and publish:
   separate Hetzner staging directories, including DMG SHA-256, appcast metadata, localized
   routes, static assets and documentation. Production promotion is recorded separately below.
 
+## Public release and deployment
+
+Verified on 2026-10-19 after explicit approval to publish and deploy:
+
+- [GitHub release v1.1.1](https://github.com/brewwery/brewwery/releases/tag/v1.1.1)
+  is public and stable, with the final DMG and its SHA-256 file. The tag points to
+  `9e0bc17`, a documentation-only commit after the green source/packaging CI run above.
+- Anonymous downloads from GitHub and `https://www.brewwery.com/download/brewwery.dmg`
+  are byte-identical: 6,876,575 bytes and the final SHA-256 recorded above. The downloaded
+  DMG passed image integrity, strict signature, stapled-ticket and Gatekeeper checks.
+  Mounted read-only, its app also passed bundle/executable UUID verification, stapling
+  and Gatekeeper. The image was unmounted afterwards.
+- The public `https://www.brewwery.com/appcast.xml` passed EdDSA verification against those
+  downloaded bytes and the bundle's public key. It offers only 1.1.1/build 111, macOS 14+,
+  using the version-specific GitHub DMG without delta entries.
+- Hetzner now serves website commit `36a5a0e` and docs commit `18add2e`. Previous builds
+  and dependencies were backed up before promotion; existing untracked server files
+  retained their hashes. Both PM2 processes are online with zero new error-log bytes
+  during the post-deployment check.
+- All 25 HTTP/content checks passed against both the production origin and public HTTPS
+  domains. Coverage includes version/release text, download hashes, appcast, localized
+  routes, the English-root redirect, robots/sitemap, static assets and documentation.
+  Existing unknown-route soft-404 behavior was preserved, not fixed in this release.
+- In the installed `/Applications/Brewwery.app` 1.1.0, Settings > Check for updates now
+  opened Sparkle's Software Update window offering **Brewwery 1.1.1**, with the matching
+  release notes and an Install Update action. The update window was left open for the
+  user. Install Update, Skip This Version and automatic-install preferences were not
+  changed; the working app was not replaced. This verifies update discovery, not the
+  installation/relaunch step.
+
 ## Not yet verified
 
 - A fresh macOS account and native About-panel link interaction. Settings/About text and
@@ -141,8 +172,9 @@ Verified on 2026-10-18 after explicit approval to notarize and publish:
   deprecation warning for its macOS 27 host; universal linking is not runtime proof.
 - Real Homebrew mutations, offline/permission errors against a real installation,
   keyboard-only navigation and VoiceOver.
-- Public DMG delivery and a Sparkle install/relaunch from a previous installed release.
-  Local notarization and signature checks alone do not prove either delivery step.
+- A Sparkle install/relaunch from a previous installed release. Public artifact delivery,
+  signatures and installed-app update discovery are verified above; they do not prove
+  the final installation/relaunch step.
 
 See [the release checklist](RELEASE-CHECKLIST.md) for those manual gates and the remaining
 engineering boundaries, including synchronous initial JSON reads/manual History export and
