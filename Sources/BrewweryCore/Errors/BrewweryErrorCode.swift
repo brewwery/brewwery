@@ -30,6 +30,7 @@ public enum BrewweryErrorCode: String, Codable, Sendable, CaseIterable {
     case invalidFilePath = "INVALID_FILE_PATH"
     case operationCancelled = "OPERATION_CANCELLED"
     case operationInProgress = "OPERATION_IN_PROGRESS"
+    case homebrewBusy = "HOMEBREW_BUSY"
     case operationTimeout = "OPERATION_TIMEOUT"
     case unknownError = "UNKNOWN_ERROR"
 }

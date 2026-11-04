@@ -13,8 +13,10 @@ struct SettingsView: View {
     @State private var pathError: BrewweryError?
     @State private var isValidatingPath = false
     @State private var confirmation: ConfirmationRequest?
+    @State private var scheduleConfirmation: ConfirmationRequest?
 
     private var settings: SettingsStore { brewwery.settings }
+    private var schedule: ScheduledUpgradeController { brewwery.scheduledUpgrades }
     private var system: SystemModel { brewwery.system }
 
     var body: some View {
@@ -24,6 +26,7 @@ struct SettingsView: View {
             homebrewCard
             appearanceCard
             dockCard
+            scheduledUpgradesCard
             updatesCard
             historyCard
             aboutCard
@@ -198,6 +201,88 @@ struct SettingsView: View {
         guard let checked = brewwery.updates.lastChecked else { return source }
         let time = checked.formatted(date: .omitted, time: .standard)
         return source + Text(verbatim: " ") + Text("Currently \(count), checked at \(time).")
+    }
+
+    // MARK: - Scheduled upgrades
+
+    /// Opt-in, confirmed like every other Homebrew change: the agent upgrades packages while
+    /// nobody is looking, so turning it on is the user's explicit consent to that.
+    private var scheduledUpgradesCard: some View {
+        BrewweryHeaderCard {
+            Text("Automatic package upgrades").font(BrewweryFont.controlLabel)
+        } content: {
+            VStack(alignment: .leading, spacing: Metrics.rowSpacing) {
+                Toggle(
+                    "Upgrade outdated packages on a schedule, even when Brewwery is closed",
+                    isOn: Binding(
+                        get: { settings.scheduledUpgradesEnabled },
+                        set: { enabled in
+                            if enabled { requestScheduledUpgrades() } else { schedule.disable() }
+                        }
+                    )
+                )
+                .toggleStyle(.switch)
+                .font(BrewweryFont.body)
+                .disabled(!schedule.isAvailable)
+
+                if settings.scheduledUpgradesEnabled {
+                    HStack(spacing: Metrics.tightSpacing) {
+                        ForEach(ScheduledUpgradeInterval.allCases) { option in
+                            Button { settings.scheduledUpgradeInterval = option } label: { Text(option.label) }
+                                .brewweryButton(settings.scheduledUpgradeInterval == option ? .primary : .secondary)
+                                .accessibilityAddTraits(settings.scheduledUpgradeInterval == option ? [.isSelected] : [])
+                        }
+                    }
+                }
+
+                scheduledUpgradesStatus
+
+                Text("Each run is brew update followed by brew upgrade. Pinned formulae are skipped, and results appear in History.")
+                    .font(BrewweryFont.caption)
+                    .foregroundStyle(BrewweryColor.mutedForeground)
+            }
+        }
+        .confirmation($scheduleConfirmation) { _ in
+            schedule.enable()
+        }
+    }
+
+    @ViewBuilder
+    private var scheduledUpgradesStatus: some View {
+        if !schedule.isAvailable {
+            Text("Available in the installed Brewwery app. QA profiles and development builds cannot schedule upgrades.")
+                .font(BrewweryFont.caption)
+                .foregroundStyle(BrewweryColor.mutedForeground)
+        } else if settings.scheduledUpgradesEnabled, schedule.status == .requiresApproval {
+            HStack(spacing: Metrics.tightSpacing) {
+                Text("macOS has not allowed Brewwery to run in the background yet.")
+                    .font(BrewweryFont.caption)
+                    .foregroundStyle(BrewweryColor.warning)
+                Button("Open Login Items") { schedule.openLoginItemsSettings() }
+                    .brewweryButton()
+            }
+        } else if settings.scheduledUpgradesEnabled, let lastRun = settings.scheduledUpgradeLastRun {
+            let next = lastRun.addingTimeInterval(settings.scheduledUpgradeInterval.duration)
+                .formatted(date: .abbreviated, time: .shortened)
+            Text("Next run after \(next), while you are logged in.")
+                .font(BrewweryFont.caption)
+                .foregroundStyle(BrewweryColor.mutedForeground)
+        }
+        if let error = schedule.lastError {
+            Text(verbatim: error)
+                .font(BrewweryFont.caption)
+                .foregroundStyle(BrewweryColor.danger)
+        }
+    }
+
+    private func requestScheduledUpgrades() {
+        scheduleConfirmation = ConfirmationRequest(
+            title: "Upgrade packages automatically?",
+            message: "Brewwery will run",
+            command: ScheduledUpgradeJob.command,
+            note: "This runs in the background, even when Brewwery is closed, starting one interval from now. Casks that need an administrator password fail and are reported in History; apps installed as casks may be replaced while they are open.",
+            confirmLabel: "Turn on"
+        )
     }
 
     private var updatesCard: some View {

@@ -28,6 +28,9 @@ public final class SettingsStore {
         public static let customHomebrewPath = "brewwery.customHomebrewPath"
         public static let automaticallyCheckForUpdates = "brewwery.automaticallyCheckForUpdates"
         public static let showDockBadge = "brewwery.showDockBadge"
+        public static let scheduledUpgradesEnabled = "brewwery.scheduledUpgradesEnabled"
+        public static let scheduledUpgradeInterval = "brewwery.scheduledUpgradeInterval"
+        public static let scheduledUpgradeLastRun = "brewwery.scheduledUpgradeLastRun"
     }
 
     private let defaults: UserDefaults
@@ -55,6 +58,22 @@ public final class SettingsStore {
         didSet { defaults.set(showDockBadge, forKey: Key.showDockBadge) }
     }
 
+    /// The user's choice to let the background agent run `brew update` and `brew upgrade`.
+    /// Off by default: turning it on is the confirmation every Homebrew mutation requires.
+    public var scheduledUpgradesEnabled: Bool {
+        didSet { defaults.set(scheduledUpgradesEnabled, forKey: Key.scheduledUpgradesEnabled) }
+    }
+
+    public var scheduledUpgradeInterval: ScheduledUpgradeInterval {
+        didSet { defaults.set(scheduledUpgradeInterval.rawValue, forKey: Key.scheduledUpgradeInterval) }
+    }
+
+    /// Written by the background agent, which runs in its own process. The app reads it again
+    /// with `reloadScheduledUpgradeLastRun()` whenever the agent reports back.
+    public var scheduledUpgradeLastRun: Date? {
+        didSet { defaults.set(scheduledUpgradeLastRun, forKey: Key.scheduledUpgradeLastRun) }
+    }
+
     public init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         // 0.9.7 shipped with dark as the default, not "system".
@@ -63,9 +82,18 @@ public final class SettingsStore {
         self.customHomebrewPath = defaults.string(forKey: Key.customHomebrewPath) ?? ""
         self.automaticallyCheckForUpdates = defaults.object(forKey: Key.automaticallyCheckForUpdates) as? Bool ?? true
         self.showDockBadge = defaults.object(forKey: Key.showDockBadge) as? Bool ?? true
+        self.scheduledUpgradesEnabled = defaults.bool(forKey: Key.scheduledUpgradesEnabled)
+        self.scheduledUpgradeInterval = defaults.string(forKey: Key.scheduledUpgradeInterval)
+            .flatMap(ScheduledUpgradeInterval.init) ?? .daily
+        self.scheduledUpgradeLastRun = defaults.object(forKey: Key.scheduledUpgradeLastRun) as? Date
     }
 
     public func resetCustomHomebrewPath() {
         customHomebrewPath = ""
+    }
+
+    public func reloadScheduledUpgradeLastRun() {
+        let stored = defaults.object(forKey: Key.scheduledUpgradeLastRun) as? Date
+        if stored != scheduledUpgradeLastRun { scheduledUpgradeLastRun = stored }
     }
 }

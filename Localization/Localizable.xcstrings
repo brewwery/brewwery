@@ -1,30 +1,6 @@
 {
   "sourceLanguage": "en",
   "strings": {
-    "Could not check installed dependents.": {
-      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Installierte abhängige Pakete konnten nicht geprüft werden."}}}
-    },
-    "Local data could not be loaded or saved. Keep Brewwery open and retry.": {
-      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Lokale Daten konnten nicht geladen oder gespeichert werden. Brewwery geöffnet lassen und erneut versuchen."}}}
-    },
-    "Brewwery is still working": {
-      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Brewwery arbeitet noch"}}}
-    },
-    "Wait for the Homebrew operation to finish before quitting.": {
-      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Vor dem Beenden warten, bis der Homebrew-Vorgang abgeschlossen ist."}}}
-    },
-    "Local changes have not been saved": {
-      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Lokale Änderungen wurden nicht gespeichert"}}}
-    },
-    "Retry saving before quitting, or discard the unsaved changes.": {
-      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Vor dem Beenden das Speichern erneut versuchen oder die ungespeicherten Änderungen verwerfen."}}}
-    },
-    "Keep open": {
-      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Geöffnet lassen"}}}
-    },
-    "Quit without saving": {
-      "localizations": {"de": {"stringUnit": {"state": "translated", "value": "Ohne Speichern beenden"}}}
-    },
     "%@": {
       "localizations": {
         "de": {
@@ -1035,6 +1011,16 @@
         }
       }
     },
+    "Another Brewwery process, such as a scheduled upgrade, is changing Homebrew. Try again when it has finished.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein anderer Brewwery-Prozess, etwa ein geplantes Upgrade, ändert gerade Homebrew. Versuche es erneut, wenn er fertig ist."
+          }
+        }
+      }
+    },
     "Another Homebrew operation is already running. Wait for it to finish or cancel it first.": {
       "localizations": {
         "de": {
@@ -1125,12 +1111,32 @@
         }
       }
     },
+    "Automatic package upgrades": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatische Paket-Upgrades"
+          }
+        }
+      }
+    },
     "Available": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Verfügbar"
+          }
+        }
+      }
+    },
+    "Available in the installed Brewwery app. QA profiles and development builds cannot schedule upgrades.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verfügbar in der installierten Brewwery-App. QA-Profile und Entwicklungs-Builds können keine Upgrades planen."
           }
         }
       }
@@ -1391,6 +1397,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Brewwery hat keine Berechtigung für diesen Pfad oder Befehl."
+          }
+        }
+      }
+    },
+    "Brewwery is still working": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brewwery arbeitet noch"
           }
         }
       }
@@ -2195,6 +2211,16 @@
         }
       }
     },
+    "Could not check installed dependents.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installierte abhängige Pakete konnten nicht geprüft werden."
+          }
+        }
+      }
+    },
     "Could not prepare the install": {
       "localizations": {
         "de": {
@@ -2287,6 +2313,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Eigener Homebrew-Pfad"
+          }
+        }
+      }
+    },
+    "Daily": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Täglich"
           }
         }
       }
@@ -2521,6 +2557,16 @@
         }
       }
     },
+    "Each run is brew update followed by brew upgrade. Pinned formulae are skipped, and results appear in History.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeder Lauf führt brew update und danach brew upgrade aus. Fixierte Formeln werden übersprungen, die Ergebnisse erscheinen im Verlauf."
+          }
+        }
+      }
+    },
     "Email…": {
       "localizations": {
         "de": {
@@ -2567,6 +2613,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Grundausstattung für modernes Frontend und Webentwicklung."
+          }
+        }
+      }
+    },
+    "Every 12 hours": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle 12 Stunden"
+          }
+        }
+      }
+    },
+    "Every 6 hours": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle 6 Stunden"
           }
         }
       }
@@ -3901,6 +3967,16 @@
         }
       }
     },
+    "Keep open": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geöffnet lassen"
+          }
+        }
+      }
+    },
     "Keep this version when upgrading": {
       "localizations": {
         "de": {
@@ -4131,6 +4207,26 @@
         }
       }
     },
+    "Local changes have not been saved": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lokale Änderungen wurden nicht gespeichert"
+          }
+        }
+      }
+    },
+    "Local data could not be loaded or saved. Keep Brewwery open and retry.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lokale Daten konnten nicht geladen oder gespeichert werden. Brewwery geöffnet lassen und erneut versuchen."
+          }
+        }
+      }
+    },
     "Local model runtimes and notebooks for AI and ML work.": {
       "localizations": {
         "de": {
@@ -4317,6 +4413,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Analyse von Netzwerkprotokollen."
+          }
+        }
+      }
+    },
+    "Next run after %@, while you are logged in.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nächster Lauf nach %@, solange du angemeldet bist."
           }
         }
       }
@@ -4581,6 +4687,16 @@
         }
       }
     },
+    "OK": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        }
+      }
+    },
     "Object-relational database system.": {
       "localizations": {
         "de": {
@@ -4647,6 +4763,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "GitHub-Issue öffnen"
+          }
+        }
+      }
+    },
+    "Open Login Items": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anmeldeobjekte öffnen"
           }
         }
       }
@@ -5151,6 +5277,16 @@
         }
       }
     },
+    "Quit without saving": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne Speichern beenden"
+          }
+        }
+      }
+    },
     "Read Brewfile": {
       "localizations": {
         "de": {
@@ -5531,6 +5667,16 @@
         }
       }
     },
+    "Retry saving before quitting, or discard the unsaved changes.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vor dem Beenden das Speichern erneut versuchen oder die ungespeicherten Änderungen verwerfen."
+          }
+        }
+      }
+    },
     "Review it there and press Send.": {
       "localizations": {
         "de": {
@@ -5727,6 +5873,66 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gespeicherte Pfade werden vor der Verwendung geprüft und für jeden Homebrew-Befehl genutzt, auch für laufende Vorgänge."
+          }
+        }
+      }
+    },
+    "Scheduled upgrade could not read outdated packages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geplantes Upgrade konnte veraltete Pakete nicht lesen"
+          }
+        }
+      }
+    },
+    "Scheduled upgrade could not update Homebrew": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geplantes Upgrade konnte Homebrew nicht aktualisieren"
+          }
+        }
+      }
+    },
+    "Scheduled upgrade failed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geplantes Upgrade fehlgeschlagen"
+          }
+        }
+      }
+    },
+    "Scheduled upgrade finished": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geplantes Upgrade abgeschlossen"
+          }
+        }
+      }
+    },
+    "Scheduled upgrade skipped: Homebrew not found": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geplantes Upgrade übersprungen: Homebrew nicht gefunden"
+          }
+        }
+      }
+    },
+    "Scheduled upgrade timed out": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geplantes Upgrade hat das Zeitlimit überschritten"
           }
         }
       }
@@ -6501,6 +6707,16 @@
         }
       }
     },
+    "This runs in the background, even when Brewwery is closed, starting one interval from now. Casks that need an administrator password fail and are reported in History; apps installed as casks may be replaced while they are open.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das läuft im Hintergrund, auch wenn Brewwery geschlossen ist, erstmals nach Ablauf eines Intervalls. Casks, die ein Administratorpasswort brauchen, schlagen fehl und erscheinen im Verlauf; als Cask installierte Apps können ersetzt werden, während sie geöffnet sind."
+          }
+        }
+      }
+    },
     "This service name contains unsupported characters.": {
       "localizations": {
         "de": {
@@ -6577,6 +6793,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Versuche es erneut, wenn er fertig ist."
+          }
+        }
+      }
+    },
+    "Turn on": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einschalten"
           }
         }
       }
@@ -6811,6 +7037,26 @@
         }
       }
     },
+    "Upgrade outdated packages on a schedule, even when Brewwery is closed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veraltete Pakete nach Zeitplan aktualisieren, auch wenn Brewwery geschlossen ist"
+          }
+        }
+      }
+    },
+    "Upgrade packages automatically?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pakete automatisch aktualisieren?"
+          }
+        }
+      }
+    },
     "Upgrade timed out for %@": {
       "localizations": {
         "de": {
@@ -7007,6 +7253,16 @@
         }
       }
     },
+    "Wait for the Homebrew operation to finish before quitting.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vor dem Beenden warten, bis der Homebrew-Vorgang abgeschlossen ist."
+          }
+        }
+      }
+    },
     "Waiting for Homebrew output...": {
       "localizations": {
         "de": {
@@ -7023,6 +7279,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Warnungen gefunden"
+          }
+        }
+      }
+    },
+    "Weekly": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wöchentlich"
           }
         }
       }
@@ -7283,6 +7549,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Produktivität unter macOS"
+          }
+        }
+      }
+    },
+    "macOS has not allowed Brewwery to run in the background yet.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS hat Brewwery noch nicht erlaubt, im Hintergrund zu laufen."
           }
         }
       }

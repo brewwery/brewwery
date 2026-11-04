@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- Settings › Automatic package upgrades: an opt-in schedule (every 6 or 12 hours, daily or
+  weekly) that runs `brew update && brew upgrade` through a bundled LaunchAgent, even when
+  Brewwery is closed. Runs with nothing to upgrade leave no trace; upgrades and failures are
+  added to History the next time the app is open.
+- The app and the scheduled agent never change Homebrew at the same time. A change started
+  while the other one is running fails with "Another Brewwery process … is changing Homebrew".
+
 ## 1.1.1
 
 Reliability fixes after the native-app audit. No new Homebrew commands.

@@ -52,7 +52,8 @@ struct DemoLaunch {
             settings: settings,
             history: HistoryStore(directory: directory),
             favorites: FavoritesStore(directory: directory),
-            updateDriver: DemoUpdateDriver()
+            updateDriver: DemoUpdateDriver(),
+            scheduledUpgrades: ScheduledUpgradeController(settings: settings, service: nil, inbox: nil)
         )
         environment.system.displayedExecutableOverride = Self.displayedExecutable
         environment.state.select(page)

@@ -26,13 +26,15 @@ final class AppEnvironment {
     let doctor: DoctorModel
     let brewfile: BrewfileModel
     let updater: AppUpdateController
+    let scheduledUpgrades: ScheduledUpgradeController
 
     init(
-        client: HomebrewClient = HomebrewClient(),
+        client: HomebrewClient = HomebrewClient(mutationLock: .applicationSupport),
         settings: SettingsStore = SettingsStore(),
         history: HistoryStore = HistoryStore(),
         favorites: FavoritesStore = FavoritesStore(),
-        updateDriver: (any AppUpdateDriver)? = SparkleUpdateDriver.makeIfConfigured()
+        updateDriver: (any AppUpdateDriver)? = SparkleUpdateDriver.makeIfConfigured(),
+        scheduledUpgrades: ScheduledUpgradeController? = nil
     ) {
         let state = AppState()
         let operations = OperationCoordinator(client: client)
@@ -52,6 +54,7 @@ final class AppEnvironment {
         self.doctor = DoctorModel(client: client)
         self.brewfile = BrewfileModel(client: client)
         self.updater = AppUpdateController(settings: settings, driver: updateDriver)
+        self.scheduledUpgrades = scheduledUpgrades ?? .live(settings: settings)
     }
 
     /// Applies the stored custom Homebrew path before the first query runs, so a user who
@@ -166,6 +169,20 @@ final class AppEnvironment {
         async let savedFavorites = favorites.flushPersistence()
         let results = await (savedHistory, savedFavorites)
         return results.0 && results.1
+    }
+
+    /// Moves what the scheduled-upgrade agent left in the inbox into History, oldest first,
+    /// and reloads the package lists it may have changed. Safe to call at any time: the inbox
+    /// hands each entry out once.
+    func importScheduledUpgradeResults() async {
+        scheduledUpgrades.refreshStatus()
+        guard let entries = scheduledUpgrades.inbox?.collect(), !entries.isEmpty else { return }
+        Log.app.notice("Imported \(entries.count, privacy: .public) scheduled-upgrade History entries")
+        for entry in entries.sorted(by: { $0.timestamp < $1.timestamp }) {
+            record(entry)
+        }
+        guard !operations.isRunning else { return }
+        await invalidateAfterPackageChange()
     }
 
     /// Refreshes the caches that a package mutation invalidates.

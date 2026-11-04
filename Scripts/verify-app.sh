@@ -31,6 +31,11 @@ for language in en de; do
   test -s "$APP/Contents/Resources/$language.lproj/Localizable.strings" ||
     test -s "$APP/Contents/Resources/$language.lproj/Localizable.stringsdict"
 done
+# The scheduled-upgrade agent: SMAppService registers it from this path, by name.
+AGENT="$APP/Contents/Library/LaunchAgents/com.brewwery.app.scheduled-upgrade.plist"
+plutil -lint -s "$AGENT"
+[[ "$(plutil -extract BundleProgram raw -o - "$AGENT")" == Contents/MacOS/Brewwery ]]
+[[ "$(plutil -extract ProgramArguments.1 raw -o - "$AGENT")" == --scheduled-upgrade ]]
 test -d "$APP/Contents/Frameworks/Sparkle.framework"
 codesign --verify --deep --strict "$APP"
 echo "==> Verified packaged executable: $INFO"
