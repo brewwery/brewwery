@@ -126,3 +126,14 @@ extension AppTheme {
         }
     }
 }
+
+extension ScheduledUpgradeInterval {
+    var label: LocalizedStringResource {
+        switch self {
+        case .sixHours: "Every 6 hours"
+        case .twelveHours: "Every 12 hours"
+        case .daily: "Daily"
+        case .weekly: "Weekly"
+        }
+    }
+}

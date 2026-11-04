@@ -18,6 +18,8 @@ See [CHANGELOG](CHANGELOG.md) for the complete release history.
 * Services, taps, cleanup preview, Doctor and local operation History with JSON export.
 * Read/export Brewfiles and install missing supported entries from a validated install list.
 * Live progress and cancellation, Dock update count, dark/light/system themes and English/German.
+* Optional scheduled package upgrades (`brew update && brew upgrade`) that run every 6 or
+  12 hours, daily or weekly, even when the app is closed; results land in History.
 * Report a problem with a preview you review before opening an email or GitHub issue.
 
 ## Install
@@ -188,13 +190,16 @@ group, so `brew`'s own `git` and `curl` children go with it.
 
 * no generic shell execution, no `sudo`, no telemetry or cloud sync in the desktop app;
 * mutating operations are allowlisted and confirmation-gated, cleanup additionally
-  preview-gated;
+  preview-gated. Scheduled upgrades are off by default; turning them on is the confirmation,
+  and they run only the fixed `brew update` and `brew upgrade` commands;
 * package, cask, service and tap names, search queries and Brewfile paths are validated;
   option-shaped names and traversal segments are rejected;
 * external links open only against the allowlist in `ExternalLinkPolicy`;
 * only `HOMEBREW_NO_AUTO_UPDATE` and `HOMEBREW_NO_ANALYTICS` are injected into Homebrew's
   environment;
-* one mutating operation at a time, including metadata, tap and pin/unpin operations;
+* one mutating operation at a time, including metadata, tap and pin/unpin operations, and
+  across processes: the app and the scheduled-upgrade agent share a `flock` on
+  `homebrew-mutation.lock`;
 * cancellation terminates the process group; reads have a 60-second safety timeout, short
   mutations 5 minutes and path probes 10 seconds. Streaming operations have their own limits;
 * buffered stdout/stderr are capped at 16 MB per pipe with an explicit error, not silently
@@ -206,7 +211,8 @@ disabled in Settings. Opening homepages, the website, GitHub or email is user-in
 The website has its own analytics policy, separate from the desktop application.
 
 **Local data:** settings use UserDefaults; Favorites and History are JSON files under
-`~/Library/Application Support/Brewwery/`. They are not uploaded. JSON encoding, recovery
+`~/Library/Application Support/Brewwery/`. Scheduled upgrades leave their History entries in
+`Scheduled Upgrades/` there until the app imports them. They are not uploaded. JSON encoding, recovery
 copies and atomic writes use a serial utility queue; rapid changes keep only the latest
 pending snapshot per store. Normal quit waits for pending writes. Write errors retain
 changes in memory and show Retry; quitting after a failed save requires an explicit choice

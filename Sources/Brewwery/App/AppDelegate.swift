@@ -13,6 +13,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var keyMonitor: Any?
     private var aboutPanelOptions: [NSApplication.AboutPanelOptionKey: Any] = [:]
     private var terminationTask: Task<Void, Never>?
+    private var scheduledUpgradeObserver: (any NSObjectProtocol)?
 
     /// Background outdated check (`update-badge.ts`): every 30 min, on top of the load
     /// `AppEnvironment.prepare()` already does at launch. It is read-only — it never
@@ -51,6 +52,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         startBackgroundOutdatedRefresh()
         observeOutdatedCount()
         configureMainWindow()
+        startScheduledUpgradeImport()
+    }
+
+    func applicationDidBecomeActive(_ notification: Notification) {
+        guard let environment else { return }
+        Task { await environment.importScheduledUpgradeResults() }
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -100,6 +107,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         badgeTask?.cancel()
         if let keyMonitor { NSEvent.removeMonitor(keyMonitor) }
+        if let scheduledUpgradeObserver { DistributedNotificationCenter.default().removeObserver(scheduledUpgradeObserver) }
+    }
+
+    // MARK: - Scheduled upgrades
+
+    /// Imports what the agent did while the app was closed, and listens for runs that finish
+    /// while it is open. Activation and the 30-minute refresh import as well, in case the
+    /// notification is missed.
+    private func startScheduledUpgradeImport() {
+        guard let environment, environment.scheduledUpgrades.isAvailable else { return }
+        environment.scheduledUpgrades.reconcile()
+        Task { await environment.importScheduledUpgradeResults() }
+        scheduledUpgradeObserver = DistributedNotificationCenter.default().addObserver(
+            forName: ScheduledUpgradeAgent.finishedNotification,
+            object: AppInfo.bundleIdentifier,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in await self?.environment?.importScheduledUpgradeResults() }
+        }
     }
 
     // MARK: - Window
@@ -221,8 +247,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func refreshOutdatedQuietly() async {
-        guard let environment,
-              !environment.system.isHomebrewMissing,
+        guard let environment else { return }
+        await environment.importScheduledUpgradeResults()
+        guard !environment.system.isHomebrewMissing,
               // Mid-upgrade the list is about to change anyway, and the operation's own
               // refresh will report the result.
               !environment.operations.isRunning

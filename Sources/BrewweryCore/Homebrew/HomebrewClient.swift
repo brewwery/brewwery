@@ -12,10 +12,11 @@ public actor HomebrewClient {
 
     public init(
         detector: HomebrewDetector = HomebrewDetector(),
-        environment: [String: String] = HomebrewEnvironment.values()
+        environment: [String: String] = HomebrewEnvironment.values(),
+        mutationLock: MutationLock? = nil
     ) {
         self.detector = detector
-        self.runner = HomebrewRunner(detector: detector, environment: environment)
+        self.runner = HomebrewRunner(detector: detector, environment: environment, mutationLock: mutationLock)
     }
 
     // MARK: - System
@@ -322,7 +323,7 @@ private extension BrewweryError {
     /// else becomes the phase's failure code.
     func mapped(to code: BrewweryErrorCode, phase: String) -> BrewweryError {
         switch self.code {
-        case .operationInProgress, .operationCancelled, .operationTimeout,
+        case .operationInProgress, .homebrewBusy, .operationCancelled, .operationTimeout,
              .invalidPackageName, .invalidCaskToken, .brewJSONParseFailed, .homebrewNotFound, .packageInfoFailed:
             self
         default:
@@ -332,7 +333,7 @@ private extension BrewweryError {
 
     /// `mapTapError`.
     func mappedTap(action: String) -> BrewweryError {
-        if [.operationInProgress, .operationCancelled, .operationTimeout].contains(code) { return self }
+        if [.operationInProgress, .homebrewBusy, .operationCancelled, .operationTimeout].contains(code) { return self }
         guard code != .invalidTapName, code != .homebrewNotFound else { return self }
         return BrewweryError(
             code: .tapCommandFailed,
@@ -344,7 +345,7 @@ private extension BrewweryError {
     /// `mapServiceError` — keeps the two specific recovery messages the legacy app added
     /// for a stale `brew services` and for an offline metadata host.
     func mappedService() -> BrewweryError {
-        if [.operationInProgress, .operationCancelled, .operationTimeout].contains(code) { return self }
+        if [.operationInProgress, .homebrewBusy, .operationCancelled, .operationTimeout].contains(code) { return self }
         let text = (raw ?? message).lowercased()
 
         if code == .invalidServiceName || code == .homebrewNotFound { return self }

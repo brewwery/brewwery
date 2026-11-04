@@ -36,11 +36,13 @@ test -d "$PRODUCTS/Sparkle.framework"
 
 echo "==> Assembling $APP"
 rm -rf "$APP"
-mkdir -p "$CONTENTS/MacOS" "$CONTENTS/Resources" "$CONTENTS/Frameworks"
+mkdir -p "$CONTENTS/MacOS" "$CONTENTS/Resources" "$CONTENTS/Frameworks" "$CONTENTS/Library/LaunchAgents"
 
 cp "$PRODUCTS/Brewwery" "$CONTENTS/MacOS/Brewwery"
 cp "$ROOT/Packaging/Info.plist" "$CONTENTS/Info.plist"
 printf 'APPL????' > "$CONTENTS/PkgInfo"
+# Sealed by the signature like everything else; SMAppService.agent(plistName:) looks here.
+cp "$ROOT/Packaging/LaunchAgents/com.brewwery.app.scheduled-upgrade.plist" "$CONTENTS/Library/LaunchAgents/"
 ditto "$PRODUCTS/Sparkle.framework" "$CONTENTS/Frameworks/Sparkle.framework"
 cp "$ROOT/LICENSE" "$CONTENTS/Resources/LICENSE.txt"
 cp "$ROOT/.build/artifacts/sparkle/Sparkle/LICENSE" "$CONTENTS/Resources/Sparkle-LICENSE.txt"

@@ -23,6 +23,9 @@ Open `Package.swift` in Xcode to work in the IDE. `Scripts/make-app.sh` builds a
 - Homebrew is only ever run through `HomebrewCommand`: no shell, no free-form arguments, and
   every dynamic value validated in `HomebrewIdentifier`.
 - Anything that changes Homebrew needs an explicit confirmation in the UI.
+  The only unattended change is the opt-in scheduled upgrade (`ScheduledUpgradeJob`), and
+  switching it on is itself confirmed. It needs the packaged app from `Scripts/make-app.sh`:
+  `SMAppService` registers the LaunchAgent bundled under `Contents/Library/LaunchAgents`.
 - Do not add telemetry, authentication, cloud sync, or monetization.
 - Icon-only buttons are `IconButton`, so they always carry an accessible name.
 - Add or update tests with the change, and record departures from existing behaviour in

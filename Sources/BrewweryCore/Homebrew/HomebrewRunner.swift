@@ -21,17 +21,23 @@ public actor HomebrewRunner {
     private let environment: [String: String]
     private var activeChildren: [UUID: ChildProcess] = [:]
     private var mutationID: UUID?
+    /// Shared with other Brewwery processes; `nil` keeps tests and the agent's own runner
+    /// independent of the user's Application Support directory.
+    private let mutationLock: MutationLock?
+    private var heldMutationLock: MutationLock.Token?
     private let bufferedTimeout: Duration?
     private let maximumBufferedBytes: Int
 
     public init(
         detector: HomebrewDetector,
         environment: [String: String] = HomebrewEnvironment.values(),
+        mutationLock: MutationLock? = nil,
         bufferedTimeout: Duration? = nil,
         maximumBufferedBytes: Int = 16_000_000
     ) {
         self.detector = detector
         self.environment = environment
+        self.mutationLock = mutationLock
         self.bufferedTimeout = bufferedTimeout
         self.maximumBufferedBytes = maximumBufferedBytes
     }
@@ -250,7 +256,11 @@ public actor HomebrewRunner {
     }
 
     private func forget(_ id: UUID) {
-        if mutationID == id { mutationID = nil }
+        if mutationID == id {
+            mutationID = nil
+            heldMutationLock?.release()
+            heldMutationLock = nil
+        }
         activeChildren[id] = nil
         // The reason is read immediately before this call, so it can be released with it.
         terminationReasons[id] = nil
@@ -259,6 +269,10 @@ public actor HomebrewRunner {
     private func reserve(_ command: HomebrewCommand, id: UUID) throws(BrewweryError) {
         guard command.isMutation else { return }
         guard mutationID == nil else { throw .operationInProgress }
+        if let mutationLock {
+            guard let token = mutationLock.tryAcquire() else { throw .homebrewBusy }
+            heldMutationLock = token
+        }
         mutationID = id
     }
 

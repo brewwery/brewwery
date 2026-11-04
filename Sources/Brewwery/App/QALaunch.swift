@@ -37,9 +37,12 @@ struct QALaunch {
         }
         defaults.register(defaults: [SettingsStore.Key.automaticallyCheckForUpdates: false,
                                      SettingsStore.Key.showDockBadge: false])
-        return AppEnvironment(settings: SettingsStore(defaults: defaults),
+        let settings = SettingsStore(defaults: defaults)
+        return AppEnvironment(settings: settings,
                               history: HistoryStore(directory: directory),
                               favorites: FavoritesStore(directory: directory),
-                              updateDriver: nil)
+                              updateDriver: nil,
+                              // A QA profile must never schedule work against the real Homebrew.
+                              scheduledUpgrades: ScheduledUpgradeController(settings: settings, service: nil, inbox: nil))
     }
 }

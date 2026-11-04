@@ -242,3 +242,33 @@ icon-only `Button` appears anywhere in the app.
 from a test needs the Accessibility privacy permission — which a test run should not demand.
 Unlabeled icon buttons are the realistic VoiceOver regression, and the type system can rule
 them out. A manual VoiceOver pass is still worth doing before a release.
+
+---
+
+## 19. Scheduled upgrades run as a bundled LaunchAgent
+
+**Decision.** Settings › Automatic package upgrades registers
+`Contents/Library/LaunchAgents/com.brewwery.app.scheduled-upgrade.plist` with
+`SMAppService.agent`. launchd starts `Brewwery --scheduled-upgrade` at login and hourly; the
+agent exits at once unless the schedule is on and the chosen interval (6 h, 12 h, daily,
+weekly) has elapsed. A due run is `brew update`, then `brew upgrade` only if something
+non-pinned is outdated. It records one History entry per run that upgraded or failed, and
+none when everything was current. The entries go to `Scheduled Upgrades/` in Application
+Support; the app imports them at launch, on activation, every 30 minutes and when the agent
+posts a distributed notification. The app and the agent share an `flock` on
+`homebrew-mutation.lock`; whoever finds it held does not start (the app reports
+`HOMEBREW_BUSY`, the agent retries the next hour without counting the run).
+
+**Why.** The feature must work while the app is closed, which rules out a timer in the app.
+A bundled agent ships inside the signed app, needs no helper binary or installer, and macOS
+lists it under Login Items where the user can switch it off. The interval is a preference the
+agent reads rather than a launchd `StartInterval`, so changing it never re-registers anything
+and missed runs after sleep are caught up at the next hourly start. The History store is
+written only by the app: two processes rewriting `history.json` would lose entries, so the
+agent hands its results over through an inbox of atomically written files instead.
+
+**Departures.** This is the only Homebrew change without a per-operation confirmation;
+enabling the schedule is the confirmation and its dialog shows the exact commands. The first
+run is one interval after enabling. `brew upgrade` cannot answer a `sudo` prompt, so casks
+that need one fail and are reported in History. QA profiles and `swift run` builds cannot
+register the agent.

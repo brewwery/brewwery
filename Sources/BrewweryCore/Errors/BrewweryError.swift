@@ -61,6 +61,7 @@ public extension BrewweryError {
             .invalidCaskToken: String(localized: "This cask token contains unsupported characters."),
             .operationCancelled: String(localized: "The Homebrew operation was cancelled."),
             .operationInProgress: String(localized: "Another Homebrew operation is already running. Wait for it to finish or cancel it first."),
+            .homebrewBusy: String(localized: "Another Brewwery process, such as a scheduled upgrade, is changing Homebrew. Try again when it has finished."),
             .operationTimeout: String(localized: "The Homebrew operation exceeded its safety timeout and was stopped."),
             .invalidTapName: String(localized: "Tap names must look like owner/repository."),
             .tapCommandFailed: String(localized: "Homebrew could not change this tap."),
@@ -119,6 +120,12 @@ public extension BrewweryError {
     static let operationInProgress = BrewweryError(
         code: .operationInProgress,
         message: "Another Homebrew operation is already running."
+    )
+
+    /// The cross-process `MutationLock` is held, usually by the scheduled-upgrade agent.
+    static let homebrewBusy = BrewweryError(
+        code: .homebrewBusy,
+        message: "Another Brewwery process is changing Homebrew."
     )
 
     static func unknown(_ error: any Error) -> BrewweryError {
